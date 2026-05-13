@@ -361,13 +361,24 @@ struct PuzzleSolveView: View {
     }
 
     private func advanceToNext() {
-        guard let i = Puzzles.all.firstIndex(where: { $0.id == puzzle.id }) else { return }
-        let next = Puzzles.all[(i + 1) % Puzzles.all.count]
-        // Replace current screen with next puzzle by navigating.
-        // The cleanest pattern is to pop + push the next; for simplicity,
-        // reset state in-place if the puzzle is different.
-        // Better: dismiss + open from list. For v0, dismiss; the user navigates back to the list.
-        // Use NavigationLink-via-push:
+        // Adaptive next-puzzle pick: prefer an unsolved puzzle within +/-200 ELO
+        // of the user's current puzzle rating. Falls back to sequential cycle if
+        // no match exists (very early in user history or after exhaustion).
+        let userRating = Int(storage.puzzleState.rating.rating)
+        let solvedIds: Set<String> = Set(storage.puzzleState.solves.filter(\.correct).map(\.puzzleId))
+        let inBand = Puzzles.all.filter { p in
+            p.id != puzzle.id &&
+            !solvedIds.contains(p.id) &&
+            abs(p.difficulty - userRating) <= 200
+        }
+        let next: Puzzle
+        if let candidate = inBand.min(by: { abs($0.difficulty - userRating) < abs($1.difficulty - userRating) }) {
+            next = candidate
+        } else if let i = Puzzles.all.firstIndex(where: { $0.id == puzzle.id }) {
+            next = Puzzles.all[(i + 1) % Puzzles.all.count]
+        } else {
+            next = Puzzles.all[0]
+        }
         navigateTo = next
     }
 
