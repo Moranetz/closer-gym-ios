@@ -1,0 +1,56 @@
+import Foundation
+import SwiftUI
+
+/// ELO band → title progression (Patzer → Grandmaster Closer).
+/// Mirrors web src/lib/tokens.ts → ELO_BANDS + titleForRating.
+public struct EloBand: Sendable {
+    public let min: Int
+    public let max: Int
+    public let label: String
+    public let tier: BadgeTier
+}
+
+public enum BadgeTier: String, Sendable {
+    case low, exp, m, im, gm
+
+    public var color: Color {
+        switch self {
+        case .low: return .badgeLow
+        case .exp: return .badgeExp
+        case .m:   return .badgeM
+        case .im:  return .badgeIM
+        case .gm:  return .badgeGM
+        }
+    }
+
+    public var textColor: Color {
+        switch self {
+        case .low, .gm:        return .white
+        case .exp, .m, .im:    return .bgPage
+        }
+    }
+}
+
+public enum EloBands {
+    public static let all: [EloBand] = [
+        EloBand(min: 0,    max: 1199, label: "Patzer",                   tier: .low),
+        EloBand(min: 1200, max: 1399, label: "Class D Closer",           tier: .low),
+        EloBand(min: 1400, max: 1599, label: "Class C Closer",           tier: .low),
+        EloBand(min: 1600, max: 1799, label: "Class B Closer",           tier: .low),
+        EloBand(min: 1800, max: 1999, label: "Class A Closer",           tier: .exp),
+        EloBand(min: 2000, max: 2199, label: "Expert",                   tier: .exp),
+        EloBand(min: 2200, max: 2299, label: "Master",                   tier: .m),
+        EloBand(min: 2300, max: 2399, label: "International Master",     tier: .im),
+        EloBand(min: 2400, max: 9999, label: "Grandmaster Closer",       tier: .gm),
+    ]
+}
+
+public func titleForRating(_ rating: Double) -> EloBand {
+    let r = Int(rating.rounded())
+    return EloBands.all.first { r >= $0.min && r <= $0.max } ?? EloBands.all[0]
+}
+
+/// Initial Glicko-2 state — provisional 1200, high RD until calibrated.
+public let initialRating: Double = 1200
+public let initialRD: Double = 350
+public let initialVolatility: Double = 0.06
