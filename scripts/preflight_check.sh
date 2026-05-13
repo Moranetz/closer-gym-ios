@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# closer-gym-ios pre-flight check — run before any TestFlight upload or App Review submission.
+# Frame & Fork pre-flight check — run before any TestFlight upload or App Review submission.
 #
 # Verifies App Store readiness:
-#   - Bundle ID hierarchy (com.melmarion.CloserGym)
+#   - Bundle ID hierarchy (com.melmarion.FrameFork)
 #   - Marketing + build versions present
 #   - Team ID matches the pipeline (Q242KWQD56)
 #   - Encryption-exemption flag is set
@@ -24,7 +24,7 @@ ok()   { echo "${GRN}✓${NC} $1"; pass=$((pass+1)); }
 bad()  { echo "${RED}✗${NC} $1"; fail=$((fail+1)); }
 warn() { echo "${YEL}!${NC} $1"; }
 
-PBX=CloserGym.xcodeproj/project.pbxproj
+PBX=FrameFork.xcodeproj/project.pbxproj
 
 # Regenerate project if project.yml is newer than pbxproj
 if [ project.yml -nt "$PBX" ]; then
@@ -34,7 +34,7 @@ fi
 
 # ─── 1. Bundle ID ─────────────────────────────────────────────────────────
 echo "== Bundle ID =="
-expected_bundle="com.melmarion.CloserGym"
+expected_bundle="com.melmarion.FrameFork"
 if grep -q "PRODUCT_BUNDLE_IDENTIFIER = $expected_bundle" $PBX; then
   ok "PRODUCT_BUNDLE_IDENTIFIER = $expected_bundle"
 else
@@ -67,7 +67,7 @@ fi
 # ─── 4. Encryption-exemption flag ─────────────────────────────────────────
 echo
 echo "== Non-exempt encryption =="
-if grep -q "ITSAppUsesNonExemptEncryption" CloserGym/Info.plist; then
+if grep -q "ITSAppUsesNonExemptEncryption" FrameFork/Info.plist; then
   ok "ITSAppUsesNonExemptEncryption present in Info.plist"
 else
   bad "ITSAppUsesNonExemptEncryption missing — submission blocked until set"
@@ -76,7 +76,7 @@ fi
 # ─── 5. PrivacyInfo.xcprivacy ─────────────────────────────────────────────
 echo
 echo "== Privacy manifest =="
-if [ -f CloserGym/PrivacyInfo.xcprivacy ]; then
+if [ -f FrameFork/PrivacyInfo.xcprivacy ]; then
   ok "PrivacyInfo.xcprivacy exists on disk"
   # Also verify it's in the resources build phase (xcodegen handles this automatically)
   if grep -q "PrivacyInfo.xcprivacy" $PBX; then
@@ -91,15 +91,15 @@ fi
 # ─── 6. App icon ──────────────────────────────────────────────────────────
 echo
 echo "== App icon =="
-if [ -d CloserGym/Assets.xcassets/AppIcon.appiconset ]; then
+if [ -d FrameFork/Assets.xcassets/AppIcon.appiconset ]; then
   ok "AppIcon.appiconset directory present"
-  if [ -f CloserGym/Assets.xcassets/AppIcon.appiconset/Contents.json ]; then
+  if [ -f FrameFork/Assets.xcassets/AppIcon.appiconset/Contents.json ]; then
     ok "AppIcon Contents.json present"
   else
     bad "AppIcon Contents.json missing"
   fi
   # Check for at least one PNG image in the appiconset
-  ICON_PNG=$(find CloserGym/Assets.xcassets/AppIcon.appiconset -name "*.png" -type f 2>/dev/null | head -1)
+  ICON_PNG=$(find FrameFork/Assets.xcassets/AppIcon.appiconset -name "*.png" -type f 2>/dev/null | head -1)
   if [ -n "$ICON_PNG" ]; then
     # Verify the file is a real PNG and 1024x1024
     dims=$(sips -g pixelWidth -g pixelHeight "$ICON_PNG" 2>/dev/null | grep -E "pixel" | awk '{print $2}' | paste -sd "x" -)
@@ -124,7 +124,7 @@ fi
 echo
 echo "== Brand color sets =="
 for cs in BrandGreen BgPage BgPanel BgRail AccentColor; do
-  if [ -d "CloserGym/Assets.xcassets/$cs.colorset" ]; then
+  if [ -d "FrameFork/Assets.xcassets/$cs.colorset" ]; then
     ok "$cs.colorset present"
   else
     bad "$cs.colorset MISSING"
@@ -134,16 +134,13 @@ done
 # ─── 8. Compile check ─────────────────────────────────────────────────────
 echo
 echo "== Build (Debug, iOS Simulator) =="
-if xcodebuild -project CloserGym.xcodeproj -scheme CloserGym \
+if xcodebuild -project FrameFork.xcodeproj -scheme FrameFork \
    -destination 'generic/platform=iOS Simulator' -configuration Debug build \
-   -quiet 2>&1 | grep -q "BUILD SUCCEEDED"; then
+   -quiet > /tmp/framefork_preflight_build.log 2>&1; then
   ok "Debug iOS Simulator build succeeds"
 else
-  # Capture error tail for diagnosis
-  echo "  Build failed — last error:"
-  xcodebuild -project CloserGym.xcodeproj -scheme CloserGym \
-    -destination 'generic/platform=iOS Simulator' -configuration Debug build 2>&1 | \
-    grep -E "error:" | tail -3
+  echo "  Build failed — last errors:"
+  grep -E "error:" /tmp/framefork_preflight_build.log | tail -3
   bad "Build did NOT succeed"
 fi
 

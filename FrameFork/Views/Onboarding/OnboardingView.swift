@@ -36,12 +36,12 @@ struct OnboardingView: View {
 
     private var pageOne: some View {
         OnboardingPage(
-            symbol: "♛",
+            symbol: "♞",
             symbolSize: 96,
             tag: "The gym for closers",
-            title: "Chess.com, for sales.",
+            title: "A sparring app for sales.",
             bodyLines: [
-                "Fifteen adversarial buyer bots. Glicko-2 closing ELO. Eval bar per move, blunder markers, opening repertoire.",
+                "Fifteen adversarial buyer personas. Glicko-2 closing ELO. Per-turn eval, fired-technique tags, Atlas-linked transcripts.",
                 "Cluely is the cheat code. We built the gym.",
             ]
         )
