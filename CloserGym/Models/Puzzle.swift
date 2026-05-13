@@ -5,13 +5,29 @@ import SwiftUI
 public struct Puzzle: Identifiable, Hashable, Codable, Sendable {
     public let id: String
     public let theme: PuzzleTheme
-    public let difficulty: Int      // ELO-equivalent
+    public let difficulty: Int
     public let buyerRole: String
     public let setup: String
     public let buyerLine: String
     public let candidates: [PuzzleCandidate]
-    public let bestIndex: Int       // 0-3 — eval-maximizing
+    public let bestIndex: Int
     public let themeHint: String?
+    public let transcriptId: String?   // ID into Transcripts; surfaces a Read Full Transcript sheet on solve
+
+    public init(id: String, theme: PuzzleTheme, difficulty: Int, buyerRole: String, setup: String,
+                buyerLine: String, candidates: [PuzzleCandidate], bestIndex: Int,
+                themeHint: String? = nil, transcriptId: String? = nil) {
+        self.id = id
+        self.theme = theme
+        self.difficulty = difficulty
+        self.buyerRole = buyerRole
+        self.setup = setup
+        self.buyerLine = buyerLine
+        self.candidates = candidates
+        self.bestIndex = bestIndex
+        self.themeHint = themeHint
+        self.transcriptId = transcriptId
+    }
 }
 
 public struct PuzzleCandidate: Hashable, Codable, Sendable {

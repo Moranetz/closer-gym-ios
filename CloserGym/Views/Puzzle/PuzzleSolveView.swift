@@ -15,6 +15,12 @@ struct PuzzleSolveView: View {
     @State private var ratingChange: (delta: Double, newRating: Double, newStreak: Int)? = nil
     @State private var shakeWrong = false
     @State private var startedAt: Date = .now
+    @State private var transcriptOpen: Bool = false
+
+    private var transcript: Transcript? {
+        guard let id = puzzle.transcriptId else { return nil }
+        return Transcripts.get(id)
+    }
 
     private static let timerSec = 30
 
@@ -204,12 +210,45 @@ struct PuzzleSolveView: View {
                 }
             }
             .padding(.top, 4)
+
+            if let t = transcript {
+                Divider().background(Color.border).padding(.top, 4)
+                Button {
+                    Haptics.shared.light()
+                    transcriptOpen = true
+                } label: {
+                    HStack(spacing: 8) {
+                        Image(systemName: "text.bubble.fill")
+                            .font(.system(size: 13))
+                            .foregroundStyle(Color.brandGreen)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Read full transcript").microLabel(Color.brandGreen)
+                            Text("\(t.speaker): \(t.title)")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(Color.textSecondary)
+                                .lineLimit(1)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(Color.textFaint)
+                    }
+                    .padding(.vertical, 8)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(16)
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(outcomeColor.opacity(0.4), lineWidth: 1.5))
         .transition(.move(edge: .bottom).combined(with: .opacity))
+        .sheet(isPresented: $transcriptOpen) {
+            if let t = transcript {
+                TranscriptSheet(transcript: t)
+            }
+        }
     }
 
     // MARK: - Timer pill
