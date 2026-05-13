@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closer Gym · Support</title>
+<style>
+  :root {
+    --bg: #262421;
+    --panel: #312E2B;
+    --border: #1B1A19;
+    --text: #FFFFFF;
+    --text2: #C9C8C5;
+    --muted: #9B9893;
+    --brand: #81B64C;
+    --warning: #E5A50A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+  h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+  h2 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; color: var(--brand); }
+  .effective { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  p { color: var(--text2); margin: 0 0 14px; }
+  ul { color: var(--text2); padding-left: 20px; margin: 0 0 14px; }
+  li { margin-bottom: 8px; }
+  a { color: var(--brand); }
+  details { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 10px; }
+  summary { font-weight: 600; cursor: pointer; color: var(--text); list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "+"; color: var(--brand); margin-right: 10px; font-weight: 800; }
+  details[open] summary::before { content: "−"; }
+  details > *:not(summary) { margin-top: 10px; color: var(--text2); }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; background: var(--bg); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+  .back { color: var(--brand); text-decoration: none; font-size: 14px; display: inline-block; margin-bottom: 20px; }
+  .contact { background: var(--panel); border-left: 3px solid var(--brand); padding: 16px 18px; border-radius: 4px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="./">← Closer Gym</a>
+  <h1>Support</h1>
+  <p class="effective">Closer Gym v0.1 · Updated 2026-05-13</p>
+
+  <h2>Frequently asked</h2>
+
+  <details>
+    <summary>What does Free tier include?</summary>
+    <p>Everything that ships offline. Daily Drill, the full puzzle library (20 positions, growing), Lessons (the Atlas technique browser), Watch (master games), Profile (your rating and streak). No API key needed. Nothing is sent to any server.</p>
+  </details>
+
+  <details>
+    <summary>What does Pro tier include?</summary>
+    <p>The bot ladder: 15 adversarial buyer personas, ELO 1200 to 2400. Free-text live sparring. Live LLM detector for technique tagging. End-of-game scoring against the curriculum's Stage-4 rubric. Pro requires you to supply your own Anthropic API key in Settings. Cost is roughly $0.50 per game on your key.</p>
+  </details>
+
+  <details>
+    <summary>Why do I need to provide my own API key?</summary>
+    <p>v0.1 ships as bring-your-own-key. A hosted Pro tier (where you pay through the App Store or Stripe and we handle the API costs) arrives with v0.2. The current architecture has no server side, which is also why your data is fully private.</p>
+  </details>
+
+  <details>
+    <summary>How do I add my Anthropic API key?</summary>
+    <p>Open the Profile tab, tap the gear icon, tap Pro tier, paste your <code>sk-ant-...</code> key. It is stored in the iOS Keychain (not in <code>UserDefaults</code>, not in any logs). You can get a key from <a href="https://console.anthropic.com">console.anthropic.com</a>.</p>
+  </details>
+
+  <details>
+    <summary>How does the puzzle ELO work?</summary>
+    <p>Glicko-2, the same rating system chess.com uses for puzzles. Your puzzle rating starts at 1200. Each puzzle has a difficulty rating (1300 to 2200). When you solve correctly your rating moves toward the puzzle's difficulty; when you miss it moves away. Daily Drill streaks accumulate when you solve the day's puzzle correctly.</p>
+  </details>
+
+  <details>
+    <summary>The buyer line on the puzzle does not feel realistic.</summary>
+    <p>The buyer lines are presupposition-loaded and source from real operating contexts (CFO board narratives, procurement guidelines, founder burn rates). The candidate moves are intentionally written in chess-notation style (compressed tactical descriptions) rather than dialogue, because authored dialogue introduces "this was written by a language model" tells. Real-conversation texture lives in the linked Read Full Transcript sheets, which are sourced from published Voss, Klaff, Cardone, Tracy, and Belfort material.</p>
+  </details>
+
+  <details>
+    <summary>What are the transcript "paraphrased reconstruction" warnings?</summary>
+    <p>Most transcripts are verbatim quotation from the speaker's own published material. One (Belfort's Aerotyne cold call) is reconstructed from his Straight Line teaching plus the 2013 film script, because the original 1990s call recordings are not publicly available. Cards flagged "paraphrased" carry an in-app disclosure.</p>
+  </details>
+
+  <details>
+    <summary>How do I reset my progress?</summary>
+    <p>Settings → Clear all data. Deletes your puzzle solves, ratings, streaks, and Pro tier API key from the device. There is no cloud backup because nothing was ever uploaded.</p>
+  </details>
+
+  <details>
+    <summary>The Daily Drill is the same puzzle as yesterday.</summary>
+    <p>It should not be. The daily puzzle is selected deterministically by hashing the current date. If you see the same puzzle two days running, please file an issue with the date and the puzzle ID.</p>
+  </details>
+
+  <details>
+    <summary>I found a bug.</summary>
+    <p>Open an issue at <a href="https://github.com/Moranetz/closer-gym-ios/issues">Moranetz/closer-gym-ios</a> with a description and a screenshot if you can. Include your iOS version and device model. Pull requests welcome.</p>
+  </details>
+
+  <details>
+    <summary>Can I run the web version instead?</summary>
+    <p>Yes. Source is at <a href="https://github.com/Moranetz/closer-gym">Moranetz/closer-gym</a>. Self-host or run locally via <code>npm run dev</code>. Free tier works identically; Pro tier requires the same Anthropic API key.</p>
+  </details>
+
+  <div class="contact">
+    <strong>Still stuck?</strong>
+    <p style="margin: 6px 0 0;">Email <a href="mailto:marion.m.moranetz@gmail.com">marion.m.moranetz@gmail.com</a> or open a GitHub issue.</p>
+  </div>
+</div>
+</body>
+</html>

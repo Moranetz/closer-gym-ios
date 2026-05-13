@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Closer Gym</title>
+<style>
+  :root {
+    --bg: #262421;
+    --panel: #312E2B;
+    --rail: #272522;
+    --border: #1B1A19;
+    --text: #FFFFFF;
+    --text2: #C9C8C5;
+    --muted: #9B9893;
+    --brand: #81B64C;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px; }
+  h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .tag { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brand); margin-bottom: 12px; }
+  .sub { color: var(--text2); font-size: 16px; max-width: 600px; margin-bottom: 28px; }
+  .quote { font-style: italic; color: var(--text2); border-left: 3px solid var(--brand); padding-left: 16px; margin: 32px 0; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 32px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; display: block; }
+  .card:hover { border-color: var(--brand); }
+  .card h2 { margin: 0 0 6px; font-size: 18px; font-weight: 700; }
+  .card p { margin: 0; color: var(--muted); font-size: 13px; }
+  footer { font-size: 12px; color: var(--muted); margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+  a { color: var(--brand); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="tag">The gym for closers</p>
+  <h1>Closer Gym</h1>
+  <p class="sub">Sparring app for sales conversations modeled after chess.com. Daily puzzles, master games, Glicko-2 closing ELO. Free tier ships offline.</p>
+  <p class="quote">Cluely is the cheat code. We built the gym.</p>
+
+  <div class="grid">
+    <a class="card" href="./privacy.html">
+      <h2>Privacy</h2>
+      <p>What data the app collects and what it does not.</p>
+    </a>
+    <a class="card" href="./support.html">
+      <h2>Support</h2>
+      <p>Common questions, contact, and how to report bugs.</p>
+    </a>
+    <a class="card" href="https://github.com/Moranetz/closer-gym-ios">
+      <h2>Source · iOS</h2>
+      <p>The native SwiftUI app on GitHub.</p>
+    </a>
+    <a class="card" href="https://github.com/Moranetz/closer-gym">
+      <h2>Source · web</h2>
+      <p>The Next.js web version on GitHub.</p>
+    </a>
+  </div>
+
+  <footer>
+    Part of the Closer Foundation research program. Sister artifacts:
+    <a href="https://github.com/Moranetz/closer-curriculum">closer-curriculum</a> ·
+    <a href="https://github.com/Moranetz/closer-sparring">closer-sparring</a> ·
+    <a href="https://github.com/Moranetz/sales-instrument">sales-instrument</a>.
+  </footer>
+</div>
+</body>
+</html>
