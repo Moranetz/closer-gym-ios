@@ -98,8 +98,24 @@ if [ -d CloserGym/Assets.xcassets/AppIcon.appiconset ]; then
   else
     bad "AppIcon Contents.json missing"
   fi
-  # v0.1 ships without a custom icon image — Xcode will produce a placeholder.
-  warn "Icon image not yet provided. Add a 1024x1024 PNG before App Store submission."
+  # Check for at least one PNG image in the appiconset
+  ICON_PNG=$(find CloserGym/Assets.xcassets/AppIcon.appiconset -name "*.png" -type f 2>/dev/null | head -1)
+  if [ -n "$ICON_PNG" ]; then
+    # Verify the file is a real PNG and 1024x1024
+    dims=$(sips -g pixelWidth -g pixelHeight "$ICON_PNG" 2>/dev/null | grep -E "pixel" | awk '{print $2}' | paste -sd "x" -)
+    has_alpha=$(sips -g hasAlpha "$ICON_PNG" 2>/dev/null | grep "hasAlpha" | awk '{print $2}')
+    if [ "$dims" = "1024x1024" ]; then
+      if [ "$has_alpha" = "no" ]; then
+        ok "App icon: $(basename "$ICON_PNG"), 1024×1024 RGB (no alpha — App Store compliant)"
+      else
+        bad "App icon has alpha channel — App Store will reject. Flatten to opaque RGB."
+      fi
+    else
+      bad "App icon dimensions are $dims, expected 1024x1024"
+    fi
+  else
+    warn "Icon image not yet provided. Add a 1024x1024 PNG before App Store submission."
+  fi
 else
   bad "Assets.xcassets/AppIcon.appiconset missing"
 fi
