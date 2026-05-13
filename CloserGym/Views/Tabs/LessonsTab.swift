@@ -1,61 +1,126 @@
 import SwiftUI
 
 struct LessonsTab: View {
-    private let tracks: [(name: String, description: String, lessons: Int)] = [
-        ("Beginner's Repertoire", "The five openings every closer needs. ECO codes CO1 through CH1.", 5),
-        ("Tactical Patterns", "All 40 Atlas techniques as one lesson each. Concept → 2 master games → 3 puzzles → 1 sparring round.", 40),
-        ("Defense — objection handling", "How to play losing positions well. Stall detection. Recovery patterns.", 12),
-        ("Endgame Mastery", "Closes. Forced sequences. Multi-stakeholder MAP construction.", 14),
-        ("Strategy — long sales cycles", "Multi-threading. Champion installation. Mutual close plans.", 8),
-    ]
-
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("Curriculum trees · concept → examples → puzzles → sparring → unlock")
-                        .font(.system(size: 13))
-                        .foregroundStyle(Color.textMuted)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 4)
+            LessonIndexView()
+        }
+    }
+}
 
-                    VStack(spacing: 12) {
-                        ForEach(tracks, id: \.name) { t in
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(t.name).font(AppFont.titleSmall).foregroundStyle(Color.textPrimary)
-                                Text(t.description).font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
-                                HStack {
-                                    Text("\(t.lessons) lessons").font(.system(size: 12, weight: .semibold))
-                                        .foregroundStyle(Color.textMuted)
-                                        .monospacedDigit()
-                                    Spacer()
-                                    Text("v0.2").font(AppFont.microLabel)
-                                        .foregroundStyle(Color.warning)
-                                        .padding(.horizontal, 8).padding(.vertical, 4)
-                                        .background(Capsule().fill(Color.warning.opacity(0.15)))
+private let clusterOrder: [AtlasCluster] = [
+    .questionForm, .cialdini, .framing, .compliance,
+    .negotiationAnchor, .structuralClose, .postObjection, .closingEnvironment,
+]
+
+private func verdictColor(_ v: AtlasVerdict) -> Color {
+    switch v {
+    case .wellStudied:        return .brandGreen
+    case .partiallyStudied:   return .warning
+    case .replicationFailed:  return .danger
+    case .untested:           return .textMuted
+    }
+}
+
+private func verdictLabel(_ v: AtlasVerdict) -> String {
+    switch v {
+    case .wellStudied:       return "well-studied"
+    case .partiallyStudied:  return "partial"
+    case .replicationFailed: return "replication-failed"
+    case .untested:          return "untested"
+    }
+}
+
+private func riskColor(_ r: FolkloreRisk) -> Color {
+    switch r {
+    case .high:       return .danger
+    case .mediumHigh: return .warning
+    default:          return .textMuted
+    }
+}
+
+struct LessonIndexView: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("Browse the Atlas taxonomy. Each entry shows mechanism, evidence verdict, folklore risk, and every puzzle + transcript + master move that demonstrates it.")
+                    .font(.system(size: 13))
+                    .foregroundStyle(Color.textSecondary)
+                    .lineSpacing(3)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 4)
+
+                ForEach(clusterOrder, id: \.self) { cluster in
+                    let inCluster = AtlasTechniques.all.filter { $0.cluster == cluster }
+                    if !inCluster.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text(cluster.label).microLabel(Color.textSecondary)
+                                Spacer()
+                                Text("\(inCluster.count)").font(.system(size: 11, weight: .semibold)).foregroundStyle(Color.textMuted).monospacedDigit()
+                            }
+                            .padding(.bottom, 6)
+                            .overlay(alignment: .bottom) {
+                                Rectangle().fill(Color.border).frame(height: 1).offset(y: 4)
+                            }
+                            VStack(spacing: 8) {
+                                ForEach(inCluster) { t in
+                                    NavigationLink(destination: LessonDetailView(technique: t)) {
+                                        techniqueRow(t)
+                                    }
+                                    .buttonStyle(.plain)
                                 }
                             }
-                            .padding(14)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color.bgPanel)
-                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
                         }
-                    }
-                    .padding(.horizontal, 16)
-
-                    Text("Lessons surface is scaffolded in v0.1; full lesson tree with checkpoint puzzles rolls out with v0.2.")
-                        .font(.system(size: 11))
-                        .foregroundStyle(Color.textFaint)
                         .padding(.horizontal, 16)
-                        .padding(.top, 8)
-                        .padding(.bottom, 24)
+                        .padding(.top, 4)
+                    }
+                }
+
+                Text("Verdict: well-studied means multiple replications across contexts; partial means lab evidence with weak field replication; untested means folklore-only; replication-failed means published failures of the canonical study.")
+                    .font(.system(size: 11))
+                    .foregroundStyle(Color.textFaint)
+                    .lineSpacing(3)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 8)
+                    .padding(.bottom, 32)
+            }
+        }
+        .background(Color.bgPage)
+        .navigationTitle("Lessons · Atlas")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbarBackground(Color.bgPage, for: .navigationBar)
+    }
+
+    private func techniqueRow(_ t: Technique) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(t.name).font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
+            Text(t.mechanism.split(separator: ";").first.map(String.init) ?? t.mechanism)
+                .font(.system(size: 12))
+                .foregroundStyle(Color.textMuted)
+                .lineSpacing(2)
+                .lineLimit(3)
+            HStack(spacing: 6) {
+                pill(text: verdictLabel(t.atlasVerdict), color: verdictColor(t.atlasVerdict))
+                if t.folkloreRisk == .high || t.folkloreRisk == .mediumHigh {
+                    pill(text: "folklore: \(t.folkloreRisk.rawValue)", color: riskColor(t.folkloreRisk))
                 }
             }
-            .background(Color.bgPage)
-            .navigationTitle("Lessons")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color.bgPage, for: .navigationBar)
         }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+    }
+
+    private func pill(text: String, color: Color) -> some View {
+        Text(text)
+            .font(.system(size: 9, weight: .heavy, design: .rounded))
+            .kerning(0.4)
+            .textCase(.uppercase)
+            .foregroundStyle(color)
+            .padding(.horizontal, 6).padding(.vertical, 2)
+            .background(RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color.white.opacity(0.06)))
     }
 }

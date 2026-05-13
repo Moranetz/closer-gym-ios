@@ -11,10 +11,12 @@ public struct Transcript: Identifiable, Hashable, Codable, Sendable {
     public let scenario: String
     public let turns: [TranscriptTurn]
     public let techniqueNote: String
+    public let techniqueIds: [String]
     public let paraphrased: Bool
 
     public init(id: String, title: String, speaker: String, source: String, sourceUrl: String,
-                scenario: String, turns: [TranscriptTurn], techniqueNote: String, paraphrased: Bool = false) {
+                scenario: String, turns: [TranscriptTurn], techniqueNote: String,
+                techniqueIds: [String] = [], paraphrased: Bool = false) {
         self.id = id
         self.title = title
         self.speaker = speaker
@@ -23,6 +25,7 @@ public struct Transcript: Identifiable, Hashable, Codable, Sendable {
         self.scenario = scenario
         self.turns = turns
         self.techniqueNote = techniqueNote
+        self.techniqueIds = techniqueIds
         self.paraphrased = paraphrased
     }
 }

@@ -21,7 +21,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "It's fine. You can store it anywhere."),
                 TranscriptTurn(role: .op, text: "Anywhere?"),
             ],
-            techniqueNote: "Mirror followed by mirror forces a re-examination of the original premise. The operator never argues. The mirror does the work."
+            techniqueNote: "Mirror followed by mirror forces a re-examination of the original premise. The operator never argues. The mirror does the work.",
+            techniqueIds: ["mirroring"]
         ),
 
         Transcript(
@@ -39,7 +40,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "[shifts toward terms]"),
                 TranscriptTurn(role: .op, text: "How can I come up with that kind of money?"),
             ],
-            techniqueNote: "Calibrated 'how' questions function as a soft no. They hand the problem back without confrontation. The counterparty starts solving the asker's problem instead of defending the demand."
+            techniqueNote: "Calibrated 'how' questions function as a soft no. They hand the problem back without confrontation. The counterparty starts solving the asker's problem instead of defending the demand.",
+            techniqueIds: ["calibrated-question"]
         ),
 
         Transcript(
@@ -55,7 +57,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "[acknowledges, laughs]"),
                 TranscriptTurn(role: .op, text: "That's exactly what a label is. 'It sounds like,' 'it seems like,' 'it looks like.' You name the emotion or position out loud, then shut up."),
             ],
-            techniqueNote: "Label followed by calibrated confirmation followed by silence. Labels work because they invite correction, which gives you the counterparty's real position for free."
+            techniqueNote: "Label followed by calibrated confirmation followed by silence. Labels work because they invite correction, which gives you the counterparty's real position for free.",
+            techniqueIds: ["labeling", "calibrated-question"]
         ),
 
         Transcript(
@@ -73,7 +76,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "[posture softens; often denies one or more of the accusations]"),
                 TranscriptTurn(role: .op, text: "Good. So here's what I'd actually like to propose..."),
             ],
-            techniqueNote: "Stack three to five 'it probably seems like' statements followed by deliberate silence. The counterparty involuntarily de-escalates because the worst-case interpretations have been named and survived."
+            techniqueNote: "Stack three to five 'it probably seems like' statements followed by deliberate silence. The counterparty involuntarily de-escalates because the worst-case interpretations have been named and survived.",
+            techniqueIds: ["accusation-audit"]
         ),
 
         Transcript(
@@ -89,7 +93,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "I need to know. Are you good to work with? Can you keep appointments and stick to a schedule?"),
                 TranscriptTurn(role: .buyer, text: "Okay, you're right about that. Yeah, sure I can. Let's do this now. I have 30 minutes. That's no problem. Come on in."),
             ],
-            techniqueNote: "Time-frame collision met with refusal and qualification. The buyer self-corrects upward from 10 to 30 minutes. The frame that reacts is the frame that loses."
+            techniqueNote: "Time-frame collision met with refusal and qualification. The buyer self-corrects upward from 10 to 30 minutes. The frame that reacts is the frame that loses.",
+            techniqueIds: ["takeaway", "accusation-audit"]
         ),
 
         Transcript(
@@ -108,7 +113,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "This deal will be fully subscribed in the next 14 days. We don't need VC money. We want a big name on our cap sheet."),
                 TranscriptTurn(role: .op, text: "I think you're interesting, but are you really the right investor for us?"),
             ],
-            techniqueNote: "Intrigue frame (give headline numbers, defer the audit) plus push and pull tension plus prize frame at close. Buyer qualifies to operator, not the reverse."
+            techniqueNote: "Intrigue frame (give headline numbers, defer the audit) plus push and pull tension plus prize frame at close. Buyer qualifies to operator, not the reverse.",
+            techniqueIds: ["takeaway", "scarcity", "extreme-anchor", "accusation-audit"]
         ),
 
         Transcript(
@@ -127,7 +133,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "[picks one]"),
                 TranscriptTurn(role: .op, text: "How would this look in your home?"),
             ],
-            techniqueNote: "Three-question affective ladder: interest, ownership, preference. Each is binary or preference-based, designed to extract micro-yeses. The 'larger or smaller' is an alternative-choice close disguised as a preference question."
+            techniqueNote: "Three-question affective ladder: interest, ownership, preference. Each is binary or preference-based, designed to extract micro-yeses. The 'larger or smaller' is an alternative-choice close disguised as a preference question.",
+            techniqueIds: ["trial-close", "alternative-choice"]
         ),
 
         Transcript(
@@ -143,7 +150,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "Yay or nay?"),
                 TranscriptTurn(role: .buyer, text: "Let's do it."),
             ],
-            techniqueNote: "Magnitude-anchoring (reduce price gap to its share of total) followed by forced-binary close. The repeat of 'Yay or nay?' after a qualifying acknowledgment is the lock. Refuses any third option."
+            techniqueNote: "Magnitude-anchoring (reduce price gap to its share of total) followed by forced-binary close. The repeat of 'Yay or nay?' after a qualifying acknowledgment is the lock. Refuses any third option.",
+            techniqueIds: ["alternative-choice", "summary-close"]
         ),
 
         Transcript(
@@ -163,7 +171,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "I don't have time."),
                 TranscriptTurn(role: .op, text: "Sir, I understand you don't have time, and time is valuable to you. Let's get you figures you can live with."),
             ],
-            techniqueNote: "Each response refuses the implied dismissal and converts the objection into a continuation. 'My fault not yours' is a credibility-reversal. 'Follow me' is a physical and verbal commit."
+            techniqueNote: "Each response refuses the implied dismissal and converts the objection into a continuation. 'My fault not yours' is a credibility-reversal. 'Follow me' is a physical and verbal commit.",
+            techniqueIds: ["trial-close", "labeling"]
         ),
 
         Transcript(
@@ -178,7 +187,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "That's not a problem. Tell me, if you did have the money, would this be something that would work for you?"),
                 TranscriptTurn(role: .buyer, text: "[If yes, fit is confirmed. If no, the real objection surfaces.]"),
             ],
-            techniqueNote: "Hypothetical removal. Strip the money variable so the prospect has to answer whether the product itself is right. A yes means solve a financing problem. A no means money was a polite refusal masking something else."
+            techniqueNote: "Hypothetical removal. Strip the money variable so the prospect has to answer whether the product itself is right. A yes means solve a financing problem. A no means money was a polite refusal masking something else.",
+            techniqueIds: ["calibrated-question"]
         ),
 
         Transcript(
@@ -195,7 +205,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "But this is what they found when they began using our product or service..."),
                 TranscriptTurn(role: .op, text: "[Transition to a specific outcome story matched to the prospect's stated use case.]"),
             ],
-            techniqueNote: "Acknowledge the emotion (feel), socially normalize it (felt), resolve it with concrete outcome data (found). Tracy delivers the three beats as a single uninterrupted turn."
+            techniqueNote: "Acknowledge the emotion (feel), socially normalize it (felt), resolve it with concrete outcome data (found). Tracy delivers the three beats as a single uninterrupted turn.",
+            techniqueIds: ["feel-felt-found"]
         ),
 
         Transcript(
@@ -211,7 +222,8 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "All I ask is that you look at what I have to show you with an open mind, determine if it applies to your situation, and tell me at the end of our conversation if this product makes sense."),
                 TranscriptTurn(role: .buyer, text: "[typically continues the conversation; the disarm has worked]"),
             ],
-            techniqueNote: "Pressure-removal opener collapses the prospect's defensive frame. The conditional re-engagement ('tell me at the end if this makes sense') gives the prospect a graceful out, which paradoxically makes them more willing to stay engaged."
+            techniqueNote: "Pressure-removal opener collapses the prospect's defensive frame. The conditional re-engagement ('tell me at the end if this makes sense') gives the prospect a graceful out, which paradoxically makes them more willing to stay engaged.",
+            techniqueIds: ["takeaway", "labeling"]
         ),
 
         Transcript(
@@ -230,6 +242,7 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "I'm not asking you to mortgage your house. I'm just asking you to make a small investment, three to four thousand, and let me prove myself to you."),
             ],
             techniqueNote: "Three-beat opener: enthusiasm (name plus firm), peer-equality ('how are you today' delivered as friend-tone), then urgency-with-scarcity. The small ask anchors a smaller commitment, making the eventual upsell feel low-risk.",
+            techniqueIds: ["accusation-audit", "scarcity", "social-proof"],
             paraphrased: true
         ),
     ]
