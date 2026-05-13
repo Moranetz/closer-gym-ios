@@ -40,24 +40,97 @@ private func riskColor(_ r: FolkloreRisk) -> Color {
 }
 
 struct LessonIndexView: View {
+    @EnvironmentObject private var storage: Store
+    @State private var search: String = ""
+
+    /// Atlas techniques the user has encountered via a correctly-solved puzzle.
+    private var encounteredIds: Set<String> {
+        var ids = Set<String>()
+        for solve in storage.puzzleState.solves where solve.correct {
+            if let puzzle = Puzzles.get(solve.puzzleId) {
+                let chosen = puzzle.candidates[solve.pickedIndex < 0 ? puzzle.bestIndex : min(solve.pickedIndex, puzzle.candidates.count - 1)]
+                for tag in chosen.atlasTags {
+                    ids.insert(tag)
+                }
+            }
+        }
+        return ids
+    }
+
+    private func filtered(_ list: [Technique]) -> [Technique] {
+        guard !search.isEmpty else { return list }
+        let q = search.lowercased()
+        return list.filter { t in
+            t.name.lowercased().contains(q) ||
+            t.id.lowercased().contains(q) ||
+            t.mechanism.lowercased().contains(q) ||
+            t.cluster.label.lowercased().contains(q)
+        }
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Browse the Atlas taxonomy. Each entry shows mechanism, evidence verdict, folklore risk, and every puzzle + transcript + master move that demonstrates it.")
+                Text("Browse the Atlas taxonomy. Each entry shows mechanism, evidence verdict, folklore risk, and every puzzle, transcript, and master move that demonstrates it.")
                     .font(.system(size: 13))
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
                     .padding(.horizontal, 16)
                     .padding(.top, 4)
 
+                // Search bar
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundStyle(Color.textMuted)
+                    TextField("Search techniques", text: $search)
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color.textPrimary)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                    if !search.isEmpty {
+                        Button {
+                            search = ""
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.system(size: 14))
+                                .foregroundStyle(Color.textFaint)
+                        }
+                    }
+                }
+                .padding(.horizontal, 12).padding(.vertical, 10)
+                .background(Color.bgPanel)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+                .padding(.horizontal, 16)
+
+                if !encounteredIds.isEmpty {
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 13))
+                            .foregroundStyle(Color.brandGreen)
+                        Text("\(encounteredIds.count) of 35 techniques encountered via puzzle solves")
+                            .font(.system(size: 12))
+                            .foregroundStyle(Color.textMuted)
+                    }
+                    .padding(.horizontal, 16)
+                }
+
                 ForEach(clusterOrder, id: \.self) { cluster in
-                    let inCluster = AtlasTechniques.all.filter { $0.cluster == cluster }
+                    let inCluster = filtered(AtlasTechniques.all.filter { $0.cluster == cluster })
                     if !inCluster.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text(cluster.label).microLabel(Color.textSecondary)
-                                Spacer()
-                                Text("\(inCluster.count)").font(.system(size: 11, weight: .semibold)).foregroundStyle(Color.textMuted).monospacedDigit()
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Text(cluster.label).microLabel(Color.textSecondary)
+                                    Spacer()
+                                    Text("\(inCluster.count)").font(.system(size: 11, weight: .semibold)).foregroundStyle(Color.textMuted).monospacedDigit()
+                                }
+                                Text(cluster.definition)
+                                    .font(.system(size: 11))
+                                    .italic()
+                                    .foregroundStyle(Color.textFaint)
+                                    .lineSpacing(2)
                             }
                             .padding(.bottom, 6)
                             .overlay(alignment: .bottom) {
@@ -66,7 +139,7 @@ struct LessonIndexView: View {
                             VStack(spacing: 8) {
                                 ForEach(inCluster) { t in
                                     NavigationLink(destination: LessonDetailView(technique: t)) {
-                                        techniqueRow(t)
+                                        techniqueRow(t, encountered: encounteredIds.contains(t.id))
                                     }
                                     .buttonStyle(.plain)
                                 }
@@ -75,6 +148,15 @@ struct LessonIndexView: View {
                         .padding(.horizontal, 16)
                         .padding(.top, 4)
                     }
+                }
+
+                if !search.isEmpty && filtered(AtlasTechniques.all).isEmpty {
+                    Text("No techniques match \"\(search)\".")
+                        .font(.system(size: 13))
+                        .foregroundStyle(Color.textMuted)
+                        .italic()
+                        .padding(20)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
 
                 Text("Verdict: well-studied means multiple replications across contexts; partial means lab evidence with weak field replication; untested means folklore-only; replication-failed means published failures of the canonical study.")
@@ -92,9 +174,17 @@ struct LessonIndexView: View {
         .toolbarBackground(Color.bgPage, for: .navigationBar)
     }
 
-    private func techniqueRow(_ t: Technique) -> some View {
+    private func techniqueRow(_ t: Technique, encountered: Bool) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(t.name).font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
+            HStack {
+                Text(t.name).font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
+                if encountered {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 12))
+                        .foregroundStyle(Color.brandGreen)
+                }
+                Spacer()
+            }
             Text(t.mechanism.split(separator: ";").first.map(String.init) ?? t.mechanism)
                 .font(.system(size: 12))
                 .foregroundStyle(Color.textMuted)
@@ -111,7 +201,7 @@ struct LessonIndexView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(encountered ? Color.brandGreen.opacity(0.35) : Color.border, lineWidth: 1))
     }
 
     private func pill(text: String, color: Color) -> some View {

@@ -33,6 +33,30 @@ struct LessonDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 header
+                if let drillPuzzle = relatedPuzzles.first {
+                    NavigationLink(destination: PuzzleSolveView(puzzle: drillPuzzle, isDaily: false)) {
+                        HStack(spacing: 10) {
+                            Image(systemName: "play.fill")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundStyle(Color.bgPage)
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text("Drill this technique now").font(.system(size: 14, weight: .bold)).foregroundStyle(Color.bgPage)
+                                Text("\(drillPuzzle.id.uppercased()) · ELO \(drillPuzzle.difficulty) · \(drillPuzzle.theme.label)")
+                                    .font(.system(size: 11, weight: .semibold))
+                                    .foregroundStyle(Color.bgPage.opacity(0.75))
+                            }
+                            Spacer()
+                        }
+                        .padding(.horizontal, 14).padding(.vertical, 12)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.brandGreen)
+                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
+                }
+                if !technique.canonicalSource.isEmpty || !technique.primaryFailureMode.isEmpty || !technique.contraindication.isEmpty {
+                    referenceFields
+                }
                 if !relatedPuzzles.isEmpty { puzzlesSection }
                 if !relatedTranscripts.isEmpty { transcriptsSection }
                 if !relatedMasterMoves.isEmpty { masterMovesSection }
@@ -87,6 +111,32 @@ struct LessonDetailView: View {
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+    }
+
+    private var referenceFields: some View {
+        VStack(spacing: 8) {
+            if !technique.primaryFailureMode.isEmpty {
+                fieldCard(label: "Primary failure mode", body: technique.primaryFailureMode)
+            }
+            if !technique.contraindication.isEmpty {
+                fieldCard(label: "Contraindication", body: technique.contraindication)
+            }
+            if !technique.canonicalSource.isEmpty {
+                fieldCard(label: "Canonical source", body: technique.canonicalSource)
+            }
+        }
+    }
+
+    private func fieldCard(label: String, body: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label).microLabel()
+            Text(body).font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(3)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     private var puzzlesSection: some View {

@@ -9,14 +9,47 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
     public let mechanism: String
     public let atlasVerdict: AtlasVerdict
     public let folkloreRisk: FolkloreRisk
+    public let canonicalSource: String
+    public let primaryFailureMode: String
+    public let contraindication: String
 
-    public init(id: String, name: String, cluster: AtlasCluster, mechanism: String, atlasVerdict: AtlasVerdict, folkloreRisk: FolkloreRisk) {
+    public init(id: String, name: String, cluster: AtlasCluster, mechanism: String,
+                atlasVerdict: AtlasVerdict, folkloreRisk: FolkloreRisk,
+                canonicalSource: String = "", primaryFailureMode: String = "",
+                contraindication: String = "") {
         self.id = id
         self.name = name
         self.cluster = cluster
         self.mechanism = mechanism
         self.atlasVerdict = atlasVerdict
         self.folkloreRisk = folkloreRisk
+        self.canonicalSource = canonicalSource
+        self.primaryFailureMode = primaryFailureMode
+        self.contraindication = contraindication
+    }
+}
+
+public extension AtlasCluster {
+    /// One-sentence definition of each cluster — shown in the Lessons index header.
+    var definition: String {
+        switch self {
+        case .questionForm:
+            return "Open-ended question patterns that convert demands into shared problems."
+        case .cialdini:
+            return "Six classical influence principles cataloged by Robert Cialdini."
+        case .framing:
+            return "Cognitive framing moves that exploit asymmetric weighting of gains, losses, and reference points."
+        case .compliance:
+            return "Sequential request structures that exploit consistency norms and reciprocity."
+        case .negotiationAnchor:
+            return "First-move number tactics that bias the counterparty's adjustment."
+        case .structuralClose:
+            return "Bookend moves that compress decision space and force commitment."
+        case .postObjection:
+            return "Response patterns once the buyer has stated a concern."
+        case .closingEnvironment:
+            return "Procedural commitments and multi-stakeholder structures that reduce drift."
+        }
     }
 }
 
