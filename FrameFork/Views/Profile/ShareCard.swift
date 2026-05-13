@@ -122,7 +122,7 @@ public enum ShareCardRenderer {
         guard let image = renderer.uiImage,
               let data = image.pngData() else { return nil }
 
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("closer-gym-rating-\(Int(rating)).png")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("framefork-rating-\(Int(rating)).png")
         do {
             try data.write(to: url)
             return url

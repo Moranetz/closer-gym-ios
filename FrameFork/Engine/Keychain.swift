@@ -4,7 +4,7 @@ import Security
 /// Minimal Keychain wrapper for storing the optional Anthropic API key.
 /// Sandboxed to this app's bundle, kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly.
 public enum Keychain {
-    private static let service = "com.melmarion.CloserGym"
+    private static let service = "com.melmarion.FrameFork"
     private static let apiKeyAccount = "anthropic-api-key"
 
     public static func saveAPIKey(_ key: String) {

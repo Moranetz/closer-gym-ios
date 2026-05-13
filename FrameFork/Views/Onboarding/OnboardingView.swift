@@ -116,7 +116,7 @@ struct OnboardingView: View {
     }
 
     private func completeOnboarding() {
-        UserDefaults.standard.set(true, forKey: "closer-gym:hasSeenOnboarding:v1")
+        UserDefaults.standard.set(true, forKey: "framefork:hasSeenOnboarding:v1")
         Haptics.shared.success()
         withAnimation(.snappy) {
             isPresented = false

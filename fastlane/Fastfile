@@ -1,8 +1,8 @@
 default_platform(:ios)
 platform :ios do
   lane :release do
-    produce(app_identifier:"com.melmarion.CloserGym",app_name:"Closer Gym",team_id:"Q242KWQD56",username:"marion.m.moranetz@gmail.com")
-    build_app(project:"CloserGym.xcodeproj",scheme:"CloserGym",clean:true,export_method:"app-store",export_options:"./ExportOptions.plist",xcargs:"CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=Q242KWQD56 CODE_SIGN_IDENTITY='Apple Distribution: MARION MORANETZ (Q242KWQD56)' PROVISIONING_PROFILE_SPECIFIER='com.melmarion.CloserGym AppStore'")
+    produce(app_identifier:"com.melmarion.FrameFork",app_name:"Frame & Fork",team_id:"Q242KWQD56",username:"marion.m.moranetz@gmail.com")
+    build_app(project:"FrameFork.xcodeproj",scheme:"FrameFork",clean:true,export_method:"app-store",export_options:"./ExportOptions.plist",xcargs:"CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=Q242KWQD56 CODE_SIGN_IDENTITY='Apple Distribution: MARION MORANETZ (Q242KWQD56)' PROVISIONING_PROFILE_SPECIFIER='com.melmarion.FrameFork AppStore'")
     upload_to_app_store(skip_screenshots:true,skip_metadata:true,username:"marion.m.moranetz@gmail.com",team_id:"Q242KWQD56",force:true)
   end
 end

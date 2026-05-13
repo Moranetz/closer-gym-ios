@@ -1,9 +1,9 @@
 import SwiftUI
 
 @main
-struct CloserGymApp: App {
+struct FrameForkApp: App {
     @StateObject private var storage = Store.shared
-    @State private var showOnboarding = !UserDefaults.standard.bool(forKey: "closer-gym:hasSeenOnboarding:v1")
+    @State private var showOnboarding = !UserDefaults.standard.bool(forKey: "framefork:hasSeenOnboarding:v1")
 
     var body: some Scene {
         WindowGroup {

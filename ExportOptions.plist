@@ -6,7 +6,7 @@
   <key>teamID</key><string>Q242KWQD56</string>
   <key>signingStyle</key><string>manual</string>
   <key>provisioningProfiles</key>
-  <dict><key>com.melmarion.CloserGym</key><string>com.melmarion.CloserGym AppStore</string></dict>
+  <dict><key>com.melmarion.FrameFork</key><string>com.melmarion.FrameFork AppStore</string></dict>
   <key>signingCertificate</key><string>Apple Distribution: MARION MORANETZ (Q242KWQD56)</string>
 </dict>
 </plist>

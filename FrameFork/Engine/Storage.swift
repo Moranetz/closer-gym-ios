@@ -12,8 +12,8 @@ public final class Store: ObservableObject {
     @Published public var gameState: GameState
 
     private let defaults = UserDefaults.standard
-    private let puzzleKey = "closer-gym:puzzles:v0.1"
-    private let gameKey = "closer-gym:games:v0.1"
+    private let puzzleKey = "framefork:puzzles:v0.1"
+    private let gameKey = "framefork:games:v0.1"
 
     public init() {
         if let data = defaults.data(forKey: puzzleKey),

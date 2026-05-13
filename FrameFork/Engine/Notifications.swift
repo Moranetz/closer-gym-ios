@@ -6,10 +6,10 @@ import UserNotifications
 /// local notification on the user's chosen hour:minute.
 @MainActor
 public enum DailyNotifications {
-    private static let enabledKey = "closer-gym:notif:dailyEnabled:v1"
-    private static let hourKey    = "closer-gym:notif:hour:v1"
-    private static let minuteKey  = "closer-gym:notif:minute:v1"
-    private static let identifier = "closer-gym.dailyDrill"
+    private static let enabledKey = "framefork:notif:dailyEnabled:v1"
+    private static let hourKey    = "framefork:notif:hour:v1"
+    private static let minuteKey  = "framefork:notif:minute:v1"
+    private static let identifier = "framefork.dailyDrill"
 
     public static var isEnabled: Bool {
         get { UserDefaults.standard.bool(forKey: enabledKey) }

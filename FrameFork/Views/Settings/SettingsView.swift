@@ -42,7 +42,7 @@ struct SettingsView: View {
                     dataCard
                 }
 
-                Text("Closer Gym v\(appVersion) (build \(buildNumber)). Part of the Closer Foundation research program.")
+                Text("Frame & Fork v\(appVersion) (build \(buildNumber)). Part of the Closer Foundation research program.")
                     .font(.system(size: 11))
                     .foregroundStyle(Color.textFaint)
                     .padding(.top, 16)
@@ -245,7 +245,7 @@ private struct APIKeySheet: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Pro tier · Anthropic API key").microLabel(Color.brandGreen)
-                    Text("Your key is stored in the iOS Keychain on this device only. It is sent directly to Anthropic to generate bot responses. Closer Gym does not receive, log, or store it.")
+                    Text("Your key is stored in the iOS Keychain on this device only. It is sent directly to Anthropic to generate bot responses. Frame & Fork does not receive, log, or store it.")
                         .font(.system(size: 13))
                         .foregroundStyle(Color.textSecondary)
                         .lineSpacing(3)

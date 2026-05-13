@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// closer-gym brand palette. Matches the web tokens in
+/// Frame & Fork brand palette. Matches the web tokens in
 /// closer-gym/src/app/globals.css verbatim — same chess.com-derived
 /// dark palette. Where possible, prefer the asset-catalog references
 /// (Color("BrandGreen") etc.) so dark/light mode hooks work.
