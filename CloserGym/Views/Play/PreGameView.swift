@@ -9,7 +9,7 @@ struct PreGameView: View {
 
     @EnvironmentObject private var storage: Store
     @State private var selectedTechniques: Set<String> = []
-    @State private var showLiveGameComing = false
+    @State private var goLive: Bool = false
 
     private var persona: Persona? { Personas.get(botMeta.personaId) }
 
@@ -39,10 +39,8 @@ struct PreGameView: View {
                     .monospacedDigit()
             }
         }
-        .alert("Live game", isPresented: $showLiveGameComing) {
-            Button("Got it", role: .cancel) {}
-        } message: {
-            Text("Live free-text bot games arrive in the next iOS release. Your selected techniques will be carried forward and scored against the buyer's contraindicated and responsive lists.")
+        .navigationDestination(isPresented: $goLive) {
+            LiveGameView(botMeta: botMeta, intentTechniques: Array(selectedTechniques))
         }
     }
 
@@ -161,10 +159,8 @@ struct PreGameView: View {
 
     private var startButton: some View {
         PrimaryButton(title: "Start game", symbol: "play.fill", isEnabled: true, style: .green) {
-            // v0.1: LiveGameView lands in a follow-up commit. For now, surface a
-            // clear "coming next" alert. Selected techniques are not lost; user
-            // can rebuild quickly when the surface ships.
-            showLiveGameComing = true
+            Haptics.shared.medium()
+            goLive = true
         }
     }
 

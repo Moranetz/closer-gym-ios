@@ -9,9 +9,11 @@ public final class Store: ObservableObject {
     public static let shared = Store()
 
     @Published public var puzzleState: PuzzleState
+    @Published public var gameState: GameState
 
     private let defaults = UserDefaults.standard
     private let puzzleKey = "closer-gym:puzzles:v0.1"
+    private let gameKey = "closer-gym:games:v0.1"
 
     public init() {
         if let data = defaults.data(forKey: puzzleKey),
@@ -20,12 +22,52 @@ public final class Store: ObservableObject {
         } else {
             self.puzzleState = PuzzleState()
         }
+        if let data = defaults.data(forKey: gameKey),
+           let decoded = try? JSONDecoder().decode(GameState.self, from: data) {
+            self.gameState = decoded
+        } else {
+            self.gameState = GameState()
+        }
     }
 
     public func savePuzzleState() {
         if let data = try? JSONEncoder().encode(puzzleState) {
             defaults.set(data, forKey: puzzleKey)
         }
+    }
+
+    public func saveGameState() {
+        if let data = try? JSONEncoder().encode(gameState) {
+            defaults.set(data, forKey: gameKey)
+        }
+    }
+
+    /// Record a finished game against a bot.
+    /// Returns (newRating, delta).
+    public func recordGame(botRating: Int,
+                           score: Double,
+                           personaId: String,
+                           evalCurve: [Double],
+                           intentTechniques: [String],
+                           firedTechniques: [String],
+                           durationSec: Int) -> (newRating: Double, delta: Double) {
+        let opponent = GlickoState(rating: Double(botRating), rd: initialRD * 0.4, volatility: initialVolatility)
+        let result = Glicko2.applyMatch(gameState.rating, opponent: opponent, score: score)
+        gameState.rating = result.state
+        gameState.games.append(GameRecord(
+            personaId: personaId,
+            botRating: botRating,
+            score: score,
+            ratingAfter: result.state.rating,
+            delta: result.delta,
+            evalCurve: evalCurve,
+            intentTechniques: intentTechniques,
+            firedTechniques: firedTechniques,
+            playedAt: Date(),
+            durationSec: durationSec
+        ))
+        saveGameState()
+        return (result.state.rating, result.delta)
     }
 
     /// Record a puzzle solve. Returns new rating + delta + streak.
@@ -121,4 +163,24 @@ public struct PuzzleSolve: Codable, Hashable, Sendable {
     public let evalGained: Double
     public let solvedAt: Date
     public let timeRemainingSec: Int
+}
+
+public struct GameState: Codable, Sendable {
+    public var rating: GlickoState = GlickoState()
+    public var games: [GameRecord] = []
+
+    public init() {}
+}
+
+public struct GameRecord: Codable, Hashable, Sendable {
+    public let personaId: String
+    public let botRating: Int
+    public let score: Double            // 1 win, 0.5 draw, 0 loss
+    public let ratingAfter: Double
+    public let delta: Double
+    public let evalCurve: [Double]      // running -3..+3 per operator turn
+    public let intentTechniques: [String]
+    public let firedTechniques: [String]
+    public let playedAt: Date
+    public let durationSec: Int
 }
