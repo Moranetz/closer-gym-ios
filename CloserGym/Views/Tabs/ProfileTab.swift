@@ -21,11 +21,28 @@ struct ProfileTab: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(Color.bgPage, for: .navigationBar)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    shareCardButton
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: SettingsView()) {
                         Image(systemName: "gearshape").foregroundStyle(Color.textSecondary)
                     }
                 }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var shareCardButton: some View {
+        let rating = storage.puzzleState.rating.rating
+        let streak = storage.puzzleState.currentStreak
+        let longest = storage.puzzleState.longestStreak
+        let solved = storage.puzzleState.solves.filter(\.correct).count
+
+        if let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
+            ShareLink(item: url, preview: SharePreview("My closer.gym rating: \(Int(rating))")) {
+                Image(systemName: "square.and.arrow.up").foregroundStyle(Color.textSecondary)
             }
         }
     }

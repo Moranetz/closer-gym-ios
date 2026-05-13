@@ -10,6 +10,13 @@ struct SettingsView: View {
     @State private var showAPIKeySheet = false
     @State private var confirmClearData = false
     @State private var hasKey = Keychain.hasAPIKey()
+    @State private var notifEnabled: Bool = DailyNotifications.isEnabled
+    @State private var notifTime: Date = {
+        var c = DateComponents()
+        c.hour = DailyNotifications.hour
+        c.minute = DailyNotifications.minute
+        return Calendar.current.date(from: c) ?? Date()
+    }()
 
     private let privacyURL = URL(string: "https://moranetz.github.io/closer-gym-ios/privacy.html")!
     private let supportURL = URL(string: "https://moranetz.github.io/closer-gym-ios/support.html")!
@@ -108,18 +115,55 @@ struct SettingsView: View {
     }
 
     private var notificationsPlaceholder: some View {
-        HStack {
-            Image(systemName: "bell")
-                .font(.system(size: 18))
-                .foregroundStyle(Color.textMuted)
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Daily Drill reminders").font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary)
-                Text("Arrives in v0.2. Permission request and time picker.").font(.system(size: 12)).foregroundStyle(Color.textMuted)
+        VStack(spacing: 0) {
+            HStack {
+                Image(systemName: "bell.fill")
+                    .font(.system(size: 16))
+                    .foregroundStyle(notifEnabled ? Color.brandGreen : Color.textMuted)
+                Text("Daily Drill reminder")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(Color.textPrimary)
+                Spacer()
+                Toggle("", isOn: $notifEnabled)
+                    .labelsHidden()
+                    .tint(Color.brandGreen)
+                    .onChange(of: notifEnabled) { _, on in
+                        if on {
+                            Task {
+                                let granted = await DailyNotifications.requestAuthorization()
+                                await MainActor.run {
+                                    if granted {
+                                        DailyNotifications.isEnabled = true
+                                        DailyNotifications.schedule()
+                                    } else {
+                                        notifEnabled = false
+                                    }
+                                }
+                            }
+                        } else {
+                            DailyNotifications.isEnabled = false
+                            DailyNotifications.cancel()
+                        }
+                    }
             }
-            Spacer()
-            Text("v0.2").microLabel(Color.warning)
+            .padding(14)
+            if notifEnabled {
+                Divider().background(Color.border)
+                HStack {
+                    Text("Reminder time").font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary)
+                    Spacer()
+                    DatePicker("", selection: $notifTime, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                        .onChange(of: notifTime) { _, newTime in
+                            let comps = Calendar.current.dateComponents([.hour, .minute], from: newTime)
+                            DailyNotifications.hour = comps.hour ?? 9
+                            DailyNotifications.minute = comps.minute ?? 0
+                            DailyNotifications.schedule()
+                        }
+                }
+                .padding(14)
+            }
         }
-        .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
