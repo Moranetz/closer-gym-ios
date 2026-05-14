@@ -14,6 +14,7 @@ struct PuzzlesTab: View {
 
 struct PuzzleIndexView: View {
     @EnvironmentObject private var storage: Store
+    @State private var expanded: Set<PuzzleTheme> = [.budget]
 
     private var dailyPuzzle: Puzzle {
         let id = Puzzles.dailyId()
@@ -36,7 +37,7 @@ struct PuzzleIndexView: View {
                     themeSection(theme)
                 }
 
-                Text("20 seed positions hand-authored against the Atlas literature. Adaptive difficulty + Puzzle Rush roll out with v0.2. Solving is fully offline — no API key required.")
+                Text("\(Puzzles.all.count) hand-authored positions calibrated against the Atlas literature. Adaptive difficulty + Puzzle Rush roll out with v1.1. Solving is fully offline, no API key required.")
                     .font(.system(size: 11))
                     .foregroundStyle(Color.textFaint)
                     .lineSpacing(2)
@@ -139,20 +140,15 @@ struct PuzzleIndexView: View {
     private func themeSection(_ theme: PuzzleTheme) -> some View {
         let inTheme = Puzzles.all.filter { $0.theme == theme }
         if !inTheme.isEmpty {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text(theme.label).microLabel(theme.tint)
-                    Spacer()
-                    Text("\(inTheme.count) position\(inTheme.count == 1 ? "" : "s")")
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(Color.textMuted)
-                        .monospacedDigit()
+            let solved = inTheme.filter { storage.isSolved($0.id) }.count
+            let binding = Binding<Bool>(
+                get: { expanded.contains(theme) },
+                set: { newValue in
+                    Haptics.shared.selection()
+                    if newValue { expanded.insert(theme) } else { expanded.remove(theme) }
                 }
-                .overlay(alignment: .bottom) {
-                    Rectangle().fill(theme.tint.opacity(0.25)).frame(height: 2).offset(y: 8)
-                }
-                .padding(.bottom, 8)
-
+            )
+            DisclosureGroup(isExpanded: binding) {
                 VStack(spacing: 8) {
                     ForEach(inTheme) { p in
                         NavigationLink(destination: PuzzleSolveView(puzzle: p, isDaily: false)) {
@@ -161,7 +157,29 @@ struct PuzzleIndexView: View {
                         .buttonStyle(.plain)
                     }
                 }
+                .padding(.top, 4)
+            } label: {
+                HStack(spacing: 8) {
+                    Text(theme.label).microLabel(theme.tint)
+                    Spacer()
+                    if solved > 0 {
+                        Text("\(solved)/\(inTheme.count)")
+                            .font(.system(size: 11, weight: .heavy, design: .rounded))
+                            .foregroundStyle(.brandGreen)
+                            .monospacedDigit()
+                    } else {
+                        Text("\(inTheme.count) position\(inTheme.count == 1 ? "" : "s")")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(Color.textMuted)
+                            .monospacedDigit()
+                    }
+                }
+                .padding(.bottom, 6)
+                .overlay(alignment: .bottom) {
+                    Rectangle().fill(theme.tint.opacity(0.25)).frame(height: 2)
+                }
             }
+            .tint(theme.tint)
             .padding(.horizontal, 16)
             .padding(.top, 8)
         }
