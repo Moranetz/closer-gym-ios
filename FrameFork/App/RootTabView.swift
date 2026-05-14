@@ -1,9 +1,18 @@
 import SwiftUI
 
 struct RootTabView: View {
-    @State private var selected: Tab = .puzzles
+    // The `FF_INITIAL_TAB` env var lets `scripts/upload_ipad_screenshots.py`
+    // launch into a specific tab when generating store-listing screenshots.
+    // No effect on shipping behavior; the launcher only sets it from sim builds.
+    @State private var selected: Tab = {
+        if let raw = ProcessInfo.processInfo.environment["FF_INITIAL_TAB"],
+           let tab = Tab(rawValue: raw) {
+            return tab
+        }
+        return .puzzles
+    }()
 
-    enum Tab: Hashable {
+    enum Tab: String, Hashable {
         case play, puzzles, lessons, watch, profile
     }
 
