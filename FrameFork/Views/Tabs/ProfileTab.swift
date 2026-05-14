@@ -41,7 +41,7 @@ struct ProfileTab: View {
         let solved = storage.puzzleState.solves.filter(\.correct).count
 
         if let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
-            ShareLink(item: url, preview: SharePreview("My closer.gym rating: \(Int(rating))")) {
+            ShareLink(item: url, preview: SharePreview("My Frame & Fork rating: \(Int(rating))")) {
                 Image(systemName: "square.and.arrow.up").foregroundStyle(Color.textSecondary)
             }
         }
@@ -114,7 +114,7 @@ struct ProfileTab: View {
     private var foundationFooter: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Closer Foundation").microLabel()
-            Text("closer.gym v0.1")
+            Text("Frame & Fork · v1.0")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(Color.textSecondary)
             Text("Cluely is the cheat code. We built the gym.")

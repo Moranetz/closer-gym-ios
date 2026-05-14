@@ -1,8 +1,38 @@
 default_platform(:ios)
 platform :ios do
   lane :release do
-    produce(app_identifier:"com.melmarion.FrameFork",app_name:"Frame & Fork",team_id:"Q242KWQD56",username:"marion.m.moranetz@gmail.com")
-    build_app(project:"FrameFork.xcodeproj",scheme:"FrameFork",clean:true,export_method:"app-store",export_options:"./ExportOptions.plist",xcargs:"CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=Q242KWQD56 CODE_SIGN_IDENTITY='Apple Distribution: MARION MORANETZ (Q242KWQD56)' PROVISIONING_PROFILE_SPECIFIER='com.melmarion.FrameFork AppStore'")
-    upload_to_app_store(skip_screenshots:true,skip_metadata:true,username:"marion.m.moranetz@gmail.com",team_id:"Q242KWQD56",force:true)
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+      key_filepath: ENV["APP_STORE_CONNECT_API_KEY_KEY_FILEPATH"],
+      in_house: false
+    )
+
+    # Provisioning profile: create or download via API key (avoids 2FA).
+    sigh(
+      app_identifier: "com.melmarion.FrameFork",
+      team_id: "Q242KWQD56",
+      provisioning_name: "com.melmarion.FrameFork AppStore",
+      force: true,
+      api_key: api_key
+    )
+
+    build_app(
+      project: "FrameFork.xcodeproj",
+      scheme: "FrameFork",
+      clean: true,
+      export_method: "app-store",
+      export_options: "./ExportOptions.plist",
+      xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=Q242KWQD56 CODE_SIGN_IDENTITY='Apple Distribution: MARION MORANETZ (Q242KWQD56)' PROVISIONING_PROFILE_SPECIFIER='com.melmarion.FrameFork AppStore'"
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      skip_screenshots: true,
+      skip_metadata: true,
+      team_id: "Q242KWQD56",
+      force: true,
+      precheck_include_in_app_purchases: false
+    )
   end
 end

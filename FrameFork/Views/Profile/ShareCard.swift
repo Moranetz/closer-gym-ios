@@ -85,7 +85,7 @@ struct ShareCard: View {
                         .font(.system(size: 28, weight: .semibold))
                         .italic()
                         .foregroundStyle(Color.textSecondary)
-                    Text("closer.gym")
+                    Text("Frame & Fork")
                         .font(.system(size: 24, weight: .heavy, design: .rounded))
                         .kerning(2)
                         .foregroundStyle(Color.brandGreen)
