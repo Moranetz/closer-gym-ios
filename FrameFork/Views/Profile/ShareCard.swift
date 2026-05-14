@@ -28,11 +28,11 @@ struct ShareCard: View {
             VStack(alignment: .leading, spacing: 0) {
                 // Header band
                 HStack {
-                    Text("♛")
+                    Text("♞")
                         .font(.system(size: 56, weight: .heavy))
                         .foregroundStyle(Color.brandGreen)
                     Spacer()
-                    Text("CLOSER.GYM")
+                    Text("FRAME & FORK")
                         .font(.system(size: 22, weight: .heavy, design: .rounded))
                         .kerning(2)
                         .foregroundStyle(Color.textSecondary)
