@@ -7,7 +7,9 @@ struct SettingsView: View {
     @EnvironmentObject private var storage: Store
     @Environment(\.dismiss) private var dismiss
 
+    @EnvironmentObject private var subscriptions: SubscriptionStore
     @State private var showAPIKeySheet = false
+    @State private var showPaywall = false
     @State private var confirmClearData = false
     @State private var hasKey = Keychain.hasAPIKey()
     @State private var notifEnabled: Bool = DailyNotifications.isEnabled
@@ -27,7 +29,11 @@ struct SettingsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 section(title: "Pro Tier") {
-                    proTierCard
+                    if FeatureFlags.subscriptionsEnabled {
+                        proSubscriptionCard
+                    } else {
+                        proTierCard
+                    }
                 }
 
                 section(title: "Notifications") {
@@ -69,6 +75,9 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showAPIKeySheet) {
             APIKeySheet(hasKey: $hasKey)
+        }
+        .sheet(isPresented: $showPaywall) {
+            NavigationStack { PaywallView() }
         }
         .alert("Clear all data?", isPresented: $confirmClearData) {
             Button("Cancel", role: .cancel) {}
@@ -120,6 +129,33 @@ struct SettingsView: View {
             .background(Color.bgPanel)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(hasKey ? Color.brandGreen.opacity(0.4) : Color.border, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// Shown when subscriptions are enabled (post-proxy). Opens the paywall.
+    private var proSubscriptionCard: some View {
+        Button {
+            Haptics.shared.light()
+            showPaywall = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: subscriptions.isPro ? "checkmark.seal.fill" : "sparkles")
+                    .font(.system(size: 18)).foregroundStyle(Color.brandGreen).frame(width: 28)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(subscriptions.isPro ? "Frame & Fork Pro active" : "Get Frame & Fork Pro")
+                        .font(.system(size: 14, weight: .bold)).foregroundStyle(Color.textPrimary)
+                    Text(subscriptions.isPro ? "Unlimited role-play and the AI coach." : "Unlock unlimited role-play and the AI coach.")
+                        .font(.system(size: 12)).foregroundStyle(Color.textMuted)
+                }
+                Spacer()
+                Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Color.textFaint)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(Color.bgPanel)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         }
         .buttonStyle(.plain)
     }

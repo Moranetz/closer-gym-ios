@@ -14,6 +14,7 @@
 		2A736994298DB6955952684F /* Eval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056B3740A3F2492B4F6C524B /* Eval.swift */; };
 		3284A5E5C7AC23DB6C3BF743 /* FrameForkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C282226DA03E5F47D16311 /* FrameForkApp.swift */; };
 		3991F70424A8457A12415D66 /* Techniques.swift in Sources */ = {isa = PBXBuildFile; fileRef = D851339D08442110151A39DD /* Techniques.swift */; };
+		4C869E8CD52388F47F10C0AA /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB6020005DEEB7F046566F3 /* PaywallView.swift */; };
 		4D7F3E3FE91B813D72BCC7D8 /* Transcript.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54908C328B57E350F6C5DD0F /* Transcript.swift */; };
 		532DB3A2FB694501CA17366C /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A750ABF68E6F2F95708AFFE0 /* PrimaryButton.swift */; };
 		53397EB31B14122C79F03D04 /* LessonsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30522C6D9ED9B62E235E7FA3 /* LessonsTab.swift */; };
@@ -40,6 +41,8 @@
 		B1B3DAD2A5F791F510A8F93D /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFAA185D4A03A07147683B7 /* Storage.swift */; };
 		B6AA390C5D183C11FDB34208 /* DetectorLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A460B46DAF261F28BB62490B /* DetectorLocal.swift */; };
 		B78B25E1CBE9E88FE7B5255E /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BD00C65FA0BD0FFB5DF2FC /* Keychain.swift */; };
+		BAA98E5D7D9DE5C5AE089875 /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57AB583662D8D32A672819A /* FeatureFlags.swift */; };
+		C69555DD1687B78FBDFBA328 /* SubscriptionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC144E40CA237C6EB16C9BE /* SubscriptionStore.swift */; };
 		C7BC7E773E65BFCA31E36964 /* Transcripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8DFB5721E78D001137200 /* Transcripts.swift */; };
 		CB2317FEC4F47D2317B9CC19 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2899BCECCBB676637F6C7A57 /* Haptics.swift */; };
 		CD36A41712C5A941595BFB82 /* PlayTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9607781ACDDA980BEC8526 /* PlayTab.swift */; };
@@ -88,10 +91,12 @@
 		76D8BB57E3FB6864C7A708E2 /* Persona.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persona.swift; sourceTree = "<group>"; };
 		7BFAA185D4A03A07147683B7 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		90D76D6BCD5101570A81000E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		9DB6020005DEEB7F046566F3 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		A2C0265462E2A8DACFAD7D45 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A460B46DAF261F28BB62490B /* DetectorLocal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectorLocal.swift; sourceTree = "<group>"; };
 		A6D7872A5C5758286A9B927A /* RootTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootTabView.swift; sourceTree = "<group>"; };
 		A750ABF68E6F2F95708AFFE0 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		ABC144E40CA237C6EB16C9BE /* SubscriptionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionStore.swift; sourceTree = "<group>"; };
 		BB794272545B6108687A7F9E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BCDCC8C89C39BEEF278DA158 /* Personas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Personas.swift; sourceTree = "<group>"; };
 		C0BD00C65FA0BD0FFB5DF2FC /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
@@ -106,6 +111,7 @@
 		EFC59B171E990662163049DA /* PreGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreGameView.swift; sourceTree = "<group>"; };
 		F014D2147E4D1E14969CC440 /* ShareCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCard.swift; sourceTree = "<group>"; };
 		F3C282226DA03E5F47D16311 /* FrameForkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameForkApp.swift; sourceTree = "<group>"; };
+		F57AB583662D8D32A672819A /* FeatureFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -153,10 +159,12 @@
 				1E5C38B675BEAA16EFDD0E4D /* AnthropicClient.swift */,
 				A460B46DAF261F28BB62490B /* DetectorLocal.swift */,
 				056B3740A3F2492B4F6C524B /* Eval.swift */,
+				F57AB583662D8D32A672819A /* FeatureFlags.swift */,
 				5FA42E309B90572DCBEC6D1E /* Glicko2.swift */,
 				C0BD00C65FA0BD0FFB5DF2FC /* Keychain.swift */,
 				34E8CA62FC1180E65C20551D /* Notifications.swift */,
 				7BFAA185D4A03A07147683B7 /* Storage.swift */,
+				ABC144E40CA237C6EB16C9BE /* SubscriptionStore.swift */,
 				367178AF682AEF3AB90EE73E /* ToneSynth.swift */,
 			);
 			path = Engine;
@@ -165,6 +173,7 @@
 		491DB06EF66EED836CC7A556 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9DB6020005DEEB7F046566F3 /* PaywallView.swift */,
 				A2C0265462E2A8DACFAD7D45 /* SettingsView.swift */,
 			);
 			path = Settings;
@@ -369,6 +378,7 @@
 				D39721075AC70E7BBB40B8D6 /* EloBand.swift in Sources */,
 				2A736994298DB6955952684F /* Eval.swift in Sources */,
 				90269AD7AFE1345B393978D7 /* EvalCurveView.swift in Sources */,
+				BAA98E5D7D9DE5C5AE089875 /* FeatureFlags.swift in Sources */,
 				3284A5E5C7AC23DB6C3BF743 /* FrameForkApp.swift in Sources */,
 				6E8B7B1722158050C812D086 /* Glicko2.swift in Sources */,
 				CB2317FEC4F47D2317B9CC19 /* Haptics.swift in Sources */,
@@ -381,6 +391,7 @@
 				780295C7C1076EDF1E7F789B /* MasterGames.swift in Sources */,
 				ABD7C7EC4D4854E8A91EC4EF /* Notifications.swift in Sources */,
 				7BB55540D0606FA7446CD1C0 /* OnboardingView.swift in Sources */,
+				4C869E8CD52388F47F10C0AA /* PaywallView.swift in Sources */,
 				286BA3068C922EC9976A180D /* Persona.swift in Sources */,
 				DABFBBF59F2C550AAC0C815D /* Personas.swift in Sources */,
 				CD36A41712C5A941595BFB82 /* PlayTab.swift in Sources */,
@@ -398,6 +409,7 @@
 				A8E8E9888DE72EAFE2802D4A /* ShareCard.swift in Sources */,
 				A657D1DC383F16B7F83E2E0B /* SimpleReviewView.swift in Sources */,
 				B1B3DAD2A5F791F510A8F93D /* Storage.swift in Sources */,
+				C69555DD1687B78FBDFBA328 /* SubscriptionStore.swift in Sources */,
 				00802EC06DBB1CDFC130B1C4 /* Technique.swift in Sources */,
 				3991F70424A8457A12415D66 /* Techniques.swift in Sources */,
 				0CF89FFE28F7F2648AC9E3F7 /* TitleBadge.swift in Sources */,
