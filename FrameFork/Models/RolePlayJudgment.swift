@@ -59,7 +59,9 @@ public struct RolePlayJudgment: Codable, Hashable, Sendable {
 extension RolePlayJudgment {
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        processScore    = (try? c.decodeIfPresent(Double.self, forKey: .processScore)) ?? 0.5
+        // FAIL CLOSED: processScore is required. A missing score throws → the judgment is
+        // discarded → the rating falls back to the local eval, never to a free default 0.5.
+        processScore    = try c.decode(Double.self, forKey: .processScore)
         verdict         = (try? c.decodeIfPresent(String.self, forKey: .verdict)) ?? "Graded"
         summary         = (try? c.decodeIfPresent(String.self, forKey: .summary)) ?? ""
         criteria        = (try? c.decodeIfPresent([Criterion].self, forKey: .criteria)) ?? []

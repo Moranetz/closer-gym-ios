@@ -306,9 +306,15 @@ struct LiveGameView: View {
 
     // MARK: - Send pipeline
 
+    // Defense-in-depth cap on a single turn's length. The real enforcement must live in the
+    // server proxy (the client is untrusted), but this blunts casual cost-amplification and
+    // keeps the composer sane. See SECURITY.md.
+    private static let maxTurnChars = 2000
+
     @MainActor
     private func send() async {
-        let text = draft.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = draft.trimmingCharacters(in: .whitespacesAndNewlines)
+        let text = String(trimmed.prefix(LiveGameView.maxTurnChars))
         guard !text.isEmpty else { return }
         Haptics.shared.selection()
 
