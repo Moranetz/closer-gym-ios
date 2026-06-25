@@ -6,10 +6,10 @@ import SwiftUI
 /// Pro-tier-coming banner.
 struct PreGameView: View {
     let botMeta: BotMeta
+    @Binding var path: [PlayRoute]
 
     @EnvironmentObject private var storage: Store
     @State private var selectedTechniques: Set<String> = []
-    @State private var goLive: Bool = false
 
     private var persona: Persona? { Personas.get(botMeta.personaId) }
 
@@ -38,9 +38,6 @@ struct PreGameView: View {
                     .foregroundStyle(Color.textSecondary)
                     .monospacedDigit()
             }
-        }
-        .navigationDestination(isPresented: $goLive) {
-            LiveGameView(botMeta: botMeta, intentTechniques: Array(selectedTechniques))
         }
     }
 
@@ -160,7 +157,7 @@ struct PreGameView: View {
     private var startButton: some View {
         PrimaryButton(title: "Start game", symbol: "play.fill", isEnabled: true, style: .green) {
             Haptics.shared.medium()
-            goLive = true
+            path.append(.live(botMeta, Array(selectedTechniques)))
         }
     }
 

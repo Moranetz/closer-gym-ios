@@ -18,8 +18,8 @@ struct SettingsView: View {
         return Calendar.current.date(from: c) ?? Date()
     }()
 
-    private let privacyURL = URL(string: "https://moranetz.github.io/closer-gym-ios/privacy.html")!
-    private let supportURL = URL(string: "https://moranetz.github.io/closer-gym-ios/support.html")!
+    private let privacyURL = URL(string: "https://moranetz.github.io/apps/frame-fork/privacy.html")!
+    private let supportURL = URL(string: "https://moranetz.github.io/apps/frame-fork/support.html")!
     private let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
     private let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
 
@@ -57,6 +57,16 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.large)
         .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .task {
+            hasKey = Keychain.hasAPIKey()
+            // If the user revoked notification permission in iOS Settings, the
+            // toggle would otherwise keep showing "on" while nothing can fire.
+            if DailyNotifications.isEnabled, await DailyNotifications.status() == .denied {
+                DailyNotifications.isEnabled = false
+                DailyNotifications.cancel()
+                notifEnabled = false
+            }
+        }
         .sheet(isPresented: $showAPIKeySheet) {
             APIKeySheet(hasKey: $hasKey)
         }
@@ -204,7 +214,7 @@ struct SettingsView: View {
                     Text("Solved: \(storage.puzzleState.solves.filter(\.correct).count) puzzles")
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(Color.textPrimary)
-                    Text("Current streak: \(storage.puzzleState.currentStreak)d · Longest: \(storage.puzzleState.longestStreak)d")
+                    Text("Current streak: \(storage.effectiveCurrentStreak)d · Longest: \(storage.puzzleState.longestStreak)d")
                         .font(.system(size: 11))
                         .foregroundStyle(Color.textMuted)
                 }

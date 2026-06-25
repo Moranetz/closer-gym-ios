@@ -36,7 +36,7 @@ struct ProfileTab: View {
     @ViewBuilder
     private var shareCardButton: some View {
         let rating = storage.puzzleState.rating.rating
-        let streak = storage.puzzleState.currentStreak
+        let streak = storage.effectiveCurrentStreak
         let longest = storage.puzzleState.longestStreak
         let solved = storage.puzzleState.solves.filter(\.correct).count
 
@@ -67,7 +67,7 @@ struct ProfileTab: View {
                 TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier)
             }
 
-            Text("\(solveCount) puzzles solved · \(storage.puzzleState.currentStreak)-day streak · longest \(storage.puzzleState.longestStreak)")
+            Text("\(solveCount) puzzles solved · \(storage.effectiveCurrentStreak)-day streak · longest \(storage.puzzleState.longestStreak)")
                 .font(.system(size: 12))
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()
@@ -101,7 +101,7 @@ struct ProfileTab: View {
             Text("Free vs Pro").microLabel(Color.brandGreen)
             Text("Free: Puzzles, Lessons, Master Games. No API key required.")
                 .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
-            Text("Pro: Bot ladder (15 personas) + free-text play. Requires Anthropic key in Settings. Hosted Pro tier arrives in v0.2.")
+            Text("Pro: Bot ladder (\(BotLadder.all.count) personas) + free-text play. Requires Anthropic key in Settings. Hosted Pro tier arrives in v0.2.")
                 .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
         }
         .padding(16)

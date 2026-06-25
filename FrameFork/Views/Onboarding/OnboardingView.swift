@@ -41,7 +41,7 @@ struct OnboardingView: View {
             tag: "The gym for closers",
             title: "A sparring app for sales.",
             bodyLines: [
-                "Fifteen adversarial buyer personas. Glicko-2 closing ELO. Per-turn eval, fired-technique tags, Atlas-linked transcripts.",
+                "Fourteen adversarial buyer personas. Glicko-2 closing ELO. Per-turn eval, fired-technique tags, Atlas-linked transcripts.",
                 "Cluely is the cheat code. We built the gym.",
             ]
         )
@@ -54,8 +54,8 @@ struct OnboardingView: View {
             tag: "How it works",
             title: "Solve. Learn. Climb.",
             bodyLines: [
-                "Daily Drill puzzles in 30 seconds. 35 Atlas techniques cross-linked to every puzzle, transcript, and master move.",
-                "Watch real-call replays from Voss, Klaff, Belfort, Cardone, Tracy. Free tier is fully offline, no API key needed.",
+                "A fresh Daily Drill every day. 40 Atlas techniques cross-linked to every puzzle, transcript, and master move.",
+                "Watch real-call replays from Voss, Klaff, Belfort, Cardone, Burg. Free tier is fully offline, no API key needed.",
             ]
         )
     }
@@ -67,7 +67,7 @@ struct OnboardingView: View {
             tag: "Start now",
             title: "Today's Daily Drill is open.",
             bodyLines: [
-                "Solve in 30 seconds. Climb the Glicko-2 ladder. Three rating buckets: Game, Puzzle, Analysis.",
+                "Solve at your own pace. Climb the Glicko-2 ladder. Three rating buckets: Game, Puzzle, Analysis.",
                 "When you're ready, drop your Anthropic API key in Settings to unlock the bot ladder.",
             ]
         )

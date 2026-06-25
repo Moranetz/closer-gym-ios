@@ -60,7 +60,7 @@ struct PuzzleIndexView: View {
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 statCard(label: "Puzzle rating", value: "\(Int(s.rating.rating))", badge: TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier))
-                statCard(label: "Current streak", value: "\(s.currentStreak)d", accent: s.currentStreak > 0 ? .brandGreen : nil)
+                statCard(label: "Current streak", value: "\(storage.effectiveCurrentStreak)d", accent: storage.effectiveCurrentStreak > 0 ? .brandGreen : nil)
                 statCard(label: "Longest streak", value: "\(s.longestStreak)d")
                 statCard(label: "Solved", value: "\(s.solves.filter(\.correct).count)")
             }
@@ -90,48 +90,71 @@ struct PuzzleIndexView: View {
 
     @ViewBuilder
     private var dailyHero: some View {
-        NavigationLink(destination: PuzzleSolveView(puzzle: dailyPuzzle, isDaily: true)) {
-            VStack(alignment: .leading, spacing: 10) {
-                HStack(spacing: 8) {
-                    Text("Daily Drill").microLabel(Color.brandGreen)
-                    Text(Store.todayKey())
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(Color.textMuted)
-                        .monospacedDigit()
-                }
-                Text(dailyPuzzle.theme.label)
-                    .font(AppFont.title)
-                    .foregroundStyle(Color.textPrimary)
-                    .lineLimit(2)
-                Text("\(dailyPuzzle.buyerRole) · ELO \(dailyPuzzle.difficulty)")
-                    .font(.system(size: 13))
-                    .foregroundStyle(Color.textSecondary)
-                Text("“\(dailyPuzzle.buyerLine)”")
-                    .font(.system(size: 13))
-                    .italic()
+        if storage.dailyAttemptedToday {
+            // One attempt per calendar day — show a completed state instead of a
+            // live link so the daily can't be re-rolled for a clean streak.
+            dailyHeroCard(done: true)
+                .padding(.horizontal, 16)
+        } else {
+            NavigationLink(destination: PuzzleSolveView(puzzle: dailyPuzzle, isDaily: true)) {
+                dailyHeroCard(done: false)
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 16)
+        }
+    }
+
+    private func dailyHeroCard(done: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Text("Daily Drill").microLabel(Color.brandGreen)
+                Text(Store.todayKey())
+                    .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(Color.textMuted)
-                    .lineLimit(2)
-                Text("Solve  ·  30s timer")
+                    .monospacedDigit()
+            }
+            Text(dailyPuzzle.theme.label)
+                .font(AppFont.title)
+                .foregroundStyle(Color.textPrimary)
+                .lineLimit(2)
+            Text("\(dailyPuzzle.buyerRole) · ELO \(dailyPuzzle.difficulty)")
+                .font(.system(size: 13))
+                .foregroundStyle(Color.textSecondary)
+            Text("“\(dailyPuzzle.buyerLine)”")
+                .font(.system(size: 13))
+                .italic()
+                .foregroundStyle(Color.textMuted)
+                .lineLimit(2)
+            if done {
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark.circle.fill").font(.system(size: 13))
+                    Text("Done today · back tomorrow")
+                        .font(.system(size: 14, weight: .heavy, design: .rounded))
+                }
+                .foregroundStyle(Color.textMuted)
+                .padding(.horizontal, 14).padding(.vertical, 10)
+                .background(Capsule().fill(Color.bgRail))
+            } else {
+                Text("Solve today's drill")
                     .font(.system(size: 14, weight: .heavy, design: .rounded))
                     .foregroundStyle(.bgPage)
                     .padding(.horizontal, 14).padding(.vertical, 10)
                     .background(Capsule().fill(Color.brandGreen))
             }
-            .padding(20)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                LinearGradient(colors: [.bgPanel, .bgRail], startPoint: .topLeading, endPoint: .bottomTrailing)
-            )
-            .overlay(alignment: .trailing) {
-                Rectangle()
-                    .fill(dailyPuzzle.theme.tint)
-                    .frame(width: 6)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         }
-        .buttonStyle(.plain)
-        .padding(.horizontal, 16)
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            LinearGradient(colors: [.bgPanel, .bgRail], startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
+        .overlay(alignment: .trailing) {
+            Rectangle()
+                .fill(dailyPuzzle.theme.tint)
+                .frame(width: 6)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .opacity(done ? 0.85 : 1.0)
     }
 
     // MARK: - Theme section

@@ -84,7 +84,7 @@ final class Haptics {
     }
 
     func streakMilestone() {
-        guard let engine else {
+        guard engine != nil else {
             // Fallback: three medium taps
             mediumImpact.impactOccurred()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [self] in
@@ -110,11 +110,71 @@ final class Haptics {
                     .init(parameterID: .hapticSharpness, value: 0.9),
                 ], relativeTime: 0.30),
             ]
-            let pattern = try CHHapticPattern(events: events, parameters: [])
-            let player = try engine.makePlayer(with: pattern)
-            try player.start(atTime: 0)
+            try playPattern(events)
         } catch {
             // Silent failure — never crash on a missing haptic.
+        }
+    }
+
+    /// Correct-answer confirm — a soft swell into a crisp pop. Warmer and more
+    /// "earned" than the flat system .success notification.
+    func correctReveal() {
+        guard engine != nil else { success(); return }
+        do {
+            let events: [CHHapticEvent] = [
+                CHHapticEvent(eventType: .hapticContinuous, parameters: [
+                    .init(parameterID: .hapticIntensity, value: 0.35),
+                    .init(parameterID: .hapticSharpness, value: 0.30),
+                ], relativeTime: 0, duration: 0.11),
+                CHHapticEvent(eventType: .hapticTransient, parameters: [
+                    .init(parameterID: .hapticIntensity, value: 1.0),
+                    .init(parameterID: .hapticSharpness, value: 0.8),
+                ], relativeTime: 0.11),
+            ]
+            try playPattern(events)
+        } catch { success() }
+    }
+
+    /// Title promotion — the rank-up moment. A celebratory rise with three
+    /// ascending sparkles. The biggest earned beat in the puzzle loop.
+    func titlePromotion() {
+        guard engine != nil else { streakMilestone(); return }
+        // (relativeTime, intensity, sharpness) for three ascending sparkles.
+        let sparkles: [(Double, Float, Float)] = [(0.10, 0.60, 0.60), (0.23, 0.73, 0.73), (0.38, 0.86, 0.86)]
+        do {
+            var events: [CHHapticEvent] = [
+                CHHapticEvent(eventType: .hapticContinuous, parameters: [
+                    CHHapticEventParameter(parameterID: .hapticIntensity, value: 0.5),
+                    CHHapticEventParameter(parameterID: .hapticSharpness, value: 0.2),
+                ], relativeTime: 0, duration: 0.38),
+            ]
+            for s in sparkles {
+                let params = [
+                    CHHapticEventParameter(parameterID: .hapticIntensity, value: s.1),
+                    CHHapticEventParameter(parameterID: .hapticSharpness, value: s.2),
+                ]
+                events.append(CHHapticEvent(eventType: .hapticTransient, parameters: params, relativeTime: s.0))
+            }
+            try playPattern(events)
+        } catch { streakMilestone() }
+    }
+
+    private func playPattern(_ events: [CHHapticEvent]) throws {
+        guard let engine else { return }
+        let pattern = try CHHapticPattern(events: events, parameters: [])
+        let player = try engine.makePlayer(with: pattern)
+        try player.start(atTime: 0)
+    }
+
+    /// Haptic matched to a move verdict — paired with ToneSynth at the call site, fired
+    /// ~before audio so the two fuse (see JUICE-DOCTRINE §4/§5).
+    func verdict(_ v: Verdict) {
+        switch v {
+        case .fork:                       titlePromotion()   // the rare hero beat
+        case .sharp, .best:               correctReveal()
+        case .solid, .fine:               light()
+        case .loose, .slip, .missed:      selection()        // a subtle "off," not a buzzer
+        case .tell:                       error()            // heavy, not loud
         }
     }
 }

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame & Fork — reveal juice prototype</title>
+<style>
+  :root{
+    --bgPage:#262420; --bgPanel:#312E2B; --bgRail:#272522;
+    --green:#81B64C; --greenDeep:#71A73F;
+    --border:#1B1A19; --borderStrong:#3D3A37;
+    --t1:#fff; --t2:#C9C8C5; --t3:#9B9893; --t4:#6F6D6A;
+    --danger:#A4262C; --warn:#E5A50A;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;margin:0;padding:0}
+  body{background:#100f0c;color:var(--t1);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,sans-serif;
+    min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:18px;padding:26px}
+  .switcher{display:flex;gap:8px;background:#1b1a16;border:1px solid #2a2824;border-radius:12px;padding:6px}
+  .switcher button{font:inherit;font-size:13px;font-weight:700;color:var(--t3);background:transparent;border:none;
+    padding:9px 16px;border-radius:8px;cursor:pointer;transition:.15s}
+  .switcher button.on{background:var(--green);color:#1c2412}
+  .hint{font-size:12px;color:var(--t4)}
+  .mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+  .phone{width:330px;height:680px;border-radius:44px;background:#000;padding:9px;
+    box-shadow:0 26px 70px rgba(0,0,0,.6),inset 0 0 0 1px #2a2a2a;position:relative}
+  .screen{width:100%;height:100%;border-radius:36px;overflow:hidden;background:var(--bgPage);
+    position:relative;display:flex;flex-direction:column}
+  canvas#confetti{position:absolute;inset:0;pointer-events:none;z-index:40}
+  .glowedge{position:absolute;inset:0;pointer-events:none;z-index:30;border-radius:36px;opacity:0;
+    box-shadow:inset 0 0 0 0 transparent;transition:opacity .4s}
+  .status{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:12px;font-weight:700}
+  .nav{padding:6px 18px 4px;display:flex;align-items:center;gap:8px}
+  .nav .kick{font-size:11px;font-weight:800;letter-spacing:.6px;color:var(--green)}
+  .nav .elo{font-size:11px;font-weight:600;color:var(--t3)}
+  .scroll{flex:1;overflow:hidden;padding:8px 16px}
+  .micro{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3)}
+  .card{background:var(--bgPanel);border:1px solid var(--border);border-radius:13px;padding:15px}
+  .buyer{font-size:17px;font-weight:700;font-style:italic;line-height:1.32}
+  .cand{display:flex;gap:11px;align-items:flex-start;background:var(--bgPanel);border:1px solid var(--border);
+    border-radius:11px;padding:12px;margin-bottom:9px;cursor:pointer;transition:transform .12s,border-color .25s,background .25s;position:relative}
+  .cand .ltr{width:22px;height:22px;border-radius:6px;background:var(--bgRail);border:1px solid var(--borderStrong);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--t2);flex-shrink:0}
+  .cand .txt{font-size:13px;color:var(--t2);line-height:1.32}
+  .cand .ev{margin-left:auto;font-size:14px;font-weight:800;opacity:0;transition:opacity .3s}
+  .cand.best{border-color:var(--green);background:rgba(129,182,76,.12)}
+  .cand.best .ltr{background:var(--green);color:#1c2412;border-color:var(--green)}
+  .cand.wrongpick{border-color:var(--danger);background:rgba(164,38,44,.12)}
+  .cand.revealed .ev{opacity:1}
+  .cand.dim{opacity:.5}
+
+  .tabs{height:52px;border-top:1px solid var(--border);display:flex;justify-content:space-around;align-items:center;padding-bottom:6px}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--t4);font-weight:600}
+  .tab.on{color:var(--green)}
+  .tdot{width:17px;height:17px;border-radius:5px;background:currentColor;opacity:.85}
+
+  /* reveal panel */
+  .reveal{margin-top:14px;border-radius:13px;padding:15px;background:var(--bgPanel);
+    border:1.5px solid rgba(129,182,76,.4);opacity:0;transform:translateY(18px);transition:opacity .4s,transform .4s}
+  .reveal.show{opacity:1;transform:none}
+  .reveal .top{display:flex;align-items:center;gap:11px}
+  .reveal .mark{font-size:28px}
+  .reveal .res{font-size:20px;font-weight:800}
+  .reveal .delta{font-size:15px;font-weight:800}
+  .promo{margin-top:11px;display:flex;align-items:center;gap:8px;background:rgba(129,182,76,.14);
+    border:1px solid rgba(129,182,76,.4);border-radius:9px;padding:9px 12px;font-size:12px;font-weight:800;color:var(--green);
+    opacity:0;transform:scale(.9)}
+  .promo.show{animation:pop .5s cubic-bezier(.2,1.3,.4,1) forwards}
+  .flame{display:inline-flex;align-items:center;gap:3px;margin-left:auto;font-size:13px;font-weight:800;color:var(--warn)}
+  .replay{margin-top:14px;text-align:center;font-size:12px;color:var(--t4)}
+  .replay button{font:inherit;font-weight:700;color:var(--green);background:none;border:none;cursor:pointer}
+
+  @keyframes pop{to{opacity:1;transform:none}}
+  @keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+  .shake{animation:shake .4s}
+  @keyframes bestpulse{0%{box-shadow:0 0 0 0 rgba(129,182,76,.5)}100%{box-shadow:0 0 0 16px rgba(129,182,76,0)}}
+  .pulse{animation:bestpulse .6s ease-out}
+  @keyframes bouncein{0%{transform:translateY(18px) scale(.96)}60%{transform:translateY(-4px) scale(1.02)}100%{transform:none}}
+</style>
+</head>
+<body>
+  <div class="switcher" id="sw">
+    <button data-j="restrained">Restrained</button>
+    <button data-j="arcade" class="on">Arcade</button>
+    <button data-j="cinematic">Cinematic</button>
+  </div>
+  <div class="hint">Tap a move (D is best) · then ↻ to replay · switch the juice level above</div>
+
+  <div class="phone">
+    <div class="screen" id="screen">
+      <canvas id="confetti"></canvas>
+      <div class="glowedge" id="glow"></div>
+      <div class="status mono"><span>9:41</span><span>● ● ●</span></div>
+      <div class="nav"><span class="kick">RENEWAL SAVES</span><span class="elo">· ELO 1,500</span></div>
+      <div class="scroll">
+        <div class="card" style="margin-bottom:14px">
+          <div class="micro" style="margin-bottom:7px">Buyer says</div>
+          <div class="buyer">"Usage hasn't grown the way we expected. I'm questioning whether the seat count still makes sense."</div>
+        </div>
+        <div class="micro" id="prompt" style="margin-bottom:9px">Choose your move</div>
+        <div id="cands"></div>
+        <div class="reveal" id="reveal">
+          <div class="top">
+            <span class="mark" id="mark">✓</span>
+            <div>
+              <div class="res" id="res" style="color:var(--green)">Solved</div>
+              <div><span class="delta mono" id="delta" style="color:var(--green)">+0 ELO</span>
+                   <span class="mono" id="rating" style="color:var(--t3);font-size:13px"></span></div>
+            </div>
+            <div class="flame" id="flame">🔥 <span id="streak">1d</span></div>
+          </div>
+          <div class="promo" id="promo">▲ PROMOTED → Class C</div>
+        </div>
+        <div class="replay"><button onclick="reset()">↻ Replay</button></div>
+      </div>
+      <div class="tabs">
+        <div class="tab"><div class="tdot"></div>Play</div>
+        <div class="tab on"><div class="tdot"></div>Puzzles</div>
+        <div class="tab"><div class="tdot"></div>Lessons</div>
+        <div class="tab"><div class="tdot"></div>Watch</div>
+        <div class="tab"><div class="tdot"></div>Profile</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  let juice = "arcade";
+  document.getElementById("sw").addEventListener("click", e=>{
+    if(e.target.dataset.j){ juice=e.target.dataset.j;
+      [...document.querySelectorAll("#sw button")].forEach(b=>b.classList.toggle("on", b.dataset.j===juice));
+      reset();
+    }
+  });
+
+  const CANDS = [
+    {l:"A", t:"Wait. Discuss at the renewal call in four months.", ev:-0.4},
+    {l:"B", t:"Offer a 30% seat-count reduction for the renewal.", ev:-0.6},
+    {l:"C", t:"Push back. Cite contractual seat minimums.", ev:-0.5},
+    {l:"D", t:"Surface the three teams that haven't onboarded yet. Map a 60-day activation plan and tie seat-count to the activation outcome.", ev:0.7},
+  ];
+  const candEl = document.getElementById("cands");
+  function render(){
+    candEl.innerHTML = CANDS.map((c,i)=>`
+      <div class="cand" data-i="${i}" onclick="pick(${i})">
+        <div class="ltr">${c.l}</div>
+        <div class="txt">${c.t}</div>
+        <div class="ev" style="color:${c.ev>0?'var(--green)':'var(--danger)'}">${c.ev>0?'+':''}${c.ev.toFixed(2)}</div>
+      </div>`).join("");
+  }
+  render();
+
+  let done=false;
+  function reset(){
+    done=false;
+    render();
+    document.getElementById("reveal").classList.remove("show");
+    document.getElementById("reveal").style.animation="";
+    document.getElementById("promo").classList.remove("show");
+    document.getElementById("glow").style.opacity=0;
+    document.getElementById("prompt").textContent="Choose your move";
+  }
+
+  function pick(i){
+    if(done) return; done=true;
+    const correct = i===3;
+    document.getElementById("prompt").textContent="Choose your move · results";
+    // mark candidates
+    [...document.querySelectorAll(".cand")].forEach((el,idx)=>{
+      el.classList.add("revealed");
+      if(idx===3) el.classList.add("best");
+      else el.classList.add("dim");
+      if(idx===i && !correct) el.classList.add("wrongpick");
+    });
+    const reveal=document.getElementById("reveal");
+    const mark=document.getElementById("mark"), res=document.getElementById("res");
+    const delta=document.getElementById("delta"), rating=document.getElementById("rating");
+    const promo=document.getElementById("promo"), flame=document.getElementById("flame");
+
+    if(correct){
+      mark.textContent="✓"; res.textContent="Solved"; res.style.color="var(--green)";
+      reveal.style.borderColor="rgba(129,182,76,.4)";
+      delta.style.color="var(--green)";
+    } else {
+      mark.textContent="✕"; res.textContent="Missed"; res.style.color="var(--danger)";
+      reveal.style.borderColor="rgba(164,38,44,.4)";
+      delta.style.color="var(--danger)";
+      flame.style.visibility="hidden";
+    }
+
+    // base show
+    setTimeout(()=>{ reveal.classList.add("show"); }, 150);
+
+    const finalDelta = correct? 60 : -28;
+    const finalRating = correct? 1560 : 1472;
+
+    if(correct){
+      // juice by level
+      const bestEl=document.querySelector('.cand.best');
+      if(juice!=="restrained"){ bestEl.classList.add("pulse"); }
+      if(juice==="cinematic"){
+        const g=document.getElementById("glow");
+        g.style.boxShadow="inset 0 0 60px 4px rgba(129,182,76,.45)";
+        g.style.opacity=1;
+        setTimeout(()=>g.style.opacity=0, 900);
+        reveal.style.animation="bouncein .6s cubic-bezier(.2,1.2,.4,1) .15s both";
+      }
+      if(juice==="arcade"||juice==="cinematic"){
+        // count up ELO + rating
+        countUp(delta, 0, finalDelta, "+","  ELO", 700);
+        countUp(rating, 1500, finalRating, "· "," ", 700);
+        confettiBurst(juice==="cinematic"?170:110);
+        // streak + promotion
+        setTimeout(()=>{ promo.classList.add("show"); }, 550);
+      } else {
+        delta.textContent="+60 ELO"; rating.textContent="· 1560";
+        setTimeout(()=>{ promo.classList.add("show"); }, 300);
+      }
+    } else {
+      // wrong: shake intensity by level
+      const wp=document.querySelector('.cand.wrongpick');
+      if(juice!=="restrained" && wp) wp.classList.add("shake");
+      delta.textContent="−28 ELO"; rating.textContent="· 1472";
+      promo.style.display="none";
+    }
+  }
+
+  function countUp(el, from, to, pre, post, dur){
+    const t0=performance.now();
+    function step(t){
+      const k=Math.min(1,(t-t0)/dur);
+      const e=1-Math.pow(1-k,3);
+      const v=Math.round(from+(to-from)*e);
+      el.textContent=`${pre}${v}${post}`;
+      if(k<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // confetti
+  const cv=document.getElementById("confetti"), cx=cv.getContext("2d");
+  function sizeCanvas(){ cv.width=cv.offsetWidth*2; cv.height=cv.offsetHeight*2; }
+  let parts=[];
+  function confettiBurst(n){
+    sizeCanvas();
+    const cols=["#81B64C","#9CC868","#E5A50A","#ffffff","#71A73F"];
+    const ox=cv.width*0.5, oy=cv.height*0.42;
+    for(let i=0;i<n;i++){
+      const a=Math.random()*Math.PI*2, sp=4+Math.random()*11;
+      parts.push({x:ox,y:oy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-4,g:0.28,
+        s:5+Math.random()*7,c:cols[i%cols.length],rot:Math.random()*6,vr:(.2-Math.random()*.4),life:1});
+    }
+    if(!raf) raf=requestAnimationFrame(tick);
+  }
+  let raf=null;
+  function tick(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    parts.forEach(p=>{ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.life-=0.012;
+      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.rot); cx.globalAlpha=Math.max(0,p.life);
+      cx.fillStyle=p.c; cx.fillRect(-p.s,-p.s*0.5,p.s*2,p.s); cx.restore(); });
+    parts=parts.filter(p=>p.life>0 && p.y<cv.height+40);
+    if(parts.length){ raf=requestAnimationFrame(tick); } else { cx.clearRect(0,0,cv.width,cv.height); raf=null; }
+  }
+</script>
+</body>
+</html>

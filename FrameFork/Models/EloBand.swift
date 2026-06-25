@@ -46,7 +46,11 @@ public enum EloBands {
 }
 
 public func titleForRating(_ rating: Double) -> EloBand {
-    let r = Int(rating.rounded())
+    // Clamp into the defined band range so a sub-zero rating (possible on a long
+    // loss streak — Glicko-2 has no floor) or a >9999 rating still resolves to a
+    // real band instead of falling through to the Patzer fallback. Also guards NaN.
+    let raw = rating.isFinite ? Int(rating.rounded()) : Int(initialRating)
+    let r = max(0, min(9999, raw))
     return EloBands.all.first { r >= $0.min && r <= $0.max } ?? EloBands.all[0]
 }
 

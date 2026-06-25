@@ -109,7 +109,7 @@ struct LessonIndexView: View {
                         Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 13))
                             .foregroundStyle(Color.brandGreen)
-                        Text("\(encounteredIds.count) of 35 techniques encountered via puzzle solves")
+                        Text("\(encounteredIds.count) of \(AtlasTechniques.all.count) techniques encountered via puzzle solves")
                             .font(.system(size: 12))
                             .foregroundStyle(Color.textMuted)
                     }

@@ -44,7 +44,11 @@ public enum Glicko2 {
     }
 
     static func E(_ mu: Double, _ muJ: Double, _ phiJ: Double) -> Double {
-        1.0 / (1 + exp(-g(phiJ) * (mu - muJ)))
+        // Clamp away from {0,1}. At the extremes E·(1−E) is 0, which would make
+        // vInverse 0 and v = +Inf, poisoning the whole update with NaN. Reachable
+        // only with pathological ratings, but cheap to make impossible.
+        let e = 1.0 / (1 + exp(-g(phiJ) * (mu - muJ)))
+        return min(max(e, 1e-12), 1 - 1e-12)
     }
 
     // Iterative volatility solver per Glickman 2013 §3.1.
@@ -64,7 +68,7 @@ public enum Glicko2 {
             B = log(delta * delta - phi * phi - v)
         } else {
             var k = 1
-            while f(a - Double(k) * tau) < 0 { k += 1 }
+            while f(a - Double(k) * tau) < 0 && k < 100 { k += 1 }
             B = a - Double(k) * tau
         }
         var fA = f(A)
@@ -108,7 +112,7 @@ public enum Glicko2 {
             let eMu = E(mu, o.muJ, o.phiJ)
             vInverse += gPhi * gPhi * eMu * (1 - eMu)
         }
-        let v = 1.0 / vInverse
+        let v = vInverse > 0 ? 1.0 / vInverse : 1e9   // guard; E-clamp keeps vInverse > 0
 
         var deltaSum: Double = 0
         for o in opp {

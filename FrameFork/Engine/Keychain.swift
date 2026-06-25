@@ -7,8 +7,11 @@ public enum Keychain {
     private static let service = "com.melmarion.FrameFork"
     private static let apiKeyAccount = "anthropic-api-key"
 
-    public static func saveAPIKey(_ key: String) {
-        guard let data = key.data(using: .utf8) else { return }
+    /// Returns true on success so callers can surface a real failure (e.g. device
+    /// locked, missing entitlement) instead of silently believing the key was saved.
+    @discardableResult
+    public static func saveAPIKey(_ key: String) -> Bool {
+        guard let data = key.data(using: .utf8) else { return false }
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,
@@ -19,7 +22,7 @@ public enum Keychain {
         var add = query
         add[kSecValueData as String] = data
         add[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-        SecItemAdd(add as CFDictionary, nil)
+        return SecItemAdd(add as CFDictionary, nil) == errSecSuccess
     }
 
     public static func loadAPIKey() -> String? {

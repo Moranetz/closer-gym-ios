@@ -15,9 +15,19 @@ struct SimpleReviewView: View {
     let evalCurve: [Double]
     let score: Double
     let durationSec: Int
+    @Binding var path: [PlayRoute]
+
+    init(payload: ReviewPayload, path: Binding<[PlayRoute]>) {
+        self.botMeta = payload.botMeta
+        self.intentTechniques = payload.intentTechniques
+        self.firedTechniques = payload.firedTechniques
+        self.evalCurve = payload.evalCurve
+        self.score = payload.score
+        self.durationSec = payload.durationSec
+        self._path = path
+    }
 
     @EnvironmentObject private var storage: Store
-    @Environment(\.dismiss) private var dismiss
     @State private var ratingDelta: Double? = nil
     @State private var newRating: Double = 1500
     @State private var didCommit: Bool = false
@@ -178,7 +188,7 @@ struct SimpleReviewView: View {
 
     private var doneButton: some View {
         PrimaryButton(title: "Done", symbol: "checkmark", isEnabled: true, style: .green) {
-            dismiss()
+            path.removeAll()   // pop the whole Play flow back to the bot ladder
         }
     }
 

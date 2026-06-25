@@ -19,6 +19,7 @@ import SwiftUI
 struct LiveGameView: View {
     let botMeta: BotMeta
     let intentTechniques: [String]
+    @Binding var path: [PlayRoute]
 
     @EnvironmentObject private var storage: Store
     @Environment(\.dismiss) private var dismiss
@@ -33,7 +34,6 @@ struct LiveGameView: View {
     @State private var errorMsg: String? = nil
     @State private var finishedScore: Double? = nil
     @State private var startedAt: Date = .init()
-    @State private var showReview: Bool = false
 
     @FocusState private var inputFocused: Bool
 
@@ -74,24 +74,12 @@ struct LiveGameView: View {
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(Color.warning)
                 }
-                .disabled(transcript.isEmpty)
+                .disabled(transcript.isEmpty || finishedScore != nil)
             }
         }
         .onAppear {
             startedAt = Date()
             inputFocused = true
-        }
-        .navigationDestination(isPresented: $showReview) {
-            if let score = finishedScore {
-                SimpleReviewView(
-                    botMeta: botMeta,
-                    intentTechniques: intentTechniques,
-                    firedTechniques: Array(firedTechniques),
-                    evalCurve: evalCurve,
-                    score: score,
-                    durationSec: Int(Date().timeIntervalSince(startedAt))
-                )
-            }
         }
     }
 
@@ -406,8 +394,16 @@ struct LiveGameView: View {
     }
 
     private func endGame(score: Double) {
+        guard finishedScore == nil else { return }   // ignore double-tap / re-entry
         finishedScore = score
         Haptics.shared.success()
-        showReview = true
+        path.append(.review(ReviewPayload(
+            botMeta: botMeta,
+            intentTechniques: intentTechniques,
+            firedTechniques: Array(firedTechniques),
+            evalCurve: evalCurve,
+            score: score,
+            durationSec: Int(Date().timeIntervalSince(startedAt))
+        )))
     }
 }

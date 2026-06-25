@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00802EC06DBB1CDFC130B1C4 /* Technique.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4656CCEBAF2A6A3A0C06D5E /* Technique.swift */; };
+		01C3DEEA4574A14B3975C2F3 /* ToneSynth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367178AF682AEF3AB90EE73E /* ToneSynth.swift */; };
 		0CF89FFE28F7F2648AC9E3F7 /* TitleBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AF68B176587F559D573D2D /* TitleBadge.swift */; };
 		286BA3068C922EC9976A180D /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8BB57E3FB6864C7A708E2 /* Persona.swift */; };
 		2A736994298DB6955952684F /* Eval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056B3740A3F2492B4F6C524B /* Eval.swift */; };
@@ -18,6 +19,7 @@
 		53397EB31B14122C79F03D04 /* LessonsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30522C6D9ED9B62E235E7FA3 /* LessonsTab.swift */; };
 		5AD61BDAC548DB5D5C6BA531 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF51837D9938CB27DBCA06A /* Typography.swift */; };
 		5D976DDBF3F8E34ADA246060 /* LessonDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE14E0DF3A2454CD557BFA8 /* LessonDetailView.swift */; };
+		6504A13D05F4CBEEE5465D06 /* Verdict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A591EE0BA7E2E2C42E4997D /* Verdict.swift */; };
 		6E8B7B1722158050C812D086 /* Glicko2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA42E309B90572DCBEC6D1E /* Glicko2.swift */; };
 		780295C7C1076EDF1E7F789B /* MasterGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F99EA89A6A442CAB4323825 /* MasterGames.swift */; };
 		7BB55540D0606FA7446CD1C0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D76D6BCD5101570A81000E /* OnboardingView.swift */; };
@@ -67,9 +69,11 @@
 		2EA4CE19DE6F32BA93926153 /* SimpleReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleReviewView.swift; sourceTree = "<group>"; };
 		30522C6D9ED9B62E235E7FA3 /* LessonsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonsTab.swift; sourceTree = "<group>"; };
 		34E8CA62FC1180E65C20551D /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
+		367178AF682AEF3AB90EE73E /* ToneSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneSynth.swift; sourceTree = "<group>"; };
 		3A6554761943D7E4BF1191E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3CF51837D9938CB27DBCA06A /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
 		4107B3D3078F39592C7E7F30 /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
+		4A591EE0BA7E2E2C42E4997D /* Verdict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verdict.swift; sourceTree = "<group>"; };
 		4FF23B5CE32E6033AFBC52FF /* TranscriptSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptSheet.swift; sourceTree = "<group>"; };
 		506BA14443F5E9E595F47DE2 /* MasterGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGame.swift; sourceTree = "<group>"; };
 		54908C328B57E350F6C5DD0F /* Transcript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transcript.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 				C0BD00C65FA0BD0FFB5DF2FC /* Keychain.swift */,
 				34E8CA62FC1180E65C20551D /* Notifications.swift */,
 				7BFAA185D4A03A07147683B7 /* Storage.swift */,
+				367178AF682AEF3AB90EE73E /* ToneSynth.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -270,6 +275,7 @@
 				4107B3D3078F39592C7E7F30 /* Puzzle.swift */,
 				D4656CCEBAF2A6A3A0C06D5E /* Technique.swift */,
 				54908C328B57E350F6C5DD0F /* Transcript.swift */,
+				4A591EE0BA7E2E2C42E4997D /* Verdict.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -391,10 +397,12 @@
 				00802EC06DBB1CDFC130B1C4 /* Technique.swift in Sources */,
 				3991F70424A8457A12415D66 /* Techniques.swift in Sources */,
 				0CF89FFE28F7F2648AC9E3F7 /* TitleBadge.swift in Sources */,
+				01C3DEEA4574A14B3975C2F3 /* ToneSynth.swift in Sources */,
 				4D7F3E3FE91B813D72BCC7D8 /* Transcript.swift in Sources */,
 				7BB7C66619F79EA2E6AA3CBC /* TranscriptSheet.swift in Sources */,
 				C7BC7E773E65BFCA31E36964 /* Transcripts.swift in Sources */,
 				5AD61BDAC548DB5D5C6BA531 /* Typography.swift in Sources */,
+				6504A13D05F4CBEEE5465D06 /* Verdict.swift in Sources */,
 				8E73E47A51A6098270FF0AC7 /* WatchTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

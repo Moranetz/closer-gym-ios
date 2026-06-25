@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame & Fork — Weakness Report mockups</title>
+<style>
+  :root{
+    --bgPage:#262420; --bgPanel:#312E2B; --bgRail:#272522;
+    --green:#81B64C; --greenDeep:#71A73F;
+    --border:#1B1A19; --borderStrong:#3D3A37;
+    --t1:#ffffff; --t2:#C9C8C5; --t3:#9B9893; --t4:#6F6D6A;
+    --danger:#A4262C; --warn:#E5A50A;
+  }
+  *{box-sizing:border-box; -webkit-font-smoothing:antialiased; margin:0; padding:0}
+  body{
+    background:#15140f; color:var(--t1);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,sans-serif;
+    padding:32px; display:flex; gap:28px; flex-wrap:wrap; justify-content:center; align-items:flex-start;
+  }
+  .col{display:flex; flex-direction:column; align-items:center; gap:12px}
+  .caption{font-size:13px; color:var(--t3); letter-spacing:.3px; font-weight:600}
+  .caption b{color:var(--green)}
+  /* iPhone frame */
+  .phone{
+    width:300px; height:650px; border-radius:42px; background:#000;
+    padding:9px; box-shadow:0 24px 60px rgba(0,0,0,.6), inset 0 0 0 1px #2a2a2a;
+  }
+  .screen{
+    width:100%; height:100%; border-radius:34px; overflow:hidden; background:var(--bgPage);
+    position:relative; display:flex; flex-direction:column;
+  }
+  .status{height:30px; display:flex; align-items:center; justify-content:space-between; padding:0 22px 0 24px; font-size:12px; font-weight:700; color:var(--t1)}
+  .nav{padding:6px 18px 2px; display:flex; align-items:center; gap:10px}
+  .nav .big{font-size:26px; font-weight:800; letter-spacing:-.5px}
+  .body{flex:1; overflow:hidden; padding:8px 16px 0}
+  .kicker{font-size:10px; font-weight:800; letter-spacing:1.1px; text-transform:uppercase; color:var(--t3)}
+  .kicker.g{color:var(--green)}
+  .card{background:var(--bgPanel); border:1px solid var(--border); border-radius:12px}
+  .mono{font-variant-numeric:tabular-nums; font-feature-settings:"tnum"}
+  /* tab bar */
+  .tabs{height:54px; border-top:1px solid var(--border); display:flex; justify-content:space-around; align-items:center; padding-bottom:6px; background:rgba(38,36,32,.85)}
+  .tab{display:flex; flex-direction:column; align-items:center; gap:3px; font-size:9px; color:var(--t4); font-weight:600}
+  .tab.on{color:var(--green)}
+  .dot{width:18px;height:18px;border-radius:5px;background:currentColor;opacity:.85}
+
+  /* shared bar */
+  .track{height:7px; border-radius:4px; background:var(--bgRail); overflow:hidden; border:1px solid var(--border)}
+  .fill{height:100%; border-radius:4px}
+  .pct{font-size:15px; font-weight:800; letter-spacing:-.2px}
+</style>
+</head>
+<body>
+
+<!-- ============ V1 — ranked accuracy bars ============ -->
+<div class="col">
+  <div class="phone"><div class="screen">
+    <div class="status mono"><span>9:41</span><span>● ● ●</span></div>
+    <div class="nav"><span class="big">Weak spots</span></div>
+    <div class="body">
+      <div class="kicker" style="margin:2px 0 10px">Accuracy by theme · weakest first</div>
+      <!-- rows -->
+      <div id="v1rows"></div>
+      <div class="card" style="margin-top:14px; padding:13px 14px; display:flex; align-items:center; gap:10px; border-color:#2a3a20; background:linear-gradient(135deg,#2a3320,#262420)">
+        <div style="width:30px;height:30px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#1c2412;font-weight:900;font-size:15px">↻</div>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:700">Drill your weakest theme</div>
+          <div style="font-size:11px;color:var(--t3)">7 Procurement positions queued</div>
+        </div>
+        <div style="font-size:18px;color:var(--t4)">›</div>
+      </div>
+    </div>
+    <div class="tabs">
+      <div class="tab"><div class="dot"></div>Play</div>
+      <div class="tab on"><div class="dot"></div>Puzzles</div>
+      <div class="tab"><div class="dot"></div>Lessons</div>
+      <div class="tab"><div class="dot"></div>Watch</div>
+      <div class="tab"><div class="dot"></div>Profile</div>
+    </div>
+  </div></div>
+  <div class="caption"><b>V1</b> · ranked bars + drill CTA</div>
+</div>
+
+<!-- ============ V2 — hero weakest + form row ============ -->
+<div class="col">
+  <div class="phone"><div class="screen">
+    <div class="status mono"><span>9:41</span><span>● ● ●</span></div>
+    <div class="nav"><span class="big">Form</span></div>
+    <div class="body">
+      <!-- hero weakest -->
+      <div class="card" style="padding:16px; overflow:hidden; position:relative; border-color:#3a2326; background:linear-gradient(135deg,#33232a,#262420)">
+        <div style="position:absolute;right:0;top:0;bottom:0;width:5px;background:var(--danger)"></div>
+        <div class="kicker" style="color:#d98a8f">Weakest theme</div>
+        <div style="font-size:21px;font-weight:800;margin:6px 0 2px">Procurement gauntlet</div>
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <span class="pct mono" style="font-size:34px;color:var(--danger)">42%</span>
+          <span style="font-size:12px;color:var(--t3)">5 of 12 · vs 78% overall</span>
+        </div>
+        <div style="margin-top:12px;background:var(--green);color:#1c2412;font-weight:800;font-size:13px;border-radius:9px;padding:9px;text-align:center">→ Drill 7 positions</div>
+      </div>
+      <div class="kicker" style="margin:16px 0 8px">Every theme</div>
+      <div id="v2rows" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+    </div>
+    <div class="tabs">
+      <div class="tab"><div class="dot"></div>Play</div>
+      <div class="tab"><div class="dot"></div>Puzzles</div>
+      <div class="tab"><div class="dot"></div>Lessons</div>
+      <div class="tab"><div class="dot"></div>Watch</div>
+      <div class="tab on"><div class="dot"></div>Profile</div>
+    </div>
+  </div></div>
+  <div class="caption"><b>V2</b> · hero weakest + compact grid</div>
+</div>
+
+<!-- ============ V3 — misses banner + list ============ -->
+<div class="col">
+  <div class="phone"><div class="screen">
+    <div class="status mono"><span>9:41</span><span>● ● ●</span></div>
+    <div class="nav"><span class="big">Review</span></div>
+    <div class="body">
+      <!-- misses banner: spaced repetition -->
+      <div class="card" style="padding:14px; border-color:#4a3a12; background:linear-gradient(135deg,#3a2f10,#262420); display:flex;align-items:center;gap:12px">
+        <div style="font-size:24px">🔁</div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:800">Review your misses</div>
+          <div style="font-size:11px;color:var(--t3)">5 positions you got wrong · oldest first</div>
+        </div>
+        <div style="background:var(--warn);color:#241c02;font-weight:800;font-size:12px;border-radius:8px;padding:7px 11px">Start</div>
+      </div>
+      <div class="kicker" style="margin:16px 0 8px">Accuracy by theme</div>
+      <div id="v3rows"></div>
+    </div>
+    <div class="tabs">
+      <div class="tab"><div class="dot"></div>Play</div>
+      <div class="tab on"><div class="dot"></div>Puzzles</div>
+      <div class="tab"><div class="dot"></div>Lessons</div>
+      <div class="tab"><div class="dot"></div>Watch</div>
+      <div class="tab"><div class="dot"></div>Profile</div>
+    </div>
+  </div></div>
+  <div class="caption"><b>V3</b> · spaced-repetition banner + list</div>
+</div>
+
+<script>
+  // Sample data — weakest first
+  const themes = [
+    {name:"Procurement gauntlet", correct:5, total:12, tint:"#A4262C"},
+    {name:"Multi-stakeholder",     correct:6, total:11, tint:"#5B8DEF"},
+    {name:"Endgame studies",       correct:7, total:11, tint:"#9B7FE0"},
+    {name:"Stall / silence",       correct:8, total:11, tint:"#4FB0A8"},
+    {name:"Renewal saves",         correct:9, total:11, tint:"#E5A50A"},
+    {name:"Cold opens",            correct:12, total:14, tint:"#6FA8DC"},
+    {name:"Budget objections",     correct:13, total:14, tint:"#E5A50A"},
+  ];
+  const rate = t => Math.round(100*t.correct/t.total);
+  const barColor = r => r<55 ? "#A4262C" : r<75 ? "#E5A50A" : "#81B64C";
+
+  // V1 ranked bars
+  document.getElementById("v1rows").innerHTML = themes.map(t=>{
+    const r=rate(t);
+    return `<div style="margin-bottom:13px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+        <span style="font-size:13px;font-weight:600;color:#e9e8e5">${t.name}</span>
+        <span class="pct mono" style="color:${barColor(r)}">${r}%</span>
+      </div>
+      <div class="track"><div class="fill" style="width:${r}%;background:${barColor(r)}"></div></div>
+      <div style="font-size:10px;color:var(--t4);margin-top:3px">${t.correct} of ${t.total} solved</div>
+    </div>`;
+  }).join("");
+
+  // V2 compact grid
+  document.getElementById("v2rows").innerHTML = themes.map(t=>{
+    const r=rate(t);
+    return `<div class="card" style="padding:10px 11px">
+      <div style="font-size:10px;color:var(--t3);font-weight:600;line-height:1.2;height:24px">${t.name}</div>
+      <div style="display:flex;align-items:baseline;gap:5px;margin:2px 0 6px">
+        <span class="pct mono" style="color:${barColor(r)}">${r}%</span>
+        <span class="mono" style="font-size:9px;color:var(--t4)">${t.correct}/${t.total}</span>
+      </div>
+      <div class="track" style="height:5px"><div class="fill" style="width:${r}%;background:${barColor(r)}"></div></div>
+    </div>`;
+  }).join("");
+
+  // V3 list (compact rows)
+  document.getElementById("v3rows").innerHTML = themes.map(t=>{
+    const r=rate(t);
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span style="width:3px;height:26px;border-radius:2px;background:${t.tint};opacity:.8"></span>
+      <span style="flex:1;font-size:13px;color:#e9e8e5;font-weight:600">${t.name}</span>
+      <div class="track" style="width:64px"><div class="fill" style="width:${r}%;background:${barColor(r)}"></div></div>
+      <span class="pct mono" style="width:38px;text-align:right;color:${barColor(r)}">${r}%</span>
+    </div>`;
+  }).join("");
+</script>
+</body>
+</html>

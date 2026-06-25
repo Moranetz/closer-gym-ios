@@ -1,10 +1,15 @@
 import SwiftUI
 
 struct MasterGameViewer: View {
-    let game: MasterGame
-
+    // Mutable so "Next master game" swaps in-place instead of pushing an unbounded
+    // stack of viewers that the back button then has to walk through one by one.
+    @State private var game: MasterGame
     @State private var selectedTurn: Int? = nil
     @State private var showMoveList = false
+
+    init(game: MasterGame) {
+        _game = State(initialValue: game)
+    }
 
     private var operatorMoves: [(idx: Int, move: MasterMove)] {
         game.moves.enumerated().compactMap { i, m in m.role == .op ? (i, m) : nil }
@@ -25,6 +30,8 @@ struct MasterGameViewer: View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    Color.clear.frame(height: 0).id("mg-top")
+
                     headerCard
 
                     evalCurveCard
@@ -46,6 +53,9 @@ struct MasterGameViewer: View {
                             proxy.scrollTo("turn-\(id)", anchor: .center)
                         }
                     }
+                }
+                .onChange(of: game.id) { _, _ in
+                    proxy.scrollTo("mg-top", anchor: .top)
                 }
             }
             .background(Color.bgPage)
@@ -274,7 +284,9 @@ struct MasterGameViewer: View {
 
     private var actions: some View {
         HStack(spacing: 10) {
-            NavigationLink(destination: MasterGameViewer(game: MasterGames.get(nextGameId)!)) {
+            Button {
+                loadNext()
+            } label: {
                 Text("Next master game →")
                     .font(.system(size: 14, weight: .heavy, design: .rounded))
                     .kerning(0.3)
@@ -285,6 +297,13 @@ struct MasterGameViewer: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    private func loadNext() {
+        guard let next = MasterGames.get(nextGameId) else { return }
+        Haptics.shared.light()
+        selectedTurn = nil
+        withAnimation(.easeInOut(duration: 0.2)) { game = next }
     }
 }
 

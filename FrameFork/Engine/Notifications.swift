@@ -50,7 +50,7 @@ public enum DailyNotifications {
 
         let content = UNMutableNotificationContent()
         content.title = "Daily Drill"
-        content.body  = "30 seconds to solve. Keep your streak alive."
+        content.body  = "Today's drill is ready. Keep your streak alive."
         content.sound = .default
 
         var components = DateComponents()

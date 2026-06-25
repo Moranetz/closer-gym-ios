@@ -16,18 +16,53 @@ public final class Store: ObservableObject {
     private let gameKey = "framefork:games:v0.1"
 
     public init() {
-        if let data = defaults.data(forKey: puzzleKey),
-           let decoded = try? JSONDecoder().decode(PuzzleState.self, from: data) {
-            self.puzzleState = decoded
+        // Decode persisted state. If bytes EXIST but fail to decode (corruption or
+        // an incompatible schema), preserve the raw bytes under a backup key instead
+        // of silently wiping the user's history, then start fresh.
+        if let data = defaults.data(forKey: puzzleKey) {
+            if let decoded = try? JSONDecoder().decode(PuzzleState.self, from: data) {
+                self.puzzleState = decoded
+            } else {
+                defaults.set(data, forKey: puzzleKey + ":corrupt-backup")
+                self.puzzleState = PuzzleState()
+            }
         } else {
             self.puzzleState = PuzzleState()
         }
-        if let data = defaults.data(forKey: gameKey),
-           let decoded = try? JSONDecoder().decode(GameState.self, from: data) {
-            self.gameState = decoded
+        if let data = defaults.data(forKey: gameKey) {
+            if let decoded = try? JSONDecoder().decode(GameState.self, from: data) {
+                self.gameState = decoded
+            } else {
+                defaults.set(data, forKey: gameKey + ":corrupt-backup")
+                self.gameState = GameState()
+            }
         } else {
             self.gameState = GameState()
         }
+
+        // Reconcile a stale streak on launch: if the last daily was neither today
+        // nor yesterday, the streak is broken and must read as 0 everywhere — not
+        // just at the next solve. (Persisted on the next save.)
+        if let last = puzzleState.lastDailyDate {
+            let today = Self.todayKey()
+            if last != today && last != Self.yesterdayKey(today) {
+                puzzleState.currentStreak = 0
+            }
+        }
+    }
+
+    /// The streak as it should display *right now*. The stored `currentStreak` is
+    /// only refreshed at solve time; this stays correct between sessions.
+    public var effectiveCurrentStreak: Int {
+        guard let last = puzzleState.lastDailyDate else { return 0 }
+        let today = Self.todayKey()
+        return (last == today || last == Self.yesterdayKey(today)) ? puzzleState.currentStreak : 0
+    }
+
+    /// True once today's Daily Drill has been attempted (correct OR wrong). Used to
+    /// lock the daily to one attempt per calendar day.
+    public var dailyAttemptedToday: Bool {
+        puzzleState.lastDailyDate == Self.todayKey()
     }
 
     public func savePuzzleState() {
@@ -90,20 +125,24 @@ public final class Store: ObservableObject {
         var lastDailyDate = puzzleState.lastDailyDate
 
         if isDaily, let todayKey {
-            if correct {
-                let yesterday = Self.yesterdayKey(todayKey)
-                if lastDailyDate == yesterday || lastDailyDate == todayKey {
-                    currentStreak = lastDailyDate == todayKey ? currentStreak : currentStreak + 1
+            // Guard against a second scored attempt on the same calendar day. The UI
+            // locks the daily after one attempt, but this is the durable backstop so
+            // a re-entry can neither inflate nor zero a streak already settled today.
+            let alreadyAttemptedToday = (lastDailyDate == todayKey)
+            if !alreadyAttemptedToday {
+                if correct {
+                    let yesterday = Self.yesterdayKey(todayKey)
+                    currentStreak = (lastDailyDate == yesterday) ? currentStreak + 1 : 1
+                    longestStreak = max(longestStreak, currentStreak)
+                    if !solvedDailyDates.contains(todayKey) {
+                        solvedDailyDates.append(todayKey)
+                    }
                 } else {
-                    currentStreak = 1
+                    currentStreak = 0
                 }
-                longestStreak = max(longestStreak, currentStreak)
-                if !solvedDailyDates.contains(todayKey) {
-                    solvedDailyDates.append(todayKey)
-                }
+                // Stamp the attempt on BOTH outcomes so a failed daily counts as
+                // "used today" and can't be retried for a clean streak.
                 lastDailyDate = todayKey
-            } else {
-                currentStreak = 0
             }
         }
 
@@ -128,20 +167,71 @@ public final class Store: ObservableObject {
         puzzleState.solves.contains { $0.puzzleId == puzzleId && $0.correct }
     }
 
+    // MARK: - Training analytics
+    // Pure read-only views over `solves` — the data backbone for weakness reports,
+    // per-theme drills, and spaced-repetition review of misses. (See TRAINING-IMPROVEMENTS.md)
+
+    public struct ThemeStat: Identifiable, Sendable {
+        public let theme: PuzzleTheme
+        public let attempts: Int
+        public let correct: Int
+        public var rate: Double { attempts == 0 ? 0 : Double(correct) / Double(attempts) }
+        public var id: String { theme.rawValue }
+    }
+
+    /// Per-theme accuracy, weakest first — only themes the user has actually attempted.
+    public func themeStats() -> [ThemeStat] {
+        var byTheme: [PuzzleTheme: (attempts: Int, correct: Int)] = [:]
+        for solve in puzzleState.solves {
+            guard let theme = Puzzles.get(solve.puzzleId)?.theme else { continue }
+            var e = byTheme[theme] ?? (0, 0)
+            e.attempts += 1
+            if solve.correct { e.correct += 1 }
+            byTheme[theme] = e
+        }
+        return byTheme
+            .map { ThemeStat(theme: $0.key, attempts: $0.value.attempts, correct: $0.value.correct) }
+            .sorted { $0.rate < $1.rate }
+    }
+
+    /// Puzzles whose most-recent attempt was wrong (and not since re-solved), oldest miss
+    /// first — the queue for a spaced-repetition "review your misses" drill.
+    public var missedPuzzleIds: [String] {
+        var latest: [String: PuzzleSolve] = [:]
+        for s in puzzleState.solves {
+            if let cur = latest[s.puzzleId] {
+                if s.solvedAt > cur.solvedAt { latest[s.puzzleId] = s }
+            } else {
+                latest[s.puzzleId] = s
+            }
+        }
+        return latest.values
+            .filter { !$0.correct }
+            .sorted { $0.solvedAt < $1.solvedAt }
+            .map { $0.puzzleId }
+    }
+
+    /// `yyyy-MM-dd` in the user's LOCAL time zone. Using `ISO8601DateFormatter`
+    /// before defaulted to UTC, so for any user west of UTC the "day" flipped in
+    /// the afternoon — breaking one-daily-per-day, streaks, and the displayed date.
+    private static func dayFormatter() -> DateFormatter {
+        let f = DateFormatter()
+        f.calendar = Calendar(identifier: .gregorian)
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.timeZone = .current
+        f.dateFormat = "yyyy-MM-dd"
+        return f
+    }
+
     public static func todayKey(date: Date = Date()) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate]
-        return formatter.string(from: date)
+        dayFormatter().string(from: date)
     }
 
     public static func yesterdayKey(_ todayKey: String) -> String {
-        guard let date = ISO8601DateFormatter().date(from: todayKey + "T00:00:00Z") else {
-            return ""
-        }
+        let f = dayFormatter()
+        guard let date = f.date(from: todayKey) else { return "" }
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? date
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withFullDate]
-        return formatter.string(from: yesterday)
+        return f.string(from: yesterday)
     }
 }
 
@@ -154,6 +244,19 @@ public struct PuzzleState: Codable, Sendable {
     public var lastDailyDate: String? = nil
 
     public init() {}
+
+    // Tolerant decoding: missing keys fall back to defaults rather than failing the
+    // whole decode (Swift's synthesized decoder otherwise hard-fails on any added
+    // field, wiping the user's history on the next app update).
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        rating = (try? c.decodeIfPresent(GlickoState.self, forKey: .rating)) ?? GlickoState()
+        solves = (try? c.decodeIfPresent([PuzzleSolve].self, forKey: .solves)) ?? []
+        solvedDailyDates = (try? c.decodeIfPresent([String].self, forKey: .solvedDailyDates)) ?? []
+        currentStreak = (try? c.decodeIfPresent(Int.self, forKey: .currentStreak)) ?? 0
+        longestStreak = (try? c.decodeIfPresent(Int.self, forKey: .longestStreak)) ?? 0
+        lastDailyDate = (try? c.decodeIfPresent(String.self, forKey: .lastDailyDate)) ?? nil
+    }
 }
 
 public struct PuzzleSolve: Codable, Hashable, Sendable {
@@ -170,6 +273,12 @@ public struct GameState: Codable, Sendable {
     public var games: [GameRecord] = []
 
     public init() {}
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        rating = (try? c.decodeIfPresent(GlickoState.self, forKey: .rating)) ?? GlickoState()
+        games = (try? c.decodeIfPresent([GameRecord].self, forKey: .games)) ?? []
+    }
 }
 
 public struct GameRecord: Codable, Hashable, Sendable {

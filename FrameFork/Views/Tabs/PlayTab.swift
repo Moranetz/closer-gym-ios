@@ -1,19 +1,49 @@
 import SwiftUI
 
+/// Routes for the Play flow. Value-based navigation so the post-game review's
+/// "Done" can pop the whole stack back to the ladder in one transition instead
+/// of dismissing onto the now-dead finished game screen.
+enum PlayRoute: Hashable {
+    case preGame(BotMeta)
+    case live(BotMeta, [String])
+    case review(ReviewPayload)
+}
+
+struct ReviewPayload: Hashable {
+    let botMeta: BotMeta
+    let intentTechniques: [String]
+    let firedTechniques: [String]
+    let evalCurve: [Double]
+    let score: Double
+    let durationSec: Int
+}
+
 struct PlayTab: View {
     @EnvironmentObject private var storage: Store
     @State private var hasKey: Bool = Keychain.hasAPIKey()
+    @State private var path: [PlayRoute] = []
 
     var body: some View {
-        NavigationStack {
-            BotLadderView(hasKey: $hasKey)
+        NavigationStack(path: $path) {
+            BotLadderView(hasKey: $hasKey, path: $path)
                 .onAppear { hasKey = Keychain.hasAPIKey() }
+                .navigationDestination(for: PlayRoute.self) { route in
+                    switch route {
+                    case .preGame(let bot):
+                        PreGameView(botMeta: bot, path: $path)
+                    case .live(let bot, let intent):
+                        LiveGameView(botMeta: bot, intentTechniques: intent, path: $path)
+                    case .review(let payload):
+                        SimpleReviewView(payload: payload, path: $path)
+                    }
+                }
         }
     }
 }
 
 struct BotLadderView: View {
     @Binding var hasKey: Bool
+    @Binding var path: [PlayRoute]
     @EnvironmentObject private var storage: Store
 
     private let tiers: [(name: String, min: Int, max: Int)] = [
@@ -36,7 +66,7 @@ struct BotLadderView: View {
                     proLockedBanner
                 }
 
-                Text("Pick an opponent. 15 adversarial buyer personas, ELO 1200 to 2400. Beat one tier to unlock the next.")
+                Text("Pick an opponent. \(BotLadder.all.count) adversarial buyer personas, ELO 1200 to 2400. Beat one tier to unlock the next.")
                     .font(.system(size: 13))
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
@@ -62,7 +92,7 @@ struct BotLadderView: View {
                             VStack(spacing: 8) {
                                 ForEach(inTier) { bot in
                                     let unlocked = BotLadder.isUnlocked(bot, playerRating: playerRating) && hasKey
-                                    NavigationLink(destination: PreGameView(botMeta: bot)) {
+                                    NavigationLink(value: PlayRoute.preGame(bot)) {
                                         botRow(bot: bot, unlocked: unlocked)
                                     }
                                     .buttonStyle(.plain)
@@ -93,7 +123,7 @@ struct BotLadderView: View {
                 Text("Pro tier locked").font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
                 Spacer()
             }
-            Text("The bot ladder requires an Anthropic API key. Add yours in Settings to unlock all 15 personas. Each game costs roughly $0.50 on your key.")
+            Text("The bot ladder requires an Anthropic API key. Add yours in Settings to unlock all \(BotLadder.all.count) personas. Each game costs roughly $0.50 on your key.")
                 .font(.system(size: 13))
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)

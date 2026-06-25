@@ -1,6 +1,6 @@
 import Foundation
 
-/// 15 buyer personas. Verbatim port from closer-sparring's PERSONAS.md and
+/// 14 buyer personas. Verbatim port from closer-sparring's PERSONAS.md and
 /// the web src/lib/personas.ts. Each persona is a decomposed buyer model:
 /// stated criteria, hidden criteria, contraindicated and responsive Atlas
 /// techniques, persuasion-knowledge level, narrative arc, hidden curve ball.

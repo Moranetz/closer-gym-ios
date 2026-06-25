@@ -1,6 +1,6 @@
 import Foundation
 
-/// 35 Atlas-taxonomy techniques. Verbatim port of web src/lib/techniques.ts.
+/// 40 Atlas-taxonomy techniques. Verbatim port of web src/lib/techniques.ts (+ contrast).
 /// Each entry now carries the full Atlas record: id, name, cluster, mechanism,
 /// verdict, folklore risk, canonical source, primary failure mode,
 /// contraindication. Lessons detail view renders all of these.
@@ -23,6 +23,7 @@ public enum AtlasTechniques {
 
         // C · Framing
         Technique(id: "loss-framing",    name: "Loss-aversion framing",       cluster: .framing, mechanism: "Asymmetric weighting of losses vs gains; status-quo bias activated.", atlasVerdict: .wellStudied, folkloreRisk: .low, canonicalSource: "Tversky & Kahneman 1981; Challenger Sale 2011", primaryFailureMode: "Over-deployed fear-frame triggers reactance.", contraindication: "Promotion-focused buyers (regulatory-fit mismatch)."),
+        Technique(id: "contrast",        name: "Perceptual contrast",         cluster: .framing, mechanism: "A reference point set just before the target shifts how the target is judged — the same price reads as small after a larger anchor, large after a smaller one. Sequential, not absolute, evaluation.", atlasVerdict: .wellStudied, folkloreRisk: .lowMedium, canonicalSource: "Cialdini 1984 (contrast principle); Tversky & Kahneman 1974 (anchoring)", primaryFailureMode: "An implausible reference point reads as a manipulation rather than a comparison, and the contrast inverts into distrust.", contraindication: "Persuasion-knowledge-high buyers who recognize the staged comparison; unverifiable reference points."),
         Technique(id: "gain-framing",    name: "Gain framing",                cluster: .framing, mechanism: "Outcome-positive framing matches promotion-focus regulatory state.", atlasVerdict: .partiallyStudied, folkloreRisk: .medium, canonicalSource: "Higgins 1997", primaryFailureMode: "Heterogeneous by buyer's regulatory focus; not universal.", contraindication: "Prevention-focused buyers."),
         Technique(id: "regulatory-fit",  name: "Regulatory fit",              cluster: .framing, mechanism: "Matching buyer's regulatory focus (prevention vs promotion) to message frame increases fluency and persuasion.", atlasVerdict: .wellStudied, folkloreRisk: .low, canonicalSource: "Higgins 1997, 1998", primaryFailureMode: "Misdiagnosis of buyer's regulatory focus produces frame inversion.", contraindication: "Requires accurate buyer-read first."),
         Technique(id: "concrete-construal", name: "Concrete-vs-abstract framing", cluster: .framing, mechanism: "Psychologically-near framing matches near-construal of immediate decisions.", atlasVerdict: .wellStudied, folkloreRisk: .low, canonicalSource: "Trope & Liberman 2010; Voss 2016", primaryFailureMode: "Abstract framing at decision moment fails.", contraindication: "Early discovery where buyer needs abstract orientation."),

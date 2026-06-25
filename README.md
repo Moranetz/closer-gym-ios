@@ -10,10 +10,10 @@ Native iOS port of [closer-gym](https://github.com/Moranetz/closer-gym). Free ti
 
 ## What you can do
 
-- **Puzzles** — Daily Drill (deterministic per-date) + 100 hand-authored positions across 7 themes (budget / procurement / stall / renewal / multi-stakeholder / endgame / cold open). Pick one of 4 candidate moves in 30 seconds; instant reveal with eval scores per candidate, atlas tags on the best move, ELO change via Glicko-2, streak counter.
-- **Lessons** — 35-technique Atlas browser. Each lesson lists examples, contraindications, and the responsive-persona pattern.
+- **Puzzles** — Daily Drill (deterministic per-date) + 100 hand-authored positions across 7 themes (budget / procurement / stall / renewal / multi-stakeholder / endgame / cold open). Pick one of 4 candidate moves; instant reveal with eval scores per candidate, atlas tags on the best move, ELO change via Glicko-2, streak counter.
+- **Lessons** — 40-technique Atlas browser. Each lesson lists examples, contraindications, and the responsive-persona pattern.
 - **Watch** — 5 annotated master games in the styles of Voss, Klaff, Belfort, Cardone (a deliberately-annotated LOSS), and Burg. Eval-curve chart, per-move technique tags, sticky move-list sheet.
-- **Play (Pro)** — 15-persona bot ladder (ELO 1200–2400). Free-text live sparring with on-turn local Atlas detector, eval bar, end-of-game Glicko-2 rating update + intent-vs-fired ledger.
+- **Play (Pro)** — 14-persona bot ladder (ELO 1200–2400). Free-text live sparring with on-turn local Atlas detector, eval bar, end-of-game Glicko-2 rating update + intent-vs-fired ledger.
 - **Profile** — Three rating buckets (Game / Puzzle / Analysis), title progression (Patzer → Class D → … → Grandmaster Closer), shareable card.
 
 ## Stack
@@ -57,7 +57,7 @@ bundle exec fastlane release      # builds + uploads to TestFlight; the
                                   # ASC web UI.
 ```
 
-`Fastfile` uses manual signing via `ExportOptions.plist`. Team `Q242KWQD56`, bundle `com.melmarion.Frame & Fork`, profile `com.melmarion.Frame & Fork AppStore`.
+`Fastfile` uses manual signing via `ExportOptions.plist`. Team `Q242KWQD56`, bundle `com.moranetz.Frame & Fork`, profile `com.moranetz.Frame & Fork AppStore`.
 
 ## Architecture
 
@@ -85,8 +85,8 @@ Frame & Fork/
 │   ├── Notifications.swift         # daily-drill scheduler
 │   └── Storage.swift               # UserDefaults-backed persistence
 ├── Data/
-│   ├── Techniques.swift            # 35 Atlas techniques
-│   ├── Personas.swift              # 15 personas + BotLadder ELO map
+│   ├── Techniques.swift            # 40 Atlas techniques
+│   ├── Personas.swift              # 14 personas + BotLadder ELO map
 │   ├── Puzzles.swift               # 100 hand-authored positions
 │   ├── Transcripts.swift           # 13 sourced practitioner transcripts
 │   └── MasterGames.swift           # 5 annotated master games

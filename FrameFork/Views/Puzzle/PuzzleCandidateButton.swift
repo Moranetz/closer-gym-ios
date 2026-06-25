@@ -67,43 +67,19 @@ struct PuzzleCandidateButton: View {
             .background(Circle().fill(badgeColor))
     }
 
+    // One arbiter, no numbers: the move-quality glyph IS the rating (JUICE-DOCTRINE §1;
+    // PUZZLE-DOCTRINE §0.3 — never render numeric evals to the player). Same Verdict
+    // vocabulary as the reveal hero, so card and hero always agree.
     private var revealMeta: some View {
-        HStack(spacing: 8) {
-            evalChip
-            qualityGlyph
-            if isBest {
-                HStack(spacing: 4) {
-                    Image(systemName: "star.fill").font(.system(size: 10)).foregroundStyle(.brandGreen)
-                    Text("BEST MOVE")
-                        .font(.system(size: 10, weight: .heavy, design: .rounded))
-                        .foregroundStyle(.brandGreen)
-                        .kerning(0.6)
-                }
-            }
-        }
-    }
-
-    private var evalChip: some View {
-        let positive = candidate.eval > 0.15
-        let negative = candidate.eval < -0.15
-        let bg: Color = positive ? Color.brandGreen.opacity(0.18) : negative ? Color.danger.opacity(0.18) : Color.bgRail
-        let fg: Color = positive ? .brandGreen : negative ? .danger : .textMuted
-        return Text("\(candidate.eval >= 0 ? "+" : "")\(String(format: "%.2f", candidate.eval))")
-            .font(.system(size: 13, weight: .heavy, design: .rounded))
-            .monospacedDigit()
-            .foregroundStyle(fg)
-            .padding(.horizontal, 8).padding(.vertical, 2)
-            .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(bg))
-    }
-
-    @ViewBuilder
-    private var qualityGlyph: some View {
-        let q = classifyMove(candidate.eval)
-        if !q.glyph.isEmpty {
-            HStack(spacing: 4) {
-                Text(q.glyph).font(.system(size: 13, weight: .heavy)).foregroundStyle(q.color)
-                Text(q.label).font(.system(size: 11, weight: .semibold)).foregroundStyle(Color.textMuted)
-            }
+        let v = Verdict.from(pickedEval: candidate.eval, isBestPick: isBest)
+        return HStack(spacing: 6) {
+            Text(v.glyph)
+                .font(.system(size: 13, weight: .heavy, design: .rounded))
+                .foregroundStyle(v.color)
+            Text(isBest ? "BEST MOVE" : v.label.uppercased())
+                .font(.system(size: 10.5, weight: isBest ? .heavy : .semibold, design: .rounded))
+                .kerning(isBest ? 0.6 : 0.3)
+                .foregroundStyle(isBest ? Color.brandGreen : Color.textMuted)
         }
     }
 
