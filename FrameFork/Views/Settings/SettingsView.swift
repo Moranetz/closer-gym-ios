@@ -36,6 +36,10 @@ struct SettingsView: View {
                     }
                 }
 
+                section(title: "Your deals") {
+                    companyDealsCard
+                }
+
                 section(title: "Notifications") {
                     notificationsPlaceholder
                 }
@@ -146,6 +150,34 @@ struct SettingsView: View {
                     Text(subscriptions.isPro ? "Frame & Fork Pro active" : "Get Frame & Fork Pro")
                         .font(.system(size: 14, weight: .bold)).foregroundStyle(Color.textPrimary)
                     Text(subscriptions.isPro ? "Unlimited role-play and the AI coach." : "Unlock unlimited role-play and the AI coach.")
+                        .font(.system(size: 12)).foregroundStyle(Color.textMuted)
+                }
+                Spacer()
+                Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Color.textFaint)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(Color.bgPanel)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// "Train on your deals" — opens the company profile so role-play uses the team's real objections.
+    private var companyDealsCard: some View {
+        NavigationLink {
+            CompanyProfileView()
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: storage.companyProfile.isConfigured ? "target" : "scope")
+                    .font(.system(size: 18)).foregroundStyle(Color.brandGreen).frame(width: 28)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(storage.companyProfile.isConfigured ? "Trained on your deals" : "Train on your deals")
+                        .font(.system(size: 14, weight: .bold)).foregroundStyle(Color.textPrimary)
+                    Text(storage.companyProfile.isConfigured
+                         ? "Role-play buyers raise your real objections."
+                         : "Make role-play buyers argue your real objections, not a generic script.")
                         .font(.system(size: 12)).foregroundStyle(Color.textMuted)
                 }
                 Spacer()

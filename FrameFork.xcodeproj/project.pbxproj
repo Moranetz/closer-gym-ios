@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00802EC06DBB1CDFC130B1C4 /* Technique.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4656CCEBAF2A6A3A0C06D5E /* Technique.swift */; };
 		01C3DEEA4574A14B3975C2F3 /* ToneSynth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367178AF682AEF3AB90EE73E /* ToneSynth.swift */; };
+		054020AF5CEC241FF89F0B0A /* CompanyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A67D60E2C5A1F9135272F /* CompanyProfileView.swift */; };
 		0CF89FFE28F7F2648AC9E3F7 /* TitleBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AF68B176587F559D573D2D /* TitleBadge.swift */; };
 		286BA3068C922EC9976A180D /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8BB57E3FB6864C7A708E2 /* Persona.swift */; };
 		2A736994298DB6955952684F /* Eval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056B3740A3F2492B4F6C524B /* Eval.swift */; };
@@ -28,6 +29,7 @@
 		80F534EA9C2ED3740D38E32A /* Puzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4107B3D3078F39592C7E7F30 /* Puzzle.swift */; };
 		84AEE923EA3AF935BBBE9DF3 /* PreGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC59B171E990662163049DA /* PreGameView.swift */; };
 		894A4556B5C8A09FDD4CD9F6 /* BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1730A32AB636F304269C91 /* BrandColors.swift */; };
+		8BCEC6E9600481DAD026EAC3 /* CompanyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F048C2059E8C358EE8D1BD6 /* CompanyProfile.swift */; };
 		8E73E47A51A6098270FF0AC7 /* WatchTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0BD62F36AAD834CB5601B1 /* WatchTab.swift */; };
 		90269AD7AFE1345B393978D7 /* EvalCurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4531C78DA44C8B069C986 /* EvalCurveView.swift */; };
 		96FFEF6085A182F3A99B4325 /* PuzzleSolveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C993EB8D0414A4BD6195466D /* PuzzleSolveView.swift */; };
@@ -60,6 +62,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		032A67D60E2C5A1F9135272F /* CompanyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfileView.swift; sourceTree = "<group>"; };
 		056B3740A3F2492B4F6C524B /* Eval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eval.swift; sourceTree = "<group>"; };
 		0D647DDA23ED8176AE61BA42 /* Puzzles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzles.swift; sourceTree = "<group>"; };
 		12AF68B176587F559D573D2D /* TitleBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBadge.swift; sourceTree = "<group>"; };
@@ -76,6 +79,7 @@
 		367178AF682AEF3AB90EE73E /* ToneSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneSynth.swift; sourceTree = "<group>"; };
 		3A6554761943D7E4BF1191E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3CF51837D9938CB27DBCA06A /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		3F048C2059E8C358EE8D1BD6 /* CompanyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfile.swift; sourceTree = "<group>"; };
 		4107B3D3078F39592C7E7F30 /* Puzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Puzzle.swift; sourceTree = "<group>"; };
 		4A591EE0BA7E2E2C42E4997D /* Verdict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verdict.swift; sourceTree = "<group>"; };
 		4FF23B5CE32E6033AFBC52FF /* TranscriptSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptSheet.swift; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 		491DB06EF66EED836CC7A556 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				032A67D60E2C5A1F9135272F /* CompanyProfileView.swift */,
 				9DB6020005DEEB7F046566F3 /* PaywallView.swift */,
 				A2C0265462E2A8DACFAD7D45 /* SettingsView.swift */,
 			);
@@ -280,6 +285,7 @@
 		FF4931F358CD074CBCDB8803 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3F048C2059E8C358EE8D1BD6 /* CompanyProfile.swift */,
 				64695F2B243C569CBD43BD49 /* EloBand.swift */,
 				506BA14443F5E9E595F47DE2 /* MasterGame.swift */,
 				76D8BB57E3FB6864C7A708E2 /* Persona.swift */,
@@ -374,6 +380,8 @@
 			files = (
 				D89FCAC522BC1713432DBDC9 /* AnthropicClient.swift in Sources */,
 				894A4556B5C8A09FDD4CD9F6 /* BrandColors.swift in Sources */,
+				8BCEC6E9600481DAD026EAC3 /* CompanyProfile.swift in Sources */,
+				054020AF5CEC241FF89F0B0A /* CompanyProfileView.swift in Sources */,
 				B6AA390C5D183C11FDB34208 /* DetectorLocal.swift in Sources */,
 				D39721075AC70E7BBB40B8D6 /* EloBand.swift in Sources */,
 				2A736994298DB6955952684F /* Eval.swift in Sources */,

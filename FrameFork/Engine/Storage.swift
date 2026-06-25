@@ -10,10 +10,12 @@ public final class Store: ObservableObject {
 
     @Published public var puzzleState: PuzzleState
     @Published public var gameState: GameState
+    @Published public var companyProfile: CompanyProfile
 
     private let defaults = UserDefaults.standard
     private let puzzleKey = "framefork:puzzles:v0.1"
     private let gameKey = "framefork:games:v0.1"
+    private let companyKey = "framefork:company:v1"
 
     public init() {
         // Decode persisted state. If bytes EXIST but fail to decode (corruption or
@@ -38,6 +40,16 @@ public final class Store: ObservableObject {
             }
         } else {
             self.gameState = GameState()
+        }
+        if let data = defaults.data(forKey: companyKey) {
+            if let decoded = try? JSONDecoder().decode(CompanyProfile.self, from: data) {
+                self.companyProfile = decoded
+            } else {
+                defaults.set(data, forKey: companyKey + ":corrupt-backup")  // preserve typed deal data
+                self.companyProfile = CompanyProfile()
+            }
+        } else {
+            self.companyProfile = CompanyProfile()
         }
 
         // Reconcile a stale streak on launch: if the last daily was neither today
@@ -74,6 +86,12 @@ public final class Store: ObservableObject {
     public func saveGameState() {
         if let data = try? JSONEncoder().encode(gameState) {
             defaults.set(data, forKey: gameKey)
+        }
+    }
+
+    public func saveCompanyProfile() {
+        if let data = try? JSONEncoder().encode(companyProfile) {
+            defaults.set(data, forKey: companyKey)
         }
     }
 

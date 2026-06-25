@@ -161,6 +161,14 @@ This is the feature that makes the product defensible and relevant. Treat it as 
 **Acceptance:** an admin can go from zero to an approved, company-specific persona + a handful of
 reviewed puzzles in under ~15 minutes, and a rep's first session is visibly about their product.
 
+**SHIPPED (the safe front of this phase, no backend):** `CompanyProfile` + the "Train on your
+deals" capture (`CompanyProfileView`, Settings → Your deals) injects the team's product + real
+objections into the live buyer persona, so role-play argues their real deals today on the existing
+key. This is the relevance hook and the structured data the flywheel will collect. Deliberately NOT
+done autonomously: auto-*generating graded puzzles* (needs the §5c human review gate — wrong auto-
+keys destroy credibility) and the actual data sync to the server (needs the backend + explicit
+consent; the profile is on-device only today, and the UI says so).
+
 ---
 
 ## 6. Phase 3 — The retention engine: assignment + the trustworthy leaderboard

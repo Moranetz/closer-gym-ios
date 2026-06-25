@@ -77,3 +77,8 @@ new session. Add to it whenever a mistake repeats. Newest lessons at the top of 
   `Pro.storekit` config selected in Xcode (or ASC sandbox), verify products load, purchase,
   restore, and `isPro` flips. (Currently behind `FeatureFlags.subscriptionsEnabled = false`.)
 - The verdict-reveal **sound** (ToneSynth) needs a real device to actually hear.
+- The **"Train on your deals"** capture form (`CompanyProfileView`) and the relevance it produces
+  in role-play: the form is build-verified and follows the existing Settings-sheet patterns, but
+  the sim's lack of a11y labels made the gear→Settings→form tap unreliable to drive headlessly.
+  Visually confirm the form saves and that a configured profile makes the buyer raise the entered
+  objections (needs a key, since role-play is key-gated).

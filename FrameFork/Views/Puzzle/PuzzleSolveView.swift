@@ -18,7 +18,9 @@ struct PuzzleSolveView: View {
     // Reveal flow state
     @State private var pickedDisplayIdx: Int? = nil
     @State private var revealed = false
-    @State private var ratingChange: (delta: Double, newRating: Double, newStreak: Int)? = nil
+    // Element order matches Store.recordSolve's return so assignment doesn't implicitly reorder
+    // (that reorder is a deprecation warning → future error). Access is by label, so callers are unaffected.
+    @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int)? = nil
     @State private var shakeWrong = false
     @State private var transcriptOpen: Bool = false
     @State private var promotedTo: String? = nil   // set when this solve crosses a title band
@@ -169,7 +171,7 @@ struct PuzzleSolveView: View {
     // MARK: - Reveal panel
 
     @ViewBuilder
-    private func revealPanel(change: (delta: Double, newRating: Double, newStreak: Int), v: Verdict) -> some View {
+    private func revealPanel(change: (newRating: Double, delta: Double, newStreak: Int), v: Verdict) -> some View {
         let outcomeColor: Color = v.color
         let title = titleForRating(change.newRating)
 

@@ -360,7 +360,8 @@ struct LiveGameView: View {
             let reply = try await AnthropicClient.sendPersonaTurn(
                 persona: p,
                 history: Array(history),
-                operatorTurn: text
+                operatorTurn: text,
+                companyContext: storage.companyProfile.personaContext
             )
             let cleaned = reply.trimmingCharacters(in: .whitespacesAndNewlines)
             transcript.append(Turn(role: "buyer", text: cleaned.isEmpty ? "…" : cleaned, firedHere: []))
