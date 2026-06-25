@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProfileTab: View {
     @EnvironmentObject private var storage: Store
+    @Environment(\.openURL) private var openURL
 
     var body: some View {
         NavigationStack {
@@ -47,6 +48,41 @@ struct ProfileTab: View {
         }
     }
 
+    /// Subtle, LinkedIn-direct flex: opens LinkedIn's post composer pre-filled with the rep's
+    /// real rating + title (the image-card share via the toolbar covers the visual flex). The URL
+    /// opens the LinkedIn app via universal link if installed, else LinkedIn on the web — either
+    /// way it functions. (Verified: well-formed URL via URLComponents; the text pre-fill is
+    /// LinkedIn's composer behavior — confirm the pre-fill on a real device.)
+    @ViewBuilder
+    private var addToLinkedInLink: some View {
+        if let url = linkedInShareURL() {
+            Button {
+                Haptics.shared.light()
+                openURL(url)
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "arrow.up.forward").font(.system(size: 10, weight: .bold))
+                    Text("Add to LinkedIn").font(.system(size: 12, weight: .semibold))
+                }
+                .foregroundStyle(Color(red: 0.04, green: 0.40, blue: 0.76))   // subtle LinkedIn blue
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 4)
+        }
+    }
+
+    private func linkedInShareURL() -> URL? {
+        let rating = Int(storage.puzzleState.rating.rating)
+        let title = titleForRating(storage.puzzleState.rating.rating).label
+        let text = "I'm sharpening my closing reflexes on Frame & Fork — currently \(title) (\(rating)). It pits you against AI buyers that fight back, then grades the craft. https://moranetz.github.io/apps/frame-fork/"
+        var comps = URLComponents(string: "https://www.linkedin.com/feed/")
+        comps?.queryItems = [
+            URLQueryItem(name: "shareActive", value: "true"),
+            URLQueryItem(name: "text", value: text),
+        ]
+        return comps?.url
+    }
+
     // MARK: - Cards
 
     private var identityCard: some View {
@@ -71,6 +107,8 @@ struct ProfileTab: View {
                 .font(.system(size: 12))
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()
+
+            addToLinkedInLink
         }
         .padding(.vertical, 20)
         .frame(maxWidth: .infinity)
