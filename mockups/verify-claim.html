@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame & Fork — work-email verification: 3 framings to pick</title>
+<style>
+  :root{
+    --bg:#211f1b; --panel:#2b2926; --rail:#1a1916; --panel2:#312e2b;
+    --green:#81B64C; --greenDeep:#6fa23f; --teal:#4FB7B0;
+    --t1:#F4F1EA; --t2:#C9C8C5; --t3:#9b9893; --t4:#6f6d6a;
+    --border:#1b1a19; --borderS:#3a3733;
+    --li:#0A66C2; --slack:#611f69;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;margin:0;padding:0}
+  body{position:relative;background:#0f0e0c;color:var(--t1);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+    padding:26px 18px 60px;display:flex;flex-direction:column;align-items:center}
+  h1{font-size:18px;font-weight:800;letter-spacing:-.2px}
+  .sub{font-size:12.5px;color:var(--t4);margin:6px 0 22px;max-width:720px;text-align:center;line-height:1.5}
+  .sub b{color:var(--t2)}
+  .row{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+  .col{width:300px;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .tag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--green)}
+  .cap{font-size:11.5px;color:var(--t3);line-height:1.55;width:288px}
+  .cap b{color:var(--t2)} .cap .d{color:var(--teal);font-weight:700}
+  .mono{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+  .phone{width:300px;height:620px;border-radius:42px;background:#000;padding:8px;
+    box-shadow:0 26px 70px rgba(15,10,4,.6),inset 0 0 0 1px #2a2a2a;position:relative}
+  .scr{width:100%;height:100%;border-radius:35px;overflow:hidden;position:relative;display:flex;flex-direction:column;
+    background:
+      radial-gradient(120% 70% at 80% 4%, rgba(129,182,76,.07), transparent 55%),
+      radial-gradient(120% 80% at 10% 98%, rgba(79,183,176,.05), transparent 50%),
+      var(--bg);}
+  .grain{position:absolute;inset:0;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .top{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:11px;font-weight:700;color:var(--t2)}
+  .body{flex:1;overflow:hidden;padding:6px 18px 16px;position:relative}
+
+  /* shared bits */
+  .kick{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--green)}
+  .win{background:linear-gradient(180deg,#34302c,#2a2723);border:.5px solid rgba(244,241,234,.08);border-radius:14px;
+    box-shadow:inset 0 .5px 0 rgba(244,241,234,.12),0 6px 18px rgba(15,10,4,.35);padding:14px}
+  .verdict{display:flex;align-items:center;gap:10px}
+  .vg{font-size:26px;font-weight:800}
+  .vl{font-size:16px;font-weight:800;letter-spacing:-.3px}
+  .vsub{font-size:10.5px;color:var(--t3)}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:11px;font-size:13.5px;font-weight:800;padding:12px;cursor:pointer;border:none;width:100%}
+  .btn.primary{background:var(--green);color:#15200c}
+  .btn.li{background:var(--li);color:#fff}
+  .btn.slack{background:#fff;color:#1d1c1d}
+  .btn.ghost{background:transparent;color:var(--t3);font-weight:700;font-size:12px;padding:7px}
+  .field{display:flex;align-items:center;gap:8px;background:var(--rail);border:1px solid var(--borderS);border-radius:11px;padding:11px 12px;margin-bottom:9px}
+  .field input{background:none;border:none;outline:none;color:var(--t1);font-size:13.5px;width:100%;font-family:inherit}
+  .field .at{font-size:12.5px;color:var(--t4);font-weight:700}
+  .lockrow{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--t4);justify-content:center;margin-top:10px}
+
+  /* locked board (blurred tease) */
+  .board{display:flex;flex-direction:column;gap:7px}
+  .brow{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+  .brow .rk{font-size:12px;font-weight:800;color:var(--t3);width:18px;text-align:center}
+  .brow .nm{font-size:12.5px;font-weight:700;color:var(--t1);flex:1}
+  .brow .rt{font-size:13px;font-weight:300;color:var(--t1)}
+  .brow.you{border-color:var(--green);background:rgba(129,182,76,.10)}
+  .blur{filter:blur(5px);opacity:.65;pointer-events:none}
+  .swap{transition:opacity .4s}
+  .hide{display:none}
+
+  /* LinkedIn card */
+  .licard{background:#fff;color:#1d1c1d;border-radius:12px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.4)}
+  .lihdr{height:46px;background:linear-gradient(120deg,#0a66c2,#0a4a8c)}
+  .libody{padding:12px 14px 14px;margin-top:-22px}
+  .liav{width:44px;height:44px;border-radius:50%;background:#15200c;border:3px solid #fff;display:flex;align-items:center;justify-content:center;color:var(--green);font-weight:800;font-size:16px}
+  .liname{font-size:14px;font-weight:800;margin-top:6px;color:#1d1c1d}
+  .liti{font-size:11px;color:#5b5b5b}
+  .libadge{display:inline-flex;align-items:center;gap:6px;background:#eef6ee;color:#2f6b1f;border:1px solid #cfe5cf;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:800;margin-top:9px}
+  .listat{display:flex;gap:14px;margin-top:10px}
+  .listat div{font-size:10px;color:#5b5b5b}
+  .listat b{display:block;font-size:15px;color:#1d1c1d;font-weight:300}
+
+  /* slack broadcast */
+  .slackwin{background:#fff;border-radius:10px;overflow:hidden}
+  .slacktop{background:#3f0e40;color:#fff;font-size:11px;font-weight:700;padding:8px 11px;display:flex;align-items:center;gap:7px}
+  .slackmsg{padding:11px;color:#1d1c1d;display:flex;gap:9px}
+  .slackav{width:30px;height:30px;border-radius:7px;background:#15200c;color:var(--green);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex-shrink:0}
+  .slacktxt{font-size:12px;line-height:1.4}
+  .slacktxt .u{font-weight:800;color:#1d1c1d}
+  .slackrk{font-size:11px;color:#1264a3;font-weight:700;margin-top:3px}
+
+  .hint{margin-top:8px;font-size:10.5px;color:var(--t4);text-align:center}
+</style>
+</head>
+<body>
+  <h1>"Claim your status" — work-email verification, 3 framings</h1>
+  <div class="sub">All three ride a <b>just-earned win</b> (never a signup wall), capture <b>work email → company</b> Slack-style, and are genuinely valuable to the ego type. Tap <b>the button on each</b> to see where it leads. Pick the framing.</div>
+
+  <div class="row">
+
+    <!-- ========== A: CLAIM YOUR RANK (in-group) ========== -->
+    <div class="col">
+      <div class="tag">A · Claim your rank</div>
+      <div class="phone"><div class="scr">
+        <div class="grain"></div>
+        <div class="top mono"><span>9:41</span><span>● ● ●</span></div>
+        <div class="body">
+          <div class="swap" id="a-claim">
+            <div class="kick" style="margin-bottom:8px">◆ BEST · YOU JUST WON</div>
+            <div class="win" style="margin-bottom:14px">
+              <div class="verdict"><div class="vg" style="color:var(--green)">◆</div>
+                <div><div class="vl" style="color:var(--green)">Closed it</div>
+                <div class="vsub">Beat “not in this year’s budget” · 4 turns</div></div></div>
+            </div>
+            <div style="font-size:19px;font-weight:800;line-height:1.25;margin-bottom:6px">You're ranked <span style="color:var(--green)">#2</span> at Acme.</div>
+            <div style="font-size:12.5px;color:var(--t3);line-height:1.5;margin-bottom:12px">Verify your work email to claim it and see the whole board — the people you actually compete with.</div>
+            <div class="board blur" style="margin-bottom:14px">
+              <div class="brow"><span class="rk">1</span><span class="nm">D. Reyes</span><span class="rt mono">1,704</span></div>
+              <div class="brow you"><span class="rk">2</span><span class="nm">You</span><span class="rt mono">1,620</span></div>
+              <div class="brow"><span class="rk">3</span><span class="nm">M. Chen</span><span class="rt mono">1,588</span></div>
+            </div>
+            <div class="field"><span class="at">✉</span><input value="you@acme.com" readonly></div>
+            <button class="btn primary" onclick="show('a')">Claim my rank</button>
+            <div class="lockrow">🔒 Work email only · your team sees rank, never your misses</div>
+          </div>
+          <div class="swap hide" id="a-pay">
+            <div class="kick" style="margin-bottom:10px">ACME · CLOSER BOARD · THIS WEEK</div>
+            <div class="board" style="margin-bottom:12px">
+              <div class="brow"><span class="rk">1</span><span class="nm">D. Reyes</span><span class="rt mono">1,704</span></div>
+              <div class="brow you"><span class="rk">2</span><span class="nm">You ▲1</span><span class="rt mono">1,620</span></div>
+              <div class="brow"><span class="rk">3</span><span class="nm">M. Chen</span><span class="rt mono">1,588</span></div>
+              <div class="brow"><span class="rk">4</span><span class="nm">J. Patel</span><span class="rt mono">1,540</span></div>
+              <div class="brow" style="opacity:.6"><span class="rk">5</span><span class="nm">+10 more</span><span class="rt mono"></span></div>
+            </div>
+            <div style="font-size:12.5px;color:var(--t2);line-height:1.5">You're <b style="color:var(--green)">84 points</b> from #1. Reyes practiced 6 reps this week.</div>
+            <button class="btn primary" style="margin-top:14px" onclick="hideP('a')">↺ back</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>Angle:</b> in-group rank. The locked board is the tease — he verifies to see where he stands vs. his actual team. <b>Captures:</b> work email → company. <span class="d">Lands in-app</span> (the team board).</div>
+    </div>
+
+    <!-- ========== B: VERIFIED CLOSER (LinkedIn credential) ========== -->
+    <div class="col">
+      <div class="tag">B · Verified Closer</div>
+      <div class="phone"><div class="scr">
+        <div class="grain"></div>
+        <div class="top mono"><span>9:41</span><span>● ● ●</span></div>
+        <div class="body">
+          <div class="swap" id="b-claim">
+            <div class="kick" style="margin-bottom:8px">‼ THE FORK · RARE</div>
+            <div class="win" style="margin-bottom:14px;border-color:rgba(79,183,176,.4)">
+              <div class="verdict"><div class="vg" style="color:var(--teal)">‼</div>
+                <div><div class="vl" style="color:var(--teal)">The Fork</div>
+                <div class="vsub">A concession that won on two fronts</div></div></div>
+            </div>
+            <div style="font-size:19px;font-weight:800;line-height:1.25;margin-bottom:6px">Make it official.</div>
+            <div style="font-size:12.5px;color:var(--t3);line-height:1.5;margin-bottom:14px">Turn this into a <b style="color:var(--t1)">verified</b> closer credential — the rating recruiters and your VP actually believe, because it's tied to your real identity.</div>
+            <button class="btn li" style="margin-bottom:9px" onclick="show('b')"><span style="font-weight:900">in</span> &nbsp;Verify with LinkedIn</button>
+            <button class="btn ghost" onclick="show('b')">or use work email</button>
+            <div class="lockrow">Verified pulls your real title &amp; company. Nothing posts without your tap.</div>
+          </div>
+          <div class="swap hide" id="b-pay">
+            <div class="kick" style="margin-bottom:10px">YOUR VERIFIED CREDENTIAL</div>
+            <div class="licard" style="margin-bottom:12px">
+              <div class="lihdr"></div>
+              <div class="libody">
+                <div class="liav">MM</div>
+                <div class="liname">Marion Moranetz</div>
+                <div class="liti">Account Executive · Acme</div>
+                <div class="libadge">✓ Verified Closer · Class A · 1,620</div>
+                <div class="listat">
+                  <div><b>1,620</b>rating</div>
+                  <div><b>Top 8%</b>this week</div>
+                  <div><b>41</b>objections beat</div>
+                </div>
+              </div>
+            </div>
+            <button class="btn li" onclick="alert('Shares to LinkedIn (mock)')"><span style="font-weight:900">in</span> &nbsp;Post to LinkedIn</button>
+            <button class="btn ghost" onclick="hideP('b')">↺ back</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>Angle:</b> portable credential / career flex. <b>Captures:</b> verified identity + company via <span class="d">Sign in with LinkedIn</span> (or work email). Lands as a <span class="d">LinkedIn-postable badge</span> — viral on his turf.</div>
+    </div>
+
+    <!-- ========== C: OWN THE BOARD (founder / Slack) ========== -->
+    <div class="col">
+      <div class="tag">C · Own the board</div>
+      <div class="phone"><div class="scr">
+        <div class="grain"></div>
+        <div class="top mono"><span>9:41</span><span>● ● ●</span></div>
+        <div class="body">
+          <div class="swap" id="c-claim">
+            <div class="kick" style="margin-bottom:8px">★ 3-WIN STREAK</div>
+            <div style="font-size:20px;font-weight:800;line-height:1.22;margin-bottom:6px">Be the first from <span style="color:var(--green)">Acme</span>.</div>
+            <div style="font-size:12.5px;color:var(--t3);line-height:1.5;margin-bottom:14px">No one from your company has claimed the board yet. Verify, and every rep who joins ranks <b style="color:var(--t1)">under you</b>.</div>
+            <div class="win" style="margin-bottom:14px;text-align:center;padding:18px">
+              <div style="font-size:30px;font-weight:300" class="mono" style="color:var(--green)">👑</div>
+              <div style="font-size:13px;font-weight:800;margin-top:4px">Founder of Acme's board</div>
+              <div style="font-size:10.5px;color:var(--t4);margin-top:2px">claimable for the next 6 days</div>
+            </div>
+            <div class="field"><span class="at">✉</span><input value="you@acme.com" readonly></div>
+            <button class="btn primary" onclick="show('c')">Claim Acme's board</button>
+            <div class="lockrow">🔒 You control who joins. Work email verifies you're really at Acme.</div>
+          </div>
+          <div class="swap hide" id="c-pay">
+            <div class="kick" style="margin-bottom:10px">YOU OWN ACME'S BOARD 👑</div>
+            <div style="font-size:12.5px;color:var(--t2);line-height:1.5;margin-bottom:12px">Pull your team in where they already work:</div>
+            <button class="btn slack" style="margin-bottom:10px" onclick="alert('Connects Slack (mock)')">
+              <span style="color:#611f69;font-weight:900">#</span> &nbsp;Connect Slack &amp; invite the team</button>
+            <div class="slackwin">
+              <div class="slacktop"># sales-floor</div>
+              <div class="slackmsg">
+                <div class="slackav">FF</div>
+                <div class="slacktxt"><span class="u">Frame & Fork</span> &nbsp;<span style="color:#717274">9:41 AM</span><br>
+                  You just beat a cold budget objection and took <b>#1 on Acme</b> 🏆
+                  <div class="slackrk">Acme board · 1 closer · be the one to beat →</div></div>
+              </div>
+            </div>
+            <button class="btn ghost" onclick="hideP('c')">↺ back</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>Angle:</b> founder / first-mover ownership + viral team pull. <b>Captures:</b> work email → company, then the whole team. Lands in <span class="d">Slack</span> where the team already lives (wins broadcast to the channel).</div>
+    </div>
+
+  </div>
+  <div class="hint">Premium-craft mock · FnF palette · system font. Verification always rides a win, never gates the door (see plan). Tap each button to drive it.</div>
+
+<script>
+  function show(k){ document.getElementById(k+'-claim').classList.add('hide'); document.getElementById(k+'-pay').classList.remove('hide'); }
+  function hideP(k){ document.getElementById(k+'-pay').classList.add('hide'); document.getElementById(k+'-claim').classList.remove('hide'); }
+  // deep-link a payoff state, e.g. #b-pay  (also lets the screenshot driver verify it)
+  (function(){ const h=(location.hash||'').replace('#',''); if(['a','b','c'].includes(h[0]) && h.endsWith('-pay')) show(h[0]); })();
+</script>
+</body>
+</html>
