@@ -74,7 +74,7 @@ struct LiveGameView: View {
                         .font(.system(size: 13, weight: .semibold))
                         .foregroundStyle(Color.warning)
                 }
-                .disabled(transcript.isEmpty || finishedScore != nil)
+                .disabled(transcript.isEmpty || finishedScore != nil || isAwaiting)
             }
         }
         .onAppear {

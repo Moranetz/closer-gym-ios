@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ProfileTab: View {
     @EnvironmentObject private var storage: Store
-    @Environment(\.openURL) private var openURL
 
     var body: some View {
         NavigationStack {
@@ -48,39 +47,34 @@ struct ProfileTab: View {
         }
     }
 
-    /// Subtle, LinkedIn-direct flex: opens LinkedIn's post composer pre-filled with the rep's
-    /// real rating + title (the image-card share via the toolbar covers the visual flex). The URL
-    /// opens the LinkedIn app via universal link if installed, else LinkedIn on the web — either
-    /// way it functions. (Verified: well-formed URL via URLComponents; the text pre-fill is
-    /// LinkedIn's composer behavior — confirm the pre-fill on a real device.)
+    /// Subtle "Add to LinkedIn": shares the rendered Closer Card image + a caption through the
+    /// native share sheet, where LinkedIn is one tap. This is the RELIABLE path — LinkedIn does
+    /// not support a prefilled-image deep link from a third-party app, and its /feed/?text= deep
+    /// link does not reliably populate the composer, so a URL-only link would be a dead-end flex.
+    /// The share sheet carries the actual rating card (the flex) and always works.
     @ViewBuilder
     private var addToLinkedInLink: some View {
-        if let url = linkedInShareURL() {
-            Button {
-                Haptics.shared.light()
-                openURL(url)
-            } label: {
+        let rating = storage.puzzleState.rating.rating
+        let streak = storage.effectiveCurrentStreak
+        let longest = storage.puzzleState.longestStreak
+        let solved = storage.puzzleState.solves.filter(\.correct).count
+        if let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
+            ShareLink(item: url,
+                      message: Text(linkedInCaption(rating: rating)),
+                      preview: SharePreview("Frame & Fork — \(titleForRating(rating).label)")) {
                 HStack(spacing: 5) {
                     Image(systemName: "arrow.up.forward").font(.system(size: 10, weight: .bold))
                     Text("Add to LinkedIn").font(.system(size: 12, weight: .semibold))
                 }
                 .foregroundStyle(Color(red: 0.04, green: 0.40, blue: 0.76))   // subtle LinkedIn blue
             }
-            .buttonStyle(.plain)
             .padding(.top, 4)
         }
     }
 
-    private func linkedInShareURL() -> URL? {
-        let rating = Int(storage.puzzleState.rating.rating)
-        let title = titleForRating(storage.puzzleState.rating.rating).label
-        let text = "I'm sharpening my closing reflexes on Frame & Fork — currently \(title) (\(rating)). It pits you against AI buyers that fight back, then grades the craft. https://moranetz.github.io/apps/frame-fork/"
-        var comps = URLComponents(string: "https://www.linkedin.com/feed/")
-        comps?.queryItems = [
-            URLQueryItem(name: "shareActive", value: "true"),
-            URLQueryItem(name: "text", value: text),
-        ]
-        return comps?.url
+    private func linkedInCaption(rating: Double) -> String {
+        let title = titleForRating(rating).label
+        return "I'm sharpening my closing reflexes on Frame & Fork — currently \(title) (\(Int(rating))). It pits you against AI buyers that fight back, then grades the craft. https://moranetz.github.io/apps/frame-fork/"
     }
 
     // MARK: - Cards

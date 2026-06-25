@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Master Study — redesign, 3 interaction models to pick</title>
+<style>
+  :root{
+    --bg:#211f1b; --panel:#2b2926; --rail:#1a1916; --panel2:#34302c;
+    --green:#81B64C; --teal:#4FB7B0; --amber:#E5A50A; --ox:#A4262C;
+    --t1:#F4F1EA; --t2:#C9C8C5; --t3:#9b9893; --t4:#6f6d6a; --border:#1b1a19; --borderS:#3a3733;
+  }
+  *{box-sizing:border-box;-webkit-font-smoothing:antialiased;margin:0;padding:0}
+  body{position:relative;background:#0f0e0c;color:var(--t1);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif;
+    padding:24px 16px 56px;display:flex;flex-direction:column;align-items:center}
+  h1{font-size:18px;font-weight:800;letter-spacing:-.2px}
+  .sub{font-size:12.5px;color:var(--t4);margin:6px 0 22px;max-width:740px;text-align:center;line-height:1.5}
+  .sub b{color:var(--t2)}
+  .row{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;align-items:flex-start}
+  .col{width:300px;display:flex;flex-direction:column;align-items:center;gap:11px}
+  .tag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--green)}
+  .cap{font-size:11.5px;color:var(--t3);line-height:1.55;width:288px}
+  .cap b{color:var(--t2)} .mono{font-variant-numeric:tabular-nums}
+
+  .phone{width:300px;height:628px;border-radius:42px;background:#000;padding:8px;
+    box-shadow:0 26px 70px rgba(15,10,4,.6),inset 0 0 0 1px #2a2a2a;position:relative}
+  .scr{width:100%;height:100%;border-radius:35px;overflow:hidden;position:relative;display:flex;flex-direction:column;
+    background:radial-gradient(120% 70% at 80% 4%, rgba(129,182,76,.06), transparent 55%), var(--bg);}
+  .grain{position:absolute;inset:0;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .top{height:30px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:11px;font-weight:700;color:var(--t2)}
+  .nav{padding:2px 16px 8px;display:flex;align-items:center;gap:8px}
+  .nav .who{font-size:12px;font-weight:800;color:var(--t1)}
+  .nav .prog{font-size:10px;font-weight:700;color:var(--t4);margin-left:auto}
+  /* momentum bar (replaces numeric eval) */
+  .mom{height:5px;margin:0 16px 8px;border-radius:3px;background:#1c1b17;overflow:hidden;position:relative}
+  .momf{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#6fa23f,var(--green));border-radius:3px;transition:width .7s cubic-bezier(.16,1,.3,1)}
+  .body{flex:1;overflow:hidden;padding:4px 16px 14px;position:relative}
+
+  .micro{font-size:9px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+  .buyer{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:11px 12px;margin-bottom:12px}
+  .buyer .bt{font-size:13.5px;font-style:italic;color:var(--t1);line-height:1.35}
+  .prompt{font-size:14px;font-weight:800;color:var(--t1);margin-bottom:10px}
+  .prompt span{color:var(--green)}
+
+  .opt{display:flex;gap:9px;align-items:flex-start;padding:11px;border-radius:11px;background:var(--panel);border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:.2s}
+  .opt:active{transform:scale(.99)}
+  .opt .ltr{width:19px;height:19px;border-radius:6px;background:var(--rail);border:1px solid var(--borderS);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--t2);flex-shrink:0}
+  .opt .ot{font-size:12.5px;color:var(--t2);line-height:1.34}
+  .opt.master{border-color:var(--teal);background:rgba(79,183,176,.12)}
+  .opt.master .ltr{background:var(--teal);color:#06201e;border-color:var(--teal)}
+  .opt.dim{opacity:.4}
+
+  .reveal{margin-top:4px;opacity:0;transform:translateY(10px);transition:.45s}
+  .reveal.show{opacity:1;transform:none}
+  .vhead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .vg{font-size:26px;font-weight:800}
+  .vl{font-size:17px;font-weight:800}
+  .why{font-size:12.5px;color:var(--t2);line-height:1.5;border-left:3px solid var(--teal);padding-left:10px}
+  .why b{color:var(--t1)}
+  .hide{display:none}
+
+  .btn{border:none;border-radius:11px;font-size:13px;font-weight:800;padding:11px;width:100%;cursor:pointer}
+  .btn.green{background:var(--green);color:#15200c}
+  .btn.ghost{background:var(--rail);color:var(--t2);border:1px solid var(--border)}
+  .ta{width:100%;background:var(--rail);border:1px solid var(--borderS);border-radius:11px;color:var(--t1);font:inherit;font-size:13px;padding:10px;min-height:64px;resize:none;margin-bottom:9px}
+  .cmp{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .cmp .lab{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase}
+  .cmp .box{font-size:12.5px;line-height:1.35;padding:9px 11px;border-radius:10px}
+  .scoreline{font-size:12px;color:var(--t3);margin-top:10px}
+  .scoreline b{color:var(--green)}
+</style>
+</head>
+<body>
+  <h1>Master Study — from "read the answer" to "think like the master"</h1>
+  <div class="sub">Same Voss deal, three interaction models. All: <b>predict before reveal</b>, the earned verdict (no numbers), <b>plain master voice</b> (not "operator/recipient"), a momentum bar not an eval chart. Tap each to drive it. Pick the model.</div>
+
+  <div class="row">
+
+    <!-- ===== A: GUESS THE MOVE (MC) ===== -->
+    <div class="col">
+      <div class="tag">A · Guess the move</div>
+      <div class="phone"><div class="scr">
+        <div class="grain"></div>
+        <div class="top mono"><span>9:41</span><span>● ● ●</span></div>
+        <div class="nav"><span class="who">Chris Voss</span><span class="prog">MOVE 6 / 9</span></div>
+        <div class="mom"><div class="momf" id="a-mom" style="width:52%"></div></div>
+        <div class="body">
+          <div class="micro">Procurement just said</div>
+          <div class="buyer"><div class="bt">"It's not in the FY26 budget. I'd have to pull from training or the hiring freeze — and neither flies with the board."</div></div>
+          <div class="prompt">You're <span>Voss</span>. What's your move?</div>
+          <div id="a-opts">
+            <div class="opt" onclick="aPick(0)"><div class="ltr">A</div><div class="ot">"What if we phased it so it lands in next year's budget?"</div></div>
+            <div class="opt" onclick="aPick(1)"><div class="ltr">B</div><div class="ot">"It sounds like taking this to the board feels like a fight you'd lose."</div></div>
+            <div class="opt" onclick="aPick(2)"><div class="ltr">C</div><div class="ot">"Given the ROI we mapped, it pays back inside a quarter."</div></div>
+          </div>
+          <div class="reveal" id="a-rev">
+            <div class="vhead"><div class="vg" style="color:var(--teal)">‼</div><div><div class="vl" style="color:var(--teal)">The Fork</div><div style="font-size:10px;color:var(--t4)">you matched Voss</div></div></div>
+            <div class="why">Voss doesn't argue the budget. He <b>labels the dread of the board fight</b> — so she stops defending the "no" and starts telling him what the board actually needs to hear. The objection becomes his information.</div>
+            <button class="btn green" style="margin-top:12px" onclick="aReset()">Next move →</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>Model:</b> multiple-choice — the master's real line hidden among plausible decoys. Commit → the earned verdict + plain why. Closest to chess.com "Guess the Move" + our puzzle engine. Free, no key.</div>
+    </div>
+
+    <!-- ===== B: CALL IT (free-text / Pro) ===== -->
+    <div class="col">
+      <div class="tag">B · Call it, then watch</div>
+      <div class="phone"><div class="scr">
+        <div class="grain"></div>
+        <div class="top mono"><span>9:41</span><span>● ● ●</span></div>
+        <div class="nav"><span class="who">Chris Voss</span><span class="prog">MOVE 6 / 9 · PRO</span></div>
+        <div class="mom"><div class="momf" style="width:52%"></div></div>
+        <div class="body">
+          <div class="micro">Procurement just said</div>
+          <div class="buyer"><div class="bt">"It's not in the FY26 budget. Neither training nor the hiring freeze flies with the board."</div></div>
+          <div class="prompt">Say it in <span>your</span> words — then see Voss's.</div>
+          <div id="b-pre">
+            <textarea class="ta" id="b-ta">It sounds like the board is the real wall here, not the number.</textarea>
+            <button class="btn green" onclick="bShow()">Reveal Voss's move</button>
+          </div>
+          <div class="reveal" id="b-rev">
+            <div class="cmp">
+              <div><div class="lab" style="color:var(--green)">You · close</div>
+                <div class="box" style="background:rgba(129,182,76,.10);border:1px solid rgba(129,182,76,.3);color:var(--t1)">"It sounds like the board is the real wall here, not the number."</div></div>
+              <div><div class="lab" style="color:var(--teal)">Voss</div>
+                <div class="box" style="background:rgba(79,183,176,.10);border:1px solid rgba(79,183,176,.3);color:var(--t1)">"It sounds like taking this to the board feels like a fight you'd lose."</div></div>
+            </div>
+            <div class="why" style="margin-top:10px">Same instinct — you found the board. Voss goes one layer deeper: he labels the <b>fear of losing the fight</b>, not just the obstacle. Naming the emotion is what makes her open up.</div>
+            <button class="btn green" style="margin-top:12px" onclick="bReset()">Next move →</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>Model:</b> free-text — you commit your line, then see the master's beside yours with the gap named (the live judge grades it). Most ambitious; the Pro tie-in. Highest skill transfer.</div>
+    </div>
+
+    <!-- ===== C: DIRECTOR'S CUT (fixed passive) ===== -->
+    <div class="col">
+      <div class="tag">C · Director's cut</div>
+      <div class="phone"><div class="scr">
+        <div class="grain"></div>
+        <div class="top mono"><span>9:41</span><span>● ● ●</span></div>
+        <div class="nav"><span class="who">Chris Voss</span><span class="prog" id="c-prog">MOVE 5 / 9</span></div>
+        <div class="mom"><div class="momf" id="c-mom" style="width:46%"></div></div>
+        <div class="body">
+          <div class="micro">Procurement</div>
+          <div class="buyer"><div class="bt">"It's not in the FY26 budget. Neither lever flies with the board."</div></div>
+          <div id="c-stage">
+            <div class="prompt" style="font-size:13px;color:var(--t3);font-weight:600">Voss's move is hidden. Reveal it when you've made your own read.</div>
+            <button class="btn ghost" onclick="cShow()">Reveal Voss's move</button>
+          </div>
+          <div class="reveal" id="c-rev">
+            <div class="micro" style="color:var(--teal)">Voss played · ◆ Best</div>
+            <div class="buyer" style="background:rgba(79,183,176,.10);border-color:rgba(79,183,176,.3)"><div class="bt" style="font-style:normal;font-weight:600">"It sounds like taking this to the board feels like a fight you'd lose."</div></div>
+            <div class="why">A label, not a counter-argument. He names the emotion under the objection, so she defends the deal <b>to him</b> instead of to her board.</div>
+            <button class="btn green" style="margin-top:12px" onclick="cReset()">Next move →</button>
+          </div>
+        </div>
+      </div></div>
+      <div class="cap"><b>Model:</b> the fixed passive read — for users who won't actively guess. Still progressive (one move at a time, why comes AFTER), plain voice, verdict glyph, momentum bar. No numeric eval. The "watch" fallback done right.</div>
+    </div>
+
+  </div>
+
+<script>
+  // A — multiple choice
+  function aPick(i){
+    const opts=document.querySelectorAll('#a-opts .opt');
+    opts.forEach((o,j)=>{ if(j===1)o.classList.add('master'); else o.classList.add('dim'); o.onclick=null; });
+    document.getElementById('a-mom').style.width = (i===1?'74%':'40%');
+    document.getElementById('a-rev').classList.add('show');
+    // if not the master move, swap verdict copy
+    if(i!==1){ const r=document.getElementById('a-rev'); r.querySelector('.vg').textContent='?'; r.querySelector('.vg').style.color='#E5A50A';
+      r.querySelector('.vl').textContent='Voss went deeper'; r.querySelector('.vl').style.color='#E5A50A';
+      r.querySelector('.vhead div div+div').textContent='his line was B'; }
+  }
+  function aReset(){ document.getElementById('a-rev').classList.remove('show'); const r=document.getElementById('a-rev');
+    r.querySelector('.vg').textContent='‼'; r.querySelector('.vg').style.color='var(--teal)';
+    r.querySelector('.vl').textContent='The Fork'; r.querySelector('.vl').style.color='var(--teal)';
+    r.querySelector('.vhead div div+div').textContent='you matched Voss';
+    document.getElementById('a-mom').style.width='52%';
+    document.querySelectorAll('#a-opts .opt').forEach((o,j)=>{ o.classList.remove('master','dim'); o.onclick=()=>aPick(j); }); }
+
+  // B — free text
+  function bShow(){ document.getElementById('b-pre').classList.add('hide'); document.getElementById('b-rev').classList.add('show'); }
+  function bReset(){ document.getElementById('b-pre').classList.remove('hide'); document.getElementById('b-rev').classList.remove('show'); }
+
+  // C — director's cut
+  function cShow(){ document.getElementById('c-stage').classList.add('hide'); document.getElementById('c-rev').classList.add('show'); document.getElementById('c-mom').style.width='66%'; }
+  function cReset(){ document.getElementById('c-stage').classList.remove('hide'); document.getElementById('c-rev').classList.remove('show'); document.getElementById('c-mom').style.width='46%'; }
+</script>
+</body>
+</html>

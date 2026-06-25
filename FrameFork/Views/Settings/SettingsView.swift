@@ -88,12 +88,16 @@ struct SettingsView: View {
             Button("Clear", role: .destructive) {
                 storage.puzzleState = PuzzleState()
                 storage.savePuzzleState()
+                storage.gameState = GameState()          // role-play transcripts + judgments
+                storage.saveGameState()
+                storage.companyProfile = CompanyProfile() // the team's product + objections (PII)
+                storage.saveCompanyProfile()
                 Keychain.deleteAPIKey()
                 hasKey = false
                 Haptics.shared.success()
             }
         } message: {
-            Text("Deletes puzzle solves, ratings, streaks, and your Pro tier API key from this device. Cannot be undone.")
+            Text("Deletes puzzle solves, ratings, streaks, role-play transcripts, your saved deal data, and your Pro tier API key from this device. Cannot be undone.")
         }
     }
 

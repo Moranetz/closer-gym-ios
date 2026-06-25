@@ -24,6 +24,9 @@ public final class SubscriptionStore: ObservableObject {
     private var updatesTask: Task<Void, Never>? = nil
 
     public init() {
+        // No StoreKit work until subscriptions are actually live — avoids a needless network
+        // round-trip at every launch while the feature is flagged off (and there are no products).
+        guard FeatureFlags.subscriptionsEnabled else { return }
         // Start the transaction listener BEFORE any purchase, so transactions that arrive
         // out-of-band — Ask-to-Buy approval, auto-renewals, a restore on another device,
         // refunds/revocations — are never missed. (Classic StoreKit mistake: only handling

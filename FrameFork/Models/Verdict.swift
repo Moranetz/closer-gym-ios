@@ -68,8 +68,9 @@ public enum Verdict: Sendable {
         switch self {
         case .fork:            return Color(red: 0.31, green: 0.72, blue: 0.69)   // cool teal — scarce
         case .sharp:           return Color(red: 0.36, green: 0.55, blue: 0.94)   // steel blue
-        case .best, .solid:    return .brandGreen
-        case .fine:            return .brandGreen
+        case .best:            return .brandGreenDeep   // the model's #1 — deepest green
+        case .solid:           return .brandGreen
+        case .fine:            return .brandGreen.opacity(0.7)   // reasonable, gave a little up
         case .loose, .slip:    return .warning
         case .missed:          return .textMuted
         case .tell:            return .danger
