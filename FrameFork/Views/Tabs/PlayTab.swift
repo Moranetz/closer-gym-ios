@@ -14,8 +14,9 @@ struct ReviewPayload: Hashable {
     let intentTechniques: [String]
     let firedTechniques: [String]
     let evalCurve: [Double]
-    let score: Double
+    let score: Double           // local eval-derived fallback score
     let durationSec: Int
+    let transcript: [StoredTurn]
 }
 
 struct PlayTab: View {

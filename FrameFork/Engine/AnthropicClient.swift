@@ -71,15 +71,37 @@ public enum AnthropicClient {
         history: [ChatMessage],
         operatorTurn: String
     ) async throws -> String {
-        guard let key = Keychain.loadAPIKey(), !key.isEmpty else {
-            throw ClientError.missingKey
-        }
-
         let system = buildPersonaSystemPrompt(persona)
         var messages = history
         messages.append(ChatMessage(role: "user", content: operatorTurn))
+        return try await postMessage(system: system, messages: messages, maxTokens: 600)
+    }
 
-        let body = RequestBody(model: model, max_tokens: 600, system: system, messages: messages)
+    /// Grade a finished role-play with a SEPARATE, BLIND, process-gated judge (DIAGNOSIS.md
+    /// P2-1). The judge sees ONLY the transcript + the buyer's role — never the live eval bar
+    /// or the rep's pre-registered intent — and grades CRAFT, not whether the buyer agreed.
+    /// Throws on any failure so the caller can fall back to the local eval-derived score.
+    public static func judgeGame(persona: Persona, transcript: [StoredTurn]) async throws -> RolePlayJudgment {
+        let system = buildJudgeSystemPrompt(persona)
+        let convo = formatTranscriptForJudge(transcript)
+        let raw = try await postMessage(
+            system: system,
+            messages: [ChatMessage(role: "user", content: convo)],
+            maxTokens: 1200
+        )
+        guard let judgment = parseJudgment(raw) else {
+            throw ClientError.decodingError("judge returned unparseable output")
+        }
+        return judgment
+    }
+
+    /// Shared POST to the Messages API with key check + transient-failure retry. Returns the
+    /// concatenated assistant text.
+    private static func postMessage(system: String, messages: [ChatMessage], maxTokens: Int) async throws -> String {
+        guard let key = Keychain.loadAPIKey(), !key.isEmpty else {
+            throw ClientError.missingKey
+        }
+        let body = RequestBody(model: model, max_tokens: maxTokens, system: system, messages: messages)
         var request = URLRequest(url: endpoint)
         request.httpMethod = "POST"
         request.timeoutInterval = 45
@@ -193,5 +215,52 @@ public enum AnthropicClient {
 
         You are this buyer. The operator is selling to you. Begin in the conversational state implied by your narrative arc.
         """
+    }
+
+    // MARK: - Judge (blind, process-gated)
+
+    private static func buildJudgeSystemPrompt(_ p: Persona) -> String {
+        return """
+        You are a demanding, evidence-based sales coach grading a rep's PERFORMANCE in a single practice conversation. You did not see any automated score, and you do not know which techniques the rep intended to use. Judge only what is in the transcript.
+
+        The rep was selling to this buyer:
+        - Role: \(p.role)
+        - Seniority: \(p.seniority)
+        - What the buyer said they wanted: \(p.decisionCriteriaStated)
+
+        NON-NEGOTIABLE GRADING RULES
+        - Grade the rep's CRAFT, not whether the buyer agreed. A buyer can cave to bad tactics, and a skilled rep can correctly walk away from an unwinnable deal. Do NOT reward a "yes" that was bought with pressure, manufactured urgency, or manipulation — mark it down.
+        - Be skeptical and specific. Anchor every judgement to the rep's actual words. Default to critical; reserve scores above 0.7 for genuinely strong craft, and above 0.85 for exceptional.
+        - PENALIZE: pressure, manufactured scarcity, talking over the buyer's stated concern, pitching before discovery, premature or assumptive closing, ignoring or steamrolling objections, manipulation.
+        - REWARD: genuine discovery and calibrated questions, listening and reflecting the buyer's own words, handling an objection by understanding it first, appropriate pacing, a commitment that was earned rather than extracted.
+
+        Score each criterion from 0.0 to 1.0: discovery, listening, objection_handling, control_and_pacing, close_discipline.
+        processScore = your holistic 0.0–1.0 grade of the rep's craft (NOT whether the buyer said yes).
+        Identify the single strongest operator turn and the single weakest, by their O-number, each with a one-line reason. If the conversation is too short to fairly pick one, use null.
+
+        Respond with ONLY a single JSON object — no markdown fences, no prose — in exactly this shape:
+        {"processScore":0.62,"verdict":"short label like Disciplined or Pushed too hard","summary":"one or two sentences of coaching","criteria":[{"name":"discovery","score":0.6,"note":"evidence"},{"name":"listening","score":0.5,"note":"evidence"},{"name":"objection_handling","score":0.4,"note":"evidence"},{"name":"control_and_pacing","score":0.7,"note":"evidence"},{"name":"close_discipline","score":0.5,"note":"evidence"}],"bestTurn":3,"bestTurnNote":"why","weakestTurn":5,"weakestTurnNote":"why"}
+        """
+    }
+
+    private static func formatTranscriptForJudge(_ turns: [StoredTurn]) -> String {
+        var lines: [String] = ["Transcript (O = the rep you are grading, B = the buyer):", ""]
+        var o = 0, b = 0
+        for t in turns {
+            if t.role == "operator" { o += 1; lines.append("O\(o) (rep): \(t.text)") }
+            else { b += 1; lines.append("B\(b) (buyer): \(t.text)") }
+        }
+        lines.append("")
+        lines.append("Grade the rep now. Return only the JSON object.")
+        return lines.joined(separator: "\n")
+    }
+
+    /// Extract the JSON object from the model's reply (tolerant of stray prose / code fences)
+    /// and decode it. Returns nil on any malformed output so the caller can fall back.
+    private static func parseJudgment(_ raw: String) -> RolePlayJudgment? {
+        guard let start = raw.firstIndex(of: "{"), let end = raw.lastIndex(of: "}"), start < end else { return nil }
+        let json = String(raw[start...end])
+        guard let data = json.data(using: .utf8) else { return nil }
+        return try? JSONDecoder().decode(RolePlayJudgment.self, from: data)
     }
 }

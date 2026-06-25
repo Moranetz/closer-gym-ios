@@ -43,6 +43,7 @@
 		C7BC7E773E65BFCA31E36964 /* Transcripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF8DFB5721E78D001137200 /* Transcripts.swift */; };
 		CB2317FEC4F47D2317B9CC19 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2899BCECCBB676637F6C7A57 /* Haptics.swift */; };
 		CD36A41712C5A941595BFB82 /* PlayTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9607781ACDDA980BEC8526 /* PlayTab.swift */; };
+		D317BC0D8DBC5A763854120A /* RolePlayJudgment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50A208D0C7DFFA5EBF51ED8 /* RolePlayJudgment.swift */; };
 		D39721075AC70E7BBB40B8D6 /* EloBand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64695F2B243C569CBD43BD49 /* EloBand.swift */; };
 		D89FCAC522BC1713432DBDC9 /* AnthropicClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5C38B675BEAA16EFDD0E4D /* AnthropicClient.swift */; };
 		DABFBBF59F2C550AAC0C815D /* Personas.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDCC8C89C39BEEF278DA158 /* Personas.swift */; };
@@ -95,6 +96,7 @@
 		BCDCC8C89C39BEEF278DA158 /* Personas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Personas.swift; sourceTree = "<group>"; };
 		C0BD00C65FA0BD0FFB5DF2FC /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C4678D356645808D5302B54D /* FrameFork.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FrameFork.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C50A208D0C7DFFA5EBF51ED8 /* RolePlayJudgment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlayJudgment.swift; sourceTree = "<group>"; };
 		C993EB8D0414A4BD6195466D /* PuzzleSolveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleSolveView.swift; sourceTree = "<group>"; };
 		CA0BD62F36AAD834CB5601B1 /* WatchTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTab.swift; sourceTree = "<group>"; };
 		CE1730A32AB636F304269C91 /* BrandColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandColors.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				506BA14443F5E9E595F47DE2 /* MasterGame.swift */,
 				76D8BB57E3FB6864C7A708E2 /* Persona.swift */,
 				4107B3D3078F39592C7E7F30 /* Puzzle.swift */,
+				C50A208D0C7DFFA5EBF51ED8 /* RolePlayJudgment.swift */,
 				D4656CCEBAF2A6A3A0C06D5E /* Technique.swift */,
 				54908C328B57E350F6C5DD0F /* Transcript.swift */,
 				4A591EE0BA7E2E2C42E4997D /* Verdict.swift */,
@@ -389,6 +392,7 @@
 				96FFEF6085A182F3A99B4325 /* PuzzleSolveView.swift in Sources */,
 				987F19F01AD27DCAB9A89990 /* Puzzles.swift in Sources */,
 				9E1E3A125CDEA12DCBDC4173 /* PuzzlesTab.swift in Sources */,
+				D317BC0D8DBC5A763854120A /* RolePlayJudgment.swift in Sources */,
 				FF9F10DE789EC37C5D07F9BD /* RootTabView.swift in Sources */,
 				E6F345A5C856B06047D9A845 /* SettingsView.swift in Sources */,
 				A8E8E9888DE72EAFE2802D4A /* ShareCard.swift in Sources */,

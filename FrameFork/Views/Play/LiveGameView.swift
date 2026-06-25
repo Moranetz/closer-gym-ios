@@ -397,13 +397,15 @@ struct LiveGameView: View {
         guard finishedScore == nil else { return }   // ignore double-tap / re-entry
         finishedScore = score
         Haptics.shared.success()
+        let stored = transcript.map { StoredTurn(role: $0.role, text: $0.text, firedHere: $0.firedHere) }
         path.append(.review(ReviewPayload(
             botMeta: botMeta,
             intentTechniques: intentTechniques,
             firedTechniques: Array(firedTechniques),
             evalCurve: evalCurve,
             score: score,
-            durationSec: Int(Date().timeIntervalSince(startedAt))
+            durationSec: Int(Date().timeIntervalSince(startedAt)),
+            transcript: stored
         )))
     }
 }

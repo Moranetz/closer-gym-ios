@@ -15,6 +15,7 @@ struct SimpleReviewView: View {
     let evalCurve: [Double]
     let score: Double
     let durationSec: Int
+    let transcript: [StoredTurn]
     @Binding var path: [PlayRoute]
 
     init(payload: ReviewPayload, path: Binding<[PlayRoute]>) {
@@ -24,6 +25,7 @@ struct SimpleReviewView: View {
         self.evalCurve = payload.evalCurve
         self.score = payload.score
         self.durationSec = payload.durationSec
+        self.transcript = payload.transcript
         self._path = path
     }
 
@@ -31,13 +33,18 @@ struct SimpleReviewView: View {
     @State private var ratingDelta: Double? = nil
     @State private var newRating: Double = 1500
     @State private var didCommit: Bool = false
+    @State private var grading: Bool = false
+    @State private var judgment: RolePlayJudgment? = nil
+    @State private var judgeAttempted: Bool = false
 
     private var persona: Persona? { Personas.get(botMeta.personaId) }
+    private var operatorTurnCount: Int { transcript.filter { $0.role == "operator" }.count }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                headlineCard
+                gradeCard
+                if !transcript.isEmpty { transcriptCard }
                 curveCard
                 techniqueCard
                 deploymentCard
@@ -58,35 +65,80 @@ struct SimpleReviewView: View {
                     .foregroundStyle(Color.textSecondary)
             }
         }
-        .onAppear {
-            guard !didCommit else { return }
-            let result = storage.recordGame(
-                botRating: botMeta.rating,
-                score: score,
-                personaId: botMeta.personaId,
-                evalCurve: evalCurve,
-                intentTechniques: intentTechniques,
-                firedTechniques: firedTechniques,
-                durationSec: durationSec
-            )
-            newRating = result.newRating
-            ratingDelta = result.delta
-            didCommit = true
-        }
+        .task { await judgeAndCommit() }
     }
 
-    private var headlineCard: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(outcomeLabel)
-                .font(.system(size: 22, weight: .heavy, design: .rounded))
-                .foregroundStyle(outcomeColor)
-            HStack(spacing: 16) {
-                stat(label: "New ELO", value: String(format: "%.0f", newRating))
-                if let d = ratingDelta {
-                    stat(label: "Delta", value: String(format: "%@%.1f", d >= 0 ? "+" : "", d))
+    /// Run the blind judge (if a key + enough turns), then commit the game ONCE with the
+    /// judge's process grade as the Glicko score — or the local eval score as a fallback.
+    private func judgeAndCommit() async {
+        guard !didCommit else { return }
+        didCommit = true   // claim the commit up front so a re-entry can't double-record (Store is @MainActor)
+        var judged: RolePlayJudgment? = nil
+        if operatorTurnCount >= 2, Keychain.hasAPIKey(), let p = persona {
+            judgeAttempted = true
+            grading = true
+            judged = try? await AnthropicClient.judgeGame(persona: p, transcript: transcript)
+            grading = false
+        }
+        let finalScore = judged.map { max(0.0, min(1.0, $0.processScore)) } ?? score
+        let result = storage.recordGame(
+            botRating: botMeta.rating,
+            score: finalScore,
+            personaId: botMeta.personaId,
+            evalCurve: evalCurve,
+            intentTechniques: intentTechniques,
+            firedTechniques: firedTechniques,
+            durationSec: durationSec,
+            turns: transcript,
+            judgment: judged
+        )
+        newRating = result.newRating
+        ratingDelta = result.delta
+        judgment = judged
+    }
+
+    // MARK: - Grade card (the blind coach)
+
+    private var gradeCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if grading {
+                HStack(spacing: 10) {
+                    ProgressView().tint(Color.brandGreen)
+                    Text("Coach is grading your craft…")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(Color.textSecondary)
                 }
-                stat(label: "Length", value: "\(durationSec / 60)m \(durationSec % 60)s")
-                Spacer(minLength: 0)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            } else if let j = judgment {
+                Text("COACH'S GRADE").microLabel(Color.textSecondary)
+                HStack(alignment: .firstTextBaseline) {
+                    Text(j.verdict)
+                        .font(.system(size: 21, weight: .heavy, design: .rounded))
+                        .foregroundStyle(gradeColor(j.fill))
+                    Spacer()
+                    Text("\(Int((j.fill * 100).rounded()))")
+                        .font(.system(size: 28, weight: .light, design: .rounded))
+                        .monospacedDigit()
+                        .foregroundStyle(Color.textPrimary)
+                    + Text("/100").font(.system(size: 13, weight: .heavy, design: .rounded)).foregroundStyle(Color.textMuted)
+                }
+                GradeBar(fill: j.fill, color: gradeColor(j.fill))
+                Text(j.summary)
+                    .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                VStack(spacing: 7) {
+                    ForEach(Array(j.criteria.enumerated()), id: \.offset) { _, c in criterionRow(c) }
+                }
+                .padding(.top, 2)
+                ratingLine
+            } else {
+                Text(outcomeLabel)
+                    .font(.system(size: 21, weight: .heavy, design: .rounded))
+                    .foregroundStyle(outcomeColor)
+                ratingLine
+                Text(judgeAttempted
+                     ? "Coach grade unavailable for this game — the grader didn't respond. Scored on the live read."
+                     : "Full AI craft grade needs a Pro key (Settings → Pro). Scored on the live read this game.")
+                    .font(.system(size: 11)).foregroundStyle(Color.textFaint)
             }
         }
         .padding(14)
@@ -94,6 +146,112 @@ struct SimpleReviewView: View {
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+    }
+
+    private var ratingLine: some View {
+        HStack(spacing: 16) {
+            stat(label: "New ELO", value: String(format: "%.0f", newRating))
+            if let d = ratingDelta {
+                stat(label: "Delta", value: String(format: "%@%.1f", d >= 0 ? "+" : "", d))
+            }
+            stat(label: "Length", value: "\(durationSec / 60)m \(durationSec % 60)s")
+            Spacer(minLength: 0)
+        }
+        .padding(.top, 2)
+    }
+
+    private func criterionRow(_ c: RolePlayJudgment.Criterion) -> some View {
+        HStack(spacing: 10) {
+            Text(prettyCriterion(c.name))
+                .font(.system(size: 11, weight: .heavy, design: .rounded))
+                .foregroundStyle(Color.textSecondary)
+                .frame(width: 96, alignment: .leading)
+            GradeBar(fill: max(0, min(1, c.score)), color: gradeColor(c.score))
+                .frame(width: 54)
+            Text(c.note)
+                .font(.system(size: 11)).foregroundStyle(Color.textMuted)
+                .lineLimit(2)
+            Spacer(minLength: 0)
+        }
+    }
+
+    private func prettyCriterion(_ raw: String) -> String {
+        raw.replacingOccurrences(of: "_", with: " ").capitalized
+    }
+
+    private func gradeColor(_ s: Double) -> Color {
+        if s >= 0.7 { return .brandGreen }
+        if s >= 0.45 { return .warning }
+        return .danger
+    }
+
+    // MARK: - Transcript replay (best/weakest turn highlighted)
+
+    private struct ReplayItem: Identifiable { let id: Int; let turn: StoredTurn; let oNum: Int? }
+    private var replayItems: [ReplayItem] {
+        var out: [ReplayItem] = []
+        var o = 0
+        for (i, t) in transcript.enumerated() {
+            var n: Int? = nil
+            if t.role == "operator" { o += 1; n = o }
+            out.append(ReplayItem(id: i, turn: t, oNum: n))
+        }
+        return out
+    }
+
+    private var transcriptCard: some View {
+        VStack(alignment: .leading, spacing: 9) {
+            Text("Replay").microLabel(Color.textSecondary)
+            ForEach(replayItems) { item in replayRow(item) }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+    }
+
+    @ViewBuilder
+    private func replayRow(_ item: ReplayItem) -> some View {
+        let isOp = item.turn.role == "operator"
+        let isBest = item.oNum != nil && item.oNum == judgment?.bestTurn
+        let isWeak = item.oNum != nil && item.oNum == judgment?.weakestTurn
+        let mark: (String, Color)? = isBest ? ("STRONGEST", .brandGreen) : (isWeak ? ("WEAKEST", .warning) : nil)
+        HStack(alignment: .top) {
+            if isOp { Spacer(minLength: 28) }
+            VStack(alignment: isOp ? .trailing : .leading, spacing: 4) {
+                if let mark {
+                    Text(mark.0)
+                        .font(.system(size: 8.5, weight: .heavy, design: .rounded)).kerning(0.5)
+                        .foregroundStyle(mark.1)
+                }
+                Text(item.turn.text)
+                    .font(.system(size: 12.5))
+                    .foregroundStyle(Color.textPrimary)
+                    .padding(.horizontal, 10).padding(.vertical, 7)
+                    .background(isOp ? Color.brandGreen.opacity(0.12) : Color.bgRail)
+                    .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 9, style: .continuous)
+                            .strokeBorder(mark?.1 ?? (isOp ? Color.brandGreen.opacity(0.25) : Color.border),
+                                          lineWidth: mark == nil ? 1 : 1.5)
+                    )
+                if isBest, let note = judgment?.bestTurnNote {
+                    noteLabel(note, .brandGreen, trailing: isOp)
+                } else if isWeak, let note = judgment?.weakestTurnNote {
+                    noteLabel(note, .warning, trailing: isOp)
+                }
+            }
+            if !isOp { Spacer(minLength: 28) }
+        }
+    }
+
+    private func noteLabel(_ text: String, _ color: Color, trailing: Bool) -> some View {
+        Text(text)
+            .font(.system(size: 10.5)).italic()
+            .foregroundStyle(color)
+            .frame(maxWidth: 220, alignment: trailing ? .trailing : .leading)
+            .multilineTextAlignment(trailing ? .trailing : .leading)
     }
 
     private var curveCard: some View {
@@ -209,6 +367,23 @@ struct SimpleReviewView: View {
         if score >= 1.0 { return Color.brandGreen }
         if score <= 0.0 { return Color.danger }
         return Color.warning
+    }
+}
+
+/// Horizontal grade bar for the coach's process score / per-criterion scores.
+private struct GradeBar: View {
+    let fill: Double          // 0…1
+    let color: Color
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Capsule().fill(Color.bgRail)
+                Capsule().fill(color.opacity(0.9))
+                    .frame(width: max(3, geo.size.width * CGFloat(max(0, min(1, fill)))))
+            }
+        }
+        .frame(height: 6)
+        .overlay(Capsule().strokeBorder(Color.border, lineWidth: 1))
     }
 }
 

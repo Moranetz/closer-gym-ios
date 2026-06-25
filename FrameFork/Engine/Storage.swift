@@ -85,7 +85,9 @@ public final class Store: ObservableObject {
                            evalCurve: [Double],
                            intentTechniques: [String],
                            firedTechniques: [String],
-                           durationSec: Int) -> (newRating: Double, delta: Double) {
+                           durationSec: Int,
+                           turns: [StoredTurn] = [],
+                           judgment: RolePlayJudgment? = nil) -> (newRating: Double, delta: Double) {
         let opponent = GlickoState(rating: Double(botRating), rd: initialRD * 0.4, volatility: initialVolatility)
         let result = Glicko2.applyMatch(gameState.rating, opponent: opponent, score: score)
         gameState.rating = result.state
@@ -99,7 +101,9 @@ public final class Store: ObservableObject {
             intentTechniques: intentTechniques,
             firedTechniques: firedTechniques,
             playedAt: Date(),
-            durationSec: durationSec
+            durationSec: durationSec,
+            turns: turns,
+            judgment: judgment
         ))
         saveGameState()
         return (result.state.rating, result.delta)
@@ -284,7 +288,7 @@ public struct GameState: Codable, Sendable {
 public struct GameRecord: Codable, Hashable, Sendable {
     public let personaId: String
     public let botRating: Int
-    public let score: Double            // 1 win, 0.5 draw, 0 loss
+    public let score: Double            // recorded game score (0…1) — the judge's process grade when available
     public let ratingAfter: Double
     public let delta: Double
     public let evalCurve: [Double]      // running -3..+3 per operator turn
@@ -292,4 +296,25 @@ public struct GameRecord: Codable, Hashable, Sendable {
     public let firedTechniques: [String]
     public let playedAt: Date
     public let durationSec: Int
+    public var turns: [StoredTurn] = []            // full transcript — replay + content flywheel
+    public var judgment: RolePlayJudgment? = nil   // blind LLM judge grade (nil if it couldn't run)
+}
+
+extension GameRecord {
+    /// Tolerant decode so games saved before `turns`/`judgment` existed still load.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        personaId        = try c.decode(String.self, forKey: .personaId)
+        botRating        = try c.decode(Int.self, forKey: .botRating)
+        score            = try c.decode(Double.self, forKey: .score)
+        ratingAfter      = try c.decode(Double.self, forKey: .ratingAfter)
+        delta            = try c.decode(Double.self, forKey: .delta)
+        evalCurve        = (try? c.decodeIfPresent([Double].self, forKey: .evalCurve)) ?? []
+        intentTechniques = (try? c.decodeIfPresent([String].self, forKey: .intentTechniques)) ?? []
+        firedTechniques  = (try? c.decodeIfPresent([String].self, forKey: .firedTechniques)) ?? []
+        playedAt         = (try? c.decodeIfPresent(Date.self, forKey: .playedAt)) ?? Date()
+        durationSec      = (try? c.decodeIfPresent(Int.self, forKey: .durationSec)) ?? 0
+        turns            = (try? c.decodeIfPresent([StoredTurn].self, forKey: .turns)) ?? []
+        judgment         = (try? c.decodeIfPresent(RolePlayJudgment.self, forKey: .judgment)) ?? nil
+    }
 }
