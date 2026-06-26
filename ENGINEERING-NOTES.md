@@ -3,6 +3,26 @@
 A living, cross-session log of what tends to go wrong and how to avoid it. Read this first in a
 new session. Add to it whenever a mistake repeats. Newest lessons at the top of each section.
 
+## The meta-mistake: fix the CLASS, not the instance (sweep proactively)
+When a deficiency is found in one place, immediately sweep the WHOLE app for the same class before
+the founder finds the next instance. This was the #1 process failure: the master-close tab had the
+exact deficiencies already fixed in puzzles (passive/handed answers, numeric evals to the user,
+operator/recipient jargon) and it wasn't flagged until the founder pointed at it. A fix that's
+applied locally when the rule is global (e.g. stripping numeric evals from puzzle cards but leaving
+"+0.86" in LessonDetailView) is half a fix. Standing deficiencies found this way:
+- ✅ FIXED — role-play output now surfaces: Profile Game rating + Game-history list →
+  `GameHistoryDetailView` (read-only, no re-record/re-judge).
+- ✅ FIXED — numeric move-evals stripped app-wide (WatchTab, LessonDetailView use the glyph).
+- ✅ FIXED — dead "Analysis" row removed; Watch index no longer spoils outcomes / shows eval numbers.
+- ✅ FIXED — "answer handed before play": PreGameView no longer shows the persona's responsive/
+  contraindicated lists; the read is the gameplay. Live HUD/axis jargon → "you/buyer".
+- ⬜ REMAINING — **the puzzle bank** is still the 98%-guessable pre-doctrine content (G1, content
+  authoring + ≥3-closer adjudication; the spine).
+- ⬜ REMAINING — **two move-quality vocabularies** across tabs (Verdict ◆/Best vs MoveQuality
+  !!/Brilliant) — pick one (design call).
+- ⬜ REMAINING — operator/recipient lab-speak still in the DATA (Puzzles/Transcripts/Personas/
+  master annotations); copy fixed, content is the bigger pass. Plus stale "v0.2/v1.1" roadmap copy.
+
 ## Recurring mistakes I actually made this session (avoid next time)
 1. **Added a Swift file but forgot to re-run `xcodegen` → "cannot find type X".** This is an
    xcodegen project: new/removed files don't enter the build until `xcodegen` regenerates the

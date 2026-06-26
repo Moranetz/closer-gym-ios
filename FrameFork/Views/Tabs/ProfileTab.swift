@@ -9,6 +9,7 @@ struct ProfileTab: View {
                 VStack(spacing: 16) {
                     identityCard
                     ratingsCard
+                    if !storage.gameState.games.isEmpty { gameHistoryCard }
                     freeProCard
                     foundationFooter
                     Spacer(minLength: 24)
@@ -112,20 +113,63 @@ struct ProfileTab: View {
     }
 
     private var ratingsCard: some View {
-        let rating = storage.puzzleState.rating.rating
+        let puzzle = storage.puzzleState.rating.rating
+        let games = storage.gameState.games
         return VStack(alignment: .leading, spacing: 12) {
             Text("Ratings").microLabel()
-            ratingRow("Game",     value: "—", note: "Pro · vs bots")
+            ratingRow("Game", value: games.isEmpty ? "—" : "\(Int(storage.gameState.rating.rating))",
+                      note: games.isEmpty ? "Play a role-play to start" : "\(games.count) game\(games.count == 1 ? "" : "s") vs personas")
             Divider().background(Color.border)
-            ratingRow("Puzzle",   value: "\(Int(rating))", note: "Provisional")
-            Divider().background(Color.border)
-            ratingRow("Analysis", value: "—", note: "Pro · uploaded calls")
+            ratingRow("Puzzle", value: "\(Int(puzzle))", note: "Provisional")
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+    }
+
+    private var gameHistoryCard: some View {
+        let games = Array(storage.gameState.games.suffix(12).reversed())
+        return VStack(alignment: .leading, spacing: 10) {
+            Text("Game history").microLabel(Color.brandGreen)
+            ForEach(Array(games.enumerated()), id: \.offset) { _, g in
+                NavigationLink { GameHistoryDetailView(record: g) } label: { gameHistoryRow(g) }
+                    .buttonStyle(.plain)
+                if g.playedAt != games.last?.playedAt { Divider().background(Color.border) }
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+    }
+
+    private func gameHistoryRow(_ g: GameRecord) -> some View {
+        HStack(spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(Personas.get(g.personaId)?.role ?? g.personaId)
+                    .font(.system(size: 13, weight: .semibold)).foregroundStyle(Color.textPrimary).lineLimit(1)
+                Text(g.judgment?.verdict ?? "Scored on live read")
+                    .font(.system(size: 11)).foregroundStyle(Color.textMuted).lineLimit(1)
+            }
+            Spacer(minLength: 8)
+            if let j = g.judgment {
+                Text("\(Int((j.fill * 100).rounded()))")
+                    .font(.system(size: 15, weight: .heavy, design: .rounded)).monospacedDigit()
+                    .foregroundStyle(gradeColor(j.fill))
+            }
+            Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.textFaint)
+        }
+        .padding(.vertical, 7)
+        .contentShape(Rectangle())
+    }
+
+    private func gradeColor(_ s: Double) -> Color {
+        if s >= 0.7 { return .brandGreen }
+        if s >= 0.45 { return .warning }
+        return .danger
     }
 
     private var freeProCard: some View {

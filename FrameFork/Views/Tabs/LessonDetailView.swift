@@ -241,10 +241,10 @@ struct LessonDetailView: View {
                     .foregroundStyle(Color.textSecondary)
                 Spacer()
                 if let d = move.delta {
-                    Text("\(d > 0 ? "+" : "")\(String(format: "%.2f", d))")
-                        .font(.system(size: 11, weight: .heavy, design: .rounded))
-                        .monospacedDigit()
-                        .foregroundStyle(d > 0.15 ? Color.brandGreen : d < -0.15 ? Color.danger : Color.textMuted)
+                    let q = classifyMove(d)
+                    if !q.glyph.isEmpty {
+                        Text(q.glyph).font(.system(size: 12, weight: .heavy)).foregroundStyle(q.color)
+                    }
                 }
             }
             Text("\u{201C}\(move.text)\u{201D}")

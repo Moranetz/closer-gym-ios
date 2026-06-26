@@ -12,13 +12,13 @@ struct MasterGameIndexView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
-                Text("Annotated transcripts · click any move for the master's commentary · free, no API key")
+                Text("Call the master's move before you see it · free, no API key")
                     .font(.system(size: 13))
                     .foregroundStyle(Color.textMuted)
                     .padding(.horizontal, 16)
                     .padding(.top, 4)
 
-                Text("Hand-authored games in the style of Voss, Klaff, Belfort, Cardone, and Burg. Each is a real position you can step through move-by-move. Eval values come from the same heuristic engine that scores your puzzles. The Cardone game is annotated as a LOSS — same moves, wrong buyer.")
+                Text("Hand-authored studies in the style of Voss, Klaff, Belfort, Cardone, and Burg. Step through a real deal and predict each pivotal move — then see what the master actually did, and why.")
                     .font(.system(size: 13))
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
@@ -32,7 +32,7 @@ struct MasterGameIndexView: View {
                 }
                 .padding(.horizontal, 16)
 
-                Text("Inspired-by-style constructions, not verbatim quotes. Real transcripts from sales-instrument roll out with v0.2.")
+                Text("Inspired-by-style constructions, not verbatim quotes.")
                     .font(.system(size: 11))
                     .foregroundStyle(Color.textFaint)
                     .padding(.horizontal, 16)
@@ -47,8 +47,6 @@ struct MasterGameIndexView: View {
     }
 
     private func masterGameRow(_ game: MasterGame) -> some View {
-        let curve = Eval.runningCurve(game.moves)
-        let finalEval = curve.last?.value ?? 0
         let operatorMoves = game.moves.filter { $0.role == .op }.count
 
         return VStack(alignment: .leading, spacing: 10) {
@@ -58,12 +56,9 @@ struct MasterGameIndexView: View {
                     .kerning(0.5)
                     .foregroundStyle(Color.textFaint)
                 Spacer()
-                Text(game.outcome.label)
-                    .font(.system(size: 10, weight: .heavy, design: .rounded))
-                    .kerning(0.6)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 6).padding(.vertical, 2)
-                    .background(RoundedRectangle(cornerRadius: 3, style: .continuous).fill(game.outcome.color))
+                Text("GUESS THE MOVES")
+                    .font(.system(size: 9, weight: .heavy, design: .rounded)).kerning(0.5)
+                    .foregroundStyle(Color.brandGreen)
             }
             Text(game.speaker)
                 .font(AppFont.titleSmall)
@@ -80,9 +75,6 @@ struct MasterGameIndexView: View {
                 Text("\(operatorMoves) moves").font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
                 Text("·").foregroundStyle(Color.textFaint)
                 Text(game.openingECO).font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
-                Text("·").foregroundStyle(Color.textFaint)
-                Text("final \(finalEval >= 0 ? "+" : "")\(String(format: "%.2f", finalEval))")
-                    .font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textFaint).monospacedDigit()
                 Spacer()
                 Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.textFaint)
             }

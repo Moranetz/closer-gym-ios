@@ -265,7 +265,7 @@ struct SimpleReviewView: View {
                 Spacer()
                 Text("Even 0").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
                 Spacer()
-                Text("Operator +3").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
+                Text("You +3").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
             }
         }
         .padding(14)

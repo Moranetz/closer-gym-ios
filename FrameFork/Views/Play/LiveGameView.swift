@@ -155,8 +155,8 @@ struct LiveGameView: View {
     }
 
     private var evalLabel: String {
-        if eval > 2.0 { return "Operator ascending" }
-        if eval > 0.5 { return "Operator favorable" }
+        if eval > 2.0 { return "You're ascending" }
+        if eval > 0.5 { return "You're ahead" }
         if eval > -0.5 { return "Even" }
         if eval > -2.0 { return "Buyer guarded" }
         return "Buyer disengaging"

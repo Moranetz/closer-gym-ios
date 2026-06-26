@@ -17,9 +17,9 @@ struct PreGameView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 botCard
-                if let p = persona {
-                    contraindicatedCard(persona: p)
-                    responsiveCard(persona: p)
+                if persona != nil {
+                    // The persona's responsive/contraindicated lists are NOT shown here on purpose:
+                    // reading the buyer IS the gameplay (DIAGNOSIS G5). They surface in the debrief.
                     intentSelector
                     startButton
                 }
