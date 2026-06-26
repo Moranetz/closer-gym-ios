@@ -1,0 +1,29 @@
+Frame & Fork is a sales-training app — "chess.com for closers." It trains the read-the-buyer
+skill through chess-style puzzles, annotated master games, and live role-play against AI buyers.
+
+NO ACCOUNT OR LOGIN IS REQUIRED.
+
+WHAT YOU CAN TEST WITH NO KEY (the free tier — most of the app):
+  • Puzzles tab — multiple-choice "best move" sales puzzles with a graded reveal.
+  • Lessons tab — the technique reference.
+  • Watch tab (Master Games) — step through a real deal and guess the master's next move.
+These require no API key and no network.
+
+THE ONE PRO FEATURE THAT NEEDS A KEY — live AI role-play:
+The Play tab pits you against an AI buyer that pushes back, then grades your craft. Because the
+app is a bring-your-own-key client (it does not resell AI access), it needs an Anthropic API key.
+
+  To test it:
+  1. Settings (gear, top-right of Profile) → "Anthropic API key" → paste this test key:
+        [ PASTE A TEST ANTHROPIC API KEY HERE BEFORE SUBMITTING ]
+  2. Play tab → choose any persona → "Start game".
+  3. Type a few messages as the salesperson, then tap "End".
+  4. You'll get a graded debrief; it is then saved under Profile → Game history.
+
+PRIVACY: The app collects nothing on any server we control. Role-play text is sent directly
+from the device to Anthropic using the entered key (disclosed in the privacy policy). The key
+is stored only in the iOS Keychain.
+
+ENCRYPTION: Standard HTTPS only; ITSAppUsesNonExemptEncryption = false (exempt).
+
+Contact for review questions: [ YOUR SUPPORT EMAIL ]
