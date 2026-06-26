@@ -251,7 +251,7 @@ struct LiveGameView: View {
     private var emptyState: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("OPEN THE CONVERSATION").microLabel(Color.textMuted)
-            Text("First turn is yours. Calibrated questions and labeling tend to land with this persona; pressure and assumptive closes tend to backfire. Type a turn, then Send.")
+            Text("First turn is yours. Read the buyer, choose your opening, then Send.")
                 .font(.system(size: 12))
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)

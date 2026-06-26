@@ -177,7 +177,7 @@ struct ProfileTab: View {
             Text("Free vs Pro").microLabel(Color.brandGreen)
             Text("Free: Puzzles, Lessons, Master Games. No API key required.")
                 .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
-            Text("Pro: Bot ladder (\(BotLadder.all.count) personas) + free-text play. Requires Anthropic key in Settings. Hosted Pro tier arrives in v0.2.")
+            Text("Pro: Bot ladder (\(BotLadder.all.count) personas) + free-text play. Requires your own Anthropic key in Settings.")
                 .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
         }
         .padding(16)

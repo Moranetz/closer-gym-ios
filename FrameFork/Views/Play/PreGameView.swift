@@ -1,9 +1,8 @@
 import SwiftUI
 
 /// Pre-game intent registration. Pick the Atlas techniques you intend to deploy.
-/// Mirrors web /play/[personaId]/page.tsx. v0.2 will navigate to LiveGameView
-/// after selection; v0.1 ships this screen as a planning surface and shows a
-/// Pro-tier-coming banner.
+/// Mirrors web /play/[personaId]/page.tsx. After selection, Start game
+/// navigates to the live game with the pre-registered techniques.
 struct PreGameView: View {
     let botMeta: BotMeta
     @Binding var path: [PlayRoute]

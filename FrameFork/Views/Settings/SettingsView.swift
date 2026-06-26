@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Top-level Settings screen. Pushed from ProfileTab via gear icon.
-/// Sections: Pro Tier (API key), Notifications (placeholder until Round 4),
+/// Sections: Pro Tier (API key), Notifications (Daily Drill reminder),
 /// About (version + privacy + support links), Data (reset).
 struct SettingsView: View {
     @EnvironmentObject private var storage: Store

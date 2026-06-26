@@ -61,7 +61,7 @@ struct LessonDetailView: View {
                 if !relatedTranscripts.isEmpty { transcriptsSection }
                 if !relatedMasterMoves.isEmpty { masterMovesSection }
                 if relatedPuzzles.isEmpty && relatedTranscripts.isEmpty && relatedMasterMoves.isEmpty {
-                    Text("No puzzles, transcripts, or master moves tagged with this technique yet. Coming in v0.2 as the corpus expands.")
+                    Text("No puzzles, transcripts, or master moves are tagged with this technique yet.")
                         .font(.system(size: 13))
                         .italic()
                         .foregroundStyle(Color.textMuted)

@@ -107,7 +107,7 @@ struct TranscriptSheet: View {
                 .padding(.vertical, 4)
         case .op:
             VStack(alignment: .trailing, spacing: 4) {
-                Text("Operator").microLabel()
+                Text("You").microLabel()
                 Text(turn.text)
                     .font(.system(size: 14))
                     .foregroundStyle(Color.textPrimary)
@@ -119,7 +119,7 @@ struct TranscriptSheet: View {
             .frame(maxWidth: .infinity, alignment: .trailing)
         case .buyer:
             VStack(alignment: .leading, spacing: 4) {
-                Text("Counterparty").microLabel()
+                Text("Buyer").microLabel()
                 Text(turn.text)
                     .font(.system(size: 14))
                     .foregroundStyle(Color.textSecondary)

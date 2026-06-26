@@ -3,7 +3,7 @@ import Foundation
 /// Glicko-2 rating system. Reference: glicko.net/glicko/glicko2.pdf
 /// (Mark Glickman, 2013). Direct port of web src/lib/elo.ts.
 ///
-/// Used for the three rating buckets: Game, Puzzle, Analysis.
+/// Used for the rating buckets: Game and Puzzle.
 public struct GlickoState: Codable, Hashable, Sendable {
     public var rating: Double
     public var rd: Double           // rating deviation

@@ -37,7 +37,7 @@ struct PuzzleIndexView: View {
                     themeSection(theme)
                 }
 
-                Text("\(Puzzles.all.count) hand-authored positions calibrated against the Atlas literature. Adaptive difficulty + Puzzle Rush roll out with v1.1. Solving is fully offline, no API key required.")
+                Text("\(Puzzles.all.count) hand-authored positions built straight from the Atlas plays. Solving is fully offline, no API key required.")
                     .font(.system(size: 11))
                     .foregroundStyle(Color.textFaint)
                     .lineSpacing(2)
