@@ -58,7 +58,8 @@ public struct CompanyProfile: Codable, Equatable, Sendable {
         if !comps.isEmpty { lines.append("Competitors you might compare against: \(comps.joined(separator: ", ")).") }
         if !diffs.isEmpty { lines.append("Things that would genuinely move you, if the rep earns them: \(diffs.joined(separator: "; ")).") }
         lines.append("This only sets what the deal is about. Stay fully in your assigned character and keep every hidden-criteria and curveball rule above.")
-        return lines.joined(separator: "\n")
+        // Defense-in-depth cap so a pathological profile can't bloat every persona request (SECURITY T3).
+        return String(lines.joined(separator: "\n").prefix(2000))
     }
 }
 

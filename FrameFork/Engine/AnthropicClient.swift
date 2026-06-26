@@ -114,14 +114,12 @@ public enum AnthropicClient {
     public static func judgeGame(persona: Persona, transcript: [StoredTurn]) async throws -> RolePlayJudgment {
         // A per-request random delimiter the attacker can't predict or close, so user turns
         // are framed as untrusted DATA, not instructions (SECURITY.md — judge injection).
-        let delimiter = "TXN-" + UUID().uuidString
-        let system = buildJudgeSystemPrompt(persona, delimiter: delimiter)
-        let convo = formatTranscriptForJudge(transcript, delimiter: delimiter)
+        let payload = buildJudgePayload(persona: persona, transcript: transcript)
         // Force the structured submit_grade tool: the grade comes from a real tool call, so a
         // JSON object a user pastes into a turn can never BE the parsed result.
         let resp = try await performRequest(
-            system: system,
-            messages: [ChatMessage(role: "user", content: convo)],
+            system: payload.system,
+            messages: [ChatMessage(role: "user", content: payload.user)],
             maxTokens: 1200,
             tool: judgeTool
         )
@@ -130,6 +128,16 @@ public enum AnthropicClient {
             throw ClientError.decodingError("judge did not return a structured grade")
         }
         return grade
+    }
+
+    /// The judge's full input (system + user), assembled EXACTLY as judgeGame sends it, with a
+    /// fresh unpredictable per-request delimiter. Internal so tests can lock — on the real path —
+    /// that no company context or hidden persona field reaches the judge and that the transcript
+    /// is fenced by an unguessable delimiter.
+    static func buildJudgePayload(persona: Persona, transcript: [StoredTurn]) -> (system: String, user: String) {
+        let delimiter = "TXN-" + UUID().uuidString
+        return (buildJudgeSystemPrompt(persona, delimiter: delimiter),
+                formatTranscriptForJudge(transcript, delimiter: delimiter))
     }
 
     private static let judgeTool = Tool(
