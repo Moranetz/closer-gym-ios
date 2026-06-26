@@ -190,7 +190,7 @@ struct ProfileTab: View {
     private var foundationFooter: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Closer Foundation").microLabel()
-            Text("Frame & Fork · v1.0")
+            Text("Frame & Fork · v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")")
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(Color.textSecondary)
             Text("Cluely is the cheat code. We built the gym.")
