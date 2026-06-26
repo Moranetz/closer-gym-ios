@@ -14,12 +14,11 @@ hosted-file update. Honest go/no-go below.
 
 ## ⛔ Blockers before submit — each needs you
 
-1. **CRITICAL — publish the corrected privacy policy.** The current live
-   `privacy.html` is INACCURATE: it claims the app transmits nothing to any third party, but the
-   Pro role-play sends your typed conversation + Company Profile to **Anthropic**. Submitting
-   against it risks rejection (5.1.1) and is a real misrepresentation. I wrote a corrected
-   version at **`appstore/privacy.html`** — publish it to `moranetz.github.io/apps/frame-fork/privacy.html`.
-   *(Mine to draft — done; yours to publish.)*
+1. **✅ DONE — corrected privacy policy published & verified live.** The prior `privacy.html`
+   inaccurately claimed no third-party transmission; the Pro role-play sends conversation +
+   Company Profile to Anthropic. Corrected policy now live at
+   `moranetz.github.io/apps/frame-fork/privacy.html` (names Anthropic, BYO-key, nothing on a
+   dev-controlled server). Also fixed `terms.html` (was 404; now live). Done by me, verified HTTP 200.
 
 2. **CRITICAL — App Review notes + a demo key.** Pro needs an Anthropic key, so reviewers can't
    test it unless you give them one. Draft is at **`fastlane/metadata/review_information/notes.txt`**
