@@ -39,6 +39,17 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3EA98F2540919B7FCBD0F6E1"
+               BuildableName = "FrameForkTests.xctest"
+               BlueprintName = "FrameForkTests"
+               ReferencedContainer = "container:FrameFork.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>
