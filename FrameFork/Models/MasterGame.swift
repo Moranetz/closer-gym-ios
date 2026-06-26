@@ -22,6 +22,21 @@ public struct MasterMove: Hashable, Codable, Sendable {
     public let techniqueIds: [String]?
     public let annotation: String?
     public let delta: Double?
+    /// Decoy lines for "Guess the move" — plausible-but-wrong alternatives to the master's actual
+    /// line (operator moves only). nil/empty → not a guess point (the move just reveals on step).
+    public let alternatives: [String]?
+
+    public init(role: MoveRole, text: String, techniqueIds: [String]?, annotation: String?,
+                delta: Double?, alternatives: [String]? = nil) {
+        self.role = role
+        self.text = text
+        self.techniqueIds = techniqueIds
+        self.annotation = annotation
+        self.delta = delta
+        self.alternatives = alternatives
+    }
+
+    public var isGuessPoint: Bool { role == .op && (alternatives?.isEmpty == false) }
 }
 
 public enum MoveRole: String, Codable, Sendable {
