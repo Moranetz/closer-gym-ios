@@ -102,7 +102,10 @@ public enum AnthropicClient {
         companyContext: String? = nil
     ) async throws -> String {
         let system = buildPersonaSystemPrompt(persona, companyContext: companyContext)
-        var messages = history
+        // Cap the history sent per turn: without this, the full transcript is resent every
+        // turn, so input tokens (and cost) grow unbounded over a long sparring session.
+        let maxHistoryMessages = 20
+        var messages = Array(history.suffix(maxHistoryMessages))
         messages.append(ChatMessage(role: "user", content: operatorTurn))
         return try await postMessage(system: system, messages: messages, maxTokens: 600)
     }
