@@ -143,6 +143,16 @@ final class RegressionTests: XCTestCase {
         XCTAssertFalse(store.gameState.games[0].rated)
     }
 
+    @MainActor
+    func testRatingHistory_appendsOnlyOnRatedSolves() {
+        let store = freshStore()
+        _ = solve(store, id: "p001", correct: true)     // rated → 1 point
+        _ = solve(store, id: "p001", correct: true)     // re-solve, unrated → no point
+        _ = solve(store, id: "p002", correct: false)    // rated → 1 point
+        XCTAssertEqual(store.puzzleState.ratingHistory.count, 2, "history appends only on rated solves")
+        XCTAssertEqual(store.puzzleState.ratingHistory.last!.rating, store.puzzleState.rating.rating, accuracy: 0.001)
+    }
+
     // MARK: - Miss queue (backbone of the Review-your-misses screen)
 
     @MainActor
@@ -170,6 +180,23 @@ final class RegressionTests: XCTestCase {
         XCTAssertTrue(BotLadder.isUnlocked(cheapest, playerRating: 0))
         XCTAssertEqual(BotLadder.all.map(\.rating), BotLadder.all.map(\.rating).sorted(),
                        "ladder must be ascending so .first is the cheapest bot")
+    }
+
+    func testAtlasEvidenceGrading() {
+        // 2026-07 empirical re-anchor: every technique banded; the spine is Core,
+        // the folklore/backfire moves are Flagged with a caveat.
+        for t in AtlasTechniques.all {
+            if t.evidenceBand == .flagged {
+                XCTAssertFalse(t.contraindication.isEmpty, "\(t.id): flagged technique needs a caveat")
+            }
+        }
+        func band(_ id: String) -> EvidenceBand? { AtlasTechniques.get(id)?.evidenceBand }
+        XCTAssertEqual(band("spin-implication"), .core, "the won-deal spine must be Core")
+        XCTAssertEqual(band("multi-threading"), .core)
+        XCTAssertEqual(band("assumptive"), .flagged, "hard close in complex deals is folklore")
+        XCTAssertEqual(band("scarcity"), .flagged)
+        let core = AtlasTechniques.all.filter { $0.evidenceBand == .core }.count
+        XCTAssertGreaterThanOrEqual(core, 5, "the evidence-backed spine shouldn't be empty")
     }
 
     // MARK: - Sparring arc invariants

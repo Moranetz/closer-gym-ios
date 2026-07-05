@@ -33,6 +33,7 @@ struct LessonDetailView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 header
+                evidenceBlock
                 if let drillPuzzle = relatedPuzzles.first {
                     NavigationLink(destination: PuzzleSolveView(puzzle: drillPuzzle, isDaily: false)) {
                         HStack(spacing: 10) {
@@ -54,7 +55,7 @@ struct LessonDetailView: View {
                     }
                     .buttonStyle(.plain)
                 }
-                if !technique.canonicalSource.isEmpty || !technique.primaryFailureMode.isEmpty || !technique.contraindication.isEmpty {
+                if !technique.canonicalSource.isEmpty || !technique.primaryFailureMode.isEmpty {
                     referenceFields
                 }
                 if !relatedPuzzles.isEmpty { puzzlesSection }
@@ -96,10 +97,6 @@ struct LessonDetailView: View {
             Text(technique.name)
                 .scaledFont(size: 22, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
-            HStack(spacing: 6) {
-                pill(text: verdictLabel(technique.atlasVerdict), color: verdictColor(technique.atlasVerdict))
-                pill(text: "folklore: \(technique.folkloreRisk.rawValue)", color: riskColor(technique.folkloreRisk))
-            }
             Text(technique.mechanism)
                 .scaledFont(size: 14)
                 .foregroundStyle(Color.textSecondary)
@@ -113,13 +110,89 @@ struct LessonDetailView: View {
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
+    // MARK: - Evidence (move-quality grade)
+
+    private var bandColor: Color {
+        switch technique.evidenceBand {
+        case .core:       return .brilliant
+        case .supporting: return .textMuted
+        case .flagged:    return .warning
+        }
+    }
+    private var bandGlyph: String {
+        switch technique.evidenceBand {
+        case .core:       return "◆◆"
+        case .supporting: return "◆"
+        case .flagged:    return "?!"
+        }
+    }
+
+    private var evidenceBlock: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 12) {
+                Text(bandGlyph)
+                    .scaledFont(size: 26, weight: .heavy, design: .rounded)
+                    .foregroundStyle(bandColor)
+                    .frame(width: 42)
+                    .accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(technique.evidenceBand.label)
+                        .scaledFont(size: 15, weight: .heavy)
+                        .foregroundStyle(bandColor)
+                    Text(technique.evidenceTier.map { "\($0.label) evidence" } ?? "classic principle")
+                        .scaledFont(size: 11)
+                        .foregroundStyle(Color.textMuted)
+                }
+                Spacer(minLength: 0)
+            }
+            if !technique.contraindication.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(technique.evidenceBand == .flagged ? "Why flagged" : "When to be careful").microLabel(bandColor)
+                    Text(technique.contraindication)
+                        .scaledFont(size: 12.5)
+                        .foregroundStyle(Color.textSecondary)
+                        .lineSpacing(3)
+                }
+            }
+            HStack(spacing: 6) {
+                legendCell("◆◆", "CORE", "evidence-backed", .brilliant, technique.evidenceBand == .core)
+                legendCell("◆", "SUPPORTING", "mechanism only", .textMuted, technique.evidenceBand == .supporting)
+                legendCell("?!", "FLAGGED", "handle w/ care", .warning, technique.evidenceBand == .flagged)
+            }
+            if !technique.evidenceSource.isEmpty, let url = URL(string: technique.evidenceSource), url.scheme?.hasPrefix("http") == true {
+                Link(destination: url) {
+                    HStack(spacing: 5) {
+                        Text("Source").scaledFont(size: 11, weight: .semibold)
+                        Image(systemName: "arrow.up.right").scaledFont(size: 9, weight: .bold)
+                    }
+                    .foregroundStyle(Color.info)
+                }
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(bandColor.opacity(0.25), lineWidth: 1))
+    }
+
+    private func legendCell(_ g: String, _ t: String, _ s: String, _ c: Color, _ active: Bool) -> some View {
+        VStack(spacing: 3) {
+            Text(g).scaledFont(size: 15, weight: .heavy).foregroundStyle(c)
+            Text(t).scaledFont(size: 8.5, weight: .heavy).kerning(0.3).foregroundStyle(active ? c : Color.textMuted)
+            Text(s).scaledFont(size: 8, weight: .semibold).foregroundStyle(Color.textFaint).multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 7).padding(.horizontal, 3)
+        .background(active ? c.opacity(0.10) : Color.bgRail)
+        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous).strokeBorder(active ? c.opacity(0.4) : Color.border, lineWidth: 1))
+    }
+
     private var referenceFields: some View {
         VStack(spacing: 8) {
             if !technique.primaryFailureMode.isEmpty {
                 fieldCard(label: "Primary failure mode", body: technique.primaryFailureMode)
-            }
-            if !technique.contraindication.isEmpty {
-                fieldCard(label: "Contraindication", body: technique.contraindication)
             }
             if !technique.canonicalSource.isEmpty {
                 fieldCard(label: "Canonical source", body: technique.canonicalSource)
@@ -261,37 +334,4 @@ struct LessonDetailView: View {
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
-    private func pill(text: String, color: Color) -> some View {
-        Text(text)
-            .scaledFont(size: 10, weight: .heavy, design: .rounded)
-            .kerning(0.4)
-            .textCase(.uppercase)
-            .foregroundStyle(color)
-            .padding(.horizontal, 6).padding(.vertical, 3)
-            .background(RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color.white.opacity(0.06)))
-    }
-
-    private func verdictColor(_ v: AtlasVerdict) -> Color {
-        switch v {
-        case .wellStudied: return .brandGreen
-        case .partiallyStudied: return .warning
-        case .replicationFailed: return .danger
-        case .untested: return .textMuted
-        }
-    }
-    private func verdictLabel(_ v: AtlasVerdict) -> String {
-        switch v {
-        case .wellStudied: return "well-studied"
-        case .partiallyStudied: return "partial"
-        case .replicationFailed: return "replication-failed"
-        case .untested: return "untested"
-        }
-    }
-    private func riskColor(_ r: FolkloreRisk) -> Color {
-        switch r {
-        case .high: return .danger
-        case .mediumHigh: return .warning
-        default: return .textMuted
-        }
-    }
 }

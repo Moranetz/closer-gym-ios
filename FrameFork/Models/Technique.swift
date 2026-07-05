@@ -12,11 +12,21 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
     public let canonicalSource: String
     public let primaryFailureMode: String
     public let contraindication: String
+    // Evidence grading (2026-07 empirical re-anchor). `evidenceTier` = strength of the
+    // support (A academic meta > B analyst > C vendor-call-data > D trade-book assertion);
+    // `evidenceBand` drives how much the Atlas trusts it (Core = teach as the answer;
+    // Supporting = real mechanism, sales-outcome unproven, use as color; Flagged = folklore
+    // or has a documented backfire, caveat it). `evidenceSource` = one citation URL.
+    public let evidenceTier: EvidenceTier?
+    public let evidenceBand: EvidenceBand
+    public let evidenceSource: String
 
     public init(id: String, name: String, cluster: AtlasCluster, mechanism: String,
                 atlasVerdict: AtlasVerdict, folkloreRisk: FolkloreRisk,
                 canonicalSource: String = "", primaryFailureMode: String = "",
-                contraindication: String = "") {
+                contraindication: String = "",
+                evidenceTier: EvidenceTier? = nil, evidenceBand: EvidenceBand = .supporting,
+                evidenceSource: String = "") {
         self.id = id
         self.name = name
         self.cluster = cluster
@@ -26,6 +36,41 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
         self.canonicalSource = canonicalSource
         self.primaryFailureMode = primaryFailureMode
         self.contraindication = contraindication
+        self.evidenceTier = evidenceTier
+        self.evidenceBand = evidenceBand
+        self.evidenceSource = evidenceSource
+    }
+}
+
+public enum EvidenceTier: String, Codable, Sendable {
+    case a = "A", b = "B", c = "C", d = "D"
+    public var label: String {
+        switch self {
+        case .a: return "Peer-reviewed"
+        case .b: return "Analyst data"
+        case .c: return "Call-analytics"
+        case .d: return "Practitioner claim"
+        }
+    }
+    /// Short honesty blurb about what this tier of evidence can and can't say.
+    public var blurb: String {
+        switch self {
+        case .a: return "Academic meta-analysis — strongest, but often older and modest in effect."
+        case .b: return "Large analyst survey — real method, commercially adjacent."
+        case .c: return "Vendor call-analytics — huge real-call N, but correlational and self-interested."
+        case .d: return "Trade-book assertion — popular, no independent data."
+        }
+    }
+}
+
+public enum EvidenceBand: String, Codable, Sendable {
+    case core, supporting, flagged
+    public var label: String {
+        switch self {
+        case .core:       return "Evidence-backed"
+        case .supporting: return "Mechanism only"
+        case .flagged:    return "Handle with care"
+        }
     }
 }
 

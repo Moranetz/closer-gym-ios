@@ -1,9 +1,15 @@
 import SwiftUI
 
 struct LessonsTab: View {
+    // Debug/screenshot hook (same pattern as FF_PUSH_MISSES): sim taps are TCC-walled,
+    // so automation can deep-link a technique's detail via env var.
+    @State private var pushTech: Technique? = AtlasTechniques.get(
+        ProcessInfo.processInfo.environment["FF_PUSH_LESSON"] ?? "")
+
     var body: some View {
         NavigationStack {
             LessonIndexView()
+                .navigationDestination(item: $pushTech) { LessonDetailView(technique: $0) }
         }
     }
 }

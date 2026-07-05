@@ -210,6 +210,14 @@ public final class Store: ObservableObject {
         }
 
         puzzleState.rating = ratedState
+        if rated {
+            // Rating-history series — the un-fakeable progress signal (research 2026-07).
+            // Appended only on rated solves; capped so it can't grow unbounded.
+            puzzleState.ratingHistory.append(RatingPoint(rating: ratedState.rating, at: Date()))
+            if puzzleState.ratingHistory.count > 500 {
+                puzzleState.ratingHistory.removeFirst(puzzleState.ratingHistory.count - 500)
+            }
+        }
         puzzleState.solves.append(PuzzleSolve(
             puzzleId: puzzleId,
             pickedIndex: pickedIndex,
@@ -318,6 +326,12 @@ public final class Store: ObservableObject {
     }
 }
 
+public struct RatingPoint: Codable, Hashable, Sendable {
+    public let rating: Double
+    public let at: Date
+    public init(rating: Double, at: Date) { self.rating = rating; self.at = at }
+}
+
 public struct PuzzleState: Codable, Sendable {
     public var rating: GlickoState = GlickoState()
     public var solves: [PuzzleSolve] = []
@@ -325,6 +339,7 @@ public struct PuzzleState: Codable, Sendable {
     public var currentStreak: Int = 0
     public var longestStreak: Int = 0
     public var lastDailyDate: String? = nil
+    public var ratingHistory: [RatingPoint] = []
 
     public init() {}
 
@@ -339,6 +354,7 @@ public struct PuzzleState: Codable, Sendable {
         currentStreak = (try? c.decodeIfPresent(Int.self, forKey: .currentStreak)) ?? 0
         longestStreak = (try? c.decodeIfPresent(Int.self, forKey: .longestStreak)) ?? 0
         lastDailyDate = (try? c.decodeIfPresent(String.self, forKey: .lastDailyDate)) ?? nil
+        ratingHistory = ((try? c.decodeIfPresent(LossyArray<RatingPoint>.self, forKey: .ratingHistory))?.elements) ?? []
     }
 }
 
