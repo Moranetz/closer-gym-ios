@@ -8,6 +8,10 @@ struct ProfileTab: View {
             ScrollView {
                 VStack(spacing: 16) {
                     identityCard
+                    if storage.puzzleState.ratingHistory.count >= 3 {
+                        ProgressHeroCard(history: storage.puzzleState.ratingHistory,
+                                         currentRating: storage.puzzleState.rating.rating)
+                    }
                     ratingsCard
                     if !storage.gameState.games.isEmpty { gameHistoryCard }
                     freeProCard

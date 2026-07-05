@@ -12,6 +12,7 @@
 		054020AF5CEC241FF89F0B0A /* CompanyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032A67D60E2C5A1F9135272F /* CompanyProfileView.swift */; };
 		05C55F4896805378FD009099 /* SparringFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4344D66BB719642D8B93B7 /* SparringFlowUITests.swift */; };
 		0CF89FFE28F7F2648AC9E3F7 /* TitleBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AF68B176587F559D573D2D /* TitleBadge.swift */; };
+		10A818AFBA4B01BC3691C055 /* RatingTrajectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B2623EE4870DB1296EA58A /* RatingTrajectory.swift */; };
 		1B2FEC3AE80CC8460A7DD0AF /* GameHistoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5E03B0DE1CCB8737079157B /* GameHistoryDetailView.swift */; };
 		237BDEB9C33DC5D05600D8B5 /* MissReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D0F1E4B7C27B04ACBF57394 /* MissReviewView.swift */; };
 		286BA3068C922EC9976A180D /* Persona.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D8BB57E3FB6864C7A708E2 /* Persona.swift */; };
@@ -95,6 +96,7 @@
 		1E5C38B675BEAA16EFDD0E4D /* AnthropicClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnthropicClient.swift; sourceTree = "<group>"; };
 		1F99EA89A6A442CAB4323825 /* MasterGames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGames.swift; sourceTree = "<group>"; };
 		1FD06A23DB9EF6F376F53E75 /* SparringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SparringView.swift; sourceTree = "<group>"; };
+		20B2623EE4870DB1296EA58A /* RatingTrajectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingTrajectory.swift; sourceTree = "<group>"; };
 		220775A0781B7279EF710491 /* MasterGameViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterGameViewer.swift; sourceTree = "<group>"; };
 		2899BCECCBB676637F6C7A57 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		2A9A86E2A72BF25DB6C98478 /* ProfileTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTab.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 		D451DE1E2598BC20EC62E1C8 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				20B2623EE4870DB1296EA58A /* RatingTrajectory.swift */,
 				F014D2147E4D1E14969CC440 /* ShareCard.swift */,
 			);
 			path = Profile;
@@ -529,6 +532,7 @@
 				96FFEF6085A182F3A99B4325 /* PuzzleSolveView.swift in Sources */,
 				987F19F01AD27DCAB9A89990 /* Puzzles.swift in Sources */,
 				9E1E3A125CDEA12DCBDC4173 /* PuzzlesTab.swift in Sources */,
+				10A818AFBA4B01BC3691C055 /* RatingTrajectory.swift in Sources */,
 				D317BC0D8DBC5A763854120A /* RolePlayJudgment.swift in Sources */,
 				FF9F10DE789EC37C5D07F9BD /* RootTabView.swift in Sources */,
 				E6F345A5C856B06047D9A845 /* SettingsView.swift in Sources */,
