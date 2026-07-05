@@ -199,6 +199,17 @@ final class RegressionTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(core, 5, "the evidence-backed spine shouldn't be empty")
     }
 
+    func testAdaptiveNext_edgeOfAbilityInterleavedUnsolved() {
+        let rating = 1600
+        let solved: Set<String> = ["p001"]
+        let n = Puzzles.adaptiveNext(after: "p001", rating: rating, solvedIds: solved)
+        XCTAssertNotEqual(n.id, "p001", "never re-serves the just-finished puzzle")
+        XCTAssertFalse(solved.contains(n.id), "never serves an already-solved puzzle")
+        // Edge-of-ability: the pick sits in the sane band around the rating.
+        XCTAssertTrue(n.difficulty >= rating - 300 && n.difficulty <= rating + 100,
+                      "adaptive pick must be near the edge of ability, not arbitrary")
+    }
+
     // MARK: - Sparring arc invariants
 
     func testSparringArcs_invariants() {

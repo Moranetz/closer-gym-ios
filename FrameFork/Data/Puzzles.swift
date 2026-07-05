@@ -2008,6 +2008,24 @@ public enum Puzzles {
         byId[id]
     }
 
+    /// Adaptive next-puzzle pick (research 2026-07): serve at the EDGE of ability, not
+    /// a coin-flip. Target a difficulty ~100 below the user's rating (~65% success — a
+    /// winnable stretch), among unsolved puzzles in a sane band, and INTERLEAVE themes
+    /// (a same-theme puzzle must be ~120 ELO closer to the target to win) rather than
+    /// blocking one topic. Falls back to a sequential cycle if the band is exhausted.
+    public static func adaptiveNext(after currentId: String, rating: Int, solvedIds: Set<String>) -> Puzzle {
+        let target = rating - 100
+        let currentTheme = get(currentId)?.theme
+        let pool = all.filter {
+            $0.id != currentId && !solvedIds.contains($0.id) &&
+            $0.difficulty >= rating - 300 && $0.difficulty <= rating + 100
+        }
+        func score(_ p: Puzzle) -> Int { abs(p.difficulty - target) + (p.theme == currentTheme ? 120 : 0) }
+        if let best = pool.min(by: { score($0) < score($1) }) { return best }
+        if let i = all.firstIndex(where: { $0.id == currentId }) { return all[(i + 1) % all.count] }
+        return all[0]
+    }
+
     /// Deterministic daily puzzle. Keyed by the same LOCAL yyyy-MM-dd key as the
     /// attempt lock and streak (`Store.todayKey`) so the puzzle, the lock, and the
     /// streak all roll at the same midnight. (Was ISO8601/UTC — for any user west

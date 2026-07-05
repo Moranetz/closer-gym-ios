@@ -383,24 +383,10 @@ struct PuzzleSolveView: View {
     }
 
     private func advanceToNext() {
-        // Adaptive next-puzzle pick: prefer an unsolved puzzle within +/-200 ELO
-        // of the user's current puzzle rating. Falls back to sequential cycle if
-        // no match exists (very early in user history or after exhaustion).
-        let userRating = Int(storage.puzzleState.rating.rating)
-        let solvedIds: Set<String> = Set(storage.puzzleState.solves.filter(\.correct).map(\.puzzleId))
-        let inBand = Puzzles.all.filter { p in
-            p.id != puzzle.id &&
-            !solvedIds.contains(p.id) &&
-            abs(p.difficulty - userRating) <= 200
-        }
-        let next: Puzzle
-        if let candidate = inBand.min(by: { abs($0.difficulty - userRating) < abs($1.difficulty - userRating) }) {
-            next = candidate
-        } else if let i = Puzzles.all.firstIndex(where: { $0.id == puzzle.id }) {
-            next = Puzzles.all[(i + 1) % Puzzles.all.count]
-        } else {
-            next = Puzzles.all[0]
-        }
+        let next = Puzzles.adaptiveNext(
+            after: puzzle.id,
+            rating: Int(storage.puzzleState.rating.rating),
+            solvedIds: storage.solvedIdSet)
         loadPuzzle(next)
     }
 
