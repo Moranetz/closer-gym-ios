@@ -68,7 +68,7 @@ struct OnboardingView: View {
             title: "Today's Daily Drill is open.",
             bodyLines: [
                 "Solve at your own pace. Climb the ELO ladder as your rating rises. Two rating buckets: Game and Puzzle.",
-                "When you're ready, drop your Anthropic API key in Settings to unlock the bot ladder.",
+                "When you're ready, connect your own Anthropic API key in Settings and the bot ladder runs on your account.",
             ]
         )
     }
@@ -103,13 +103,13 @@ struct OnboardingView: View {
                     withAnimation(.snappy) { page -= 1 }
                     Haptics.shared.selection()
                 }
-                .font(.system(size: 13, weight: .semibold))
+                .scaledFont(size: 13, weight: .semibold)
                 .foregroundStyle(Color.textMuted)
             } else {
                 Button("Skip") {
                     completeOnboarding()
                 }
-                .font(.system(size: 13, weight: .semibold))
+                .scaledFont(size: 13, weight: .semibold)
                 .foregroundStyle(Color.textFaint)
             }
         }
@@ -135,18 +135,18 @@ private struct OnboardingPage: View {
         VStack(spacing: 0) {
             Spacer()
             Text(symbol)
-                .font(.system(size: symbolSize, weight: .heavy))
+                .scaledFont(size: symbolSize, weight: .heavy)
                 .foregroundStyle(Color.brandGreen)
                 .padding(.bottom, 36)
 
             Text(tag.uppercased())
-                .font(.system(size: 11, weight: .heavy, design: .rounded))
+                .scaledFont(size: 11, weight: .heavy, design: .rounded)
                 .kerning(0.8)
                 .foregroundStyle(Color.brandGreen)
                 .padding(.bottom, 8)
 
             Text(title)
-                .font(.system(size: 32, weight: .heavy, design: .rounded))
+                .scaledFont(size: 32, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
@@ -155,7 +155,7 @@ private struct OnboardingPage: View {
             VStack(spacing: 14) {
                 ForEach(bodyLines, id: \.self) { line in
                     Text(line)
-                        .font(.system(size: 15))
+                        .scaledFont(size: 15)
                         .foregroundStyle(Color.textSecondary)
                         .multilineTextAlignment(.center)
                         .lineSpacing(4)

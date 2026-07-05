@@ -34,6 +34,8 @@ struct LiveGameView: View {
     @State private var errorMsg: String? = nil
     @State private var finishedScore: Double? = nil
     @State private var startedAt: Date = .init()
+    @State private var sendTask: Task<Void, Never>? = nil
+    @State private var confirmLeave: Bool = false
 
     @FocusState private var inputFocused: Bool
 
@@ -60,10 +62,26 @@ struct LiveGameView: View {
         .background(Color.bgPage)
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.bgPage, for: .navigationBar)
+        // A live game is the user's turns AND their API spend — the system back
+        // chevron/swipe must not silently evaporate it. Only guard MID-GAME: with an
+        // empty transcript or a finished game the system back (and edge swipe) stays.
+        .navigationBarBackButtonHidden(isGuardingExit)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                if isGuardingExit {
+                    Button {
+                        confirmLeave = true
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .scaledFont(size: 15, weight: .semibold)
+                            .foregroundStyle(Color.textSecondary)
+                    }
+                    .accessibilityLabel("Back")
+                }
+            }
             ToolbarItem(placement: .principal) {
                 Text("vs \(persona?.role.split(separator: ",").first.map(String.init) ?? botMeta.personaId)")
-                    .font(.system(size: 13, weight: .semibold))
+                    .scaledFont(size: 13, weight: .semibold)
                     .foregroundStyle(Color.textSecondary)
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -71,14 +89,33 @@ struct LiveGameView: View {
                     endGame(score: scoreFromEval())
                 } label: {
                     Text("End")
-                        .font(.system(size: 13, weight: .semibold))
+                        .scaledFont(size: 13, weight: .semibold)
                         .foregroundStyle(Color.warning)
                 }
                 .disabled(transcript.isEmpty || finishedScore != nil || isAwaiting)
             }
         }
+        .confirmationDialog("Leave this game?", isPresented: $confirmLeave, titleVisibility: .visible) {
+            // Under 2 operator turns the review can't rate the game — say so
+            // instead of promising a score the guard will refuse.
+            Button(operatorTurnCount >= 2 ? "End & score the game" : "End (too short to rate)") {
+                // Ending from the dialog mid-await must behave like the toolbar End:
+                // don't leave a buyer turn racing a review that already snapshotted.
+                sendTask?.cancel()
+                endGame(score: scoreFromEval())
+            }
+            Button("Abandon (no record)", role: .destructive) {
+                sendTask?.cancel()
+                dismiss()
+            }
+            Button("Keep playing", role: .cancel) {}
+        }
         .onAppear {
-            startedAt = Date()
+            // onAppear re-fires on every TAB return, not just the initial push —
+            // resetting startedAt there shrank durationSec; and cancelling the send
+            // task in onDisappear destroyed an in-flight (already billed) buyer turn
+            // on a mere tab switch. Start the clock once; cancel only on Abandon.
+            if transcript.isEmpty { startedAt = Date() }
             inputFocused = true
         }
     }
@@ -91,24 +128,24 @@ struct LiveGameView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 6, style: .continuous).fill(Color.bgPanel)
                 Text(initials)
-                    .font(.system(size: 13, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 13, weight: .heavy, design: .rounded)
                     .foregroundStyle(Color.textPrimary)
             }
             .frame(width: 36, height: 36)
             VStack(alignment: .leading, spacing: 1) {
                 Text(persona?.role ?? botMeta.personaId)
-                    .font(.system(size: 13, weight: .bold))
+                    .scaledFont(size: 13, weight: .bold)
                     .foregroundStyle(Color.textPrimary)
                     .lineLimit(1)
                 HStack(spacing: 6) {
                     Text("\(botMeta.rating)")
-                        .font(.system(size: 11, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 11, weight: .heavy, design: .rounded)
                         .monospacedDigit()
                         .foregroundStyle(Color.textMuted)
                     if let p = persona {
                         Text("·").foregroundStyle(Color.textFaint)
                         Text("PK \(p.persuasionKnowledge.label)")
-                            .font(.system(size: 10, weight: .semibold))
+                            .scaledFont(size: 10, weight: .semibold)
                             .foregroundStyle(Color.textMuted)
                     }
                 }
@@ -116,12 +153,12 @@ struct LiveGameView: View {
             Spacer()
             VStack(alignment: .trailing, spacing: 1) {
                 Text("Turn \(operatorTurnCount) / \(maxTurns)")
-                    .font(.system(size: 10, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 10, weight: .heavy, design: .rounded)
                     .kerning(0.4)
                     .monospacedDigit()
                     .foregroundStyle(Color.textMuted)
                 Text(evalLabel)
-                    .font(.system(size: 10, weight: .semibold))
+                    .scaledFont(size: 10, weight: .semibold)
                     .foregroundStyle(Color.textSecondary)
             }
         }
@@ -152,6 +189,9 @@ struct LiveGameView: View {
         .overlay(alignment: .trailing) {
             Rectangle().fill(Color.border).frame(width: 1)
         }
+        .accessibilityElement()
+        .accessibilityLabel("Position")
+        .accessibilityValue(evalLabel)
     }
 
     private var evalLabel: String {
@@ -200,7 +240,7 @@ struct LiveGameView: View {
             if isOperator { Spacer(minLength: 32) }
             VStack(alignment: isOperator ? .trailing : .leading, spacing: 4) {
                 Text(turn.text)
-                    .font(.system(size: 14))
+                    .scaledFont(size: 14)
                     .foregroundStyle(Color.textPrimary)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 9)
@@ -214,7 +254,7 @@ struct LiveGameView: View {
                     HStack(spacing: 4) {
                         ForEach(turn.firedHere, id: \.self) { tid in
                             Text(AtlasTechniques.name(for: tid))
-                                .font(.system(size: 9, weight: .heavy, design: .rounded))
+                                .scaledFont(size: 9, weight: .heavy, design: .rounded)
                                 .kerning(0.3)
                                 .foregroundStyle(Color.brandGreen)
                                 .padding(.horizontal, 5).padding(.vertical, 1)
@@ -232,7 +272,7 @@ struct LiveGameView: View {
         HStack(spacing: 6) {
             ProgressView().scaleEffect(0.6).tint(Color.textMuted)
             Text("Buyer thinking…")
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
         }
         .padding(.leading, 4)
@@ -240,8 +280,8 @@ struct LiveGameView: View {
 
     private func errorRow(_ msg: String) -> some View {
         Text(msg)
-            .font(.system(size: 12))
-            .foregroundStyle(Color.danger)
+            .scaledFont(size: 12)
+            .foregroundStyle(Color.dangerText)
             .padding(10)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color.danger.opacity(0.08))
@@ -252,7 +292,7 @@ struct LiveGameView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text("OPEN THE CONVERSATION").microLabel(Color.textMuted)
             Text("First turn is yours. Read the buyer, choose your opening, then Send.")
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)
         }
@@ -270,7 +310,7 @@ struct LiveGameView: View {
             Divider().background(Color.border)
             HStack(spacing: 8) {
                 TextField("Your turn…", text: $draft, axis: .vertical)
-                    .font(.system(size: 14))
+                    .scaledFont(size: 14)
                     .foregroundStyle(Color.textPrimary)
                     .tint(Color.brandGreen)
                     .lineLimit(1...5)
@@ -281,21 +321,26 @@ struct LiveGameView: View {
                     .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
                     .disabled(isAwaiting || finishedScore != nil)
                 Button {
-                    Task { await send() }
+                    sendTask = Task { await send() }
                 } label: {
                     Image(systemName: "arrow.up")
-                        .font(.system(size: 14, weight: .heavy))
+                        .scaledFont(size: 14, weight: .heavy)
                         .foregroundStyle(canSend ? Color.bgPage : Color.textFaint)
                         .frame(width: 36, height: 36)
                         .background(canSend ? Color.brandGreen : Color.bgPanel)
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
                 .disabled(!canSend)
+                .accessibilityLabel("Send")
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
             .background(Color.bgPage)
         }
+    }
+
+    private var isGuardingExit: Bool {
+        !transcript.isEmpty && finishedScore == nil
     }
 
     private var canSend: Bool {
@@ -323,6 +368,16 @@ struct LiveGameView: View {
             endGame(score: scoreFromEval())
             return
         }
+        // Guard the persona BEFORE any state mutation — a stale personaId must not
+        // consume turns against a buyer that can never speak.
+        guard let p = persona else {
+            errorMsg = "Persona missing — this opponent is no longer available."
+            return
+        }
+
+        // Snapshot for rollback: if the buyer never answers, the turn didn't happen.
+        let evalBefore = eval
+        let firedBefore = firedTechniques
 
         // 1. Local detector on operator's turn.
         let recentBuyer = transcript.last { $0.role == "buyer" }?.text
@@ -345,10 +400,6 @@ struct LiveGameView: View {
             endGame(score: scoreFromEval())
             return
         }
-        guard let p = persona else {
-            errorMsg = "Persona missing."
-            return
-        }
 
         // 2. Buyer turn via Anthropic.
         isAwaiting = true
@@ -365,10 +416,23 @@ struct LiveGameView: View {
             )
             let cleaned = reply.trimmingCharacters(in: .whitespacesAndNewlines)
             transcript.append(Turn(role: "buyer", text: cleaned.isEmpty ? "…" : cleaned, firedHere: []))
-        } catch let err as AnthropicClient.ClientError {
-            errorMsg = err.errorDescription
         } catch {
-            errorMsg = "Buyer turn failed: \(error.localizedDescription)"
+            // Roll back the whole turn: keep the turn budget, the eval curve, and the
+            // operator/buyer alternation intact, and give the user their words back.
+            // (Leaving the un-answered turn in place burned a turn per failure and made
+            // the next send stack two operator messages in a row.)
+            if transcript.last?.id == operatorTurn.id { transcript.removeLast() }
+            operatorTurnCount -= 1
+            evalCurve.removeLast()
+            eval = evalBefore
+            firedTechniques = firedBefore
+            if draft.isEmpty { draft = text }
+            if Task.isCancelled { return }   // user left mid-turn — no error banner
+            if let err = error as? AnthropicClient.ClientError {
+                errorMsg = err.errorDescription
+            } else {
+                errorMsg = "Buyer turn failed: \(error.localizedDescription)"
+            }
         }
     }
 

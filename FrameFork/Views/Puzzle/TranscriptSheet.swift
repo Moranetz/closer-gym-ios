@@ -16,17 +16,17 @@ struct TranscriptSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Read full transcript").microLabel(Color.brandGreen)
                         Text("\(transcript.speaker): \(transcript.title)")
-                            .font(AppFont.title)
+                            .scaledFont(size: 22, weight: .heavy, design: .rounded)
                             .foregroundStyle(Color.textPrimary)
                         Text(transcript.source)
-                            .font(.system(size: 12))
+                            .scaledFont(size: 12)
                             .foregroundStyle(Color.textMuted)
                             .lineSpacing(2)
                     }
 
                     // Scenario
                     Text(transcript.scenario)
-                        .font(.system(size: 14))
+                        .scaledFont(size: 14)
                         .foregroundStyle(Color.textSecondary)
                         .lineSpacing(3)
                         .padding(.bottom, 8)
@@ -46,7 +46,7 @@ struct TranscriptSheet: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Move sequence").microLabel(Color.brandGreen)
                         Text(transcript.techniqueNote)
-                            .font(.system(size: 13))
+                            .scaledFont(size: 13)
                             .foregroundStyle(Color.textSecondary)
                             .lineSpacing(3)
                     }
@@ -59,7 +59,7 @@ struct TranscriptSheet: View {
                     // Paraphrased disclosure
                     if transcript.paraphrased {
                         Text("Paraphrased reconstruction. Not a verbatim recovered transcript. Sourced from the speaker's published teaching material plus widely-cited reconstructions.")
-                            .font(.system(size: 11))
+                            .scaledFont(size: 11)
                             .foregroundStyle(Color.warning)
                             .lineSpacing(3)
                             .padding(10)
@@ -68,13 +68,16 @@ struct TranscriptSheet: View {
                             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     }
 
-                    // Source link
-                    Link(destination: URL(string: transcript.sourceUrl) ?? URL(string: "https://example.com")!) {
-                        Text("View source →")
-                            .font(.system(size: 13, weight: .semibold))
-                            .foregroundStyle(Color.brandGreen)
+                    // Source link — hidden entirely on a malformed URL (the old
+                    // example.com fallback shipped users to a placeholder site).
+                    if let sourceURL = URL(string: transcript.sourceUrl), sourceURL.scheme?.hasPrefix("http") == true {
+                        Link(destination: sourceURL) {
+                            Text("View source →")
+                                .scaledFont(size: 13, weight: .semibold)
+                                .foregroundStyle(Color.brandGreen)
+                        }
+                        .padding(.top, 8)
                     }
-                    .padding(.top, 8)
 
                     Spacer(minLength: 24)
                 }
@@ -100,7 +103,7 @@ struct TranscriptSheet: View {
         switch turn.role {
         case .narrator:
             Text(turn.text)
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .italic()
                 .foregroundStyle(Color.textMuted)
                 .frame(maxWidth: .infinity, alignment: .center)
@@ -109,7 +112,7 @@ struct TranscriptSheet: View {
             VStack(alignment: .trailing, spacing: 4) {
                 Text("You").microLabel()
                 Text(turn.text)
-                    .font(.system(size: 14))
+                    .scaledFont(size: 14)
                     .foregroundStyle(Color.textPrimary)
                     .padding(10)
                     .background(Color.brandGreen.opacity(0.14))
@@ -121,7 +124,7 @@ struct TranscriptSheet: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Buyer").microLabel()
                 Text(turn.text)
-                    .font(.system(size: 14))
+                    .scaledFont(size: 14)
                     .foregroundStyle(Color.textSecondary)
                     .padding(10)
                     .background(Color.bgRail)

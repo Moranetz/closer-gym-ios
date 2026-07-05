@@ -41,9 +41,9 @@ struct CompanyProfileView: View {
 
     private var intro: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Make the practice real").font(.system(size: 17, weight: .heavy, design: .rounded)).foregroundStyle(Color.textPrimary)
+            Text("Make the practice real").scaledFont(size: 17, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary)
             Text("The role-play buyers will raise the objections your deals actually stall on, instead of a generic script. The more real the objections, the more the practice transfers.")
-                .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(3)
+                .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(3)
         }
     }
 
@@ -51,7 +51,7 @@ struct CompanyProfileView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label).microLabel(Color.textSecondary)
             TextField(placeholder, text: text, axis: .vertical)
-                .font(.system(size: 14))
+                .scaledFont(size: 14)
                 .foregroundStyle(Color.textPrimary)
                 .tint(Color.brandGreen)
                 .lineLimit(lines)
@@ -64,7 +64,7 @@ struct CompanyProfileView: View {
 
     private var privacyNote: some View {
         Text("Stored on this device — Frame & Fork has no server and never receives this. During a role-play, this context is included in the prompt sent to Anthropic with your own API key (the same as your typed turns).")
-            .font(.system(size: 11)).foregroundStyle(Color.textFaint).lineSpacing(2)
+            .scaledFont(size: 11).foregroundStyle(Color.textFaint).lineSpacing(2)
     }
 
     private var saveButton: some View {

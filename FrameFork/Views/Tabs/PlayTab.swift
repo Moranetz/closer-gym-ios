@@ -6,6 +6,7 @@ import SwiftUI
 enum PlayRoute: Hashable {
     case preGame(BotMeta)
     case live(BotMeta, [String])
+    case sparring(BotMeta)
     case review(ReviewPayload)
 }
 
@@ -22,7 +23,11 @@ struct ReviewPayload: Hashable {
 struct PlayTab: View {
     @EnvironmentObject private var storage: Store
     @State private var hasKey: Bool = Keychain.hasAPIKey()
-    @State private var path: [PlayRoute] = []
+    // Debug/screenshot hook (same pattern as FF_INITIAL_TAB / FF_PUSH_MISSES).
+    @State private var path: [PlayRoute] =
+        ProcessInfo.processInfo.environment["FF_PUSH_SPARRING"] == "1"
+            ? BotLadder.all.first.map { [.sparring($0)] } ?? []
+            : []
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -34,6 +39,8 @@ struct PlayTab: View {
                         PreGameView(botMeta: bot, path: $path)
                     case .live(let bot, let intent):
                         LiveGameView(botMeta: bot, intentTechniques: intent, path: $path)
+                    case .sparring(let bot):
+                        SparringView(botMeta: bot, path: $path)
                     case .review(let payload):
                         SimpleReviewView(payload: payload, path: $path)
                     }
@@ -67,8 +74,8 @@ struct BotLadderView: View {
                     proLockedBanner
                 }
 
-                Text("Pick an opponent. \(BotLadder.all.count) adversarial buyer personas, ELO 1200 to 2400. Beat one tier to unlock the next.")
-                    .font(.system(size: 13))
+                Text("Pick an opponent. \(BotLadder.all.count) adversarial buyer personas, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Win rating to unlock bots up to 200 above you.")
+                    .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
                     .padding(.horizontal, 16)
@@ -81,7 +88,7 @@ struct BotLadderView: View {
                                 Text(tier.name).microLabel(Color.textSecondary)
                                 Spacer()
                                 Text("ELO \(tier.min)–\(min(tier.max, 2400))")
-                                    .font(.system(size: 11, weight: .semibold))
+                                    .scaledFont(size: 11, weight: .semibold)
                                     .foregroundStyle(Color.textMuted)
                                     .monospacedDigit()
                             }
@@ -92,7 +99,9 @@ struct BotLadderView: View {
 
                             VStack(spacing: 8) {
                                 ForEach(inTier) { bot in
-                                    let unlocked = BotLadder.isUnlocked(bot, playerRating: playerRating) && hasKey
+                                    // Arc personas are playable OFFLINE — no key needed.
+                                    let unlocked = BotLadder.isUnlocked(bot, playerRating: playerRating)
+                                        && (hasKey || Arcs.get(personaId: bot.personaId) != nil)
                                     NavigationLink(value: PlayRoute.preGame(bot)) {
                                         botRow(bot: bot, unlocked: unlocked)
                                     }
@@ -119,19 +128,19 @@ struct BotLadderView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
                 Image(systemName: "lock.shield.fill")
-                    .font(.system(size: 18))
+                    .scaledFont(size: 18)
                     .foregroundStyle(Color.warning)
-                Text("Pro tier locked").font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
+                Text("Bring your own key").scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
                 Spacer()
             }
-            Text("The bot ladder requires an Anthropic API key. Add yours in Settings to unlock all \(BotLadder.all.count) personas. Each game costs roughly $0.50 on your key.")
-                .font(.system(size: 13))
+            Text("Sparring vs authored buyers works offline — no key, no account. For free-text play against all \(BotLadder.all.count) personas, connect your own Anthropic key in Settings; usage is billed by Anthropic, not by this app.")
+                .scaledFont(size: 13)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)
             NavigationLink(destination: SettingsView()) {
                 HStack(spacing: 6) {
-                    Image(systemName: "gearshape.fill").font(.system(size: 12))
-                    Text("Open Settings").font(.system(size: 13, weight: .bold))
+                    Image(systemName: "gearshape.fill").scaledFont(size: 12)
+                    Text("Open Settings").scaledFont(size: 13, weight: .bold)
                 }
                 .foregroundStyle(Color.bgPage)
                 .padding(.horizontal, 12).padding(.vertical, 8)
@@ -154,26 +163,26 @@ struct BotLadderView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 6, style: .continuous).fill(Color.bgPanel)
                 Text(initials)
-                    .font(.system(size: 14, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 14, weight: .heavy, design: .rounded)
                     .foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
             }
             .frame(width: 40, height: 40)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text("\(bot.rating)").font(.system(size: 13, weight: .heavy, design: .rounded)).monospacedDigit().foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
+                    Text("\(bot.rating)").scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
                     if let p = persona {
-                        Text("Track \(p.track.rawValue.dropFirst())").font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textMuted)
+                        Text("Track \(p.track.rawValue.dropFirst())").scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).lineLimit(1).minimumScaleFactor(0.75)
                         Text("·").foregroundStyle(Color.textFaint)
-                        Text(p.track.label).font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textMuted)
+                        Text(p.track.label).scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).lineLimit(1).minimumScaleFactor(0.75)
                     }
-                    if !unlocked { Image(systemName: "lock.fill").font(.system(size: 10)).foregroundStyle(Color.textFaint) }
+                    if !unlocked { Image(systemName: "lock.fill").scaledFont(size: 10).foregroundStyle(Color.textFaint) }
                 }
-                Text(persona?.role ?? bot.personaId).font(.system(size: 14, weight: .bold)).foregroundStyle(unlocked ? Color.textPrimary : Color.textMuted).lineLimit(1)
-                Text(bot.oneLineTagline).font(.system(size: 11)).foregroundStyle(Color.textMuted).lineSpacing(2).lineLimit(2)
+                Text(persona?.role ?? bot.personaId).scaledFont(size: 14, weight: .bold).foregroundStyle(unlocked ? Color.textPrimary : Color.textMuted).lineLimit(1)
+                Text(bot.oneLineTagline).scaledFont(size: 11).foregroundStyle(Color.textMuted).lineSpacing(2).lineLimit(2)
             }
             Spacer()
             if unlocked {
-                Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.textFaint)
+                Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
             }
         }
         .padding(12)

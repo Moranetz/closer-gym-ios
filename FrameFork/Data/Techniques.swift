@@ -1,6 +1,6 @@
 import Foundation
 
-/// 40 Atlas-taxonomy techniques. Verbatim port of web src/lib/techniques.ts (+ contrast).
+/// 41 Atlas-taxonomy techniques. Verbatim port of web src/lib/techniques.ts (+ contrast, upfront-contract).
 /// Each entry now carries the full Atlas record: id, name, cluster, mechanism,
 /// verdict, folklore risk, canonical source, primary failure mode,
 /// contraindication. Lessons detail view renders all of these.
@@ -61,6 +61,7 @@ public enum AtlasTechniques {
         Technique(id: "silence",          name: "Strategic silence after offer", cluster: .closingEnvironment, mechanism: "Discomfort-with-silence pushes counterparty to fill it (often with concession or commitment).", atlasVerdict: .untested, folkloreRisk: .medium, canonicalSource: "Sandler; Voss 2016", primaryFailureMode: "Broken too early.", contraindication: "Across cultural contexts where silence is comfortable."),
         Technique(id: "mutual-close-plan", name: "Mutual close plan (MAP)",      cluster: .closingEnvironment, mechanism: "Explicit shared timeline reduces stalls; multi-threading via named stakeholders.", atlasVerdict: .untested, folkloreRisk: .lowMedium, canonicalSource: "MEDDIC; Force Management; commercial data (Gong/SBI)", primaryFailureMode: "MAP without exit-criteria becomes theater.", contraindication: "Single-stakeholder transactional deals."),
         Technique(id: "multi-threading",   name: "Multi-threading",              cluster: .closingEnvironment, mechanism: "Parallel relationships across stakeholders prevents single-point-of-failure on close.", atlasVerdict: .untested, folkloreRisk: .lowMedium, canonicalSource: "Challenger Sale; MEDDIC; commercial data (CEB)", primaryFailureMode: "Multi-threading without champion installation = noise.", contraindication: "Transactional consumer contexts."),
+        Technique(id: "upfront-contract", name: "Upfront Contract",       cluster: .closingEnvironment, mechanism: "Agree what the call is for — and what happens if it's not a fit — before you start it. The pre-agreed shape and named exit reduce defensiveness and convert a granted meeting into a decision.", atlasVerdict: .untested, folkloreRisk: .lowMedium, canonicalSource: "Sandler", primaryFailureMode: "Delivered as a script instead of an agreement; the buyer never actually consents and the contract becomes a monologue.", contraindication: "When the buyer has already set an explicit agenda; re-contracting over it reads as control."),
     ]
 
     private static let byId: [String: Technique] = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })

@@ -9,7 +9,7 @@ struct TitleBadgeView: View {
 
     var body: some View {
         Text(label)
-            .font(.system(size: 10, weight: .heavy, design: .rounded))
+            .scaledFont(size: 10, weight: .heavy, design: .rounded)
             .kerning(0.6)
             .textCase(.uppercase)
             .foregroundStyle(tier.textColor)

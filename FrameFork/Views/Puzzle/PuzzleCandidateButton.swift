@@ -21,7 +21,7 @@ struct PuzzleCandidateButton: View {
                     letterBadge
                     VStack(alignment: .leading, spacing: 6) {
                         Text(candidate.text)
-                            .font(.system(size: 14))
+                            .scaledFont(size: 14)
                             .foregroundStyle(Color.textPrimary)
                             .multilineTextAlignment(.leading)
                             .lineSpacing(2)
@@ -32,7 +32,7 @@ struct PuzzleCandidateButton: View {
                                 tagWrap
                             }
                             Text(candidate.rationale)
-                                .font(.system(size: 12))
+                                .scaledFont(size: 12)
                                 .foregroundStyle(Color.textMuted)
                                 .lineSpacing(2)
                         }
@@ -61,7 +61,7 @@ struct PuzzleCandidateButton: View {
         }()
         let badgeText: Color = (revealed && isBest) || (revealed && isWrongPicked) || isPicked ? .white : .textMuted
         return Text(letter)
-            .font(.system(size: 13, weight: .heavy, design: .rounded))
+            .scaledFont(size: 13, weight: .heavy, design: .rounded)
             .foregroundStyle(badgeText)
             .frame(width: 30, height: 30)
             .background(Circle().fill(badgeColor))
@@ -71,13 +71,15 @@ struct PuzzleCandidateButton: View {
     // PUZZLE-DOCTRINE §0.3 — never render numeric evals to the player). Same Verdict
     // vocabulary as the reveal hero, so card and hero always agree.
     private var revealMeta: some View {
-        let v = Verdict.from(pickedEval: candidate.eval, isBestPick: isBest)
+        let v = Verdict.from(pickedEval: candidate.eval, isBestPick: isBest,
+                             isFork: isBest && candidate.isFork,
+                             isSharp: isBest && candidate.isSharp)
         return HStack(spacing: 6) {
             Text(v.glyph)
-                .font(.system(size: 13, weight: .heavy, design: .rounded))
+                .scaledFont(size: 13, weight: .heavy, design: .rounded)
                 .foregroundStyle(v.color)
             Text(isBest ? "BEST MOVE" : v.label.uppercased())
-                .font(.system(size: 10.5, weight: isBest ? .heavy : .semibold, design: .rounded))
+                .scaledFont(size: 10.5, weight: isBest ? .heavy : .semibold, design: .rounded)
                 .kerning(isBest ? 0.6 : 0.3)
                 .foregroundStyle(isBest ? Color.brandGreen : Color.textMuted)
         }
@@ -87,7 +89,7 @@ struct PuzzleCandidateButton: View {
         FlowLayout(spacing: 4, lineSpacing: 4) {
             ForEach(candidate.atlasTags, id: \.self) { tag in
                 Text(AtlasTechniques.name(for: tag))
-                    .font(.system(size: 10, weight: .semibold))
+                    .scaledFont(size: 10, weight: .semibold)
                     .kerning(0.4)
                     .foregroundStyle(Color.textMuted)
                     .padding(.horizontal, 6).padding(.vertical, 2)

@@ -18,6 +18,15 @@ struct FrameForkApp: App {
                     OnboardingView(isPresented: $showOnboarding)
                         .environmentObject(storage)
                 }
+                .task {
+                    // Reconcile a permission revoked in iOS Settings at LAUNCH — the
+                    // Settings screen does the same, but a user who never opens it
+                    // would otherwise keep an armed-looking reminder that never fires.
+                    if DailyNotifications.isEnabled, await DailyNotifications.status() == .denied {
+                        DailyNotifications.isEnabled = false
+                        DailyNotifications.cancel()
+                    }
+                }
         }
     }
 }

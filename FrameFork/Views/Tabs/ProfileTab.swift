@@ -39,11 +39,12 @@ struct ProfileTab: View {
         let rating = storage.puzzleState.rating.rating
         let streak = storage.effectiveCurrentStreak
         let longest = storage.puzzleState.longestStreak
-        let solved = storage.puzzleState.solves.filter(\.correct).count
+        let solved = storage.solvedUniqueCount
 
         if let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
             ShareLink(item: url, preview: SharePreview("My Frame & Fork rating: \(Int(rating))")) {
                 Image(systemName: "square.and.arrow.up").foregroundStyle(Color.textSecondary)
+                    .accessibilityLabel("Share rating card")
             }
         }
     }
@@ -58,14 +59,14 @@ struct ProfileTab: View {
         let rating = storage.puzzleState.rating.rating
         let streak = storage.effectiveCurrentStreak
         let longest = storage.puzzleState.longestStreak
-        let solved = storage.puzzleState.solves.filter(\.correct).count
+        let solved = storage.solvedUniqueCount
         if let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
             ShareLink(item: url,
                       message: Text(linkedInCaption(rating: rating)),
                       preview: SharePreview("Frame & Fork — \(titleForRating(rating).label)")) {
                 HStack(spacing: 5) {
-                    Image(systemName: "arrow.up.forward").font(.system(size: 10, weight: .bold))
-                    Text("Add to LinkedIn").font(.system(size: 12, weight: .semibold))
+                    Image(systemName: "arrow.up.forward").scaledFont(size: 10, weight: .bold)
+                    Text("Add to LinkedIn").scaledFont(size: 12, weight: .semibold)
                 }
                 .foregroundStyle(Color(red: 0.04, green: 0.40, blue: 0.76))   // subtle LinkedIn blue
             }
@@ -83,23 +84,23 @@ struct ProfileTab: View {
     private var identityCard: some View {
         let rating = storage.puzzleState.rating.rating
         let title = titleForRating(rating)
-        let solveCount = storage.puzzleState.solves.filter(\.correct).count
+        let solveCount = storage.solvedUniqueCount
 
         return VStack(spacing: 12) {
             Circle()
                 .fill(Color.brandGreen)
                 .frame(width: 80, height: 80)
-                .overlay(Image(systemName: "person.crop.circle.fill").font(.system(size: 48)).foregroundStyle(Color.bgPage))
+                .overlay(Image(systemName: "person.crop.circle.fill").scaledFont(size: 48).foregroundStyle(Color.bgPage))
 
-            Text("You").font(AppFont.titleSmall).foregroundStyle(Color.textPrimary)
+            Text("You").scaledFont(size: 20, weight: .bold, design: .rounded).foregroundStyle(Color.textPrimary)
 
             HStack(spacing: 8) {
-                Text("\(Int(rating))").font(AppFont.tabularLg).foregroundStyle(Color.textPrimary)
+                Text("\(Int(rating))").scaledFont(size: 28, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
                 TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier)
             }
 
             Text("\(solveCount) puzzles solved · \(storage.effectiveCurrentStreak)-day streak · longest \(storage.puzzleState.longestStreak)")
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()
 
@@ -150,17 +151,17 @@ struct ProfileTab: View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(Personas.get(g.personaId)?.role ?? g.personaId)
-                    .font(.system(size: 13, weight: .semibold)).foregroundStyle(Color.textPrimary).lineLimit(1)
-                Text(g.judgment?.verdict ?? "Scored on live read")
-                    .font(.system(size: 11)).foregroundStyle(Color.textMuted).lineLimit(1)
+                    .scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.textPrimary).lineLimit(1)
+                Text(g.judgment?.verdict ?? (g.rated ? "Scored on live read" : "Too short to rate"))
+                    .scaledFont(size: 11).foregroundStyle(Color.textMuted).lineLimit(1)
             }
             Spacer(minLength: 8)
             if let j = g.judgment {
                 Text("\(Int((j.fill * 100).rounded()))")
-                    .font(.system(size: 15, weight: .heavy, design: .rounded)).monospacedDigit()
+                    .scaledFont(size: 15, weight: .heavy, design: .rounded).monospacedDigit()
                     .foregroundStyle(gradeColor(j.fill))
             }
-            Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.textFaint)
+            Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
         }
         .padding(.vertical, 7)
         .contentShape(Rectangle())
@@ -176,9 +177,9 @@ struct ProfileTab: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Free vs Pro").microLabel(Color.brandGreen)
             Text("Free: Puzzles, Lessons, Master Games. No API key required.")
-                .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
             Text("Pro: Bot ladder (\(BotLadder.all.count) personas) + free-text play. Requires your own Anthropic key in Settings.")
-                .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -191,11 +192,11 @@ struct ProfileTab: View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Closer Foundation").microLabel()
             Text("Frame & Fork · v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")")
-                .font(.system(size: 14, weight: .semibold))
+                .scaledFont(size: 14, weight: .semibold)
                 .foregroundStyle(Color.textSecondary)
             Text("Cluely is the cheat code. We built the gym.")
                 .italic()
-                .font(.system(size: 13))
+                .scaledFont(size: 13)
                 .foregroundStyle(Color.textMuted)
         }
         .padding(.horizontal, 4)
@@ -205,11 +206,11 @@ struct ProfileTab: View {
     private func ratingRow(_ name: String, value: String, note: String) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
-                Text(name).font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary)
-                Text(note).font(.system(size: 11)).foregroundStyle(Color.textFaint)
+                Text(name).scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary)
+                Text(note).scaledFont(size: 11).foregroundStyle(Color.textFaint)
             }
             Spacer()
-            Text(value).font(AppFont.tabular).foregroundStyle(Color.textPrimary)
+            Text(value).scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
         }
     }
 }

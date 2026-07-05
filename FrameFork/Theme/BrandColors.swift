@@ -23,6 +23,9 @@ extension Color {
 
     // Semantic
     static let danger    = Color(red: 0.643, green: 0.149, blue: 0.173)         // #A4262C
+    // Text-weight danger: #A4262C measures ~2.1:1 on bgPage (WCAG AA needs 4.5:1) —
+    // error copy set in it was near-illegible. Use `danger` for fills/borders only.
+    static let dangerText = Color(red: 0.898, green: 0.282, blue: 0.302)        // #E5484D
     static let warning   = Color(red: 0.898, green: 0.647, blue: 0.039)         // #E5A50A
     static let info      = Color(red: 0.212, green: 0.573, blue: 0.906)         // #3692E7
     static let brilliant = Color(red: 0.106, green: 0.667, blue: 0.651)         // #1BAAA6
@@ -42,4 +45,6 @@ extension Color {
     static let themeMulti        = Color(red: 0.671, green: 0.420, blue: 0.180)  // #AB6B2E
     static let themeEndgame      = Color(red: 0.106, green: 0.667, blue: 0.651)  // #1BAAA6
     static let themeColdOpen     = Color(red: 0.608, green: 0.420, blue: 0.647)  // #9B6BA5
+    static let themeSalesAssist  = Color(red: 0.420, green: 0.498, blue: 0.647)  // #6B7FA5
+    static let themeForecastCall = Color(red: 0.647, green: 0.565, blue: 0.357)  // #A5905B
 }

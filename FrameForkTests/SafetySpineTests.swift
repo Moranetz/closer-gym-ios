@@ -91,13 +91,27 @@ final class SafetySpineTests: XCTestCase {
 
     // MARK: - THE LEAKAGE LOCK: the blind judge, on the REAL path, for EVERY persona
 
+    @MainActor
     func testJudge_isBlind_acrossAllPersonas_onRealPayload() throws {
         XCTAssertFalse(Personas.all.isEmpty)
+
+        // Put the sentinel where a future leak would actually read it from: the live
+        // Store's company profile. Without this, assertion 1 was true by construction
+        // (the sentinel existed nowhere) and could never catch a regression that wires
+        // Store.shared.companyProfile into the judge assembly.
+        let savedProfile = Store.shared.companyProfile
+        var leaky = configured()
+        leaky.productName = sentinel
+        leaky.objections = ["\(sentinel) objection"]
+        Store.shared.companyProfile = leaky
+        defer { Store.shared.companyProfile = savedProfile }
+
         for p in Personas.all {
             let payload = AnthropicClient.buildJudgePayload(persona: p, transcript: sampleTurns)
             let whole = payload.system + "\n" + payload.user
 
-            // 1. No company deal-context can reach the judge (the real assembly has no channel for it).
+            // 1. No company deal-context can reach the judge — even with a configured
+            //    profile sitting in the live Store.
             XCTAssertFalse(whole.contains(sentinel), "\(p.role): company context reached the judge")
 
             // 2. No distinctive hidden buyer field leaks.
@@ -106,9 +120,12 @@ final class SafetySpineTests: XCTestCase {
             }
 
             // 3. No persona-config BLOCK leaks (these section headers exist only in the persona prompt).
+            // These markers must be kept in sync with buildPersonaSystemPrompt's actual
+            // wording — a renamed header silently turns its leg of this check vacuous
+            // (which is exactly what happened to the old "Deal context — UNTRUSTED").
             for marker in ["What you actually want", "hidden curve ball",
                            "Techniques that BACKFIRE", "Techniques that WORK on you",
-                           "Deal context — UNTRUSTED"] {
+                           "Deal context — from the rep's own team", "UNTRUSTED business data"] {
                 XCTAssertFalse(whole.contains(marker), "\(p.role): persona-config block '\(marker)' leaked into the judge")
             }
 

@@ -47,8 +47,11 @@ struct LessonIndexView: View {
     private var encounteredIds: Set<String> {
         var ids = Set<String>()
         for solve in storage.puzzleState.solves where solve.correct {
-            if let puzzle = Puzzles.get(solve.puzzleId) {
-                let chosen = puzzle.candidates[solve.pickedIndex < 0 ? puzzle.bestIndex : min(solve.pickedIndex, puzzle.candidates.count - 1)]
+            if let puzzle = Puzzles.get(solve.puzzleId), !puzzle.candidates.isEmpty {
+                // Clamp BOTH branches into bounds — a future data update that shrinks
+                // a puzzle's candidates must not trap on an old solve's stored index.
+                let idx = solve.pickedIndex < 0 ? puzzle.bestIndex : solve.pickedIndex
+                let chosen = puzzle.candidates[max(0, min(idx, puzzle.candidates.count - 1))]
                 for tag in chosen.atlasTags {
                     ids.insert(tag)
                 }
@@ -72,7 +75,7 @@ struct LessonIndexView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Browse the Atlas taxonomy. Each entry shows mechanism, evidence verdict, folklore risk, and every puzzle, transcript, and master move that demonstrates it.")
-                    .font(.system(size: 13))
+                    .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
                     .padding(.horizontal, 16)
@@ -81,10 +84,10 @@ struct LessonIndexView: View {
                 // Search bar
                 HStack(spacing: 8) {
                     Image(systemName: "magnifyingglass")
-                        .font(.system(size: 14, weight: .semibold))
+                        .scaledFont(size: 14, weight: .semibold)
                         .foregroundStyle(Color.textMuted)
                     TextField("Search techniques", text: $search)
-                        .font(.system(size: 14))
+                        .scaledFont(size: 14)
                         .foregroundStyle(Color.textPrimary)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
@@ -93,7 +96,7 @@ struct LessonIndexView: View {
                             search = ""
                         } label: {
                             Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 14))
+                                .scaledFont(size: 14)
                                 .foregroundStyle(Color.textFaint)
                         }
                     }
@@ -107,10 +110,10 @@ struct LessonIndexView: View {
                 if !encounteredIds.isEmpty {
                     HStack(spacing: 8) {
                         Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 13))
+                            .scaledFont(size: 13)
                             .foregroundStyle(Color.brandGreen)
                         Text("\(encounteredIds.count) of \(AtlasTechniques.all.count) techniques encountered via puzzle solves")
-                            .font(.system(size: 12))
+                            .scaledFont(size: 12)
                             .foregroundStyle(Color.textMuted)
                     }
                     .padding(.horizontal, 16)
@@ -124,10 +127,10 @@ struct LessonIndexView: View {
                                 HStack {
                                     Text(cluster.label).microLabel(Color.textSecondary)
                                     Spacer()
-                                    Text("\(inCluster.count)").font(.system(size: 11, weight: .semibold)).foregroundStyle(Color.textMuted).monospacedDigit()
+                                    Text("\(inCluster.count)").scaledFont(size: 11, weight: .semibold).foregroundStyle(Color.textMuted).monospacedDigit()
                                 }
                                 Text(cluster.definition)
-                                    .font(.system(size: 11))
+                                    .scaledFont(size: 11)
                                     .italic()
                                     .foregroundStyle(Color.textFaint)
                                     .lineSpacing(2)
@@ -152,7 +155,7 @@ struct LessonIndexView: View {
 
                 if !search.isEmpty && filtered(AtlasTechniques.all).isEmpty {
                     Text("No techniques match \"\(search)\".")
-                        .font(.system(size: 13))
+                        .scaledFont(size: 13)
                         .foregroundStyle(Color.textMuted)
                         .italic()
                         .padding(20)
@@ -160,7 +163,7 @@ struct LessonIndexView: View {
                 }
 
                 Text("Verdict: well-studied means multiple replications across contexts; partial means lab evidence with weak field replication; untested means folklore-only; replication-failed means published failures of the canonical study.")
-                    .font(.system(size: 11))
+                    .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
                     .lineSpacing(3)
                     .padding(.horizontal, 16)
@@ -177,16 +180,16 @@ struct LessonIndexView: View {
     private func techniqueRow(_ t: Technique, encountered: Bool) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text(t.name).font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
+                Text(t.name).scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
                 if encountered {
                     Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 12))
+                        .scaledFont(size: 12)
                         .foregroundStyle(Color.brandGreen)
                 }
                 Spacer()
             }
             Text(t.mechanism.split(separator: ";").first.map(String.init) ?? t.mechanism)
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .lineSpacing(2)
                 .lineLimit(3)
@@ -206,7 +209,7 @@ struct LessonIndexView: View {
 
     private func pill(text: String, color: Color) -> some View {
         Text(text)
-            .font(.system(size: 9, weight: .heavy, design: .rounded))
+            .scaledFont(size: 9, weight: .heavy, design: .rounded)
             .kerning(0.4)
             .textCase(.uppercase)
             .foregroundStyle(color)

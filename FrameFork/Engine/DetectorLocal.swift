@@ -131,9 +131,12 @@ public enum DetectorLocal {
         ], weight: 1, needsContext: false),
     ]
 
+    // Compiled once — this runs on every keystroke-send, and every other pattern
+    // in the detector is already stored.
+    private static let greetingPattern = try! NSRegularExpression(pattern: #"^\s*(hi|hello|hey|thanks for|appreciate|good (?:morning|afternoon|evening))[\s,!.]*$"#, options: [.caseInsensitive])
+
     public static func detect(_ operatorText: String, recentBuyerTurn: String? = nil) -> Result {
         // Greeting / pleasantry fast-path
-        let greetingPattern = try! NSRegularExpression(pattern: #"^\s*(hi|hello|hey|thanks for|appreciate|good (?:morning|afternoon|evening))[\s,!.]*$"#, options: [.caseInsensitive])
         let textRange = NSRange(operatorText.startIndex..., in: operatorText)
         if greetingPattern.firstMatch(in: operatorText, options: [], range: textRange) != nil {
             return Result(techniqueIds: [], confidence: .high)
@@ -153,9 +156,26 @@ public enum DetectorLocal {
             if rule.needsContext, rule.id == "mirroring", let buyerTurn = recentBuyerTurn {
                 let buyerWords = buyerTurn.split(separator: " ").suffix(3).map { String($0).lowercased().filter { !$0.isPunctuation } }
                 if buyerWords.count >= 2 {
-                    let opLower = operatorText.lowercased()
-                    let openingChars = String(opLower.prefix(60))
-                    if buyerWords.allSatisfy({ $0.count > 1 && openingChars.contains($0) }) {
+                    // Whole-word match, not substring: "it" inside "timeline" used to
+                    // fire mirroring (and its +0.4 eval) on turns that mirrored nothing.
+                    // Inflection echoes still count ("budget" → "budgets?"), gated on a
+                    // 4-char stem so short words can't prefix-match their way back in.
+                    let openingWords = Set(
+                        String(operatorText.lowercased().prefix(60))
+                            .split(whereSeparator: { !$0.isLetter && !$0.isNumber })
+                            .map(String.init)
+                    )
+                    func echoed(_ w: String) -> Bool {
+                        // Exact word, or an inflection of it (stem ≥4 chars, suffix ≤3:
+                        // budget→budgets, think→thinking). A bare prefix test let
+                        // "time"/"timeline" count as an echo — same bug, narrower.
+                        openingWords.contains(w)
+                            || openingWords.contains { o in
+                                let (short, long) = w.count <= o.count ? (w, o) : (o, w)
+                                return short.count >= 4 && long.count - short.count <= 3 && long.hasPrefix(short)
+                            }
+                    }
+                    if buyerWords.allSatisfy({ $0.count > 1 && echoed($0) }) {
                         hits += 1
                     }
                 }

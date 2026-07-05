@@ -74,7 +74,19 @@ public final class ToneSynth {
     public func play(_ v: Verdict) {
         guard ToneSynth.isEnabled else { return }
         startIfNeeded()
-        guard started, let buf = render(notes(for: v)) else { return }
+        // An audio interruption (phone call, Siri, route change) stops AVAudioEngine
+        // behind our back; `started` alone would then schedule buffers into a dead
+        // engine and every verdict after the call would be silent until relaunch.
+        if started && !engine.isRunning {
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                try engine.start()
+                player.play()
+            } catch {
+                return   // stay silent this reveal; retry on the next one
+            }
+        }
+        guard started, engine.isRunning, let buf = render(notes(for: v)) else { return }
         player.scheduleBuffer(buf, at: nil, options: .interrupts, completionHandler: nil)
     }
 

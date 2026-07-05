@@ -52,7 +52,7 @@ struct MasterGameViewer: View {
             .toolbarBackground(Color.bgPage, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text(game.speaker).font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary).lineLimit(1)
+                    Text(game.speaker).scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary).lineLimit(1)
                 }
             }
             .onAppear { if revealedCount == 0 && activeGuess == nil && !finished { advance() } }
@@ -64,9 +64,9 @@ struct MasterGameViewer: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("MASTER STUDY · GUESS THE MOVE").microLabel(Color.brandGreen)
-            Text("vs \(game.opponentRole)").font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary)
-            Text(game.scenario).font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
-            Text("Style: \(game.speakerStyle)").font(.system(size: 12)).italic().foregroundStyle(Color.textMuted)
+            Text("vs \(game.opponentRole)").scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary)
+            Text(game.scenario).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
+            Text("Style: \(game.speakerStyle)").scaledFont(size: 12).italic().foregroundStyle(Color.textMuted)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -88,10 +88,10 @@ struct MasterGameViewer: View {
             .frame(height: 6)
             .overlay(Capsule().strokeBorder(Color.border, lineWidth: 1))
             HStack {
-                Text("BUYER").font(.system(size: 8, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
+                Text("BUYER").scaledFont(size: 8, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
                 Spacer()
                 Text("\(game.speaker.split(separator: " ").first.map(String.init)?.uppercased() ?? "YOU")")
-                    .font(.system(size: 8, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
+                    .scaledFont(size: 8, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
             }
         }
     }
@@ -115,8 +115,8 @@ struct MasterGameViewer: View {
                 if isOperator { Spacer(minLength: 28) }
                 VStack(alignment: .leading, spacing: 4) {
                     Text("\(speakerShort) · turn \(turnIndex + 1)".uppercased())
-                        .font(.system(size: 9, weight: .heavy, design: .rounded)).kerning(0.4).foregroundStyle(Color.textMuted)
-                    Text(move.text).font(.system(size: 14)).foregroundStyle(isOperator ? Color.textPrimary : Color.textSecondary).lineSpacing(2)
+                        .scaledFont(size: 9, weight: .heavy, design: .rounded).kerning(0.4).foregroundStyle(Color.textMuted)
+                    Text(move.text).scaledFont(size: 14).foregroundStyle(isOperator ? Color.textPrimary : Color.textSecondary).lineSpacing(2)
                 }
                 .padding(11)
                 .frame(maxWidth: 300, alignment: .leading)
@@ -128,7 +128,7 @@ struct MasterGameViewer: View {
             if isOperator, let annotation = move.annotation, let delta = move.delta {
                 if let matchedHere = results[turnIndex] {
                     Text(matchedHere ? "✓ You played it like \(speakerShort)" : "You went another way — \(speakerShort) played the above")
-                        .font(.system(size: 10, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 10, weight: .heavy, design: .rounded)
                         .foregroundStyle(matchedHere ? Color.brandGreen : Color.warning)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -143,11 +143,11 @@ struct MasterGameViewer: View {
         return VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: 6) {
                 if !q.glyph.isEmpty {
-                    Text(q.glyph).font(.system(size: 13, weight: .heavy)).foregroundStyle(q.color)
-                    Text(q.label).font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(q.color)
+                    Text(q.glyph).scaledFont(size: 13, weight: .heavy).foregroundStyle(q.color)
+                    Text(q.label).scaledFont(size: 10, weight: .heavy, design: .rounded).foregroundStyle(q.color)
                 }
             }
-            Text(annotation).font(.system(size: 12)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+            Text(annotation).scaledFont(size: 12).foregroundStyle(Color.textSecondary).lineSpacing(2)
         }
         .padding(10)
         .frame(maxWidth: 300, alignment: .leading)
@@ -169,10 +169,10 @@ struct MasterGameViewer: View {
                 } label: {
                     HStack(alignment: .top, spacing: 9) {
                         Text(String(UnicodeScalar(65 + i)!))
-                            .font(.system(size: 11, weight: .heavy, design: .rounded)).foregroundStyle(Color.textMuted)
+                            .scaledFont(size: 11, weight: .heavy, design: .rounded).foregroundStyle(Color.textMuted)
                             .frame(width: 20, height: 20)
                             .background(RoundedRectangle(cornerRadius: 5, style: .continuous).fill(Color.bgRail))
-                        Text(text).font(.system(size: 13)).foregroundStyle(Color.textPrimary).multilineTextAlignment(.leading).lineSpacing(2)
+                        Text(text).scaledFont(size: 13).foregroundStyle(Color.textPrimary).multilineTextAlignment(.leading).lineSpacing(2)
                         Spacer(minLength: 0)
                     }
                     .padding(11)
@@ -196,7 +196,7 @@ struct MasterGameViewer: View {
             awaitingContinue = false
             advance()
         } label: {
-            Text("Continue →").font(.system(size: 14, weight: .heavy, design: .rounded))
+            Text("Continue →").scaledFont(size: 14, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.bgPage).frame(maxWidth: .infinity).frame(height: 46)
                 .background(Color.brandGreen).clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
@@ -208,21 +208,21 @@ struct MasterGameViewer: View {
     private var summaryCard: some View {
         let isLoss = game.outcome == .loss
         return VStack(alignment: .leading, spacing: 12) {
-            Text(game.outcome.label).font(.system(size: 11, weight: .heavy, design: .rounded)).kerning(0.7)
+            Text(game.outcome.label).scaledFont(size: 11, weight: .heavy, design: .rounded).kerning(0.7)
                 .foregroundStyle(.white).padding(.horizontal, 8).padding(.vertical, 3)
                 .background(RoundedRectangle(cornerRadius: 3, style: .continuous).fill(game.outcome.color))
             Text(isLoss
                  ? "You walked into \(shortSpeaker)'s trap on \(matched) of \(attempted) — the point is feeling why these backfire."
                  : "You played it like \(shortSpeaker) on \(matched) of \(attempted) key moves.")
-                .font(.system(size: 17, weight: .heavy, design: .rounded)).foregroundStyle(Color.textPrimary).lineSpacing(2)
-            Text(game.outcomeNote).font(.system(size: 12.5)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                .scaledFont(size: 17, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary).lineSpacing(2)
+            Text(game.outcomeNote).scaledFont(size: 12.5).foregroundStyle(Color.textSecondary).lineSpacing(2)
             Divider().background(Color.border)
             Text("Study takeaway").microLabel(Color.brandGreen)
-            Text(game.studyHint).font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(3)
+            Text(game.studyHint).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(3)
             Button {
                 loadNext()
             } label: {
-                Text("Next master game →").font(.system(size: 14, weight: .heavy, design: .rounded))
+                Text("Next master game →").scaledFont(size: 14, weight: .heavy, design: .rounded)
                     .foregroundStyle(Color.bgPage).frame(maxWidth: .infinity).frame(height: 48)
                     .background(Color.brandGreen).clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
@@ -268,14 +268,17 @@ struct MasterGameViewer: View {
     }
 
     /// Deterministic shuffle of [real + decoys] so the answer position is stable per move.
+    /// Shuffles (text, isReal) pairs — matching by string after the shuffle broke scoring
+    /// whenever a decoy was textually identical to the master's line.
     private func options(for moveIndex: Int) -> (items: [String], realIndex: Int) {
         let m = game.moves[moveIndex]
-        var items = [m.text] + (m.alternatives ?? [])
+        var pairs: [(text: String, isReal: Bool)] =
+            [(m.text, true)] + (m.alternatives ?? []).map { ($0, false) }
         var seed: UInt64 = 0
         for c in (game.id + "#\(moveIndex)").unicodeScalars { seed = seed &* 31 &+ UInt64(c.value) }
         var rng = SeededRNG(seed: seed)
-        items.shuffle(using: &rng)
-        return (items, items.firstIndex(of: m.text) ?? 0)
+        pairs.shuffle(using: &rng)
+        return (pairs.map(\.text), pairs.firstIndex(where: \.isReal) ?? 0)
     }
 
     private func loadNext() {

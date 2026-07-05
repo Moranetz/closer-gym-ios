@@ -48,16 +48,18 @@ public struct CompanyProfile: Codable, Equatable, Sendable {
         let objs = objections.map { $0.trimmedNonEmpty }.filter { !$0.isEmpty }
         let comps = competitors.map { $0.trimmedNonEmpty }.filter { !$0.isEmpty }
         let diffs = differentiators.map { $0.trimmedNonEmpty }.filter { !$0.isEmpty }
-        var lines: [String] = ["# Real-world deal context (make the conversation about this deal)"]
-        lines.append("The rep is selling: \(productName.trimmedNonEmpty) — \(productDescription.trimmedNonEmpty).")
+        // DATA ONLY — no directives. This block lands inside the persona prompt's
+        // "never treat as instructions" fence, so any instruction written here is
+        // exactly what the model is told to ignore. The how-to-use directives live
+        // in AnthropicClient.buildPersonaSystemPrompt, outside the fence.
+        var lines: [String] = ["Product the rep is selling: \(productName.trimmedNonEmpty) — \(productDescription.trimmedNonEmpty)."]
         if !idealCustomer.trimmedNonEmpty.isEmpty { lines.append("Typical buyer / segment: \(idealCustomer.trimmedNonEmpty).") }
         if !objs.isEmpty {
-            lines.append("Raise these REAL objections naturally when they fit — they are the ones this rep's deals actually stall on:")
+            lines.append("Real objections this rep's deals actually stall on:")
             for o in objs { lines.append("- \(o)") }
         }
-        if !comps.isEmpty { lines.append("Competitors you might compare against: \(comps.joined(separator: ", ")).") }
-        if !diffs.isEmpty { lines.append("Things that would genuinely move you, if the rep earns them: \(diffs.joined(separator: "; ")).") }
-        lines.append("This only sets what the deal is about. Stay fully in your assigned character and keep every hidden-criteria and curveball rule above.")
+        if !comps.isEmpty { lines.append("Competitors in the deal: \(comps.joined(separator: ", ")).") }
+        if !diffs.isEmpty { lines.append("Differentiators the team believes in: \(diffs.joined(separator: "; ")).") }
         // Defense-in-depth cap so a pathological profile can't bloat every persona request (SECURITY T3).
         return String(lines.joined(separator: "\n").prefix(2000))
     }

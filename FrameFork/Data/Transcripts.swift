@@ -94,7 +94,7 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "Okay, you're right about that. Yeah, sure I can. Let's do this now. I have 30 minutes. That's no problem. Come on in."),
             ],
             techniqueNote: "Time-frame collision met with refusal and qualification. The buyer self-corrects upward from 10 to 30 minutes. The frame that reacts is the frame that loses.",
-            techniqueIds: ["takeaway", "accusation-audit"]
+            techniqueIds: ["takeaway"]
         ),
 
         Transcript(
@@ -242,7 +242,7 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "I'm not asking you to mortgage your house. I'm just asking you to make a small investment, three to four thousand, and let me prove myself to you."),
             ],
             techniqueNote: "Three-beat opener: enthusiasm (name plus firm), peer-equality ('how are you today' delivered as friend-tone), then urgency-with-scarcity. The small ask anchors a smaller commitment, making the eventual upsell feel low-risk.",
-            techniqueIds: ["accusation-audit", "scarcity", "social-proof"],
+            techniqueIds: ["scarcity", "social-proof"],
             paraphrased: true
         ),
     ]

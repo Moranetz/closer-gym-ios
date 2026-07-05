@@ -35,6 +35,31 @@ public struct PuzzleCandidate: Hashable, Codable, Sendable {
     public let eval: Double         // -2.0 to +2.0
     public let rationale: String
     public let atlasTags: [String]
+    // Move-quality flags on the BEST candidate only (JUICE-DOCTRINE §3): a Fork is
+    // the scarce hero verdict (~2–5% of the bank), a Sharp is the strong-but-not-hero
+    // tier. Defaults false so the existing 100-puzzle data compiles untouched — the
+    // celebration pipeline (Verdict.from → hero haptic/triad tone/anticipation reveal)
+    // has been wired end-to-end and waiting; flagging content is all that's left.
+    public var isFork: Bool = false
+    public var isSharp: Bool = false
+
+    public init(text: String, eval: Double, rationale: String, atlasTags: [String],
+                isFork: Bool = false, isSharp: Bool = false) {
+        self.text = text; self.eval = eval; self.rationale = rationale
+        self.atlasTags = atlasTags; self.isFork = isFork; self.isSharp = isSharp
+    }
+
+    // Tolerant decode: the synthesized decoder REQUIRES isFork/isSharp keys despite
+    // the defaults, which would break any future decode of pre-flag candidate JSON.
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        text      = try c.decode(String.self, forKey: .text)
+        eval      = try c.decode(Double.self, forKey: .eval)
+        rationale = (try? c.decodeIfPresent(String.self, forKey: .rationale)) ?? ""
+        atlasTags = (try? c.decodeIfPresent([String].self, forKey: .atlasTags)) ?? []
+        isFork    = (try? c.decodeIfPresent(Bool.self, forKey: .isFork)) ?? false
+        isSharp   = (try? c.decodeIfPresent(Bool.self, forKey: .isSharp)) ?? false
+    }
 }
 
 public enum PuzzleTheme: String, Codable, CaseIterable, Sendable {
@@ -45,6 +70,8 @@ public enum PuzzleTheme: String, Codable, CaseIterable, Sendable {
     case multistakeholder
     case endgame
     case coldOpen = "cold-open"
+    case salesAssist = "sales-assist"
+    case forecastCall = "forecast-call"
 
     public var label: String {
         switch self {
@@ -55,6 +82,8 @@ public enum PuzzleTheme: String, Codable, CaseIterable, Sendable {
         case .multistakeholder: return "Multi-stakeholder"
         case .endgame:          return "Endgame studies"
         case .coldOpen:         return "Cold opens"
+        case .salesAssist:      return "Sales assist"
+        case .forecastCall:     return "Forecast calls"
         }
     }
 
@@ -67,6 +96,8 @@ public enum PuzzleTheme: String, Codable, CaseIterable, Sendable {
         case .multistakeholder: return .themeMulti
         case .endgame:          return .themeEndgame
         case .coldOpen:         return .themeColdOpen
+        case .salesAssist:      return .themeSalesAssist
+        case .forecastCall:     return .themeForecastCall
         }
     }
 }

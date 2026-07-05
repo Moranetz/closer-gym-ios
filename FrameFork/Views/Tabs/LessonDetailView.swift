@@ -37,12 +37,12 @@ struct LessonDetailView: View {
                     NavigationLink(destination: PuzzleSolveView(puzzle: drillPuzzle, isDaily: false)) {
                         HStack(spacing: 10) {
                             Image(systemName: "play.fill")
-                                .font(.system(size: 14, weight: .bold))
+                                .scaledFont(size: 14, weight: .bold)
                                 .foregroundStyle(Color.bgPage)
                             VStack(alignment: .leading, spacing: 1) {
-                                Text("Drill this technique now").font(.system(size: 14, weight: .bold)).foregroundStyle(Color.bgPage)
+                                Text("Drill this technique now").scaledFont(size: 14, weight: .bold).foregroundStyle(Color.bgPage)
                                 Text("\(drillPuzzle.id.uppercased()) · ELO \(drillPuzzle.difficulty) · \(drillPuzzle.theme.label)")
-                                    .font(.system(size: 11, weight: .semibold))
+                                    .scaledFont(size: 11, weight: .semibold)
                                     .foregroundStyle(Color.bgPage.opacity(0.75))
                             }
                             Spacer()
@@ -62,7 +62,7 @@ struct LessonDetailView: View {
                 if !relatedMasterMoves.isEmpty { masterMovesSection }
                 if relatedPuzzles.isEmpty && relatedTranscripts.isEmpty && relatedMasterMoves.isEmpty {
                     Text("No puzzles, transcripts, or master moves are tagged with this technique yet.")
-                        .font(.system(size: 13))
+                        .scaledFont(size: 13)
                         .italic()
                         .foregroundStyle(Color.textMuted)
                         .padding(14)
@@ -81,7 +81,7 @@ struct LessonDetailView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(technique.name)
-                    .font(.system(size: 14, weight: .semibold))
+                    .scaledFont(size: 14, weight: .semibold)
                     .foregroundStyle(Color.textPrimary)
             }
         }
@@ -94,14 +94,14 @@ struct LessonDetailView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(technique.cluster.label).microLabel()
             Text(technique.name)
-                .font(AppFont.title)
+                .scaledFont(size: 22, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
             HStack(spacing: 6) {
                 pill(text: verdictLabel(technique.atlasVerdict), color: verdictColor(technique.atlasVerdict))
                 pill(text: "folklore: \(technique.folkloreRisk.rawValue)", color: riskColor(technique.folkloreRisk))
             }
             Text(technique.mechanism)
-                .font(.system(size: 14))
+                .scaledFont(size: 14)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(4)
                 .padding(.top, 4)
@@ -130,7 +130,7 @@ struct LessonDetailView: View {
     private func fieldCard(label: String, body: String) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(label).microLabel()
-            Text(body).font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(3)
+            Text(body).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(3)
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -157,14 +157,14 @@ struct LessonDetailView: View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(p.id.uppercased()).font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
-                    Text("ELO \(p.difficulty)").font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textMuted).monospacedDigit()
-                    Text(p.theme.label.uppercased()).font(.system(size: 10, weight: .semibold)).foregroundStyle(p.theme.tint).kerning(0.3)
+                    Text(p.id.uppercased()).scaledFont(size: 10, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
+                    Text("ELO \(p.difficulty)").scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).monospacedDigit()
+                    Text(p.theme.label.uppercased()).scaledFont(size: 10, weight: .semibold).foregroundStyle(p.theme.tint).kerning(0.3)
                 }
-                Text(p.buyerRole).font(.system(size: 13, weight: .semibold)).foregroundStyle(Color.textPrimary).lineLimit(1)
+                Text(p.buyerRole).scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.textPrimary).lineLimit(1)
             }
             Spacer()
-            Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.textFaint)
+            Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
         }
         .padding(12)
         .background(Color.bgPanel)
@@ -193,12 +193,12 @@ struct LessonDetailView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("\(t.speaker): \(t.title)")
-                    .font(.system(size: 13, weight: .bold))
+                    .scaledFont(size: 13, weight: .bold)
                     .foregroundStyle(Color.textPrimary)
                 Spacer()
                 if t.paraphrased {
                     Text("paraphrased")
-                        .font(.system(size: 9, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 9, weight: .heavy, design: .rounded)
                         .kerning(0.4)
                         .textCase(.uppercase)
                         .foregroundStyle(Color.warning)
@@ -207,7 +207,7 @@ struct LessonDetailView: View {
                 }
             }
             Text(t.scenario)
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .lineSpacing(2)
                 .lineLimit(3)
@@ -237,18 +237,18 @@ struct LessonDetailView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text("\(game.speaker) · turn \(turnIndex + 1)")
-                    .font(.system(size: 12, weight: .bold))
+                    .scaledFont(size: 12, weight: .bold)
                     .foregroundStyle(Color.textSecondary)
                 Spacer()
                 if let d = move.delta {
                     let q = classifyMove(d)
                     if !q.glyph.isEmpty {
-                        Text(q.glyph).font(.system(size: 12, weight: .heavy)).foregroundStyle(q.color)
+                        Text(q.glyph).scaledFont(size: 12, weight: .heavy).foregroundStyle(q.color)
                     }
                 }
             }
             Text("\u{201C}\(move.text)\u{201D}")
-                .font(.system(size: 13))
+                .scaledFont(size: 13)
                 .italic()
                 .foregroundStyle(Color.textPrimary)
                 .lineSpacing(2)
@@ -263,7 +263,7 @@ struct LessonDetailView: View {
 
     private func pill(text: String, color: Color) -> some View {
         Text(text)
-            .font(.system(size: 10, weight: .heavy, design: .rounded))
+            .scaledFont(size: 10, weight: .heavy, design: .rounded)
             .kerning(0.4)
             .textCase(.uppercase)
             .foregroundStyle(color)

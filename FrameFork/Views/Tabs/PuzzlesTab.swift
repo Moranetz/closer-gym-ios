@@ -2,10 +2,16 @@ import SwiftUI
 
 struct PuzzlesTab: View {
     @EnvironmentObject private var storage: Store
+    // Debug/screenshot hook (same pattern as FF_INITIAL_TAB): sim taps are often
+    // TCC-walled, so automation pushes the miss queue via env var instead.
+    @State private var showMisses = ProcessInfo.processInfo.environment["FF_PUSH_MISSES"] == "1"
 
     var body: some View {
         NavigationStack {
-            PuzzleIndexView()
+            // The destination is registered at STACK level and driven by state, so the
+            // Misses card can appear/disappear freely without popping a presented queue.
+            PuzzleIndexView(showMisses: $showMisses)
+                .navigationDestination(isPresented: $showMisses) { MissReviewView() }
         }
     }
 }
@@ -14,6 +20,8 @@ struct PuzzlesTab: View {
 
 struct PuzzleIndexView: View {
     @EnvironmentObject private var storage: Store
+    @Environment(\.sizeCategory) private var sizeCategory
+    @Binding var showMisses: Bool
     @State private var expanded: Set<PuzzleTheme> = [.budget]
 
     private var dailyPuzzle: Puzzle {
@@ -23,22 +31,28 @@ struct PuzzleIndexView: View {
 
     private var themes: [PuzzleTheme] {
         // Stable order — matches web
-        [.budget, .procurement, .stall, .renewal, .multistakeholder, .endgame, .coldOpen]
+        [.budget, .procurement, .stall, .renewal, .multistakeholder, .endgame, .coldOpen, .salesAssist, .forecastCall]
     }
 
     var body: some View {
+        ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 statsHeader
 
                 dailyHero
 
+                weaknessRow(proxy: proxy)
+
+                // One solved-set for all ~100 rows — per-row isSolved is O(solves) each.
+                let solvedIds = storage.solvedIdSet
                 ForEach(themes, id: \.self) { theme in
-                    themeSection(theme)
+                    themeSection(theme, solvedIds: solvedIds)
+                        .id(theme)
                 }
 
                 Text("\(Puzzles.all.count) hand-authored positions built straight from the Atlas plays. Solving is fully offline, no API key required.")
-                    .font(.system(size: 11))
+                    .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
                     .lineSpacing(2)
                     .padding(.horizontal, 16)
@@ -50,6 +64,59 @@ struct PuzzleIndexView: View {
         .navigationTitle("Puzzles")
         .navigationBarTitleDisplayMode(.large)
         .toolbarBackground(Color.bgPage, for: .navigationBar)
+        }
+    }
+
+    // MARK: - Weakest-theme pull
+
+    /// themeStats() is weakest-first; only pull once the sample is real (≥4
+    /// attempts) and there's genuine headroom (<80%) — never nag a clean slate.
+    private var weakestTheme: Store.ThemeStat? {
+        storage.themeStats().first { $0.attempts >= 4 && $0.rate < 0.8 }
+    }
+
+    @ViewBuilder
+    private func weaknessRow(proxy: ScrollViewProxy) -> some View {
+        if let weak = weakestTheme {
+            Button {
+                Haptics.shared.selection()
+                expanded.insert(weak.theme)
+                withAnimation(.spring(response: 0.45, dampingFraction: 0.85)) {
+                    proxy.scrollTo(weak.theme, anchor: .top)
+                }
+            } label: {
+                HStack(spacing: 10) {
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(Color.bgRail)
+                        Capsule().fill(Color.warning)
+                            .frame(width: 34 * max(0.08, weak.rate))
+                    }
+                    .frame(width: 34, height: 5)
+                    // Labels run long ("Procurement gauntlet") — keep the stat clause
+                    // terse so nothing truncates at two lines.
+                    (Text("\(weak.theme.label) is your weakest theme")
+                        .scaledFont(size: 13, weight: .bold, sizeCategory: sizeCategory)
+                        .foregroundStyle(Color.textPrimary)
+                     + Text(" — \(Int((weak.rate * 100).rounded()))% · \(weak.attempts) tries")
+                        .scaledFont(size: 12, sizeCategory: sizeCategory)
+                        .foregroundStyle(Color.textSecondary))
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                    Spacer(minLength: 8)
+                    Text("Drill →")
+                        .scaledFont(size: 12, weight: .heavy, design: .rounded)
+                        .foregroundStyle(Color.brandGreen)
+                }
+                .padding(.horizontal, 13)
+                .padding(.vertical, 11)
+                .background(Color.bgPanel)
+                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, 16)
+        }
     }
 
     // MARK: - Stats header
@@ -60,11 +127,46 @@ struct PuzzleIndexView: View {
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 statCard(label: "Puzzle rating", value: "\(Int(s.rating.rating))", badge: TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier))
+                missesCard
                 statCard(label: "Current streak", value: "\(storage.effectiveCurrentStreak)d", accent: storage.effectiveCurrentStreak > 0 ? .brandGreen : nil)
                 statCard(label: "Longest streak", value: "\(s.longestStreak)d")
-                statCard(label: "Solved", value: "\(s.solves.filter(\.correct).count)")
+                statCard(label: "Solved", value: "\(storage.solvedUniqueCount)")
             }
             .padding(.horizontal, 16)
+        }
+    }
+
+    /// Live miss-queue stat — appears only while misses are waiting. The queue
+    /// (`missedPuzzleIds`) is oldest-first and a miss re-solves for full rating,
+    /// so this is the one header stat that's also a call to action.
+    @ViewBuilder
+    private var missesCard: some View {
+        let missCount = storage.missedPuzzleIds.count
+        if missCount > 0 {
+            Button {
+                Haptics.shared.selection()
+                showMisses = true
+            } label: {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Misses").microLabel(Color.warning)
+                    HStack(spacing: 6) {
+                        Text("\(missCount)")
+                            .scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit()
+                            .foregroundStyle(Color.warning)
+                        Text("review →")
+                            .scaledFont(size: 11, weight: .semibold)
+                            .foregroundStyle(Color.textFaint)
+                    }
+                }
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .frame(minWidth: 130, alignment: .leading)
+                .background(Color.bgPanel)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.warning.opacity(0.45), lineWidth: 1))
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
         }
     }
 
@@ -73,7 +175,7 @@ struct PuzzleIndexView: View {
             Text(label).microLabel()
             HStack(spacing: 6) {
                 Text(value)
-                    .font(AppFont.tabular)
+                    .scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit()
                     .foregroundStyle(accent ?? .textPrimary)
                 if let badge { badge }
             }
@@ -88,20 +190,17 @@ struct PuzzleIndexView: View {
 
     // MARK: - Daily hero
 
-    @ViewBuilder
     private var dailyHero: some View {
-        if storage.dailyAttemptedToday {
-            // One attempt per calendar day — show a completed state instead of a
-            // live link so the daily can't be re-rolled for a clean streak.
-            dailyHeroCard(done: true)
-                .padding(.horizontal, 16)
-        } else {
-            NavigationLink(destination: PuzzleSolveView(puzzle: dailyPuzzle, isDaily: true)) {
-                dailyHeroCard(done: false)
-            }
-            .buttonStyle(.plain)
-            .padding(.horizontal, 16)
+        // One attempt per calendar day — disabled (not removed) once attempted. The link
+        // must stay in the hierarchy: `recordSolve` stamps the attempt at pick time, and
+        // removing the link here while its destination is presented pops the user out of
+        // the solve before the reveal ever lands.
+        NavigationLink(destination: PuzzleSolveView(puzzle: dailyPuzzle, isDaily: true)) {
+            dailyHeroCard(done: storage.dailyAttemptedToday)
         }
+        .buttonStyle(.plain)
+        .disabled(storage.dailyAttemptedToday)
+        .padding(.horizontal, 16)
     }
 
     private func dailyHeroCard(done: Bool) -> some View {
@@ -109,34 +208,34 @@ struct PuzzleIndexView: View {
             HStack(spacing: 8) {
                 Text("Daily Drill").microLabel(Color.brandGreen)
                 Text(Store.todayKey())
-                    .font(.system(size: 11, weight: .semibold))
+                    .scaledFont(size: 11, weight: .semibold)
                     .foregroundStyle(Color.textMuted)
                     .monospacedDigit()
             }
             Text(dailyPuzzle.theme.label)
-                .font(AppFont.title)
+                .scaledFont(size: 22, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
                 .lineLimit(2)
             Text("\(dailyPuzzle.buyerRole) · ELO \(dailyPuzzle.difficulty)")
-                .font(.system(size: 13))
+                .scaledFont(size: 13)
                 .foregroundStyle(Color.textSecondary)
             Text("“\(dailyPuzzle.buyerLine)”")
-                .font(.system(size: 13))
+                .scaledFont(size: 13)
                 .italic()
                 .foregroundStyle(Color.textMuted)
                 .lineLimit(2)
             if done {
                 HStack(spacing: 6) {
-                    Image(systemName: "checkmark.circle.fill").font(.system(size: 13))
+                    Image(systemName: "checkmark.circle.fill").scaledFont(size: 13)
                     Text("Done today · back tomorrow")
-                        .font(.system(size: 14, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 14, weight: .heavy, design: .rounded)
                 }
                 .foregroundStyle(Color.textMuted)
                 .padding(.horizontal, 14).padding(.vertical, 10)
                 .background(Capsule().fill(Color.bgRail))
             } else {
                 Text("Solve today's drill")
-                    .font(.system(size: 14, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 14, weight: .heavy, design: .rounded)
                     .foregroundStyle(.bgPage)
                     .padding(.horizontal, 14).padding(.vertical, 10)
                     .background(Capsule().fill(Color.brandGreen))
@@ -160,10 +259,10 @@ struct PuzzleIndexView: View {
     // MARK: - Theme section
 
     @ViewBuilder
-    private func themeSection(_ theme: PuzzleTheme) -> some View {
+    private func themeSection(_ theme: PuzzleTheme, solvedIds: Set<String>) -> some View {
         let inTheme = Puzzles.all.filter { $0.theme == theme }
         if !inTheme.isEmpty {
-            let solved = inTheme.filter { storage.isSolved($0.id) }.count
+            let solved = inTheme.filter { solvedIds.contains($0.id) }.count
             let binding = Binding<Bool>(
                 get: { expanded.contains(theme) },
                 set: { newValue in
@@ -187,12 +286,12 @@ struct PuzzleIndexView: View {
                     Spacer()
                     if solved > 0 {
                         Text("\(solved)/\(inTheme.count)")
-                            .font(.system(size: 11, weight: .heavy, design: .rounded))
+                            .scaledFont(size: 11, weight: .heavy, design: .rounded)
                             .foregroundStyle(.brandGreen)
                             .monospacedDigit()
                     } else {
                         Text("\(inTheme.count) position\(inTheme.count == 1 ? "" : "s")")
-                            .font(.system(size: 11, weight: .semibold))
+                            .scaledFont(size: 11, weight: .semibold)
                             .foregroundStyle(Color.textMuted)
                             .monospacedDigit()
                     }
@@ -213,34 +312,34 @@ struct PuzzleIndexView: View {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
                     Text(p.id.uppercased())
-                        .font(.system(size: 10, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 10, weight: .heavy, design: .rounded)
                         .kerning(0.5)
                         .foregroundStyle(Color.textFaint)
                     Text("ELO \(p.difficulty)")
-                        .font(.system(size: 10, weight: .semibold))
+                        .scaledFont(size: 10, weight: .semibold)
                         .foregroundStyle(Color.textMuted)
                         .monospacedDigit()
                     Text(difficultyTier(p.difficulty).rawValue)
-                        .font(.system(size: 10, weight: .semibold))
+                        .scaledFont(size: 10, weight: .semibold)
                         .foregroundStyle(Color.textMuted)
                         .textCase(.uppercase)
                         .kerning(0.4)
                     if storage.isSolved(p.id) {
-                        Image(systemName: "checkmark.circle.fill").font(.system(size: 11)).foregroundStyle(.brandGreen)
+                        Image(systemName: "checkmark.circle.fill").scaledFont(size: 11).foregroundStyle(.brandGreen)
                     }
                 }
                 Text(p.buyerRole)
-                    .font(.system(size: 14, weight: .semibold))
+                    .scaledFont(size: 14, weight: .semibold)
                     .foregroundStyle(Color.textPrimary)
                     .lineLimit(1)
                 Text("“\(p.buyerLine)”")
-                    .font(.system(size: 12))
+                    .scaledFont(size: 12)
                     .foregroundStyle(Color.textMuted)
                     .italic()
                     .lineLimit(2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Color.textFaint)
+            Image(systemName: "chevron.right").scaledFont(size: 12, weight: .bold).foregroundStyle(Color.textFaint)
         }
         .padding(14)
         .background(Color.bgPanel)

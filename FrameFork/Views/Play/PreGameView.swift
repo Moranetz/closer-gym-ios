@@ -33,7 +33,7 @@ struct PreGameView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("\(botMeta.rating) · \(persona?.track.label ?? "")")
-                    .font(.system(size: 13, weight: .semibold))
+                    .scaledFont(size: 13, weight: .semibold)
                     .foregroundStyle(Color.textSecondary)
                     .monospacedDigit()
             }
@@ -43,14 +43,14 @@ struct PreGameView: View {
     private var botCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("OPPONENT · ELO \(botMeta.rating)")
-                .font(.system(size: 10, weight: .heavy, design: .rounded))
+                .scaledFont(size: 10, weight: .heavy, design: .rounded)
                 .kerning(0.6)
                 .foregroundStyle(Color.textMuted)
             Text(persona?.role ?? botMeta.personaId)
-                .font(AppFont.titleSmall)
+                .scaledFont(size: 20, weight: .bold, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
             Text(botMeta.oneLineTagline)
-                .font(.system(size: 13))
+                .scaledFont(size: 13)
                 .italic()
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)
@@ -112,16 +112,16 @@ struct PreGameView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("PRE-REGISTER YOUR INTENT")
-                    .font(.system(size: 11, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 11, weight: .heavy, design: .rounded)
                     .kerning(0.6)
                     .foregroundStyle(Color.brandGreen)
                 Spacer()
                 Text("\(selectedTechniques.count) selected")
-                    .font(.system(size: 11))
+                    .scaledFont(size: 11)
                     .foregroundStyle(Color.textMuted)
             }
             Text("Pick the Atlas techniques you intend to deploy. After the game, the detector compares what you intended against what actually fired.")
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(2)
             FlowLayout(spacing: 6, lineSpacing: 6) {
@@ -136,7 +136,7 @@ struct PreGameView: View {
                     } label: {
                         let isOn = selectedTechniques.contains(t.id)
                         Text(t.name)
-                            .font(.system(size: 11, weight: .semibold))
+                            .scaledFont(size: 11, weight: .semibold)
                             .foregroundStyle(isOn ? Color.brandGreen : Color.textSecondary)
                             .padding(.horizontal, 8).padding(.vertical, 4)
                             .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(isOn ? Color.brandGreen.opacity(0.14) : Color.bgRail))
@@ -153,8 +153,20 @@ struct PreGameView: View {
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
+    @ViewBuilder
     private var startButton: some View {
-        PrimaryButton(title: "Start game", symbol: "play.fill", isEnabled: true, style: .green) {
+        if Arcs.get(personaId: botMeta.personaId) != nil {
+            PrimaryButton(title: "Spar — offline", symbol: "figure.boxing", isEnabled: true, style: .green) {
+                Haptics.shared.medium()
+                path.append(.sparring(botMeta))
+            }
+            Text(Keychain.hasAPIKey()
+                 ? "Authored conversation, fully offline. Or start a free-text live game below."
+                 : "Authored conversation, fully offline — no API key needed.")
+                .scaledFont(size: 11)
+                .foregroundStyle(Color.textFaint)
+        }
+        PrimaryButton(title: "Start game", symbol: "play.fill", isEnabled: Keychain.hasAPIKey(), style: .green) {
             Haptics.shared.medium()
             path.append(.live(botMeta, Array(selectedTechniques)))
         }
@@ -162,7 +174,7 @@ struct PreGameView: View {
 
     private func chip(text: String, color: Color) -> some View {
         Text(text)
-            .font(.system(size: 11, weight: .semibold))
+            .scaledFont(size: 11, weight: .semibold)
             .foregroundStyle(color)
             .padding(.horizontal, 8).padding(.vertical, 3)
             .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(color.opacity(0.12)))
@@ -171,8 +183,8 @@ struct PreGameView: View {
 
     private func stat(label: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(label).font(.system(size: 10, weight: .heavy, design: .rounded)).kerning(0.4).foregroundStyle(Color.textMuted)
-            Text(value).font(.system(size: 12, weight: .semibold)).foregroundStyle(Color.textPrimary)
+            Text(label).scaledFont(size: 10, weight: .heavy, design: .rounded).kerning(0.4).foregroundStyle(Color.textMuted)
+            Text(value).scaledFont(size: 12, weight: .semibold).foregroundStyle(Color.textPrimary)
         }
     }
 }

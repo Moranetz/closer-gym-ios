@@ -30,12 +30,15 @@ struct SimpleReviewView: View {
     }
 
     @EnvironmentObject private var storage: Store
+    @Environment(\.sizeCategory) private var sizeCategory
     @State private var ratingDelta: Double? = nil
     @State private var newRating: Double = 1500
     @State private var didCommit: Bool = false
     @State private var grading: Bool = false
     @State private var judgment: RolePlayJudgment? = nil
     @State private var judgeAttempted: Bool = false
+    @State private var unrated: Bool = false
+    @State private var openLesson: Technique? = nil
 
     private var persona: Persona? { Personas.get(botMeta.personaId) }
     private var operatorTurnCount: Int { transcript.filter { $0.role == "operator" }.count }
@@ -61,11 +64,14 @@ struct SimpleReviewView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Game review")
-                    .font(.system(size: 13, weight: .semibold))
+                    .scaledFont(size: 13, weight: .semibold)
                     .foregroundStyle(Color.textSecondary)
             }
         }
         .task { await judgeAndCommit() }
+        .sheet(item: $openLesson) { t in
+            NavigationStack { LessonDetailView(technique: t) }
+        }
     }
 
     /// Run the blind judge (if a key + enough turns), then commit the game ONCE with the
@@ -73,6 +79,23 @@ struct SimpleReviewView: View {
     private func judgeAndCommit() async {
         guard !didCommit else { return }
         didCommit = true   // claim the commit up front so a re-entry can't double-record (Store is @MainActor)
+
+        // A game needs at least 2 operator turns to be scorable. Without this, an
+        // instant "/end" (or one greeting + End) records a free draw against a bot
+        // rated up to +200 — a guaranteed Glicko gain, repeatable up the whole
+        // ladder with zero turns played. Too-short games are simply not rated.
+        guard operatorTurnCount >= 2 else {
+            // Record (transcript/history kept) but never rate — see recordGame.
+            unrated = true
+            let result = storage.recordGame(
+                botRating: botMeta.rating, score: score, personaId: botMeta.personaId,
+                evalCurve: evalCurve, intentTechniques: intentTechniques,
+                firedTechniques: firedTechniques, durationSec: durationSec,
+                turns: transcript, judgment: nil, rated: false
+            )
+            newRating = result.newRating
+            return
+        }
         var judged: RolePlayJudgment? = nil
         if operatorTurnCount >= 2, Keychain.hasAPIKey(), let p = persona {
             judgeAttempted = true
@@ -105,7 +128,7 @@ struct SimpleReviewView: View {
                 HStack(spacing: 10) {
                     ProgressView().tint(Color.brandGreen)
                     Text("Coach is grading your craft…")
-                        .font(.system(size: 13, weight: .semibold))
+                        .scaledFont(size: 13, weight: .semibold)
                         .foregroundStyle(Color.textSecondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -113,18 +136,18 @@ struct SimpleReviewView: View {
                 Text("COACH'S GRADE").microLabel(Color.textSecondary)
                 HStack(alignment: .firstTextBaseline) {
                     Text(j.verdict)
-                        .font(.system(size: 21, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 21, weight: .heavy, design: .rounded)
                         .foregroundStyle(gradeColor(j.fill))
                     Spacer()
                     Text("\(Int((j.fill * 100).rounded()))")
-                        .font(.system(size: 28, weight: .light, design: .rounded))
+                        .scaledFont(size: 28, weight: .light, design: .rounded, sizeCategory: sizeCategory)
                         .monospacedDigit()
                         .foregroundStyle(Color.textPrimary)
-                    + Text("/100").font(.system(size: 13, weight: .heavy, design: .rounded)).foregroundStyle(Color.textMuted)
+                    + Text("/100").scaledFont(size: 13, weight: .heavy, design: .rounded, sizeCategory: sizeCategory).foregroundStyle(Color.textMuted)
                 }
                 GradeBar(fill: j.fill, color: gradeColor(j.fill))
                 Text(j.summary)
-                    .font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                    .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
                 VStack(spacing: 7) {
                     ForEach(Array(j.criteria.enumerated()), id: \.offset) { _, c in criterionRow(c) }
                 }
@@ -132,13 +155,15 @@ struct SimpleReviewView: View {
                 ratingLine
             } else {
                 Text(outcomeLabel)
-                    .font(.system(size: 21, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 21, weight: .heavy, design: .rounded)
                     .foregroundStyle(outcomeColor)
                 ratingLine
-                Text(judgeAttempted
+                Text(unrated
+                     ? "Not rated — a game needs at least two of your turns to be scored."
+                     : judgeAttempted
                      ? "Coach grade unavailable for this game — the grader didn't respond. Scored on the live read."
                      : "Full AI craft grade needs a Pro key (Settings → Pro). Scored on the live read this game.")
-                    .font(.system(size: 11)).foregroundStyle(Color.textFaint)
+                    .scaledFont(size: 11).foregroundStyle(Color.textFaint)
             }
         }
         .padding(14)
@@ -150,9 +175,14 @@ struct SimpleReviewView: View {
 
     private var ratingLine: some View {
         HStack(spacing: 16) {
-            stat(label: "New ELO", value: String(format: "%.0f", newRating))
+            // "—" until the commit lands: the @State default (1500) is a placeholder,
+            // not the user's rating, and must never flash on screen.
+            stat(label: unrated ? "ELO" : "New ELO",
+                 value: (ratingDelta != nil || unrated) ? String(format: "%.0f", newRating) : "—")
             if let d = ratingDelta {
                 stat(label: "Delta", value: String(format: "%@%.1f", d >= 0 ? "+" : "", d))
+            } else if unrated {
+                stat(label: "Delta", value: "not rated")
             }
             stat(label: "Length", value: "\(durationSec / 60)m \(durationSec % 60)s")
             Spacer(minLength: 0)
@@ -163,13 +193,13 @@ struct SimpleReviewView: View {
     private func criterionRow(_ c: RolePlayJudgment.Criterion) -> some View {
         HStack(spacing: 10) {
             Text(prettyCriterion(c.name))
-                .font(.system(size: 11, weight: .heavy, design: .rounded))
+                .scaledFont(size: 11, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textSecondary)
                 .frame(width: 96, alignment: .leading)
             GradeBar(fill: max(0, min(1, c.score)), color: gradeColor(c.score))
                 .frame(width: 54)
             Text(c.note)
-                .font(.system(size: 11)).foregroundStyle(Color.textMuted)
+                .scaledFont(size: 11).foregroundStyle(Color.textMuted)
                 .lineLimit(2)
             Spacer(minLength: 0)
         }
@@ -222,11 +252,11 @@ struct SimpleReviewView: View {
             VStack(alignment: isOp ? .trailing : .leading, spacing: 4) {
                 if let mark {
                     Text(mark.0)
-                        .font(.system(size: 8.5, weight: .heavy, design: .rounded)).kerning(0.5)
+                        .scaledFont(size: 8.5, weight: .heavy, design: .rounded).kerning(0.5)
                         .foregroundStyle(mark.1)
                 }
                 Text(item.turn.text)
-                    .font(.system(size: 12.5))
+                    .scaledFont(size: 12.5)
                     .foregroundStyle(Color.textPrimary)
                     .padding(.horizontal, 10).padding(.vertical, 7)
                     .background(isOp ? Color.brandGreen.opacity(0.12) : Color.bgRail)
@@ -248,7 +278,7 @@ struct SimpleReviewView: View {
 
     private func noteLabel(_ text: String, _ color: Color, trailing: Bool) -> some View {
         Text(text)
-            .font(.system(size: 10.5)).italic()
+            .scaledFont(size: 10.5).italic()
             .foregroundStyle(color)
             .frame(maxWidth: 220, alignment: trailing ? .trailing : .leading)
             .multilineTextAlignment(trailing ? .trailing : .leading)
@@ -261,11 +291,11 @@ struct SimpleReviewView: View {
                 .frame(height: 64)
                 .padding(.top, 2)
             HStack {
-                Text("Buyer −3").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
+                Text("Buyer −3").scaledFont(size: 10, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
                 Spacer()
-                Text("Even 0").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
+                Text("Even 0").scaledFont(size: 10, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
                 Spacer()
-                Text("You +3").font(.system(size: 10, weight: .heavy, design: .rounded)).foregroundStyle(Color.textFaint)
+                Text("You +3").scaledFont(size: 10, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
             }
         }
         .padding(14)
@@ -285,7 +315,7 @@ struct SimpleReviewView: View {
         return VStack(alignment: .leading, spacing: 10) {
             Text("Intent vs fired").microLabel(Color.textSecondary)
             Text("Pre-registered \(intent.count) · fired \(fired.count) · matched \(matched.count)")
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()
             techniqueRow(title: "Landed as planned", ids: Array(matched), color: Color.brandGreen)
@@ -321,27 +351,44 @@ struct SimpleReviewView: View {
     private func techniqueRow(title: String, ids: [String], color: Color) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.system(size: 10, weight: .heavy, design: .rounded))
+                .scaledFont(size: 10, weight: .heavy, design: .rounded)
                 .kerning(0.4)
                 .foregroundStyle(color)
             if ids.isEmpty {
                 Text("none")
-                    .font(.system(size: 11))
+                    .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
             } else {
                 FlowLayout(spacing: 5, lineSpacing: 5) {
+                    // Tappable into the Atlas lesson — the debrief hands the rep their
+                    // next rep instead of dead-ending on a name (chips were plain text).
+                    // Sheet, not NavigationLink: this stack's path is a typed
+                    // Binding<[PlayRoute]>, and SwiftUI DISABLES view-destination
+                    // links inside such stacks — the chips would render but do nothing.
                     ForEach(ids, id: \.self) { tid in
-                        Text(AtlasTechniques.name(for: tid))
-                            .font(.system(size: 10, weight: .semibold))
-                            .foregroundStyle(color)
-                            .padding(.horizontal, 6).padding(.vertical, 2)
-                            .background(color.opacity(0.12))
-                            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(color.opacity(0.3), lineWidth: 1))
-                            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                        if let technique = AtlasTechniques.get(tid) {
+                            Button { openLesson = technique } label: {
+                                techniqueChip(tid, color: color)
+                            }
+                            .buttonStyle(.plain)
+                        } else {
+                            techniqueChip(tid, color: color)
+                        }
                     }
                 }
             }
         }
+    }
+
+    private func techniqueChip(_ tid: String, color: Color) -> some View {
+        Text(AtlasTechniques.name(for: tid))
+            .scaledFont(size: 10, weight: .semibold)
+            .foregroundStyle(color)
+            .padding(.horizontal, 6).padding(.vertical, 2)
+            .background(color.opacity(0.12))
+            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(color.opacity(0.3), lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+            .contentShape(Rectangle())
     }
 
     private var doneButton: some View {
@@ -352,8 +399,8 @@ struct SimpleReviewView: View {
 
     private func stat(label: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(label).font(.system(size: 10, weight: .heavy, design: .rounded)).kerning(0.4).foregroundStyle(Color.textMuted)
-            Text(value).font(.system(size: 13, weight: .heavy, design: .rounded)).monospacedDigit().foregroundStyle(Color.textPrimary)
+            Text(label).scaledFont(size: 10, weight: .heavy, design: .rounded).kerning(0.4).foregroundStyle(Color.textMuted)
+            Text(value).scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
         }
     }
 

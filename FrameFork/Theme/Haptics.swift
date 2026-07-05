@@ -21,6 +21,7 @@ final class Haptics {
     private let heavyImpact  = UIImpactFeedbackGenerator(style: .heavy)
     private let notifGen     = UINotificationFeedbackGenerator()
     private var engine: CHHapticEngine?
+    private var engineStopped = false
 
     private init() {
         // Warm them up.
@@ -77,22 +78,31 @@ final class Haptics {
             engine?.resetHandler = { [weak self] in
                 try? self?.engine?.start()
             }
-            engine?.stoppedHandler = { _ in /* will auto-restart on next play */ }
+            // The engine stops on every backgrounding/audio interruption; flag it so
+            // playPattern actually restarts it (a stopped engine throws on play, which
+            // used to leave every custom haptic permanently silent).
+            engine?.stoppedHandler = { [weak self] _ in
+                Task { @MainActor in self?.engineStopped = true }
+            }
         } catch {
             engine = nil
         }
     }
 
+    /// Generator-based fallback (three escalating taps) — must not touch the CH engine.
+    private func escalatingTapsFallback() {
+        mediumImpact.impactOccurred()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [self] in
+            mediumImpact.impactOccurred()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) { [self] in
+            heavyImpact.impactOccurred()
+        }
+    }
+
     func streakMilestone() {
         guard engine != nil else {
-            // Fallback: three medium taps
-            mediumImpact.impactOccurred()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.12) { [self] in
-                mediumImpact.impactOccurred()
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.30) { [self] in
-                heavyImpact.impactOccurred()
-            }
+            escalatingTapsFallback()
             return
         }
         do {
@@ -112,7 +122,8 @@ final class Haptics {
             ]
             try playPattern(events)
         } catch {
-            // Silent failure — never crash on a missing haptic.
+            // Never silent on an earned beat — degrade to the generator taps.
+            escalatingTapsFallback()
         }
     }
 
@@ -138,7 +149,7 @@ final class Haptics {
     /// Title promotion — the rank-up moment. A celebratory rise with three
     /// ascending sparkles. The biggest earned beat in the puzzle loop.
     func titlePromotion() {
-        guard engine != nil else { streakMilestone(); return }
+        guard engine != nil else { escalatingTapsFallback(); return }
         // (relativeTime, intensity, sharpness) for three ascending sparkles.
         let sparkles: [(Double, Float, Float)] = [(0.10, 0.60, 0.60), (0.23, 0.73, 0.73), (0.38, 0.86, 0.86)]
         do {
@@ -156,14 +167,31 @@ final class Haptics {
                 events.append(CHHapticEvent(eventType: .hapticTransient, parameters: params, relativeTime: s.0))
             }
             try playPattern(events)
-        } catch { streakMilestone() }
+        } catch {
+            // Direct generator fallback — recursing into another CH pattern would
+            // throw the same way and land silent on the rank-up moment.
+            escalatingTapsFallback()
+        }
     }
 
     private func playPattern(_ events: [CHHapticEvent]) throws {
         guard let engine else { return }
+        if engineStopped {
+            try engine.start()
+            engineStopped = false
+        }
         let pattern = try CHHapticPattern(events: events, parameters: [])
-        let player = try engine.makePlayer(with: pattern)
-        try player.start(atTime: 0)
+        do {
+            let player = try engine.makePlayer(with: pattern)
+            try player.start(atTime: 0)
+        } catch {
+            // The engine can die without the stopped callback having landed yet —
+            // restart once and retry before giving up to the caller's fallback.
+            try engine.start()
+            engineStopped = false
+            let player = try engine.makePlayer(with: pattern)
+            try player.start(atTime: 0)
+        }
     }
 
     /// Haptic matched to a move verdict — paired with ToneSynth at the call site, fired

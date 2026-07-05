@@ -20,7 +20,7 @@ struct PuzzleSolveView: View {
     @State private var revealed = false
     // Element order matches Store.recordSolve's return so assignment doesn't implicitly reorder
     // (that reorder is a deprecation warning → future error). Access is by label, so callers are unaffected.
-    @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int)? = nil
+    @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int, rated: Bool)? = nil
     @State private var shakeWrong = false
     @State private var transcriptOpen: Bool = false
     @State private var promotedTo: String? = nil   // set when this solve crosses a title band
@@ -80,11 +80,11 @@ struct PuzzleSolveView: View {
             ToolbarItem(placement: .principal) {
                 HStack(spacing: 8) {
                     Text(puzzle.theme.label.uppercased())
-                        .font(.system(size: 11, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 11, weight: .heavy, design: .rounded)
                         .kerning(0.6)
                         .foregroundStyle(puzzle.theme.tint)
                     Text("·  ELO \(puzzle.difficulty)")
-                        .font(.system(size: 11, weight: .semibold))
+                        .scaledFont(size: 11, weight: .semibold)
                         .foregroundStyle(Color.textMuted)
                         .monospacedDigit()
                 }
@@ -101,7 +101,7 @@ struct PuzzleSolveView: View {
             HStack(spacing: 8) {
                 Text("Daily Drill").microLabel(Color.brandGreen)
                 Text(Store.todayKey())
-                    .font(.system(size: 11, weight: .semibold))
+                    .scaledFont(size: 11, weight: .semibold)
                     .foregroundStyle(Color.textMuted)
                     .monospacedDigit()
             }
@@ -118,7 +118,7 @@ struct PuzzleSolveView: View {
                 Spacer()
             }
             Text(puzzle.setup)
-                .font(.system(size: 14))
+                .scaledFont(size: 14)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)
 
@@ -127,7 +127,7 @@ struct PuzzleSolveView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Buyer says").microLabel()
                     Text("“\(puzzle.buyerLine)”")
-                        .font(.system(size: 18, weight: .bold, design: .rounded))
+                        .scaledFont(size: 18, weight: .bold, design: .rounded)
                         .italic()
                         .foregroundStyle(Color.textPrimary)
                         .lineSpacing(3)
@@ -171,7 +171,7 @@ struct PuzzleSolveView: View {
     // MARK: - Reveal panel
 
     @ViewBuilder
-    private func revealPanel(change: (newRating: Double, delta: Double, newStreak: Int), v: Verdict) -> some View {
+    private func revealPanel(change: (newRating: Double, delta: Double, newStreak: Int, rated: Bool), v: Verdict) -> some View {
         let outcomeColor: Color = v.color
         let title = titleForRating(change.newRating)
 
@@ -179,26 +179,38 @@ struct PuzzleSolveView: View {
             // Verdict hero — the move classification IS the reward (JUICE-DOCTRINE §1).
             HStack(alignment: .center, spacing: 14) {
                 Text(v.glyph)
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
+                    .scaledFont(size: 36, weight: .bold, design: .rounded)
                     .foregroundStyle(outcomeColor)
                     .frame(minWidth: 44)
+                    .accessibilityHidden(true)   // punctuation glyph; v.label beside it carries the meaning
                 VStack(alignment: .leading, spacing: 3) {
                     Text(v.label)
-                        .font(.system(size: 22, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 22, weight: .heavy, design: .rounded)
                         .foregroundStyle(outcomeColor)
                     HStack(spacing: 8) {
-                        Text("\(change.delta >= 0 ? "+" : "")\(Int(change.delta.rounded())) ELO")
-                            .font(AppFont.tabular)
-                            .foregroundStyle(change.delta >= 0 ? .brandGreen : .danger)
-                        Text("· \(Int(change.newRating))").font(AppFont.tabular).foregroundStyle(Color.textMuted)
+                        if change.rated {
+                            Text("\(change.delta >= 0 ? "+" : "")\(Int(change.delta.rounded())) ELO")
+                                .scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit()
+                                .foregroundStyle(change.delta >= 0 ? .brandGreen : .dangerText)
+                        } else {
+                            // Honest state for a re-solve: the answer was already
+                            // revealed once, so no rating moves — never a green "+0".
+                            // On a daily whose puzzle was solved before via its theme
+                            // list, the streak still counts — say that, not "practice",
+                            // or the copy contradicts the flame incrementing beside it.
+                            Text(isDaily ? "Rating unchanged" : "Practice · not rated")
+                                .scaledFont(size: 12, weight: .semibold)
+                                .foregroundStyle(Color.textMuted)
+                        }
+                        Text("· \(Int(change.newRating))").scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit().foregroundStyle(Color.textMuted)
                         TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier)
                     }
                 }
                 Spacer()
                 if isDaily {
                     VStack(spacing: 2) {
-                        Image(systemName: "flame.fill").font(.system(size: 18)).foregroundStyle(Color.warning)
-                        Text("\(change.newStreak)d").font(AppFont.tabular).foregroundStyle(Color.textPrimary)
+                        Image(systemName: "flame.fill").scaledFont(size: 18).foregroundStyle(Color.warning)
+                        Text("\(change.newStreak)d").scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
                     }
                 }
             }
@@ -208,14 +220,14 @@ struct PuzzleSolveView: View {
             if let promotedTo {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.up.circle.fill")
-                        .font(.system(size: 16, weight: .bold))
+                        .scaledFont(size: 16, weight: .bold)
                         .foregroundStyle(Color.brandGreen)
                     Text("PROMOTED")
-                        .font(.system(size: 10, weight: .heavy, design: .rounded))
+                        .scaledFont(size: 10, weight: .heavy, design: .rounded)
                         .kerning(0.8)
                         .foregroundStyle(Color.brandGreen)
                     Text("→ \(promotedTo)")
-                        .font(.system(size: 13, weight: .bold))
+                        .scaledFont(size: 13, weight: .bold)
                         .foregroundStyle(Color.textPrimary)
                     Spacer()
                 }
@@ -230,7 +242,7 @@ struct PuzzleSolveView: View {
                 Divider().background(Color.border)
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Theme").microLabel(Color.brandGreen)
-                    Text(hint).font(.system(size: 13)).foregroundStyle(Color.textSecondary).italic().lineSpacing(2)
+                    Text(hint).scaledFont(size: 13).foregroundStyle(Color.textSecondary).italic().lineSpacing(2)
                 }
             }
 
@@ -252,18 +264,18 @@ struct PuzzleSolveView: View {
                 } label: {
                     HStack(spacing: 8) {
                         Image(systemName: "text.bubble.fill")
-                            .font(.system(size: 13))
+                            .scaledFont(size: 13)
                             .foregroundStyle(Color.brandGreen)
                         VStack(alignment: .leading, spacing: 2) {
                             Text("Read full transcript").microLabel(Color.brandGreen)
                             Text("\(t.speaker): \(t.title)")
-                                .font(.system(size: 13, weight: .semibold))
+                                .scaledFont(size: 13, weight: .semibold)
                                 .foregroundStyle(Color.textSecondary)
                                 .lineLimit(1)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 12, weight: .bold))
+                            .scaledFont(size: 12, weight: .bold)
                             .foregroundStyle(Color.textFaint)
                     }
                     .padding(.vertical, 8)
@@ -297,7 +309,9 @@ struct PuzzleSolveView: View {
         let correct = origIdx == puzzle.bestIndex
         // Future content can flag the best candidate as a Fork/Sharp; absent flags, the
         // top achievable verdict is Best.
-        let v = Verdict.from(pickedEval: picked.eval, isBestPick: correct)
+        let v = Verdict.from(pickedEval: picked.eval, isBestPick: correct,
+                             isFork: correct && picked.isFork,
+                             isSharp: correct && picked.isSharp)
 
         // Capture rating + title BEFORE the solve so we can detect a rank-up. (recordSolve
         // commits the new rating before it returns, so we must snapshot here.)
@@ -318,7 +332,10 @@ struct PuzzleSolveView: View {
         let newTitle = titleForRating(result.newRating).label
         let didPromote = correct && newTitle != oldTitle && result.newRating > oldRating
         promotedTo = didPromote ? newTitle : nil
-        let hitStreakMilestone = correct && [3, 7, 14, 30, 100].contains(result.newStreak)
+        // Daily-only: recordSolve returns the UNCHANGED streak for non-daily solves,
+        // so without the gate a 7-day streak replayed the milestone haptic on every
+        // correct puzzle in a grind session — devaluing the earned beat.
+        let hitStreakMilestone = isDaily && correct && [3, 7, 14, 30, 100].contains(result.newStreak)
 
         // Verdict feedback — haptic ~14ms before the tone so they fuse (JUICE-DOCTRINE §4).
         // The verdict's own haptic/sound carry the asymmetry; a Fork gets an anticipation
@@ -441,9 +458,9 @@ private struct ConvictionBar: View {
             .frame(height: 7)
             .overlay(Capsule().strokeBorder(Color.border, lineWidth: 1))
             HStack {
-                Text("BUYER").font(.system(size: 8, weight: .heavy, design: .rounded)).kerning(0.5).foregroundStyle(Color.textFaint)
+                Text("BUYER").scaledFont(size: 8, weight: .heavy, design: .rounded).kerning(0.5).foregroundStyle(Color.textFaint)
                 Spacer()
-                Text("YOU").font(.system(size: 8, weight: .heavy, design: .rounded)).kerning(0.5).foregroundStyle(Color.textFaint)
+                Text("YOU").scaledFont(size: 8, weight: .heavy, design: .rounded).kerning(0.5).foregroundStyle(Color.textFaint)
             }
         }
         .onAppear {

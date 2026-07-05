@@ -52,10 +52,10 @@ struct PrimaryButton: View {
                         HStack(spacing: 8) {
                             if let symbol {
                                 Image(systemName: symbol)
-                                    .font(.system(size: 18, weight: .bold))
+                                    .scaledFont(size: 18, weight: .bold)
                             }
                             Text(title)
-                                .font(.system(size: 15, weight: .heavy, design: .rounded))
+                                .scaledFont(size: 15, weight: .heavy, design: .rounded)
                                 .kerning(0.4)
                                 .textCase(.uppercase)
                         }
@@ -87,10 +87,10 @@ struct SecondaryButton: View {
         }) {
             HStack(spacing: 8) {
                 if let symbol {
-                    Image(systemName: symbol).font(.system(size: 16, weight: .semibold))
+                    Image(systemName: symbol).scaledFont(size: 16, weight: .semibold)
                 }
                 Text(title)
-                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                    .scaledFont(size: 15, weight: .bold, design: .rounded)
                     .kerning(0.3)
             }
             .foregroundStyle(Color.textSecondary)

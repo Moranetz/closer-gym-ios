@@ -115,16 +115,30 @@ struct ShareCard: View {
 /// temporary file. Designed for use with ShareLink or UIActivityViewController.
 @MainActor
 public enum ShareCardRenderer {
+    // Cache keyed on the stats: ProfileTab evaluates its body on every Store change
+    // and calls render from TWO ShareLinks — without the cache that was two full
+    // 1080×1080 offscreen renders + synchronous main-thread disk writes per pass.
+    private static var cachedKey: String?
+    private static var cachedURL: URL?
+
     public static func render(rating: Double, streak: Int, longestStreak: Int, solveCount: Int) -> URL? {
+        let rating = rating.isFinite ? rating : 1200   // Int(NaN) is a runtime trap
+        let key = "\(Int(rating))-\(streak)-\(longestStreak)-\(solveCount)"
+        if key == cachedKey, let cachedURL, FileManager.default.fileExists(atPath: cachedURL.path) {
+            return cachedURL
+        }
         let card = ShareCard(rating: rating, streak: streak, longestStreak: longestStreak, solveCount: solveCount)
         let renderer = ImageRenderer(content: card)
         renderer.scale = 1.0  // 1080x1080 native
         guard let image = renderer.uiImage,
               let data = image.pngData() else { return nil }
 
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("framefork-rating-\(Int(rating)).png")
+        // Stable filename — the old per-rating name accumulated stale PNGs in tmp.
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("framefork-rating-card.png")
         do {
             try data.write(to: url)
+            cachedKey = key
+            cachedURL = url
             return url
         } catch {
             return nil

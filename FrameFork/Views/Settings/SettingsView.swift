@@ -13,6 +13,7 @@ struct SettingsView: View {
     @State private var confirmClearData = false
     @State private var hasKey = Keychain.hasAPIKey()
     @State private var notifEnabled: Bool = DailyNotifications.isEnabled
+    @State private var notifDenied = false
     @State private var notifTime: Date = {
         var c = DateComponents()
         c.hour = DailyNotifications.hour
@@ -31,6 +32,11 @@ struct SettingsView: View {
                 section(title: "Pro Tier") {
                     if FeatureFlags.subscriptionsEnabled {
                         proSubscriptionCard
+                        // The BYO-key card must stay reachable: gameplay still calls
+                        // Anthropic directly with the Keychain key, so hiding this on
+                        // flag-flip would strand subscribers (and existing key users)
+                        // with an error pointing at UI that no longer exists.
+                        proTierCard
                     } else {
                         proTierCard
                     }
@@ -53,7 +59,7 @@ struct SettingsView: View {
                 }
 
                 Text("Frame & Fork v\(appVersion) (build \(buildNumber)). Part of the Closer Foundation research program.")
-                    .font(.system(size: 11))
+                    .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
                     .padding(.top, 16)
                     .padding(.horizontal, 4)
@@ -94,10 +100,15 @@ struct SettingsView: View {
                 storage.saveCompanyProfile()
                 Keychain.deleteAPIKey()
                 hasKey = false
+                // Disarm the daily reminder too — a wiped account must not keep
+                // getting "keep your streak alive" pings for a streak that's gone.
+                DailyNotifications.isEnabled = false
+                DailyNotifications.cancel()
+                notifEnabled = false
                 Haptics.shared.success()
             }
         } message: {
-            Text("Deletes puzzle solves, ratings, streaks, role-play transcripts, your saved deal data, and your Pro tier API key from this device. Cannot be undone.")
+            Text("Deletes puzzle solves, ratings, streaks, role-play transcripts, your saved deal data, and your API key from this device. Cannot be undone.")
         }
     }
 
@@ -117,19 +128,19 @@ struct SettingsView: View {
         } label: {
             HStack {
                 Image(systemName: hasKey ? "lock.shield.fill" : "lock.shield")
-                    .font(.system(size: 18))
+                    .scaledFont(size: 18)
                     .foregroundStyle(hasKey ? Color.brandGreen : Color.textMuted)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(hasKey ? "Anthropic API key set" : "Set Anthropic API key")
-                        .font(.system(size: 14, weight: .semibold))
+                        .scaledFont(size: 14, weight: .semibold)
                         .foregroundStyle(Color.textPrimary)
-                    Text(hasKey ? "Pro tier active. Bot ladder unlocked." : "Required to unlock the bot ladder.")
-                        .font(.system(size: 12))
+                    Text(hasKey ? "API key set. Bot ladder available." : "The bot ladder runs on your own Anthropic account.")
+                        .scaledFont(size: 12)
                         .foregroundStyle(Color.textMuted)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .bold))
+                    .scaledFont(size: 12, weight: .bold)
                     .foregroundStyle(Color.textFaint)
             }
             .padding(14)
@@ -149,15 +160,15 @@ struct SettingsView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: subscriptions.isPro ? "checkmark.seal.fill" : "sparkles")
-                    .font(.system(size: 18)).foregroundStyle(Color.brandGreen).frame(width: 28)
+                    .scaledFont(size: 18).foregroundStyle(Color.brandGreen).frame(width: 28)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(subscriptions.isPro ? "Frame & Fork Pro active" : "Get Frame & Fork Pro")
-                        .font(.system(size: 14, weight: .bold)).foregroundStyle(Color.textPrimary)
+                        .scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
                     Text(subscriptions.isPro ? "Unlimited role-play and the AI coach." : "Unlock unlimited role-play and the AI coach.")
-                        .font(.system(size: 12)).foregroundStyle(Color.textMuted)
+                        .scaledFont(size: 12).foregroundStyle(Color.textMuted)
                 }
                 Spacer()
-                Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Color.textFaint)
+                Image(systemName: "chevron.right").scaledFont(size: 12, weight: .bold).foregroundStyle(Color.textFaint)
             }
             .padding(14)
             .frame(maxWidth: .infinity)
@@ -175,17 +186,17 @@ struct SettingsView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: storage.companyProfile.isConfigured ? "target" : "scope")
-                    .font(.system(size: 18)).foregroundStyle(Color.brandGreen).frame(width: 28)
+                    .scaledFont(size: 18).foregroundStyle(Color.brandGreen).frame(width: 28)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(storage.companyProfile.isConfigured ? "Trained on your deals" : "Train on your deals")
-                        .font(.system(size: 14, weight: .bold)).foregroundStyle(Color.textPrimary)
+                        .scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
                     Text(storage.companyProfile.isConfigured
                          ? "Role-play buyers raise your real objections."
                          : "Make role-play buyers argue your real objections, not a generic script.")
-                        .font(.system(size: 12)).foregroundStyle(Color.textMuted)
+                        .scaledFont(size: 12).foregroundStyle(Color.textMuted)
                 }
                 Spacer()
-                Image(systemName: "chevron.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Color.textFaint)
+                Image(systemName: "chevron.right").scaledFont(size: 12, weight: .bold).foregroundStyle(Color.textFaint)
             }
             .padding(14)
             .frame(maxWidth: .infinity)
@@ -200,13 +211,13 @@ struct SettingsView: View {
         VStack(spacing: 0) {
             HStack {
                 Image(systemName: "bell.fill")
-                    .font(.system(size: 16))
+                    .scaledFont(size: 16)
                     .foregroundStyle(notifEnabled ? Color.brandGreen : Color.textMuted)
                 Text("Daily Drill reminder")
-                    .font(.system(size: 14, weight: .semibold))
+                    .scaledFont(size: 14, weight: .semibold)
                     .foregroundStyle(Color.textPrimary)
                 Spacer()
-                Toggle("", isOn: $notifEnabled)
+                Toggle("Daily Drill reminder", isOn: $notifEnabled)
                     .labelsHidden()
                     .tint(Color.brandGreen)
                     .onChange(of: notifEnabled) { _, on in
@@ -214,11 +225,18 @@ struct SettingsView: View {
                             Task {
                                 let granted = await DailyNotifications.requestAuthorization()
                                 await MainActor.run {
+                                    // The user may have flipped the toggle back OFF while the
+                                    // authorization dialog was up — don't override their choice.
+                                    guard notifEnabled else { return }
                                     if granted {
                                         DailyNotifications.isEnabled = true
                                         DailyNotifications.schedule()
+                                        notifDenied = false
                                     } else {
+                                        // iOS never re-prompts after a denial — without
+                                        // guidance the toggle just "won't stay on".
                                         notifEnabled = false
+                                        notifDenied = true
                                     }
                                 }
                             }
@@ -229,12 +247,27 @@ struct SettingsView: View {
                     }
             }
             .padding(14)
+            if notifDenied {
+                Divider().background(Color.border)
+                HStack(spacing: 8) {
+                    Text("Notifications are off for Frame & Fork in iOS Settings.")
+                        .scaledFont(size: 12)
+                        .foregroundStyle(Color.textMuted)
+                    Spacer(minLength: 8)
+                    if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                        Link("Open Settings", destination: url)
+                            .scaledFont(size: 12, weight: .semibold)
+                            .foregroundStyle(Color.brandGreen)
+                    }
+                }
+                .padding(14)
+            }
             if notifEnabled {
                 Divider().background(Color.border)
                 HStack {
-                    Text("Reminder time").font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary)
+                    Text("Reminder time").scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary)
                     Spacer()
-                    DatePicker("", selection: $notifTime, displayedComponents: .hourAndMinute)
+                    DatePicker("Reminder time", selection: $notifTime, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                         .onChange(of: notifTime) { _, newTime in
                             let comps = Calendar.current.dateComponents([.hour, .minute], from: newTime)
@@ -268,10 +301,10 @@ struct SettingsView: View {
     private func linkRow(label: String, icon: String, url: URL) -> some View {
         Link(destination: url) {
             HStack {
-                Image(systemName: icon).font(.system(size: 16)).foregroundStyle(Color.textMuted)
-                Text(label).font(.system(size: 14, weight: .semibold)).foregroundStyle(Color.textPrimary)
+                Image(systemName: icon).scaledFont(size: 16).foregroundStyle(Color.textMuted)
+                Text(label).scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary)
                 Spacer()
-                Image(systemName: "arrow.up.right").font(.system(size: 12, weight: .bold)).foregroundStyle(Color.textFaint)
+                Image(systemName: "arrow.up.right").scaledFont(size: 12, weight: .bold).foregroundStyle(Color.textFaint)
             }
             .padding(14)
             .contentShape(Rectangle())
@@ -283,11 +316,11 @@ struct SettingsView: View {
         VStack(spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Solved: \(storage.puzzleState.solves.filter(\.correct).count) puzzles")
-                        .font(.system(size: 13, weight: .semibold))
+                    Text("Solved: \(storage.solvedUniqueCount) puzzles")
+                        .scaledFont(size: 13, weight: .semibold)
                         .foregroundStyle(Color.textPrimary)
                     Text("Current streak: \(storage.effectiveCurrentStreak)d · Longest: \(storage.puzzleState.longestStreak)d")
-                        .font(.system(size: 11))
+                        .scaledFont(size: 11)
                         .foregroundStyle(Color.textMuted)
                 }
                 Spacer()
@@ -298,8 +331,8 @@ struct SettingsView: View {
                 confirmClearData = true
             } label: {
                 HStack {
-                    Image(systemName: "trash").font(.system(size: 16))
-                    Text("Clear all data").font(.system(size: 14, weight: .semibold))
+                    Image(systemName: "trash").scaledFont(size: 16)
+                    Text("Clear all data").scaledFont(size: 14, weight: .semibold)
                     Spacer()
                 }
                 .foregroundStyle(Color.danger)
@@ -321,35 +354,42 @@ private struct APIKeySheet: View {
     @Environment(\.dismiss) private var dismiss
     @State private var keyInput: String = ""
     @State private var showingKey: Bool = false
+    @State private var saveError: String? = nil
+    @State private var keyHint: String? = nil
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Pro tier · Anthropic API key").microLabel(Color.brandGreen)
+                    Text("Your Anthropic API key").microLabel(Color.brandGreen)
                     Text("Your key is stored in the iOS Keychain on this device only. It is sent directly to Anthropic to generate bot responses. Frame & Fork does not receive, log, or store it.")
-                        .font(.system(size: 13))
+                        .scaledFont(size: 13)
                         .foregroundStyle(Color.textSecondary)
                         .lineSpacing(3)
                         .padding(.bottom, 8)
 
+                    if let keyHint {
+                        Text(keyHint)
+                            .scaledFont(size: 12, design: .monospaced)
+                            .foregroundStyle(Color.textMuted)
+                    }
                     HStack {
                         if showingKey {
                             TextField("sk-ant-...", text: $keyInput)
                                 .textInputAutocapitalization(.never)
                                 .autocorrectionDisabled(true)
-                                .font(.system(size: 14, design: .monospaced))
+                                .scaledFont(size: 14, design: .monospaced)
                         } else {
                             SecureField("sk-ant-...", text: $keyInput)
                                 .textInputAutocapitalization(.never)
                                 .autocorrectionDisabled(true)
-                                .font(.system(size: 14, design: .monospaced))
+                                .scaledFont(size: 14, design: .monospaced)
                         }
                         Button {
                             showingKey.toggle()
                         } label: {
                             Image(systemName: showingKey ? "eye.slash" : "eye")
-                                .font(.system(size: 14))
+                                .scaledFont(size: 14)
                                 .foregroundStyle(Color.textMuted)
                         }
                     }
@@ -358,12 +398,27 @@ private struct APIKeySheet: View {
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
 
+                    if let saveError {
+                        Text(saveError)
+                            .scaledFont(size: 12)
+                            .foregroundStyle(Color.dangerText)
+                    }
+
                     HStack(spacing: 10) {
-                        PrimaryButton(title: hasKey ? "Update key" : "Save key", symbol: "checkmark", isEnabled: !keyInput.trimmingCharacters(in: .whitespaces).isEmpty, style: .green) {
-                            Keychain.saveAPIKey(keyInput.trimmingCharacters(in: .whitespaces))
-                            hasKey = true
-                            Haptics.shared.success()
-                            dismiss()
+                        // Trim newlines too: a key pasted from a terminal/notes app often
+                        // carries a trailing \n, and Foundation drops header values that
+                        // contain newlines — the saved key then 401s forever while the
+                        // UI says "Pro tier active".
+                        PrimaryButton(title: hasKey ? "Update key" : "Save key", symbol: "checkmark", isEnabled: !keyInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, style: .green) {
+                            if Keychain.saveAPIKey(keyInput.trimmingCharacters(in: .whitespacesAndNewlines)) {
+                                hasKey = true
+                                saveError = nil
+                                Haptics.shared.success()
+                                dismiss()
+                            } else {
+                                saveError = "Couldn't save the key to the Keychain. Try again, or restart the app."
+                                Haptics.shared.error()
+                            }
                         }
                         if hasKey {
                             SecondaryButton(title: "Remove", symbol: "trash") {
@@ -379,14 +434,14 @@ private struct APIKeySheet: View {
 
                     Text("Where to get a key").microLabel()
                     Text("Sign in at console.anthropic.com, then go to API Keys and create a new key. The string starts with sk-ant-.")
-                        .font(.system(size: 12))
+                        .scaledFont(size: 12)
                         .foregroundStyle(Color.textMuted)
                         .lineSpacing(2)
 
                     Link(destination: URL(string: "https://console.anthropic.com/settings/keys")!) {
                         HStack(spacing: 6) {
-                            Text("Open console.anthropic.com").font(.system(size: 13, weight: .semibold)).foregroundStyle(Color.brandGreen)
-                            Image(systemName: "arrow.up.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.brandGreen)
+                            Text("Open console.anthropic.com").scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.brandGreen)
+                            Image(systemName: "arrow.up.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.brandGreen)
                         }
                     }
 
@@ -404,9 +459,11 @@ private struct APIKeySheet: View {
                 }
             }
             .onAppear {
-                // Pre-populate if key exists, but mask by default
-                if let existing = Keychain.loadAPIKey() {
-                    keyInput = existing
+                // NEVER pre-populate the field with the stored key: combined with the
+                // eye toggle it echoed the full billing-bearing secret to anyone
+                // holding the unlocked phone. Show a masked hint; input replaces.
+                if let existing = Keychain.loadAPIKey(), existing.count > 6 {
+                    keyHint = "Saved key: sk-ant-…\(existing.suffix(4))"
                 }
             }
         }

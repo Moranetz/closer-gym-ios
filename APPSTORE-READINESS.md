@@ -35,11 +35,17 @@ hosted-file update. Honest go/no-go below.
    regenerate fresh ones from the current build on request. *(Mine, on request.)*
 
 ## ⚠️ Lower priority / latent
-- `terms.html` → **404**, linked only from `PaywallView`, which is behind
-  `FeatureFlags.subscriptionsEnabled = false` (unreachable today). Host a terms page *before* you
-  ever flip subscriptions on, or drop the link. Not an active blocker.
+- ~~`terms.html` → 404~~ **RESOLVED** — fixed with blocker 1; verified HTTP 200 on 2026-07-03
+  along with `/apps/frame-fork/`, `privacy.html`, and `support.html`.
 - BYO-key model: generally accepted by Apple for AI client apps, given the real free tier + the
-  review-notes test path above. Low risk; keep as-is.
+  review-notes test path above. Low risk. 2026-07-03: in-app copy reframed from "Pro tier
+  locked … each game costs roughly $0.50 on your key" (a quotable 3.1.1 tripwire: paid-tier
+  framing + a price claim outside IAP) to utility framing ("connects to your existing Anthropic
+  account … billed by Anthropic, not by this app").
+- Latent 3.1.2/2.1 hazard if `FeatureFlags.subscriptionsEnabled` is ever flipped before the LLM
+  proxy exists: `SubscriptionStore.isPro` unlocks nothing (the only gameplay gate is
+  `Keychain.hasAPIKey()`), so a paying subscriber without a key still sees every bot locked.
+  Wire `isPro` into the unlock check (and route requests through the proxy) before flipping.
 
 ## Not an App Store blocker (but the product's real gap)
 The puzzle bank is still largely guessable and the backend/billing tier doesn't exist. Neither

@@ -50,6 +50,17 @@
                ReferencedContainer = "container:FrameFork.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C3958ECED629A9236D731870"
+               BuildableName = "FrameForkUITests.xctest"
+               BlueprintName = "FrameForkUITests"
+               ReferencedContainer = "container:FrameFork.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

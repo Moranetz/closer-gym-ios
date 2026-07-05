@@ -262,15 +262,21 @@ public struct BotMeta: Identifiable, Hashable, Sendable {
 public enum BotLadder {
     public static let all: [BotMeta] = Personas.all
         .map { p in BotMeta(personaId: p.id, rating: eloFor(p), oneLineTagline: tagline(for: p)) }
-        .sorted { $0.rating < $1.rating }
+        // personaId tiebreaker: the derived ELOs collide (two 1550s, two 2050s) and
+        // Swift's sort is not stable — without it, tied bots swap rows between launches.
+        .sorted { ($0.rating, $0.personaId) < ($1.rating, $1.personaId) }
 
     public static func get(_ id: String) -> BotMeta? {
         all.first { $0.personaId == id }
     }
 
-    /// Unlock policy: any bot within +200 ELO of the player's current Game rating.
+    /// Unlock policy: any bot within +200 ELO of the player's current Game rating —
+    /// and the easiest bot is ALWAYS unlocked. Without that floor, a fresh player
+    /// (placement 1200, ceiling 1400) faced a ladder whose lowest bot is 1425:
+    /// every row locked, on the tier the user just paid to reach.
     public static func isUnlocked(_ bot: BotMeta, playerRating: Int) -> Bool {
-        bot.rating <= playerRating + 200
+        if bot.personaId == all.first?.personaId { return true }
+        return bot.rating <= playerRating + 200
     }
 
     private static func eloFor(_ p: Persona) -> Int {

@@ -13,13 +13,13 @@ struct MasterGameIndexView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 14) {
                 Text("Call the master's move before you see it · free, no API key")
-                    .font(.system(size: 13))
+                    .scaledFont(size: 13)
                     .foregroundStyle(Color.textMuted)
                     .padding(.horizontal, 16)
                     .padding(.top, 4)
 
                 Text("Hand-authored studies in the style of Voss, Klaff, Belfort, Cardone, and Burg. Step through a real deal and predict each pivotal move — then see what the master actually did, and why.")
-                    .font(.system(size: 13))
+                    .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
                     .padding(.horizontal, 16)
@@ -33,7 +33,7 @@ struct MasterGameIndexView: View {
                 .padding(.horizontal, 16)
 
                 Text("Inspired-by-style constructions, not verbatim quotes.")
-                    .font(.system(size: 11))
+                    .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
@@ -52,31 +52,31 @@ struct MasterGameIndexView: View {
         return VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text(game.id.uppercased())
-                    .font(.system(size: 10, weight: .heavy, design: .rounded))
+                    .scaledFont(size: 10, weight: .heavy, design: .rounded)
                     .kerning(0.5)
                     .foregroundStyle(Color.textFaint)
                 Spacer()
                 Text("GUESS THE MOVES")
-                    .font(.system(size: 9, weight: .heavy, design: .rounded)).kerning(0.5)
+                    .scaledFont(size: 9, weight: .heavy, design: .rounded).kerning(0.5)
                     .foregroundStyle(Color.brandGreen)
             }
             Text(game.speaker)
-                .font(AppFont.titleSmall)
+                .scaledFont(size: 20, weight: .bold, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
             Text("vs \(game.opponentRole)")
-                .font(.system(size: 12))
+                .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
             Text(game.speakerStyle)
-                .font(.system(size: 13))
+                .scaledFont(size: 13)
                 .italic()
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(2)
             HStack(spacing: 6) {
-                Text("\(operatorMoves) moves").font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
+                Text("\(operatorMoves) moves").scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
                 Text("·").foregroundStyle(Color.textFaint)
-                Text(game.openingECO).font(.system(size: 10, weight: .semibold)).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
+                Text(game.openingECO).scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
                 Spacer()
-                Image(systemName: "chevron.right").font(.system(size: 11, weight: .bold)).foregroundStyle(Color.textFaint)
+                Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
             }
         }
         .padding(14)

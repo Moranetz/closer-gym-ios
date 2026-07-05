@@ -21,7 +21,7 @@ struct GameHistoryDetailView: View {
         .toolbarBackground(Color.bgPage, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Past game").font(.system(size: 13, weight: .semibold)).foregroundStyle(Color.textSecondary)
+                Text("Past game").scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.textSecondary)
             }
         }
     }
@@ -29,28 +29,28 @@ struct GameHistoryDetailView: View {
     private var gradeCard: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(persona?.role ?? record.personaId)
-                .font(.system(size: 18, weight: .heavy, design: .rounded)).foregroundStyle(Color.textPrimary)
+                .scaledFont(size: 18, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary)
             HStack(spacing: 16) {
                 stat("ELO after", String(format: "%.0f", record.ratingAfter))
-                stat("Delta", String(format: "%@%.1f", record.delta >= 0 ? "+" : "", record.delta))
+                stat("Delta", record.rated ? String(format: "%@%.1f", record.delta >= 0 ? "+" : "", record.delta) : "not rated")
                 stat("Length", "\(record.durationSec / 60)m \(record.durationSec % 60)s")
                 Spacer(minLength: 0)
             }
             if let j = record.judgment {
                 Divider().background(Color.border)
                 HStack(alignment: .firstTextBaseline) {
-                    Text(j.verdict).font(.system(size: 18, weight: .heavy, design: .rounded)).foregroundStyle(gradeColor(j.fill))
+                    Text(j.verdict).scaledFont(size: 18, weight: .heavy, design: .rounded).foregroundStyle(gradeColor(j.fill))
                     Spacer()
-                    Text("\(Int((j.fill * 100).rounded()))/100").font(.system(size: 14, weight: .light, design: .rounded))
+                    Text("\(Int((j.fill * 100).rounded()))/100").scaledFont(size: 14, weight: .light, design: .rounded)
                         .monospacedDigit().foregroundStyle(Color.textMuted)
                 }
-                Text(j.summary).font(.system(size: 13)).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                Text(j.summary).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
                 ForEach(Array(j.criteria.enumerated()), id: \.offset) { _, c in
                     HStack(spacing: 8) {
                         Text(c.name.replacingOccurrences(of: "_", with: " ").capitalized)
-                            .font(.system(size: 11, weight: .heavy, design: .rounded)).foregroundStyle(Color.textSecondary)
+                            .scaledFont(size: 11, weight: .heavy, design: .rounded).foregroundStyle(Color.textSecondary)
                             .frame(width: 100, alignment: .leading)
-                        Text(c.note).font(.system(size: 11)).foregroundStyle(Color.textMuted).lineLimit(2)
+                        Text(c.note).scaledFont(size: 11).foregroundStyle(Color.textMuted).lineLimit(2)
                         Spacer(minLength: 0)
                     }
                 }
@@ -71,7 +71,7 @@ struct GameHistoryDetailView: View {
                 HStack {
                     if isOp { Spacer(minLength: 28) }
                     Text(t.text)
-                        .font(.system(size: 12.5)).foregroundStyle(Color.textPrimary)
+                        .scaledFont(size: 12.5).foregroundStyle(Color.textPrimary)
                         .padding(.horizontal, 10).padding(.vertical, 7)
                         .background(isOp ? Color.brandGreen.opacity(0.12) : Color.bgRail)
                         .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
@@ -90,8 +90,8 @@ struct GameHistoryDetailView: View {
 
     private func stat(_ label: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(label).font(.system(size: 10, weight: .heavy, design: .rounded)).kerning(0.4).foregroundStyle(Color.textMuted)
-            Text(value).font(.system(size: 13, weight: .heavy, design: .rounded)).monospacedDigit().foregroundStyle(Color.textPrimary)
+            Text(label).scaledFont(size: 10, weight: .heavy, design: .rounded).kerning(0.4).foregroundStyle(Color.textMuted)
+            Text(value).scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
         }
     }
 

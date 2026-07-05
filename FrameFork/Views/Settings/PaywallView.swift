@@ -32,10 +32,10 @@ struct PaywallView: View {
                     restoreButton
                 }
                 if let status = subscriptions.statusMessage {
-                    Text(status).font(.system(size: 12)).foregroundStyle(Color.textMuted)
+                    Text(status).scaledFont(size: 12).foregroundStyle(Color.textMuted)
                 }
                 if let err = subscriptions.lastError {
-                    Text(err).font(.system(size: 12)).foregroundStyle(Color.danger)
+                    Text(err).scaledFont(size: 12).foregroundStyle(Color.danger)
                 }
                 legal
                 Spacer(minLength: 24)
@@ -49,7 +49,8 @@ struct PaywallView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button { dismiss() } label: {
-                    Image(systemName: "xmark").font(.system(size: 13, weight: .bold)).foregroundStyle(Color.textMuted)
+                    Image(systemName: "xmark").scaledFont(size: 13, weight: .bold).foregroundStyle(Color.textMuted)
+                        .accessibilityLabel("Close")
                 }
             }
         }
@@ -64,10 +65,10 @@ struct PaywallView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("FRAME & FORK").font(.system(size: 11, weight: .heavy, design: .rounded)).kerning(1).foregroundStyle(Color.brandGreen)
-            Text("Pro").font(.system(size: 34, weight: .heavy, design: .rounded)).foregroundStyle(Color.textPrimary)
+            Text("FRAME & FORK").scaledFont(size: 11, weight: .heavy, design: .rounded).kerning(1).foregroundStyle(Color.brandGreen)
+            Text("Pro").scaledFont(size: 34, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary)
             Text("Practice closing against AI buyers who fight back, and get graded on the craft — not whether they caved.")
-                .font(.system(size: 14)).foregroundStyle(Color.textSecondary).lineSpacing(3)
+                .scaledFont(size: 14).foregroundStyle(Color.textSecondary).lineSpacing(3)
         }
     }
 
@@ -75,8 +76,8 @@ struct PaywallView: View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(features, id: \.self) { f in
                 HStack(alignment: .top, spacing: 10) {
-                    Image(systemName: "checkmark.circle.fill").font(.system(size: 15)).foregroundStyle(Color.brandGreen)
-                    Text(f).font(.system(size: 13.5)).foregroundStyle(Color.textPrimary).lineSpacing(2)
+                    Image(systemName: "checkmark.circle.fill").scaledFont(size: 15).foregroundStyle(Color.brandGreen)
+                    Text(f).scaledFont(size: 13.5).foregroundStyle(Color.textPrimary).lineSpacing(2)
                     Spacer(minLength: 0)
                 }
             }
@@ -86,11 +87,11 @@ struct PaywallView: View {
     @ViewBuilder
     private var planCards: some View {
         if subscriptions.isLoadingProducts {
-            HStack { ProgressView().tint(Color.brandGreen); Text("Loading plans…").font(.system(size: 13)).foregroundStyle(Color.textMuted) }
+            HStack { ProgressView().tint(Color.brandGreen); Text("Loading plans…").scaledFont(size: 13).foregroundStyle(Color.textMuted) }
                 .frame(maxWidth: .infinity, alignment: .center).padding(.vertical, 12)
         } else if subscriptions.products.isEmpty {
             Text("Plans aren't available right now. Please try again later.")
-                .font(.system(size: 13)).foregroundStyle(Color.textMuted)
+                .scaledFont(size: 13).foregroundStyle(Color.textMuted)
         } else {
             VStack(spacing: 10) {
                 ForEach(subscriptions.products, id: \.id) { product in planCard(product) }
@@ -106,15 +107,15 @@ struct PaywallView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: isSel ? "largecircle.fill.circle" : "circle")
-                    .font(.system(size: 18)).foregroundStyle(isSel ? Color.brandGreen : Color.textFaint)
+                    .scaledFont(size: 18).foregroundStyle(isSel ? Color.brandGreen : Color.textFaint)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(product.displayName).font(.system(size: 14, weight: .bold)).foregroundStyle(Color.textPrimary)
-                    Text(product.description).font(.system(size: 11.5)).foregroundStyle(Color.textMuted).lineLimit(2)
+                    Text(product.displayName).scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
+                    Text(product.description).scaledFont(size: 11.5).foregroundStyle(Color.textMuted).lineLimit(2)
                 }
                 Spacer(minLength: 8)
                 HStack(alignment: .firstTextBaseline, spacing: 1) {
-                    Text(product.displayPrice).font(.system(size: 16, weight: .heavy, design: .rounded)).foregroundStyle(Color.textPrimary)
-                    Text(periodSuffix(product)).font(.system(size: 11, weight: .bold, design: .rounded)).foregroundStyle(Color.textMuted)
+                    Text(product.displayPrice).scaledFont(size: 16, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary)
+                    Text(periodSuffix(product)).scaledFont(size: 11, weight: .bold, design: .rounded).foregroundStyle(Color.textMuted)
                 }
             }
             .padding(13)
@@ -143,15 +144,15 @@ struct PaywallView: View {
         Button {
             Task { await subscriptions.restore(); if subscriptions.isPro { dismiss() } }
         } label: {
-            Text("Restore purchases").font(.system(size: 13, weight: .semibold)).foregroundStyle(Color.textMuted)
+            Text("Restore purchases").scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.textMuted)
                 .frame(maxWidth: .infinity).padding(.vertical, 6)
         }
     }
 
     private var activeState: some View {
         HStack(spacing: 10) {
-            Image(systemName: "checkmark.seal.fill").font(.system(size: 20)).foregroundStyle(Color.brandGreen)
-            Text("You're Pro. Thank you.").font(.system(size: 15, weight: .bold)).foregroundStyle(Color.textPrimary)
+            Image(systemName: "checkmark.seal.fill").scaledFont(size: 20).foregroundStyle(Color.brandGreen)
+            Text("You're Pro. Thank you.").scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
             Spacer()
         }
         .padding(14)
@@ -163,12 +164,12 @@ struct PaywallView: View {
     private var legal: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Subscriptions auto-renew until cancelled. Your account is charged for renewal within 24 hours prior to the end of the current period. Cancel anytime in your Apple ID settings at least 24 hours before the period ends. Payment is charged to your Apple ID.")
-                .font(.system(size: 10.5)).foregroundStyle(Color.textFaint).lineSpacing(2)
+                .scaledFont(size: 10.5).foregroundStyle(Color.textFaint).lineSpacing(2)
             HStack(spacing: 14) {
                 Link("Terms of Use", destination: URL(string: "https://moranetz.github.io/apps/frame-fork/terms.html")!)
                 Link("Privacy Policy", destination: URL(string: "https://moranetz.github.io/apps/frame-fork/privacy.html")!)
             }
-            .font(.system(size: 10.5, weight: .semibold)).tint(Color.textMuted)
+            .scaledFont(size: 10.5, weight: .semibold).tint(Color.textMuted)
         }
         .padding(.top, 4)
     }
