@@ -2,7 +2,7 @@
 
 > A sparring app for closers. What chess.com did to chess, for sales.
 
-Native iOS port of [closer-gym](https://github.com/Moranetz/closer-gym). Free tier (daily puzzle, 100 hand-authored positions, master games, lessons) ships as a self-contained offline app. Pro tier (bot ladder + free-text play + post-game review) requires a user-supplied Anthropic API key.
+Native iOS port of [closer-gym](https://github.com/Moranetz/closer-gym). Free tier (daily puzzle, 127 hand-authored positions, offline sparring, master games, lessons) ships as a self-contained offline app. Pro tier (bot ladder + free-text play + post-game review) requires a user-supplied Anthropic API key.
 
 **There's no cheat code for a live buyer. We built the gym.**
 
@@ -12,7 +12,7 @@ Native iOS port of [closer-gym](https://github.com/Moranetz/closer-gym). Free ti
 
 - **Puzzles** — Daily Drill (deterministic per-date) + 100 hand-authored positions across 7 themes (budget / procurement / stall / renewal / multi-stakeholder / endgame / cold open). Pick one of 4 candidate moves; instant reveal with eval scores per candidate, atlas tags on the best move, ELO change via Glicko-2, streak counter.
 - **Lessons** — 40-technique Atlas browser. Each lesson lists examples, contraindications, and the responsive-persona pattern.
-- **Watch** — 5 annotated master games in the styles of Voss, Klaff, Belfort, Cardone (a deliberately-annotated LOSS), and Burg. Eval-curve chart, per-move technique tags, sticky move-list sheet.
+- **Watch** — 7 annotated master games in the styles of Voss, Keenan (Gap Selling), Dixon (Challenger), Klaff, and Burg, plus two cautionary studies (Belfort — "right technique, wrong game"; Cardone — a deliberate LOSS). Eval-curve chart, per-move technique tags, sticky move-list sheet.
 - **Play (Pro)** — 14-persona bot ladder (ELO 1200–2400). Free-text live sparring with on-turn local Atlas detector, eval bar, end-of-game Glicko-2 rating update + intent-vs-fired ledger.
 - **Profile** — Three rating buckets (Game / Puzzle / Analysis), title progression (Patzer → Class D → … → Grandmaster Closer), shareable card.
 
@@ -89,7 +89,7 @@ Frame & Fork/
 │   ├── Personas.swift              # 14 personas + BotLadder ELO map
 │   ├── Puzzles.swift               # 100 hand-authored positions
 │   ├── Transcripts.swift           # 13 sourced practitioner transcripts
-│   └── MasterGames.swift           # 5 annotated master games
+│   └── MasterGames.swift           # 7 annotated master games
 └── Views/
     ├── Tabs/                       # Play / Puzzles / Lessons / Watch / Profile
     ├── Play/                       # PreGameView, LiveGameView, SimpleReviewView

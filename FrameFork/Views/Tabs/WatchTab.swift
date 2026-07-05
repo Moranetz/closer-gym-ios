@@ -18,7 +18,7 @@ struct MasterGameIndexView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 4)
 
-                Text("Hand-authored studies in the style of Voss, Klaff, Belfort, Cardone, and Burg. Step through a real deal and predict each pivotal move — then see what the master actually did, and why.")
+                Text("Hand-authored deal studies in the style of Voss, Keenan (Gap Selling), Dixon (Challenger), Klaff and Burg — plus cautionary breakdowns of Belfort and Cardone. Step through a real deal, predict each pivotal move, then see what happened and why.")
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)

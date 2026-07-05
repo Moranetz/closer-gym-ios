@@ -55,7 +55,7 @@ struct OnboardingView: View {
             title: "Solve. Learn. Climb.",
             bodyLines: [
                 "A fresh Daily Drill every day. 40 Atlas techniques cross-linked to every puzzle, transcript, and master move.",
-                "Watch hand-authored studies in the style of Voss, Klaff, Belfort, Cardone, and Burg. Fully offline, no API key needed.",
+                "Watch hand-authored deal studies — Voss, Gap Selling, Challenger, Klaff, Burg, and two cautionary breakdowns of high-pressure tactics. Fully offline, no API key needed.",
             ]
         )
     }
