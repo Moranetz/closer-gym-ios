@@ -42,7 +42,7 @@ struct OnboardingView: View {
             title: "A sparring app for sales.",
             bodyLines: [
                 "Fourteen adversarial buyer personas. A closing ELO that climbs as you win. Per-turn eval, fired-technique tags, Atlas-linked transcripts.",
-                "Cluely is the cheat code. We built the gym.",
+                "There's no cheat code for a live buyer. We built the gym.",
             ]
         )
     }
@@ -55,7 +55,7 @@ struct OnboardingView: View {
             title: "Solve. Learn. Climb.",
             bodyLines: [
                 "A fresh Daily Drill every day. 40 Atlas techniques cross-linked to every puzzle, transcript, and master move.",
-                "Watch real-call replays from Voss, Klaff, Belfort, Cardone, Burg. Free tier is fully offline, no API key needed.",
+                "Watch hand-authored studies in the style of Voss, Klaff, Belfort, Cardone, and Burg. Fully offline, no API key needed.",
             ]
         )
     }

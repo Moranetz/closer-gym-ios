@@ -176,9 +176,9 @@ struct ProfileTab: View {
     private var freeProCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Free vs Pro").microLabel(Color.brandGreen)
-            Text("Free: Puzzles, Lessons, Master Games. No API key required.")
+            Text("Free: Sparring, Puzzles, Lessons, Master Games. No key, no account — fully offline.")
                 .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
-            Text("Pro: Bot ladder (\(BotLadder.all.count) personas) + free-text play. Requires your own Anthropic key in Settings.")
+            Text("Pro: Free-text play against all \(BotLadder.all.count) personas. Requires your own Anthropic key in Settings.")
                 .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
         }
         .padding(16)
@@ -194,7 +194,7 @@ struct ProfileTab: View {
             Text("Frame & Fork · v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")")
                 .scaledFont(size: 14, weight: .semibold)
                 .foregroundStyle(Color.textSecondary)
-            Text("Cluely is the cheat code. We built the gym.")
+            Text("There's no cheat code for a live buyer. We built the gym.")
                 .italic()
                 .scaledFont(size: 13)
                 .foregroundStyle(Color.textMuted)

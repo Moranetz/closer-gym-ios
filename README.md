@@ -4,7 +4,7 @@
 
 Native iOS port of [closer-gym](https://github.com/Moranetz/closer-gym). Free tier (daily puzzle, 100 hand-authored positions, master games, lessons) ships as a self-contained offline app. Pro tier (bot ladder + free-text play + post-game review) requires a user-supplied Anthropic API key.
 
-**Cluely is the cheat code. We built the gym.**
+**There's no cheat code for a live buyer. We built the gym.**
 
 ---
 

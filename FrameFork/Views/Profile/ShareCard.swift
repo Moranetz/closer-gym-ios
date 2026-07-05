@@ -81,7 +81,7 @@ struct ShareCard: View {
 
                 // Footer
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Cluely is the cheat code. We built the gym.")
+                    Text("There's no cheat code for a live buyer. We built the gym.")
                         .font(.system(size: 28, weight: .semibold))
                         .italic()
                         .foregroundStyle(Color.textSecondary)
