@@ -1,0 +1,8 @@
+The sparring update — now fully playable with no setup.
+
+• NEW: Sparring — real multi-turn conversations against AI buyer personas. Pick your line each turn, feel the verdict land, survive the curveball, earn your rating. No API key, no account, works offline.
+• NEW: Review your misses — every puzzle you got wrong, oldest first, re-solvable for full rating.
+• NEW: Two puzzle themes — Sales Assist (product-led deals) and Forecast Calls (defend your Commit to your own CRO), plus 27 new puzzles. Every option in every puzzle is now a real spoken line.
+• Your weakest theme is called out so you can drill it.
+• The rare hero verdict can now actually be earned. You'll know it when it hits.
+• Full Dynamic Type support, sharper VoiceOver labels, and dozens of fixes — including daily-streak accuracy across timezones and sounds/haptics that survive phone calls.

@@ -1,16 +1,21 @@
 Frame & Fork is a sales-training app — "chess.com for closers." It trains the read-the-buyer
-skill through chess-style puzzles, annotated master games, and live role-play against AI buyers.
+skill through chess-style puzzles, annotated master games, live sparring conversations, and
+free-text role-play against AI buyers.
 
-NO ACCOUNT OR LOGIN IS REQUIRED.
+NO ACCOUNT OR LOGIN IS REQUIRED. NO API KEY IS REQUIRED TO PLAY THE APP.
 
-WHAT YOU CAN TEST WITH NO KEY (the free tier — most of the app):
-  • Puzzles tab — multiple-choice "best move" sales puzzles with a graded reveal.
-  • Lessons tab — the technique reference.
+WHAT YOU CAN TEST WITH NO KEY (nearly the entire app, fully offline):
+  • Play tab — SPARRING: full multi-turn sales conversations against authored AI buyer
+    personas (pick your line each turn, get graded, earn a rating). Works with no key,
+    no network, no setup — tap Play → "Design partner at a Series A startup" → Spar.
+  • Puzzles tab — 127 multiple-choice "best move" sales puzzles across 9 themes, with a
+    graded reveal, a daily drill, and a review-your-misses queue.
+  • Lessons tab — the 41-technique reference.
   • Watch tab (Master Games) — step through a real deal and guess the master's next move.
-These require no API key and no network.
+  • Profile — ratings, history, share card.
 
-THE ONE PRO FEATURE THAT NEEDS A KEY — live AI role-play:
-The Play tab pits you against an AI buyer that pushes back, then grades your craft. Because the
+THE ONE OPTIONAL FEATURE THAT NEEDS A KEY — free-text live role-play:
+Beyond the built-in sparring mode, the Play tab also offers FREE-TEXT games where an AI buyer improvises. Because the
 app is a bring-your-own-key client (it does not resell AI access), it needs an Anthropic API key.
 
   To test it:
