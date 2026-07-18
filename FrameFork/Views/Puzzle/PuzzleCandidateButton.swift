@@ -4,6 +4,7 @@ import SwiftUI
 /// 2pt stroke + bottom depth plate. Reveal state flips color + shows eval +
 /// rationale + Atlas tags + best-move ★.
 struct PuzzleCandidateButton: View {
+    @State private var openLesson: Technique?
     let candidate: PuzzleCandidate
     let letter: String
     let isPicked: Bool
@@ -43,6 +44,9 @@ struct PuzzleCandidateButton: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(face)
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .sheet(item: $openLesson) { t in
+                NavigationStack { LessonDetailView(technique: t) }
+            }
             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(border, lineWidth: 1.5))
         }
         .buttonStyle(.plain)
@@ -85,15 +89,25 @@ struct PuzzleCandidateButton: View {
         }
     }
 
+    // Chips link into the Atlas: the content graph was hub-and-spoke (Lessons-only) — now every
+    // revealed tag is a doorway to its lesson. Green text = tappable, this app's own convention.
     private var tagWrap: some View {
         FlowLayout(spacing: 4, lineSpacing: 4) {
             ForEach(candidate.atlasTags, id: \.self) { tag in
                 Text(AtlasTechniques.name(for: tag))
                     .scaledFont(size: 10, weight: .semibold)
                     .kerning(0.4)
-                    .foregroundStyle(Color.textMuted)
+                    .foregroundStyle(AtlasTechniques.get(tag) != nil ? Color.brandGreen : Color.textMuted)
                     .padding(.horizontal, 6).padding(.vertical, 2)
                     .background(RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color.white.opacity(0.06)))
+                    .onTapGesture {
+                        if let t = AtlasTechniques.get(tag) {
+                            Haptics.shared.selection()
+                            openLesson = t
+                        }
+                    }
+                    .accessibilityAddTraits(AtlasTechniques.get(tag) != nil ? .isButton : [])
+                    .accessibilityHint(AtlasTechniques.get(tag) != nil ? "Opens the lesson for this technique." : "")
             }
         }
     }

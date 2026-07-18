@@ -285,3 +285,20 @@ extension RegressionTests {
         }
     }
 }
+
+// MARK: - Chip resolvability (R13 loop fix)
+
+extension RegressionTests {
+    /// Every atlas tag on every candidate must resolve to a real Technique — a tappable chip
+    /// that opens nothing is worse than no chip.
+    func testEveryCandidateTagResolvesToATechnique() {
+        for p in Puzzles.all {
+            for c in p.candidates {
+                for tag in c.atlasTags {
+                    XCTAssertNotNil(AtlasTechniques.get(tag),
+                                    "\(p.id): tag '\(tag)' resolves to no technique")
+                }
+            }
+        }
+    }
+}
