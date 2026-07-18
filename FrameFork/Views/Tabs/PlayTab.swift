@@ -23,11 +23,18 @@ struct ReviewPayload: Hashable {
 struct PlayTab: View {
     @EnvironmentObject private var storage: Store
     @State private var hasKey: Bool = Keychain.hasAPIKey()
-    // Debug/screenshot hook (same pattern as FF_INITIAL_TAB / FF_PUSH_MISSES).
-    @State private var path: [PlayRoute] =
-        ProcessInfo.processInfo.environment["FF_PUSH_SPARRING"] == "1"
-            ? BotLadder.all.first.map { [.sparring($0)] } ?? []
-            : []
+    // Debug/screenshot hooks (same pattern as FF_INITIAL_TAB / FF_PUSH_MISSES).
+    // FF_PUSH_PREGAME=<personaId> deep-links a pregame screen for headless verification.
+    @State private var path: [PlayRoute] = {
+        if ProcessInfo.processInfo.environment["FF_PUSH_SPARRING"] == "1" {
+            return BotLadder.all.first.map { [.sparring($0)] } ?? []
+        }
+        if let pid = ProcessInfo.processInfo.environment["FF_PUSH_PREGAME"],
+           let bot = BotLadder.get(pid) {
+            return [.preGame(bot)]
+        }
+        return []
+    }()
 
     var body: some View {
         NavigationStack(path: $path) {

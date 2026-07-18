@@ -170,6 +170,31 @@ struct PreGameView: View {
             Haptics.shared.medium()
             path.append(.live(botMeta, Array(selectedTechniques)))
         }
+        // The keyless dead-end fix: an arc-less persona with no key used to show ONE disabled
+        // button and no way forward. Now it says why, and hands her a live road — the nearest-rated
+        // persona that spars free.
+        if !Keychain.hasAPIKey(), Arcs.get(personaId: botMeta.personaId) == nil {
+            Text("Free-text live games run on your own Anthropic key — add one in Profile › Settings and this lights up.")
+                .scaledFont(size: 11)
+                .foregroundStyle(Color.textFaint)
+            if let alt = Self.nearestSparBot(to: botMeta) {
+                PrimaryButton(title: "Spar \(Personas.get(alt.personaId)?.role ?? "offline") · free",
+                              symbol: "figure.boxing", isEnabled: true, style: .green) {
+                    Haptics.shared.medium()
+                    path.append(.sparring(alt))
+                }
+                Text("Authored conversation vs a \(alt.rating)-rated buyer — no key, fully offline.")
+                    .scaledFont(size: 11)
+                    .foregroundStyle(Color.textFaint)
+            }
+        }
+    }
+
+    /// The closest-rated persona that has an authored sparring arc — the road out of the dead-end.
+    static func nearestSparBot(to bot: BotMeta) -> BotMeta? {
+        BotLadder.all
+            .filter { Arcs.get(personaId: $0.personaId) != nil }
+            .min { abs($0.rating - bot.rating) < abs($1.rating - bot.rating) }
     }
 
     private func chip(text: String, color: Color) -> some View {

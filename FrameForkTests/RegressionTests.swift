@@ -271,3 +271,17 @@ final class RegressionTests: XCTestCase {
         }
     }
 }
+
+// MARK: - Keyless dead-end (R5 loop fix)
+
+extension RegressionTests {
+    /// Every arc-less persona must have a reachable spar alternative — the road out of the
+    /// keyless dead-end must exist from anywhere on the ladder.
+    func testNearestSparBotExistsForEveryArclessPersona() {
+        for bot in BotLadder.all where Arcs.get(personaId: bot.personaId) == nil {
+            let alt = PreGameView.nearestSparBot(to: bot)
+            XCTAssertNotNil(alt, "\(bot.personaId) has no spar alternative")
+            XCTAssertNotNil(Arcs.get(personaId: alt!.personaId), "alt \(alt!.personaId) has no arc")
+        }
+    }
+}
