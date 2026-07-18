@@ -302,3 +302,22 @@ extension RegressionTests {
         }
     }
 }
+
+// MARK: - Arc chip resolvability (R14 loop fix)
+
+extension RegressionTests {
+    /// Arc tags are authored, not detected — every one must still resolve, because sparring
+    /// history chips now open lessons too.
+    func testEveryArcTagResolvesToATechnique() {
+        for arc in Arcs.all {
+            for (nodeId, node) in arc.nodes {
+                for c in node.candidates {
+                    for tag in c.techniqueTags {
+                        XCTAssertNotNil(AtlasTechniques.get(tag),
+                                        "\(arc.personaId)/\(nodeId): tag '\(tag)' resolves to no technique")
+                    }
+                }
+            }
+        }
+    }
+}

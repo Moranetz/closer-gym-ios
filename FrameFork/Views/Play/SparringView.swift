@@ -7,6 +7,7 @@ import SwiftUI
 /// hero. Arc end → ending line + debrief + Glicko commit (first completion rated;
 /// replays recorded unrated — the puzzle re-solve lesson).
 struct SparringView: View {
+    @State private var openLesson: Technique?
     let botMeta: BotMeta
     @Binding var path: [PlayRoute]
 
@@ -63,6 +64,9 @@ struct SparringView: View {
             }
         }
         .background(Color.bgPage)
+        .sheet(item: $openLesson) { t in
+            NavigationStack { LessonDetailView(technique: t) }
+        }
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.bgPage, for: .navigationBar)
         .toolbar { ToolbarItem(placement: .principal) { opponentTitle } }
@@ -191,6 +195,14 @@ struct SparringView: View {
                         .padding(.horizontal, 5).padding(.vertical, 1)
                         .background(Color.brandGreen.opacity(0.12))
                         .clipShape(Capsule())
+                        .onTapGesture {
+                            if let t = AtlasTechniques.get(tid) {
+                                Haptics.shared.selection()
+                                openLesson = t
+                            }
+                        }
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityHint("Opens the lesson for this technique.")
                 }
                 Text(ex.verdict.glyph + " " + ex.verdict.label)
                     .scaledFont(size: 9, weight: .heavy, design: .rounded)
