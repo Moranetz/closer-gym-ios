@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame &amp; Fork — four bets for the new puzzle form</title>
+<style>
+  :root{
+    --page:#e8edf6; --card:#ffffff; --ink:#131a2c; --muted:#57627a; --line:#d9e0ec;
+    --cobalt:#1d4ed8; --cobalt-deep:#16389c; --paper:#faf7f0; --paper-edge:#eee9dc;
+    --best:#0d8a4f; --best-bg:#e2f6ec; --loose:#b7791f; --loose-bg:#fdf1da;
+    --tell:#c0392b; --tell-bg:#fbe7e3; --fork:#7c3aed; --fork-bg:#f1e9fe;
+    --gold:#c79a1e;
+  }
+  *{box-sizing:border-box; margin:0}
+  body{position:relative; background:var(--page); color:var(--ink);
+    font-family:system-ui,-apple-system,"SF Pro Text",sans-serif; padding:28px 22px 80px;}
+  header{max-width:1240px; margin:0 auto 22px;}
+  .kicker{font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--cobalt); text-transform:uppercase;}
+  h1{font-size:27px; font-weight:750; letter-spacing:-.02em; margin-top:4px;}
+  .sub{color:var(--muted); font-size:14px; margin-top:6px; max-width:70ch;}
+  .grid{max-width:1240px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(560px,1fr)); gap:22px;}
+  .bet{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px 18px 14px;
+    box-shadow:0 2px 6px rgba(19,26,44,.06),0 14px 34px rgba(19,26,44,.07); display:flex; flex-direction:column; gap:12px;}
+  .bet-head{display:flex; align-items:baseline; gap:10px;}
+  .bet-tag{font-size:12px; font-weight:800; letter-spacing:.06em; color:#fff; background:var(--cobalt);
+    padding:4px 10px; border-radius:8px; white-space:nowrap;}
+  .bet-title{font-size:18px; font-weight:720;}
+  .thesis{font-size:13px; color:var(--muted); line-height:1.45;}
+  .thesis b{color:var(--ink);}
+  .stage{display:flex; justify-content:center; background:linear-gradient(160deg,#dfe6f3,#cfd9ec); border-radius:14px; padding:16px 8px;}
+
+  /* ---------- phone ---------- */
+  .phone{width:392px; max-width:100%; background:var(--cobalt-deep); border-radius:30px; padding:8px;}
+  .screen{background:var(--paper); border-radius:24px; height:600px; overflow-y:auto; overflow-x:hidden;
+    display:flex; flex-direction:column; scroll-behavior:smooth;}
+  .appbar{background:var(--cobalt); color:#fff; padding:12px 16px 10px; border-radius:24px 24px 0 0;
+    position:sticky; top:0; z-index:5; display:flex; justify-content:space-between; align-items:center;}
+  .appbar .name{font-weight:760; font-size:14px; letter-spacing:.01em;}
+  .mode{font-size:10.5px; font-weight:700; letter-spacing:.09em; background:rgba(255,255,255,.18); padding:3px 8px; border-radius:99px;}
+  .scene{padding:10px 14px 4px; font-size:11px; font-weight:700; letter-spacing:.08em; color:var(--cobalt); text-transform:uppercase;}
+  .convo{padding:6px 14px 10px; display:flex; flex-direction:column; gap:8px;}
+  .turn{max-width:86%; padding:9px 12px; border-radius:14px; font-size:13.5px; line-height:1.42;}
+  .buyer{background:#fff; border:1px solid var(--paper-edge); border-bottom-left-radius:4px; align-self:flex-start;}
+  .rep{background:#e3ebfd; border:1px solid #cdd9f6; border-bottom-right-radius:4px; align-self:flex-end;}
+  .who{display:block; font-size:10px; font-weight:800; letter-spacing:.07em; color:var(--muted); margin-bottom:2px; text-transform:uppercase;}
+  .beat{align-self:center; font-size:11px; color:var(--muted); font-style:italic; padding:2px 0;}
+  .hidden{display:none;}
+  .fade{animation:fadeup .38s ease both;}
+  @keyframes fadeup{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+
+  .prompt{margin:4px 14px 8px; font-size:12px; font-weight:700; color:var(--cobalt);}
+  .opts{display:flex; flex-direction:column; gap:8px; padding:0 14px 14px;}
+  .opt{background:#fff; border:1.5px solid #cdd6ea; border-radius:12px; padding:10px 12px; font-size:13px;
+    line-height:1.4; text-align:left; cursor:pointer; font-family:inherit; color:var(--ink); transition:border .15s, transform .12s;}
+  .opt:hover{border-color:var(--cobalt); transform:translateY(-1px);}
+  .opt:disabled{opacity:.45; cursor:default; transform:none;}
+  .opt.silence{font-style:italic; color:var(--muted);}
+
+  .verdict{margin:2px 14px 12px; border-radius:14px; padding:12px 14px;}
+  .verdict .v-label{font-size:20px; font-weight:800; letter-spacing:-.01em;}
+  .verdict .v-why{font-size:12.5px; line-height:1.45; margin-top:5px;}
+  .v-best{background:var(--best-bg); color:var(--best);}
+  .v-loose{background:var(--loose-bg); color:#8a5a12;}
+  .v-tell{background:var(--tell-bg); color:var(--tell);}
+  .v-fine{background:#edeff4; color:#4a5468;}
+  .v-fork{background:var(--fork-bg); color:var(--fork); box-shadow:0 0 0 2px #d9c6fb inset;}
+  .bar{height:8px; border-radius:99px; background:#d8dce6; margin-top:9px; overflow:hidden;}
+  .bar i{display:block; height:100%; width:50%; border-radius:99px; background:currentColor; transition:width .9s cubic-bezier(.3,.9,.3,1);}
+  .again{margin:0 14px 16px; align-self:flex-start; background:none; border:none; color:var(--cobalt);
+    font-weight:700; font-size:12.5px; cursor:pointer; font-family:inherit; padding:0;}
+
+  /* B — mark the moment */
+  .markable .turn.buyer{cursor:pointer; transition:box-shadow .15s;}
+  .markable .turn.buyer:hover{box-shadow:0 0 0 2px var(--cobalt);}
+  .marked-note{border-radius:12px; padding:10px 12px; margin:2px 14px 8px; font-size:12.5px; line-height:1.45;}
+  .mn-good{background:var(--best-bg); color:var(--best);}
+  .mn-bad{background:var(--loose-bg); color:#8a5a12;}
+
+  /* C — live line */
+  .composer{margin:4px 14px 12px; display:flex; flex-direction:column; gap:8px;}
+  .composer textarea{width:100%; min-height:74px; border:1.5px solid #cdd6ea; border-radius:12px; padding:10px 12px;
+    font:inherit; font-size:13px; resize:vertical; background:#fff; color:var(--ink);}
+  .composer textarea:focus{outline:2px solid var(--cobalt); border-color:var(--cobalt);}
+  .send{align-self:flex-end; background:var(--cobalt); color:#fff; border:none; border-radius:10px;
+    padding:9px 18px; font-weight:750; font-size:13px; cursor:pointer; font-family:inherit;}
+  .send:hover{background:var(--cobalt-deep);}
+  .read{margin:0 14px 8px; border-left:3px solid var(--cobalt); background:#eef3fe; padding:9px 12px;
+    border-radius:0 10px 10px 0; font-size:12.5px; line-height:1.45;}
+  .read b{color:var(--cobalt);}
+  .master{margin:0 14px 10px; background:#fff; border:1.5px dashed var(--cobalt); border-radius:12px; padding:10px 12px; font-size:13px; line-height:1.4;}
+  .master .who{color:var(--cobalt);}
+  .demo-chip{align-self:center; font-size:10.5px; color:var(--muted); background:#edeff4; border-radius:99px; padding:3px 10px; margin-bottom:12px;}
+
+  /* D — long game */
+  .dealstrip{position:sticky; top:44px; z-index:4; background:var(--paper); padding:8px 14px 6px; border-bottom:1px solid var(--paper-edge);
+    display:flex; align-items:center; gap:10px; font-size:11.5px; font-weight:700; color:var(--muted);}
+  .pips{display:flex; gap:4px;}
+  .pip{width:18px; height:8px; border-radius:99px; background:#d8dce6; transition:background .3s;}
+  .pip.on{background:var(--best);}
+  .pip.off{background:var(--tell);}
+  .temp{margin-left:auto; font-weight:800;}
+  .ending{margin:6px 14px 16px; border-radius:14px; padding:14px; text-align:center;}
+  .ending .e-title{font-size:17px; font-weight:800;}
+  .ending .e-sub{font-size:12.5px; margin-top:5px; line-height:1.45;}
+
+  /* verdict strip (her instrument) */
+  .judge{display:flex; flex-wrap:wrap; gap:8px; align-items:center; border-top:1px solid var(--line); padding-top:12px;}
+  .jbtn{border:1.5px solid var(--line); background:#fff; border-radius:10px; padding:7px 12px; font-weight:750;
+    font-size:12.5px; cursor:pointer; font-family:inherit; color:var(--ink);}
+  .jbtn.sel-keep{background:var(--best-bg); border-color:var(--best); color:var(--best);}
+  .jbtn.sel-one{background:var(--fork-bg); border-color:var(--fork); color:var(--fork);}
+  .jbtn.sel-cut{background:var(--tell-bg); border-color:var(--tell); color:var(--tell);}
+  .stars{display:flex; gap:2px; font-size:19px; cursor:pointer; user-select:none; color:#c9d0dd;}
+  .stars span.lit{color:var(--gold);}
+  .jnote{flex:1 1 160px; border:1.5px solid var(--line); border-radius:10px; padding:7px 10px; font:inherit; font-size:12.5px; background:#fff; color:var(--ink);}
+  .copybar{max-width:1240px; margin:26px auto 0; display:flex; gap:12px; align-items:center;}
+  .copyall{background:var(--cobalt); color:#fff; border:none; border-radius:12px; padding:12px 22px;
+    font-weight:800; font-size:14px; cursor:pointer; font-family:inherit;}
+  .copyall:hover{background:var(--cobalt-deep);}
+  .copied{color:var(--best); font-weight:700; font-size:13px; opacity:0; transition:opacity .3s;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Frame &amp; Fork · Phase 1 · pick the direction</div>
+  <h1>Four bets for the new puzzle form</h1>
+  <p class="sub">Same deal in every phone: Dana (you) selling Meridian to Corvid Logistics. Each bet is a different answer
+  to "what is a puzzle?" — play all four, then judge each: KEEP (worth having) · ♥ THE ONE (build this first) · CUT.
+  They can combine; ♥ marks the spine.</p>
+</header>
+
+<div class="grid">
+
+<!-- ═══════════════ BET A — THE REFUTATION ═══════════════ -->
+<section class="bet" data-bet="A — The Refutation">
+  <div class="bet-head"><span class="bet-tag">BET A</span><span class="bet-title">The Refutation</span></div>
+  <p class="thesis"><b>Wrong moves get punished on screen, not scored.</b> You pick, then the call keeps going —
+  you watch what your move did before any verdict appears. Chess shows you the refutation; so does this.</p>
+  <div class="stage"><div class="phone"><div class="screen" id="scrA">
+    <div class="appbar"><span class="name">Frame &amp; Fork</span><span class="mode">PUZZLE · RATED</span></div>
+    <div class="scene">Discovery call · minute 22 · Corvid Logistics</div>
+    <div class="convo" id="convoA">
+      <div class="turn buyer"><span class="who">Tom · VP Ops</span>We've been burned before. The last vendor's rollout ate two quarters and I wore that.</div>
+      <div class="turn rep"><span class="who">You</span>What did the recovery look like on your side?</div>
+      <div class="turn buyer"><span class="who">Tom</span>Months of manual patching. Look — the reason I even took this call is there's a line in our board deck about ops visibility. That one's Priya's baby, not mine.</div>
+      <div class="turn rep"><span class="who">You</span>Understood. So the board's already asking for this.</div>
+      <div class="turn buyer"><span class="who">Tom</span>This looks solid, honestly. Tell you what — send over the full deck and your pricing tiers, and I'll walk it up the chain.</div>
+    </div>
+    <div class="prompt" id="promptA">Your move.</div>
+    <div class="opts" id="optsA">
+      <button class="opt" data-o="0">"Absolutely — I'll get it over this afternoon, with a case study from another logistics team."</button>
+      <button class="opt" data-o="1">"Happy to. Before I do — when this lands on Priya's desk, what's the first question she'll ask?"</button>
+      <button class="opt" data-o="2">"Sure — though decks are where deals go to die. Could we get Priya on for twenty minutes and walk through it live?"</button>
+      <button class="opt silence" data-o="3">( hold the silence )</button>
+    </div>
+    <div id="playA"></div>
+  </div></div></div>
+  <div class="judge" data-name="A — The Refutation"></div>
+</section>
+
+<!-- ═══════════════ BET B — THE COLD READ ═══════════════ -->
+<section class="bet" data-bet="B — The Cold Read">
+  <div class="bet-head"><span class="bet-tag">BET B</span><span class="bet-title">The Cold Read</span></div>
+  <p class="thesis"><b>Nothing announces the decision point.</b> The call plays; you tap the buyer line where you'd stop
+  the flow. Detection first, move second — the skill no option list can test.</p>
+  <div class="stage"><div class="phone"><div class="screen" id="scrB">
+    <div class="appbar"><span class="name">Frame &amp; Fork</span><span class="mode">COLD READ</span></div>
+    <div class="scene">Expansion call · tap the buyer line that matters</div>
+    <div class="convo markable" id="convoB">
+      <div class="turn buyer" data-m="noise1"><span class="who">Tom</span>Team's been happy with year one — your support people are genuinely good.</div>
+      <div class="turn rep"><span class="who">You</span>Glad it's holding up. Where does the expansion stand internally?</div>
+      <div class="turn buyer" data-m="budget"><span class="who">Tom</span>Budget's already approved for tooling this half, so that part's easy.</div>
+      <div class="turn rep"><span class="who">You</span>Good to hear. Anything that would slow it down?</div>
+      <div class="turn buyer" data-m="rival"><span class="who">Tom</span>We're also having Datalux in next week — mostly diligence, procurement makes us do three quotes.</div>
+      <div class="turn rep"><span class="who">You</span>Makes sense. What does your side of the rollout look like?</div>
+      <div class="turn buyer" data-m="key"><span class="who">Tom</span>Pretty light, honestly. We'd slot it in after our platform migration wraps up, then it's a clean handover.</div>
+      <div class="turn rep"><span class="who">You</span>And who runs the handover on your end?</div>
+      <div class="turn buyer" data-m="noise2"><span class="who">Tom</span>Marcus, once he's back. Anyway — send the order form whenever, we're in good shape.</div>
+    </div>
+    <div id="markB"></div>
+  </div></div></div>
+  <div class="judge" data-name="B — The Cold Read"></div>
+</section>
+
+<!-- ═══════════════ BET C — THE LIVE LINE ═══════════════ -->
+<section class="bet" data-bet="C — The Live Line">
+  <div class="bet-head"><span class="bet-tag">BET C</span><span class="bet-title">The Live Line</span></div>
+  <p class="thesis"><b>Say it before you see it.</b> Same position as Bet A, but you write your line first — then the
+  master line and the options appear with yours pinned against them. Production, not recognition. (In-app: DetectorLocal grades this offline.)</p>
+  <div class="stage"><div class="phone"><div class="screen" id="scrC">
+    <div class="appbar"><span class="name">Frame &amp; Fork</span><span class="mode">LIVE LINE</span></div>
+    <div class="scene">Discovery call · minute 22 · your words, not a menu</div>
+    <div class="convo">
+      <div class="turn buyer"><span class="who">Tom</span>…the reason I even took this call is there's a line in our board deck about ops visibility. That one's Priya's baby, not mine.</div>
+      <div class="turn buyer"><span class="who">Tom</span>This looks solid, honestly. Send over the full deck and your pricing tiers, and I'll walk it up the chain.</div>
+    </div>
+    <div class="composer" id="compC">
+      <textarea id="lineC" placeholder="Type what you'd actually say…"></textarea>
+      <button class="send" id="sendC">Say it</button>
+    </div>
+    <div id="playC"></div>
+  </div></div></div>
+  <div class="judge" data-name="C — The Live Line"></div>
+</section>
+
+<!-- ═══════════════ BET D — THE LONG GAME ═══════════════ -->
+<section class="bet" data-bet="D — The Long Game">
+  <div class="bet-head"><span class="bet-tag">BET D</span><span class="bet-title">The Long Game</span></div>
+  <p class="thesis"><b>One call, compounding.</b> Three decision points; your picks carry forward and the deal state
+  moves where you can see it. The perfect path ends in the Fork — a move that wins on two fronts at once.</p>
+  <div class="stage"><div class="phone"><div class="screen" id="scrD">
+    <div class="appbar"><span class="name">Frame &amp; Fork</span><span class="mode">LONG GAME</span></div>
+    <div class="dealstrip">DEAL STATE <span class="pips" id="pipsD"><span class="pip"></span><span class="pip"></span><span class="pip"></span></span><span class="temp" id="tempD">Priya: unread</span></div>
+    <div class="scene">The meeting you earned · Priya in the room</div>
+    <div class="convo" id="convoD">
+      <div class="turn buyer"><span class="who">Priya · Ops Director</span>I've got twenty-five minutes and I've seen four of these decks this month. Go.</div>
+    </div>
+    <div class="prompt" id="promptD">Open.</div>
+    <div class="opts" id="optsD"></div>
+    <div id="endD"></div>
+  </div></div></div>
+  <div class="judge" data-name="D — The Long Game"></div>
+</section>
+
+</div>
+
+<div class="copybar">
+  <button class="copyall" id="copyAll">Copy my verdicts</button>
+  <span class="copied" id="copiedMsg">Copied — paste it back to me.</span>
+</div>
+
+<script>
+/* ---------- helpers ---------- */
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function playTurns(container, turns, done){ // staggered continuation playback
+  let i=0;
+  (function next(){
+    if(i>=turns.length){ if(done) done(); return; }
+    const t=el(turns[i]); t.classList.add('fade'); container.appendChild(t);
+    t.scrollIntoView({block:'end', behavior:'smooth'});
+    i++; setTimeout(next, 950);
+  })();
+}
+function verdictBlock(cls, label, why, fill){
+  return `<div class="verdict ${cls} fade"><div class="v-label">${label}</div>
+    <div class="v-why">${why}</div><div class="bar"><i style="width:8%" data-fill="${fill}"></i></div></div>`;
+}
+function armBar(scope){ setTimeout(()=>{ scope.querySelectorAll('.bar i').forEach(b=>{ b.style.width=b.dataset.fill+'%'; }); }, 120); }
+
+/* ═══════════ BET A ═══════════ */
+const A = [
+  { turns:[
+      '<div class="turn buyer"><span class="who">Tom</span>Perfect. We’ll circle back once things settle down on our side.</div>',
+      '<div class="beat">— 12 days later —</div>',
+      '<div class="turn buyer"><span class="who">Tom</span>Hey Dana — still buried over here. Ping me next quarter?</div>'],
+    v: verdictBlock('v-tell','&#9679; THE TELL',
+      'You accepted the stall. The deck walks into that building alone, and Priya hears your pitch as Tom’s memory of it. He told you whose deal this is — two turns ago.', 12) },
+  { turns:[
+      '<div class="turn buyer"><span class="who">Tom</span>Ha. What it costs to run per site, probably. And honestly — I couldn’t answer her. Your pricing page didn’t match our mix.</div>',
+      '<div class="turn rep"><span class="who">You</span>Then let’s answer it before anything gets sent. Walk me through the mix and I’ll price it straight.</div>',
+      '<div class="turn buyer"><span class="who">Tom</span>…Alright, pull up a chair. We run nine hubs and about forty spokes.</div>'],
+    v: verdictBlock('v-best','&#9670; BEST',
+      'You took the ask seriously and made Tom rehearse the internal sale. The real objection surfaced while you’re still in the room — and Priya’s first question now gets answered by you, not by a PDF.', 88) },
+  { turns:[
+      '<div class="beat">a pause</div>',
+      '<div class="turn buyer"><span class="who">Tom</span>…Priya’s calendar is brutal. Just send the deck for now and I’ll take it from there.</div>'],
+    v: verdictBlock('v-loose','&#9651; LOOSE',
+      'Right instinct — this deal does need Priya. Wrong moment: he just told you his role is to walk it up, and you pushed past it. He defended his turf, and the meeting ask is burned for now.', 34) },
+  { turns:[
+      '<div class="beat">three seconds</div>',
+      '<div class="turn buyer"><span class="who">Tom</span>…Did I lose you? Anyway — send it over when you can.</div>'],
+    v: verdictBlock('v-fine','&#9633; FINE',
+      'Silence is a scalpel, not a stance. Against a concrete request it reads as hesitation. Nothing lost, nothing won — the stall stands.', 46) },
+];
+(function(){
+  const opts=document.getElementById('optsA'), play=document.getElementById('playA'), scr=document.getElementById('scrA');
+  opts.addEventListener('click',e=>{
+    const b=e.target.closest('.opt'); if(!b) return;
+    opts.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+    const pick=A[+b.dataset.o];
+    const conv=document.getElementById('convoA');
+    conv.appendChild(el('<div class="turn rep fade"><span class="who">You</span>'+ (b.classList.contains('silence')?'( you hold the silence )':b.textContent.replace(/^"|"$/g,'')) +'</div>'));
+    playTurns(conv, pick.turns, ()=>{
+      play.innerHTML = pick.v + '<button class="again">&#8635; replay — try another line</button>';
+      armBar(play);
+      play.querySelector('.again').onclick=()=>{ location.hash=''; resetA(); };
+      play.scrollIntoView({block:'end',behavior:'smooth'});
+    });
+  });
+  window.resetA=function(){
+    play.innerHTML='';
+    const conv=document.getElementById('convoA');
+    while(conv.children.length>5) conv.removeChild(conv.lastChild);
+    opts.querySelectorAll('.opt').forEach(o=>o.disabled=false);
+    scr.scrollTop=0;
+  };
+})();
+
+/* ═══════════ BET B ═══════════ */
+(function(){
+  const conv=document.getElementById('convoB'), out=document.getElementById('markB');
+  const notes={
+    noise1:['mn-bad','Warmth is nice — it isn’t information. Keep listening.'],
+    budget:['mn-bad','Sounds load-bearing, isn’t. Approved budget with no date attached has killed more quarters than no budget. Keep listening.'],
+    rival:['mn-bad','The competitor mention is bait — three quotes is procurement ritual, and chasing it makes you sound worried. Keep listening.'],
+    noise2:['mn-bad','Marcus matters later. By this line the call is ending — the moment already passed. Where?'],
+    key:['mn-good','&#9670; That’s the one. “After our platform migration wraps” is an unbounded dependency wearing a casual voice — it quietly owns your close date. Now make the move:']
+  };
+  const moveOpts = `
+    <div class="prompt">You stopped the flow. Your move:</div>
+    <div class="opts">
+      <button class="opt" data-r="best">"Before we book the order form — when does the migration actually wrap? Who’s calling that date?"</button>
+      <button class="opt" data-r="loose">"No rush at all — we’ll be ready whenever you are."</button>
+      <button class="opt" data-r="tell">"If timing’s the issue, I can look at a discount for signing this month."</button>
+    </div><div class="mv"></div>`;
+  const moveV={
+    best: verdictBlock('v-best','&#9670; BEST','You bounded the dependency while the room was still warm. Whatever the answer is, you now share a real date instead of a vibe.',86),
+    loose: verdictBlock('v-loose','&#9651; LOOSE','Gracious — and the quarter just walked away politely. “Whenever you’re ready” is how deck limbo sounds in person.',30),
+    tell: verdictBlock('v-tell','&#9679; THE TELL','You answered a timeline problem with money. He didn’t ask for a discount — now the price is soft and the date is still unbounded.',10),
+  };
+  conv.addEventListener('click',e=>{
+    const t=e.target.closest('.turn.buyer'); if(!t||out.dataset.done) return;
+    const [cls,txt]=notes[t.dataset.m];
+    out.innerHTML=`<div class="marked-note ${cls} fade">${txt}</div>`;
+    if(t.dataset.m==='key'){
+      out.dataset.done='1';
+      out.insertAdjacentHTML('beforeend', moveOpts);
+      out.querySelector('.opts').addEventListener('click',ev=>{
+        const b=ev.target.closest('.opt'); if(!b) return;
+        out.querySelectorAll('.opt').forEach(o=>o.disabled=true);
+        out.querySelector('.mv').innerHTML=moveV[b.dataset.r];
+        armBar(out);
+      });
+    }
+    out.scrollIntoView({block:'end',behavior:'smooth'});
+  });
+})();
+
+/* ═══════════ BET C ═══════════ */
+(function(){
+  const send=document.getElementById('sendC'), ta=document.getElementById('lineC'), play=document.getElementById('playC');
+  send.onclick=()=>{
+    const line=ta.value.trim(); if(!line) { ta.focus(); return; }
+    const l=line.toLowerCase();
+    let read;
+    if(/priya|her desk|first question|what happens|walk it up|who else|process/.test(l))
+      read='<b>Read: ADVANCES.</b> You kept the ask alive and reached for the real owner and the internal sale. That’s the master pattern.';
+    else if(/\?[\s\S]*$/.test(line) && !/send|attach|forward/.test(l))
+      read='<b>Read: PROBES.</b> A question before compliance — good reflex. The strongest version aims it at what happens after the deck leaves your hands.';
+    else if(/meeting|call instead|get .*on|live|demo/.test(l))
+      read='<b>Read: PUSHES.</b> You answered his process with your preference. Right instinct, wrong turn — he defends turf.';
+    else if(/send|sure|absolutely|of course|attach|no problem/.test(l))
+      read='<b>Read: ACCEPTS THE STALL.</b> The deck now travels alone. Compare against the master line — same yes, different destiny.';
+    else
+      read='<b>Read: UNCLEAR.</b> Neither compliance nor advance — in the room this lands as filler. Compare the master line.';
+    document.getElementById('compC').style.display='none';
+    play.innerHTML = `
+      <div class="turn rep fade" style="margin:0 14px 8px; align-self:flex-end;"><span class="who">Your line</span>${line.replace(/</g,'&lt;')}</div>
+      <div class="read fade">${read}</div>
+      <div class="master fade"><span class="who">Master line</span>“Happy to. Before I do — when this lands on Priya’s desk, what’s the first question she’ll ask?”</div>
+      <div class="read fade" style="border-color:#7c3aed; background:#f1e9fe;">It keeps the yes, names the real owner, and makes Tom rehearse the internal sale — the objection surfaces while you’re still in the room.</div>
+      <div style="display:flex; justify-content:center;"><span class="demo-chip">demo grading · in-app this is DetectorLocal, offline, typed line never touches your rating</span></div>
+      <button class="again" style="margin-top:0;">&#8635; try another line</button>`;
+    play.querySelector('.again').onclick=()=>{ play.innerHTML=''; document.getElementById('compC').style.display='flex'; ta.value=''; ta.focus(); };
+  };
+})();
+
+/* ═══════════ BET D ═══════════ */
+(function(){
+  const conv=document.getElementById('convoD'), opts=document.getElementById('optsD'),
+        prompt=document.getElementById('promptD'), end=document.getElementById('endD'),
+        pips=[...document.querySelectorAll('#pipsD .pip')], temp=document.getElementById('tempD');
+  let node=0, score=0, perfect=true;
+  const temps=['Priya: unread','Priya: listening','Priya: leaning in'];
+  const NODES=[
+    { prompt:'Open.',
+      options:[
+        {t:'"Let me walk you through the deck — it’s twelve slides, I’ll be quick."', d:-1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>( she glances at her phone )… go ahead.</div>'},
+        {t:'"Then I’ll skip the deck. What did the other four get wrong?"', d:+1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>( sits forward ) Hm. None of them priced our hub-and-spoke mix honestly. It’s always “depends.”</div>'},
+        {t:'"I saw ops visibility made the board deck — congratulations, that’s your initiative, right?"', d:0,
+         r:'<div class="turn buyer"><span class="who">Priya</span>Mm. It is. Go on.</div>'},
+      ]},
+    { prompt:'She tests you.',
+      lead:'<div class="turn buyer"><span class="who">Priya</span>So what does this cost us per site. Real number, not a range you’ll walk back.</div>',
+      options:[
+        {t:'"Nine hubs, forty spokes — you’d land at $310 a site. It drops at sixty; I’ll show you exactly where."', d:+1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>( writes it down ) First straight answer this month.</div>'},
+        {t:'"It depends on rollout scope — let’s map your sites first and I’ll build the number."', d:-1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>That’s what Datalux said. ( leans back )</div>'},
+        {t:'"Before the number — the logistics team we deployed last year cut exception-handling 40%. Context matters for the price."', d:0,
+         r:'<div class="turn buyer"><span class="who">Priya</span>Fine. And the number?</div>'},
+      ]},
+    { prompt:'Close it.',
+      lead:'<div class="turn buyer"><span class="who">Priya</span>Alright. What do you need from us?</div>',
+      options:[
+        {t:'"Nothing yet — I’ll send a summary of all this tonight."', d:-1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>Sure. Send it over. ( the room cools )</div>'},
+        {t:'"Thirty minutes Thursday with you both and your migration owner — I’ll bring site-level pricing, you bring the rollout calendar."', d:+1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>( checks calendar ) Thursday works. Bring the sixty-site break too.</div>'},
+        {t:'"Honestly? A signature this quarter. What would it take?"', d:-1,
+         r:'<div class="turn buyer"><span class="who">Priya</span>( small laugh ) Four decks this month, remember. Slow down.</div>'},
+      ]},
+  ];
+  function renderNode(){
+    const n=NODES[node];
+    prompt.textContent=n.prompt;
+    if(n.lead){ const t=el(n.lead); t.classList.add('fade'); conv.appendChild(t); }
+    opts.innerHTML='';
+    n.options.forEach((o,i)=>{
+      const b=el('<button class="opt">'+o.t+'</button>');
+      b.onclick=()=>pick(o,b); opts.appendChild(b);
+    });
+    opts.lastChild.scrollIntoView({block:'end',behavior:'smooth'});
+  }
+  function pick(o,b){
+    opts.querySelectorAll('.opt').forEach(x=>x.disabled=true);
+    conv.appendChild(el('<div class="turn rep fade"><span class="who">You</span>'+o.t.replace(/^"|"$/g,'')+'</div>'));
+    const r=el(o.r); r.classList.add('fade');
+    setTimeout(()=>{ conv.appendChild(r); r.scrollIntoView({block:'end',behavior:'smooth'});
+      score+=o.d; if(o.d<1) perfect=false;
+      const p=pips[node]; p.classList.add(o.d>0?'on':(o.d<0?'off':'on')); if(o.d===0) p.style.background='#c7b64a';
+      temp.textContent=temps[score>0?2:(score<0?0:1)];
+      node++;
+      setTimeout(()=> node<NODES.length ? renderNode() : finish(), 900);
+    }, 700);
+  }
+  function finish(){
+    prompt.textContent=''; opts.innerHTML='';
+    let cls,title,sub;
+    if(perfect && score>=3){ cls='v-fork'; title='&#9733; THE FORK';
+      sub='Skipping your own deck won her respect AND surfaced the real objection — one concession, two fronts. Next step booked with both threads live. This verdict is rare by design.'; }
+    else if(score>=2){ cls='v-best'; title='&#9670; NEXT STEP BOOKED';
+      sub='Both threads live, a date on the calendar, pricing owned by you. Strong call.'; }
+    else if(score>=0){ cls='v-fine'; title='&#9633; DECK LIMBO';
+      sub='Nobody said no. Nothing moved. The follow-up email you’re about to send is where this deal goes to wait.'; }
+    else { cls='v-tell'; title='&#9679; PARKED UNTIL Q3';
+      sub='Priya’s attention was available for exactly one meeting, and the deck got it instead of you.'; }
+    end.innerHTML=`<div class="ending ${cls} fade"><div class="e-title">${title}</div><div class="e-sub">${sub}</div></div>
+      <button class="again">&#8635; play the call again</button>`;
+    end.querySelector('.again').onclick=()=>{
+      node=0; score=0; perfect=true; end.innerHTML='';
+      pips.forEach(p=>{p.className='pip'; p.style.background='';});
+      temp.textContent=temps[0];
+      while(conv.children.length>1) conv.removeChild(conv.lastChild);
+      renderNode();
+    };
+    end.scrollIntoView({block:'end',behavior:'smooth'});
+  }
+  renderNode();
+})();
+
+/* ═══════════ her verdict instrument ═══════════ */
+document.querySelectorAll('.judge').forEach(j=>{
+  j.innerHTML=`
+    <button class="jbtn" data-v="KEEP">KEEP</button>
+    <button class="jbtn" data-v="THE ONE">&#9829; THE ONE</button>
+    <button class="jbtn" data-v="CUT">CUT</button>
+    <span class="stars">${'<span>&#9733;</span>'.repeat(5)}</span>
+    <input class="jnote" placeholder="note…">`;
+  j.querySelectorAll('.jbtn').forEach(b=>b.onclick=()=>{
+    j.querySelectorAll('.jbtn').forEach(x=>x.className='jbtn');
+    b.classList.add(b.dataset.v==='KEEP'?'sel-keep':b.dataset.v==='CUT'?'sel-cut':'sel-one');
+    j.dataset.verdict=b.dataset.v;
+  });
+  const stars=[...j.querySelectorAll('.stars span')];
+  stars.forEach((s,i)=>s.onclick=()=>{
+    stars.forEach((x,k)=>x.classList.toggle('lit',k<=i));
+    j.dataset.stars=i+1;
+  });
+});
+document.getElementById('copyAll').onclick=()=>{
+  const lines=[...document.querySelectorAll('.judge')].map(j=>{
+    const name=j.dataset.name, v=j.dataset.verdict||'—', s=j.dataset.stars?j.dataset.stars+'/5':'—',
+          n=j.querySelector('.jnote').value.trim();
+    return `${name}: ${v} · ${s}${n?' · '+n:''}`;
+  });
+  const text='F&F form direction verdicts\n'+lines.join('\n');
+  const ok=()=>{ const m=document.getElementById('copiedMsg'); m.style.opacity=1; setTimeout(()=>m.style.opacity=0, 2500); };
+  const fallback=()=>{ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta);
+    ta.select(); try{ document.execCommand('copy'); ok(); }catch(e){ prompt('Copy this:', text); } ta.remove(); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok).catch(fallback); }
+  else fallback();
+};
+</script>
+</body>
+</html>
