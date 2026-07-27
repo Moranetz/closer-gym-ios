@@ -18,12 +18,12 @@ THE ONE OPTIONAL FEATURE THAT NEEDS A KEY — free-text live role-play:
 Beyond the built-in sparring mode, the Play tab also offers FREE-TEXT games where an AI buyer improvises. Because the
 app is a bring-your-own-key client (it does not resell AI access), it needs an Anthropic API key.
 
-  To test it:
-  1. Settings (gear, top-right of Profile) → "Anthropic API key" → paste this test key:
-        [ PASTE A TEST ANTHROPIC API KEY HERE BEFORE SUBMITTING ]
-  2. Play tab → choose any persona → "Start game".
-  3. Type a few messages as the salesperson, then tap "End".
-  4. You'll get a graded debrief; it is then saved under Profile → Game history.
+No demo key is provided: this feature is optional, is not part of the app's core offering, and
+simply lets a user connect their own existing Anthropic account (like a Mastodon or RSS client
+connecting to the user's own service). Every feature above it — sparring, all 127 puzzles,
+lessons, master games, ratings — is fully reviewable with no key, no account, and no network.
+If a key is ever entered: Play tab → any persona → "Start game" → type a few turns → "End"
+produces a graded debrief saved under Profile → Game history.
 
 PRIVACY: The app collects nothing on any server we control. Role-play text is sent directly
 from the device to Anthropic using the entered key (disclosed in the privacy policy). The key
@@ -31,4 +31,4 @@ is stored only in the iOS Keychain.
 
 ENCRYPTION: Standard HTTPS only; ITSAppUsesNonExemptEncryption = false (exempt).
 
-Contact for review questions: [ YOUR SUPPORT EMAIL ]
+Contact for review questions: marion.m.moranetz@gmail.com
