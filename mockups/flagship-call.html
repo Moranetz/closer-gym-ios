@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frame &amp; Fork — flagship call: The Meeting You Earned</title>
+<style>
+  /* ===== Frame & Fork tokens — verbatim from BrandColors.swift / Assets.xcassets ===== */
+  :root{
+    --bg-page:#262421; --bg-panel:#312E2B; --bg-rail:#272522; --bg-banner:#21201D;
+    --border:#1B1A19; --border-strong:#3D3A37;
+    --green:#81B64C; --green-deep:#71A73F; --green-hover:#9CC868;
+    --text:#FFFFFF; --text2:#C9C8C5; --muted:#9B9893; --faint:#6F6D6A;
+    --danger:#A4262C; --danger-text:#E5484D; --warning:#E5A50A; --info:#3692E7;
+    --fork:#4FB8B0; --sharp:#5C8CF0;
+  }
+  *{box-sizing:border-box; margin:0}
+  html{background:var(--bg-page);}
+  body{position:relative; background:var(--bg-page); color:var(--text);
+    font-family:system-ui,-apple-system,"SF Pro Text",sans-serif;
+    display:flex; flex-direction:column; align-items:center; padding:26px 16px 90px; min-height:100vh;}
+  .disp{font-family:ui-rounded,system-ui,-apple-system,sans-serif; font-weight:800;}
+  .micro{font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.8px; color:var(--muted);}
+
+  .titlebar{width:min(560px,100%); margin-bottom:14px;}
+  .titlebar h1{font-size:22px;} .titlebar .micro{margin-top:3px;}
+
+  .call{width:min(560px,100%); background:var(--bg-rail); border:1px solid var(--border-strong);
+    border-radius:16px; overflow:hidden;}
+  .callhead{background:var(--bg-banner); padding:12px 16px; display:flex; justify-content:space-between;
+    align-items:center; border-bottom:1px solid var(--border-strong);}
+  .callhead .who{font-size:14px; font-weight:700;}
+  .callhead .who small{display:block; font-size:11.5px; color:var(--muted); font-weight:500; margin-top:1px;}
+  .live{font-size:11px; font-weight:700; letter-spacing:.6px; color:var(--green); }
+  .live::before{content:"●"; margin-right:5px; animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  .feed{padding:16px 14px 22px; display:flex; flex-direction:column; gap:9px;}
+  .turn{max-width:88%; padding:10px 13px; border-radius:14px; font-size:14.5px; line-height:1.48;}
+  .buyer{background:var(--bg-panel); border:1px solid var(--border-strong); border-bottom-left-radius:4px; align-self:flex-start; color:var(--text2);}
+  .rep{background:rgba(129,182,76,.13); border:1px solid rgba(129,182,76,.4); border-bottom-right-radius:4px; align-self:flex-end;}
+  .who-tag{display:block; font-size:10px; font-weight:700; letter-spacing:.7px; text-transform:uppercase; color:var(--faint); margin-bottom:3px;}
+  .rep .who-tag{color:var(--green-deep);}
+  .beat{align-self:center; font-size:12px; color:var(--faint); font-style:italic; padding:2px 0;}
+  .fade{animation:fadeup .4s ease both;}
+  @keyframes fadeup{from{opacity:0; transform:translateY(7px)}to{opacity:1; transform:none}}
+  .intent{display:none; margin:2px 0 2px 10px; max-width:82%; align-self:flex-start;
+    border-left:2px solid var(--fork); padding:5px 10px; font-size:12px; font-style:italic; color:var(--fork); line-height:1.4;}
+  .director .intent{display:block;}
+
+  .ask{padding:2px 16px 6px; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.8px; color:var(--green);}
+  .opts{display:flex; flex-direction:column; gap:8px; padding:0 14px 18px;}
+  .opt{background:var(--bg-panel); border:1.5px solid var(--border-strong); border-radius:12px;
+    padding:11px 13px; font-size:14px; line-height:1.45; text-align:left; cursor:pointer;
+    font-family:inherit; color:var(--text2); transition:border-color .15s, transform .1s;}
+  .opt:hover{border-color:var(--green); color:var(--text); transform:translateY(-1px);}
+  .opt:disabled{opacity:.4; cursor:default; transform:none;}
+  .opt.hold{font-style:italic; color:var(--muted);}
+  .tapnote{padding:0 16px 8px; font-size:12px; color:var(--faint); font-style:italic;}
+  .markable .turn.tappable{cursor:pointer;}
+  .markable .turn.tappable:hover{box-shadow:0 0 0 2px var(--green);}
+
+  .typerfirst{margin:0 14px 10px; border:1px dashed var(--border-strong); border-radius:12px; padding:10px 12px;}
+  .typerfirst summary{font-size:12px; color:var(--muted); cursor:pointer; font-weight:600;}
+  .typerfirst textarea{width:100%; margin-top:8px; min-height:58px; background:var(--bg-banner); color:var(--text);
+    border:1px solid var(--border-strong); border-radius:10px; padding:9px 11px; font:inherit; font-size:13.5px; resize:vertical;}
+  .typerfirst textarea:focus{outline:1.5px solid var(--green);}
+  .typerfirst .commit{margin-top:8px; background:var(--green-deep); color:#fff; border:none; border-radius:9px;
+    padding:7px 14px; font-weight:700; font-size:12.5px; cursor:pointer; font-family:inherit;}
+  .yourline{align-self:flex-end; max-width:88%; margin:0 0 2px; font-size:11.5px; color:var(--faint); font-style:italic;}
+
+  .endcard{margin:8px 14px 18px; background:var(--bg-banner); border:1px solid var(--border-strong);
+    border-radius:14px; padding:16px; text-align:center;}
+  .endcard .e-title{font-size:20px;}
+  .endcard .e-sub{font-size:13px; color:var(--muted); margin-top:6px; line-height:1.5;}
+  .rb-btn{margin-top:12px; background:var(--green); color:#1d2513; border:none; border-radius:11px;
+    padding:11px 22px; font-weight:800; font-size:14px; cursor:pointer; font-family:inherit;}
+  .rb-btn:hover{background:var(--green-hover);}
+
+  /* ===== Read-Back ===== */
+  .readback{width:min(560px,100%); margin-top:20px; display:none;}
+  .rb-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .rb-head h2{font-size:19px;}
+  .toggle{display:flex; align-items:center; gap:7px; font-size:12px; color:var(--muted); cursor:pointer; user-select:none;}
+  .toggle .sw{width:34px; height:20px; border-radius:99px; background:var(--border-strong); position:relative; transition:background .2s;}
+  .toggle .sw::after{content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--text2); transition:left .2s;}
+  .toggle.on .sw{background:var(--fork);}
+  .toggle.on .sw::after{left:16px; background:#fff;}
+  .spark{background:var(--bg-rail); border:1px solid var(--border-strong); border-radius:14px; padding:12px 14px 8px; margin-bottom:12px;}
+  .spark svg{width:100%; height:64px; display:block;}
+  .rb-node{background:var(--bg-rail); border:1px solid var(--border-strong); border-radius:14px; padding:14px; margin-bottom:10px;}
+  .rb-top{display:flex; align-items:center; gap:10px;}
+  .v-chip{min-width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+    font-size:19px; font-weight:800; color:#fff; padding:0 8px;}
+  .rb-label{font-size:15px;}
+  .rb-beatname{font-size:11px; color:var(--faint); text-transform:uppercase; letter-spacing:.7px; font-weight:600;}
+  .rb-yours{font-size:13px; color:var(--text2); margin-top:9px; line-height:1.45;}
+  .rb-yours b{color:var(--text); font-weight:600;}
+  .rb-room{margin-top:8px; font-size:12.5px; color:var(--warning); line-height:1.45;}
+  .rb-room::before{content:"THE ROOM WAS TELLING YOU · "; font-size:10px; letter-spacing:.6px; color:var(--faint); font-weight:700;}
+  .rb-master{margin-top:8px; font-size:13px; color:var(--green-hover); line-height:1.45;}
+  .rb-master::before{content:"MASTER LINE · "; font-size:10px; letter-spacing:.6px; color:var(--green-deep); font-weight:700;}
+  .rb-branches{margin-top:9px;}
+  .rb-branches summary{font-size:12px; color:var(--info); cursor:pointer; font-weight:600;}
+  .rb-branch{margin:7px 0 0 8px; padding:7px 10px; border-left:2px solid var(--border-strong); font-size:12.5px; color:var(--muted); line-height:1.45;}
+  .rb-branch b{color:var(--text2); font-weight:600;}
+  .fork-hero{background:linear-gradient(160deg, rgba(79,184,176,.16), var(--bg-rail)); border-color:var(--fork);}
+  @media (prefers-reduced-motion: reduce){ .fade{animation:none} .live::before{animation:none} }
+</style>
+</head>
+<body>
+
+<div class="titlebar">
+  <h1 class="disp">The Meeting You Earned</h1>
+  <div class="micro">Long game · 5 decisions · Corvid Logistics · verdicts arrive after the call, not during</div>
+</div>
+
+<div class="call">
+  <div class="callhead">
+    <div class="who">Priya Nair &amp; Tom Okafor<small>Ops Director · VP Ops — Corvid Logistics</small></div>
+    <div class="live">LIVE</div>
+  </div>
+  <div class="feed" id="feed"></div>
+  <div id="stagearea"></div>
+</div>
+
+<section class="readback" id="readback">
+  <div class="rb-head">
+    <h2 class="disp">Read-Back</h2>
+    <div class="toggle" id="dirToggle"><span>Director's layer</span><span class="sw"></span></div>
+  </div>
+  <div class="spark"><div class="micro" style="margin-bottom:6px">Deal trajectory</div><svg id="sparksvg" viewBox="0 0 300 64" preserveAspectRatio="none"></svg></div>
+  <div id="rbNodes"></div>
+</section>
+
+<script>
+/* ================= Verdict vocab — mirrors Models/Verdict.swift exactly ================= */
+const V = {
+  fork:  {g:'‼',  label:'The Fork', c:'#4FB8B0'},
+  sharp: {g:'!',  label:'Sharp',    c:'#5C8CF0'},
+  best:  {g:'◆',  label:'Best',     c:'#71A73F'},
+  solid: {g:'✓',  label:'Solid',    c:'#81B64C'},
+  fine:  {g:'·',  label:'Fine',     c:'rgba(129,182,76,.7)'},
+  loose: {g:'?!', label:'Loose',    c:'#E5A50A'},
+  slip:  {g:'?',  label:'Slip',     c:'#E5A50A'},
+  missed:{g:'✕',  label:'Missed',   c:'#9B9893'},
+  tell:  {g:'??', label:'Tell',     c:'#A4262C'},
+};
+function verdictFrom(ev, isBest, isFork){ // same bands as Verdict.from
+  if(isBest) return isFork ? 'fork' : 'best';
+  if(ev>=0.30) return 'solid'; if(ev>=-0.15) return 'fine';
+  if(ev>=-0.50) return 'loose'; if(ev>=-1.00) return 'slip'; return 'tell';
+}
+
+/* ================= The call ================= */
+const feed=document.getElementById('feed'), stage=document.getElementById('stagearea');
+const S={temp:0, flags:{}, record:[], evs:[]};
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function bubble(kind, who, text, intent){
+  const wrap=document.createDocumentFragment();
+  const t=document.createElement('div'); t.className='turn '+kind+' fade';
+  t.innerHTML='<span class="who-tag">'+who+'</span>'+text; wrap.appendChild(t);
+  if(intent){ const n=document.createElement('div'); n.className='intent fade'; n.textContent='» '+intent; wrap.appendChild(n); }
+  feed.appendChild(wrap); t.scrollIntoView({block:'nearest',behavior:'smooth'}); return t;
+}
+function beat(text){ const b=document.createElement('div'); b.className='beat fade'; b.textContent=text; feed.appendChild(b); }
+async function say(turns){ for(const t of turns){
+  if(t.k==='beatline'){ beat(t.x); await sleep(650); continue; }
+  bubble(t.k,t.w,t.x,t.i); await sleep(t.d??1050);} }
+
+/* Every buyer turn: x = surface, i = director's intent (hidden until Read-Back toggle) */
+const CALL=[
+/* ── N1 · OPEN (pick) ─────────────────────────────── */
+{ beatname:'The open', type:'pick',
+  lead:[
+    {k:'buyer', w:'Priya', x:'You’ve got till quarter past. Tom says you don’t waste time — he says that about everyone, so.', d:1200,
+     i:'Testing, not hostile. She discounts Tom’s endorsement out loud so you can’t lean on it. Whatever you planned to open with, she just made it stale.'},
+  ],
+  ask:'Open.',
+  options:[
+    {t:'"Then I’ll keep it tight — the deck’s twelve slides, I’ll hit the four that matter."', ev:-0.9, scar:'deckWalked',
+     cont:[{k:'rep',w:'You',x:'Then I’ll keep it tight — the deck’s twelve slides, I’ll hit the four that matter.'},
+           {k:'buyer',w:'Priya',x:'Mm-hm.', d:800, i:'Fluent politeness incoming. With Priya, short and blunt means engaged — this little “mm-hm” is her leaving.'},
+           {k:'beatline',x:'her thumb moves to her phone, once'}],
+     room:'The "mm-hm" and the phone. Clipped Priya is engaged Priya; polite Priya is already gone.'},
+    {t:'"Then no deck. Where do these pitches usually fall apart for you?"', ev:1, best:true,
+     cont:[{k:'rep',w:'You',x:'Then no deck. Where do these pitches usually fall apart for you?'},
+           {k:'buyer',w:'Priya',x:'Pricing. Always pricing. Nobody prices hub-and-spoke straight.', d:1100,
+            i:'Fragments. With her that’s the good sign — she’s stopped performing and started working. She also just handed you the agenda.'},
+           {k:'beatline',x:'she puts the phone face-down'}],
+     room:'Sentence fragments and the phone going face-down. She works in fragments; she stalls in paragraphs.'},
+    {t:'"Appreciate you making time — I know ops visibility’s been on your plate since it hit the board deck."', ev:-0.3,
+     cont:[{k:'rep',w:'You',x:'Appreciate you making time — I know ops visibility’s been on your plate since it hit the board deck.'},
+           {k:'buyer',w:'Priya',x:'It has, yes, and I’m sure you’ve read our filings very thoroughly. What have you got.', d:1150,
+            i:'Research-flexing reads as rehearsed to her — she’s seen four decks this month and every one opened this way. Note the full, polite sentences: distance.'}],
+     room:'The fuller her sentences get, the further away she is. That was a doorman answer.'}
+  ],
+  master:1
+},
+/* ── N2 · THE NUMBER (pick) ─────────────────────────── */
+{ beatname:'The number', type:'pick',
+  lead:[
+    {k:'buyer', w:'Priya', x:'So price it. Nine hubs, forty-one spokes. A real number — the range game is why the last vendor’s deck is still “under review.”', d:1300,
+     i:'The exact count is a test with a tripwire: she knows her own network cold and wants to see if you’ll pretend to. “Under review” = where decks go to die at Corvid; she’s telling you the stakes.'},
+  ],
+  ask:'She wants the number.',
+  scarcheck: s=> s.flags.deckWalked ? [{k:'buyer',w:'Priya',x:'This is slide four, isn’t it.', d:900, i:'The scar. She clocked the deck moment and hasn’t forgiven it — you’re pitching uphill now.'}] : null,
+  options:[
+    {t:'"At your count you’d land around three-ten a site. It steps down at sixty spokes — I’d rather show you the cliff now than surprise you at renewal."', ev:1, best:true, flag:'straightNumber',
+     cont:[{k:'rep',w:'You',x:'At your count you’d land around three-ten a site. It steps down at sixty spokes — I’d rather show you the cliff now than surprise you at renewal.'},
+           {k:'beatline',x:'she writes something down'},
+           {k:'buyer',w:'Priya',x:'Three-ten. Okay.', d:900, i:'She wrote it. With Priya, homework is approval — you’re the first vendor this month who gave her a number she can carry into a budget meeting.'}],
+     room:'She wrote it down. That’s the first thing anyone’s said today that she can repeat upstairs.'},
+    {t:'"Honestly it depends how we scope the rollout — let’s map your sites properly and I’ll build you a real quote."', ev:-0.8,
+     cont:[{k:'rep',w:'You',x:'Honestly it depends how we scope the rollout — let’s map your sites properly and I’ll build you a real quote.'},
+           {k:'buyer',w:'Priya',x:'That is — word for word — what Datalux said. And I do mean word for word.', d:1150,
+            i:'She’s not comparing you to a competitor; she’s telling you that you sound like a category. The worst thing you can be in this chair is interchangeable.'}],
+     room:'"Word for word." You didn’t lose to Datalux — you dissolved into them.'},
+    {t:'"I’ll give you the number in one second — context first: the logistics team we deployed last spring cut exception-handling forty percent."', ev:-0.35,
+     cont:[{k:'rep',w:'You',x:'I’ll give you the number in one second — context first: the logistics team we deployed last spring cut exception-handling forty percent.'},
+           {k:'buyer',w:'Priya',x:'Fine. And the number?', d:900,
+            i:'She let it pass, but you made her ask twice — with a time-boxed buyer, every repeated question is rent you’re paying out of a 25-minute budget.'}],
+     room:'She had to ask twice. Nothing broke — you’re just spending her clock on your setup.'}
+  ],
+  master:0
+},
+/* ── N3 · THE RAMBLE (mark-the-moment) ─────────────── */
+{ beatname:'The ramble', type:'mark',
+  intro:[{k:'beatline', x:'Tom exhales, fills the pause'}],
+  ask:'Tap the line where you’d come in.',
+  tapnote:'Tom’s relieved and talking. One of these lines needs you — most don’t.',
+  clauses:[
+    {x:'Yeah, no, see — real numbers, that’s what I kept telling Marcus we needed from you people, so this is good.', w:'Tom',
+     i:'Filler-agreement. “Yeah, no” is Tom’s idle noise, not a signal. Marcus gets name-dropped constantly; it means nothing yet.',
+     ev:-0.4, cont:[{k:'rep',w:'You',x:'Glad it lands — what were you hoping the numbers would unlock?'},
+                    {k:'buyer',w:'Tom',x:'Oh — just, you know, that. Anyway—', d:900, i:'You interrupted his warm-up to chase small talk. Nothing lost but a beat.'}],
+     room:'That was idle agreement, not information. Interjecting there bought nothing.'},
+    {x:'And budget-wise we’re honestly fine, that got signed off back in — March? February. It’s approved, is the point.', w:'Tom',
+     i:'Sounds load-bearing, isn’t. Approved-budget-no-date has killed more Corvid quarters than no budget — but chasing it now just gets you a shrug. The real problem is two lines away.',
+     ev:-0.5, cont:[{k:'rep',w:'You',x:'That’s great — is the approval tied to this half specifically?'},
+                    {k:'buyer',w:'Tom',x:'It’s — yeah, it’s fine, it rolls. Um. Where was I.', d:950, i:'A shrug, as promised. Budget was never the blocker here.'}],
+     room:'Budget-with-no-date is a real disease, but the cure wasn’t asking Tom to re-confirm approval mid-ramble.'},
+    {x:'Obviously nothing actually moves till the platform migration settles down — Priya’s rule, one fire at a time, ha — but after that it’s clean.', w:'Tom',
+     key:true, i:'THE moment. An unbounded dependency delivered as a joke. “Settles down” has no date attached, and note: Priya’s pen stopped. She knows exactly how un-settled that migration is.',
+     room:'"Settles down" carries no date, and her pen stopped moving on that clause. Two leaks, same truth: the migration owns your close.',
+     opts:[
+      {t:'"Before we plan around it — when does the migration actually land, and who owns that date?"', ev:1, best:true, flag:'caughtMigration',
+       cont:[{k:'rep',w:'You',x:'Before we plan around it — when does the migration actually land, and who owns that date?'},
+             {k:'buyer',w:'Priya',x:'March. Officially.', d:1000, i:'“Officially” is doing heavy lifting — that’s Priya telling you the real date is later, without saying it in front of Tom.'},
+             {k:'beatline',x:'Tom looks at Priya; she doesn’t elaborate'}]},
+      {t:'"Totally understood — no pressure on timing, we’ll be ready whenever you are."', ev:-0.7,
+       cont:[{k:'rep',w:'You',x:'Totally understood — no pressure on timing, we’ll be ready whenever you are.'},
+             {k:'buyer',w:'Tom',x:'Appreciate that. That’s — yeah. Easy.', d:900, i:'You just co-signed the indefinite. “Whenever you are” is how deals politely never close.'}]},
+      {t:'"If timing’s the squeeze, signing this month changes the math — I can sharpen the number."', ev:-1.2,
+       cont:[{k:'rep',w:'You',x:'If timing’s the squeeze, signing this month changes the math — I can sharpen the number.'},
+             {k:'buyer',w:'Priya',x:'The number was fine. Why is it moving?', d:1100, i:'You answered a calendar problem with money, and the only thing it bought was doubt about the number she’d already written down.'}]}
+     ]},
+    {x:'And then Marcus picks the whole thing up when he’s back from leave, so. We’re in good shape, genuinely.', w:'Tom',
+     i:'Marcus matters — later. By this line the ramble is ending and the migration clause has already gone past. A handover to someone on leave is tomorrow’s problem; the unbounded date is today’s.',
+     ev:-0.4, cont:[{k:'rep',w:'You',x:'When’s Marcus actually back?'},
+                    {k:'buyer',w:'Tom',x:'The ninth? The ninth.', d:850, i:'A fact you could have gotten by email, bought at the cost of the moment that mattered.'}],
+     room:'Real detail, wrong altitude. The migration clause was the one that owned your quarter.'}
+  ]
+},
+/* ── N4 · THE SIDEBAR (hold-or-speak) ───────────────── */
+{ beatname:'The sidebar', type:'hold',
+  lead:[
+    {k:'beatline', x:'Priya turns to Tom — half to him, half to herself'},
+    {k:'buyer', w:'Priya', x:'If it’s March-official we could pilot two hubs before the migration, not after.', d:1250,
+     i:'She’s selling the deal to herself, out loud. “March-official” — she’s using YOUR frame from two minutes ago. The best salesperson in the room right now is her.'},
+    {k:'buyer', w:'Tom', x:'Yeah, no, Marcus won’t love the overlap, but if the pilot’s small I can — I mean, I can bring him around.', d:1250,
+     i:'Tom volunteering to manage Marcus is Tom joining the deal. Two buyers are now negotiating each other. Anything you add here can only interrupt.'},
+  ],
+  ask:'They’re talking to each other.',
+  options:[
+    {t:'"We can size the pilot however works — two hubs is very doable on our side."', ev:-0.8,
+     cont:[{k:'rep',w:'You',x:'We can size the pilot however works — two hubs is very doable on our side.'},
+           {k:'buyer',w:'Priya',x:'Mm. We’ll discuss the pilot internally and circle back to you on shape.', d:1200,
+            i:'Full sentences again. You stepped into their sidebar and she closed the door — the internal sale just went private, where you can’t help it.'}],
+     room:'They were doing your job for you, and the interjection reminded them you were there. "Circle back" = the door closing.'},
+    {t:'( hold — let them have it )', ev:1, best:true, hold:true, flag:'heldSidebar',
+     cont:[{k:'beatline',x:'you say nothing · four seconds'},
+           {k:'buyer',w:'Priya',x:'Two-hub pilot, before March. Number holds?', d:1200,
+            i:'She negotiated Tom, planned the pilot, and came back to you with the deal further along than you left it. Your silence was a move, and it scored.'},
+           {k:'rep',w:'You',x:'Holds.'}],
+     room:'The deal advanced measurably during a stretch where you said nothing. Silence was the strongest line available.'}
+  ],
+  master:1
+},
+/* ── N5 · THE CLOSE (pick) ──────────────────────────── */
+{ beatname:'The close', type:'pick',
+  lead:[
+    {k:'buyer', w:'Priya', x:'We’re at time. What do you need from us?', d:1100,
+     i:'Not a courtesy — a handoff. She’s asking you to name the next concrete thing. Vague here undoes the whole meeting; concrete here banks it.'},
+  ],
+  ask:'Close it.',
+  options:[
+    {t:'"Thursday, thirty minutes, you two plus whoever owns the migration calendar. I bring pilot pricing and the sixty-spoke cliff — you bring March-actual, not March-official."', ev:1, best:true, forkable:true,
+     cont:[{k:'rep',w:'You',x:'Thursday, thirty minutes, you two plus whoever owns the migration calendar. I bring pilot pricing and the sixty-spoke cliff — you bring March-actual, not March-official.'},
+           {k:'buyer',w:'Priya',x:'…March-actual. Ha.', d:1000, i:'She caught you catching her. “Officially” was a tell she left on the table half-deliberately — closers who pick it up get remembered.'},
+           {k:'buyer',w:'Tom',x:'I’ll get it on calendars before Marcus is back, that way it’s — yeah. Thursday.', d:1100, i:'Tom sequencing the invite AROUND Marcus, unprompted. Both threads are alive and pulling.'}],
+     room:'She laughed at "March-actual" — you converted her own leak into the agenda, and she liked it.'},
+    {t:'"Nothing yet — you’ve given me plenty. I’ll write up a summary of all this tonight and get it over to you both."', ev:-0.9,
+     cont:[{k:'rep',w:'You',x:'Nothing yet — you’ve given me plenty. I’ll write up a summary of all this tonight and get it over to you both.'},
+           {k:'buyer',w:'Priya',x:'Sure. Send it over. Good meeting.', d:1100,
+            i:'Polite, fluent, terminal. A meeting this good, closed with a document instead of a date — the momentum has nowhere to live now except your summary email.'}],
+     room:'"Send it over" — the same shelf the last vendor’s deck is on. The room was ready for a date and you gave it homework.'},
+    {t:'"Straight question then — what would it take to get this signed before the quarter closes?"', ev:-1.1,
+     cont:[{k:'rep',w:'You',x:'Straight question then — what would it take to get this signed before the quarter closes?'},
+           {k:'buyer',w:'Priya',x:'( a short laugh ) Marcus isn’t back till the ninth and you want signatures. Slow down.', d:1200,
+            i:'Your quarter is not her problem, and she just told you so. The ask reframed a working meeting as your pipeline review.'}],
+     room:'The laugh wasn’t warm. You asked her calendar to care about yours.'}
+  ],
+  master:0
+},
+];
+
+/* ================= endings ================= */
+function ending(){
+  const f=S.flags, perfect = f.straightNumber && f.caughtMigration && f.heldSidebar && S.lastBestForkable;
+  if(perfect) return {v:'fork', title:'‼ The Fork', cls:'fork-hero',
+    sub:'One agenda line — "March-actual, not March-official" — banked her respect AND put the real date on the calendar. A concession was never needed: skipping your own deck at the open was the concession, and it just won on two fronts. This verdict is rare by design.'};
+  if(S.temp>=2) return {v:'best', title:'◆ Next Step Booked', cls:'',
+    sub:'Thursday exists, both threads are alive, and the number held. Read the call back — one line was available that would have made it art.'};
+  if(S.temp>=0) return {v:'fine', title:'· Deck Limbo', cls:'',
+    sub:'Nobody said no. Nothing has a date. Somewhere at Corvid there is a shelf, and your summary is about to join the last vendor’s deck on it.'};
+  return {v:'tell', title:'?? Parked', cls:'',
+    sub:'Priya’s attention was available exactly once. The read-back below shows the three places it left.'};
+}
+
+/* ================= runtime ================= */
+let nodeIdx=0;
+async function runNode(){
+  const n=CALL[nodeIdx];
+  if(!n){ return finish(); }
+  if(n.scarcheck){ const sc=n.scarcheck(S); if(sc){ await say(sc); n._scarShown=sc; } }
+  if(n.intro) for(const b of n.intro){ beat(b.x); await sleep(500); }
+  if(n.lead) await say(n.lead);
+  if(n.type==='mark') return renderMark(n);
+  renderPick(n);
+}
+function typerFirst(container, onCommitted){
+  const d=document.createElement('details'); d.className='typerfirst';
+  d.innerHTML='<summary>say it yourself first (optional)</summary><textarea placeholder="your line, before you see any options…"></textarea><button class="commit">Commit line</button>';
+  d.querySelector('.commit').onclick=()=>{
+    const v=d.querySelector('textarea').value.trim(); if(!v) return;
+    const y=document.createElement('div'); y.className='yourline fade'; y.textContent='your committed line · "'+v+'" · compared in Read-Back (in-app: DetectorLocal, offline)';
+    feed.appendChild(y); S.record[nodeIdx]=S.record[nodeIdx]||{}; S.record[nodeIdx].typed=v; d.remove();
+  };
+  container.appendChild(d);
+}
+function renderPick(n){
+  stage.innerHTML='';
+  const ask=document.createElement('div'); ask.className='ask fade'; ask.textContent=n.ask; stage.appendChild(ask);
+  typerFirst(stage);
+  const box=document.createElement('div'); box.className='opts';
+  n.options.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='opt'+(o.hold?' hold':''); b.textContent=o.t;
+    b.onclick=()=>pick(n,o,i); box.appendChild(b);
+  });
+  stage.appendChild(box);
+}
+async function pick(n,o,i){
+  stage.querySelectorAll('.opt').forEach(x=>x.disabled=true);
+  if(o.flag) S.flags[o.flag]=true; if(o.scar) S.flags[o.scar]=true;
+  if(n.beatname==='The close') S.lastBestForkable = !!(o.best && o.forkable);
+  S.temp += o.ev>=0.3?1:(o.ev<=-0.5?-1:0); S.evs.push(o.ev);
+  S.record[nodeIdx]=Object.assign(S.record[nodeIdx]||{},{node:n, opt:o, idx:i});
+  stage.innerHTML='';
+  await say(o.cont);
+  nodeIdx++; setTimeout(runNode, 500);
+}
+async function renderMark(n){
+  stage.innerHTML='';
+  const ask=document.createElement('div'); ask.className='ask fade'; ask.textContent=n.ask; stage.appendChild(ask);
+  const note=document.createElement('div'); note.className='tapnote fade'; note.textContent=n.tapnote; stage.appendChild(note);
+  feed.classList.add('markable');
+  const els=[];
+  for(const c of n.clauses){
+    const t=bubble('buyer tappable', c.w, c.x, c.i); els.push({el:t, c});
+    await sleep(1150);
+  }
+  els.forEach(({el,c})=>{
+    el.onclick=async ()=>{
+      feed.classList.remove('markable'); els.forEach(x=>{x.el.classList.remove('tappable'); x.el.onclick=null;});
+      el.style.boxShadow='0 0 0 2px '+(c.key?'#81B64C':'#E5A50A');
+      S.record[nodeIdx]={node:n, marked:c};
+      if(c.key){
+        stage.innerHTML='';
+        const ask2=document.createElement('div'); ask2.className='ask fade'; ask2.textContent='You came in here. Your move:'; stage.appendChild(ask2);
+        const box=document.createElement('div'); box.className='opts';
+        c.opts.forEach((o,i)=>{ const b=document.createElement('button'); b.className='opt'; b.textContent=o.t;
+          b.onclick=async ()=>{ box.querySelectorAll('.opt').forEach(x=>x.disabled=true);
+            if(o.flag) S.flags[o.flag]=true;
+            S.temp += o.ev>=0.3?1:(o.ev<=-0.5?-1:0); S.evs.push(o.ev);
+            S.record[nodeIdx].opt=o; S.record[nodeIdx].idx=i;
+            stage.innerHTML='';
+            await say(o.cont);
+            nodeIdx++; setTimeout(runNode,500);
+          }; box.appendChild(b); });
+        stage.appendChild(box);
+      } else {
+        S.temp += c.ev<=-0.5?-1:0; S.evs.push(c.ev);
+        S.record[nodeIdx].opt={ev:c.ev, room:c.room, t:'(interjected at: “'+c.x.slice(0,52)+'…”)'};
+        stage.innerHTML='';
+        await say(c.cont);
+        beat('the conversation moves on — the migration clause goes past unbounded');
+        S.flags.missedMigration=true;
+        nodeIdx++; setTimeout(runNode,700);
+      }
+    };
+  });
+}
+function finish(){
+  const e=ending();
+  stage.innerHTML='';
+  const card=document.createElement('div'); card.className='endcard fade '+e.cls;
+  card.innerHTML='<div class="micro" style="margin-bottom:6px">call over</div><div class="e-title disp" style="color:'+V[e.v].c+'">'+e.title+'</div><div class="e-sub">'+e.sub+'</div><button class="rb-btn">Read the call back</button>';
+  stage.appendChild(card);
+  card.querySelector('.rb-btn').onclick=()=>{ renderReadback(e); };
+}
+
+/* ================= Read-Back ================= */
+function renderReadback(e){
+  const rb=document.getElementById('readback'); rb.style.display='block';
+  // sparkline
+  let x=0, y=32, pts='0,32'; const step=300/(S.evs.length||1);
+  let acc=0;
+  S.evs.forEach(ev=>{ acc+=ev; x+=step; y=32-acc*11; y=Math.max(6,Math.min(58,y)); pts+=' '+x.toFixed(0)+','+y.toFixed(0); });
+  document.getElementById('sparksvg').innerHTML=
+    '<polyline points="0,32 300,32" stroke="#3D3A37" stroke-width="1" fill="none"/>'+
+    '<polyline points="'+pts+'" stroke="'+(acc>=1?'#81B64C':(acc<=-1?'#E5484D':'#E5A50A'))+'" stroke-width="2.5" fill="none" stroke-linejoin="round"/>';
+  const wrap=document.getElementById('rbNodes'); wrap.innerHTML='';
+  S.record.forEach((r,i)=>{
+    if(!r||!r.node) return;
+    const n=r.node, o=r.opt||{};
+    const isBest=!!o.best, vk = (i===S.record.length-1 && e.v==='fork' && isBest) ? 'fork' : verdictFrom(o.ev??-0.4, isBest, false);
+    const v=V[vk];
+    const masterOpt = n.options ? n.options[n.master] : (r.marked&&r.marked.key ? r.marked.opts[0] : (n.clauses||[]).find(c=>c.key)?.opts?.[0]);
+    const branches=(n.options||[]).filter((_,bi)=>bi!==r.idx).map(b=>'<div class="rb-branch"><b>'+(b.hold?'the hold':'“'+b.t.replace(/^"|"$/g,'').slice(0,90)+'…”')+'</b> — '+(b.room||'a line you didn’t play')+'</div>').join('');
+    const div=document.createElement('div'); div.className='rb-node'+(vk==='fork'?' fork-hero':'');
+    div.innerHTML='<div class="rb-top"><div class="v-chip" style="background:'+v.c+'">'+v.g+'</div>'+
+      '<div><div class="rb-beatname">'+n.beatname+'</div><div class="rb-label disp">'+v.label+'</div></div></div>'+
+      '<div class="rb-yours"><b>You:</b> '+(o.t||'(no move recorded)').replace(/^"|"$/g,'')+(r.typed?'<br><b>Your typed line:</b> “'+r.typed.replace(/</g,'&lt;')+'”':'')+'</div>'+
+      (o.room||r.marked?.room ? '<div class="rb-room">'+(o.room||r.marked.room)+'</div>':'')+
+      (masterOpt&&!isBest ? '<div class="rb-master">“'+masterOpt.t.replace(/^"|"$/g,'')+'”</div>':'')+
+      (branches?'<details class="rb-branches"><summary>the lines you didn’t play</summary>'+branches+'</details>':'');
+    wrap.appendChild(div);
+  });
+  rb.scrollIntoView({block:'start', behavior:'smooth'});
+}
+document.getElementById('dirToggle').onclick=function(){
+  this.classList.toggle('on');
+  document.body.classList.toggle('director', this.classList.contains('on'));
+};
+
+runNode();
+</script>
+</body>
+</html>
