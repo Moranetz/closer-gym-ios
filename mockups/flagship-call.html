@@ -73,6 +73,44 @@
     border-radius:14px; padding:16px; text-align:center;}
   .endcard .e-title{font-size:20px;}
   .endcard .e-sub{font-size:13px; color:var(--muted); margin-top:6px; line-height:1.5;}
+  /* confirm chip (mark two-stage) */
+  .confirm{display:flex; gap:8px; margin:4px 0 4px 12px; align-self:flex-start;}
+  .confirm button{border:1.5px solid var(--border-strong); background:var(--bg-panel); color:var(--text2);
+    border-radius:9px; padding:6px 12px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit;}
+  .confirm .go{border-color:var(--green); color:var(--green-hover);}
+  .provisional{box-shadow:0 0 0 2px var(--green) !important;}
+  /* detector read chip */
+  .readchip{align-self:flex-end; max-width:86%; margin:2px 0 4px; border-right:2px solid var(--info);
+    padding:6px 10px; font-size:12px; color:var(--info); line-height:1.4; text-align:right;}
+  /* sound toggle */
+  .sndbtn{background:none; border:1px solid rgba(255,255,255,.25); color:#fff; border-radius:99px;
+    font-size:10.5px; font-weight:700; letter-spacing:.07em; padding:3px 9px; cursor:pointer; font-family:inherit; margin-right:8px;}
+  .sndbtn.off{opacity:.5;}
+  /* verdict landing choreography */
+  .rb-node{opacity:0; transform:translateY(8px); transition:opacity .28s ease, transform .28s ease;}
+  .rb-node.landed{opacity:1; transform:none;}
+  .rb-node.land-heavy{transition-duration:.45s;}
+  .rb-node.land-heavy.landed{transform:translateY(2px);}
+  .endcard .e-title{display:inline-block;}
+  .fork-anticipation .e-title{opacity:0;}
+  .fork-anticipation .bar-cue{height:3px; width:40%; margin:10px auto 0; border-radius:99px;
+    background:linear-gradient(90deg,transparent,var(--fork),transparent); animation:cue 0.45s ease-in forwards;}
+  @keyframes cue{from{opacity:0; transform:scaleX(.4)}to{opacity:1; transform:scaleX(1)}}
+  .fork-land .e-title{opacity:1; animation:forkland .5s cubic-bezier(0.16,1,0.3,1) both;}
+  @keyframes forkland{from{transform:scale(1.22); opacity:0}to{transform:scale(1); opacity:1}}
+  .front-hi{transition:background .4s; background:rgba(79,184,176,.22); border-radius:4px;}
+  .endcard-heavy{animation:heavysettle .42s ease-out both;}
+  @keyframes heavysettle{from{opacity:0; transform:translateY(-5px)}60%{opacity:1}to{opacity:1; transform:translateY(2px)}}
+  .e-teach{font-size:12px; color:var(--faint); margin-top:9px; line-height:1.45; opacity:0; transition:opacity .5s;}
+  .e-teach.shown{opacity:1;}
+  .rb-read{margin-top:7px; font-size:12.5px; color:var(--info); line-height:1.45;}
+  .rb-read::before{content:"YOUR TYPED LINE READ · "; font-size:10px; letter-spacing:.6px; color:var(--faint); font-weight:700;}
+  @media (prefers-reduced-motion: reduce){ .endcard-heavy{animation:none} .e-teach{transition:none} }
+  @media (prefers-reduced-motion: reduce){
+    .rb-node{opacity:1; transform:none; transition:none;}
+    .fork-anticipation .e-title,.fork-land .e-title{opacity:1; animation:none;}
+    .fork-anticipation .bar-cue{animation:none; opacity:0;}
+  }
   .rb-btn{margin-top:12px; background:var(--green); color:#1d2513; border:none; border-radius:11px;
     padding:11px 22px; font-weight:800; font-size:14px; cursor:pointer; font-family:inherit;}
   .rb-btn:hover{background:var(--green-hover);}
@@ -118,7 +156,7 @@
 <div class="call">
   <div class="callhead">
     <div class="who">Priya Nair &amp; Tom Okafor<small>Ops Director · VP Ops — Corvid Logistics</small></div>
-    <div class="live">LIVE</div>
+    <div><button class="sndbtn" id="sndBtn" aria-label="toggle sound">SOUND ON</button><span class="live">LIVE</span></div>
   </div>
   <div class="feed" id="feed"></div>
   <div id="stagearea"></div>
@@ -164,6 +202,71 @@ function bubble(kind, who, text, intent){
   feed.appendChild(wrap); t.scrollIntoView({block:'nearest',behavior:'smooth'}); return t;
 }
 function beat(text){ const b=document.createElement('div'); b.className='beat fade'; b.textContent=text; feed.appendChild(b); }
+
+/* ===== ToneKit — JUICE-DOCTRINE §4: sine, warm, quiet; magnitude = duration + low octave +
+   chord richness, never loudness. Routine is the protected noise floor. ===== */
+const ToneKit=(()=>{
+  let ctx=null, enabled=(localStorage.getItem('ff:snd')??'1')==='1';
+  const ensure=()=>{ if(!ctx){ try{ ctx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } return ctx; };
+  function note(freq, t0, dur, gain, type='sine'){
+    const c=ensure(); if(!c) return;
+    const o=c.createOscillator(), g=c.createGain();
+    o.type=type; o.frequency.value=freq;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(gain, t0+0.012);           // fast attack
+    g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);      // percussive decay ("reverb" tail)
+    o.connect(g).connect(c.destination);
+    o.start(t0); o.stop(t0+dur+0.05);
+  }
+  const play={
+    tick(){    const c=ensure(); if(!c||!enabled) return; note(500,c.currentTime,0.06,0.025); },
+    routine(){ const c=ensure(); if(!c||!enabled) return; note(420,c.currentTime,0.12,0.05); },
+    best(){    const c=ensure(); if(!c||!enabled) return; const t=c.currentTime;
+               note(420,t,0.07,0.05); note(529,t+0.055,0.12,0.055); },                 // resolve up a major third
+    sharp(){   const c=ensure(); if(!c||!enabled) return; const t=c.currentTime;
+               note(440,t,0.08,0.05); note(660,t+0.07,0.16,0.055); },                  // ascending fifth
+    off(){     const c=ensure(); if(!c||!enabled) return; const t=c.currentTime;
+               note(480,t,0.07,0.045); note(430,t+0.06,0.10,0.04); },                  // short dry descent
+    tell(){    const c=ensure(); if(!c||!enabled) return; const t=c.currentTime;
+               note(220,t,0.14,0.06); note(175,t+0.11,0.25,0.06); note(110,t+0.11,0.30,0.045); }, // heavy, not loud
+    fork(){    const c=ensure(); if(!c||!enabled) return; const t=c.currentTime;
+               [392,494,587].forEach(f=>note(f,t,0.42,0.045));                          // full major triad
+               note(196,t,0.55,0.04);                                                   // low-octave body
+               note(784,t+0.10,0.60,0.03); },                                           // raised top note
+  };
+  const forVerdict=vk=>({fork:play.fork, sharp:play.sharp, best:play.best,
+    solid:play.routine, fine:play.routine, loose:play.off, slip:play.off,
+    missed:play.off, tell:play.tell}[vk]||play.routine);
+  return { play, forVerdict,
+    get enabled(){return enabled;},
+    toggle(){ enabled=!enabled; localStorage.setItem('ff:snd', enabled?'1':'0'); return enabled; } };
+})();
+(function(){
+  const b=document.getElementById('sndBtn');
+  const paint=()=>{ b.textContent=ToneKit.enabled?'SOUND ON':'SOUND OFF'; b.classList.toggle('off',!ToneKit.enabled); };
+  b.onclick=()=>{ ToneKit.toggle(); paint(); }; paint();
+  document.addEventListener('pointerdown',()=>{ try{ ToneKit.play.tick(); }catch(e){} },{once:true}); // gesture unlock + first tick
+})();
+
+/* ===== DetectorLocal (prototype port) — classifies the typed line per beat, before options ===== */
+const DETECTORS={
+ 'The open':l=>{
+   if(/skip|no deck|fall apart|what did|what have|where do|which/.test(l)&&/\?/.test(l)) return ['ADVANCES','You dropped the performance and handed her the floor — her fragments are about to start.'];
+   if(/deck|slides|walk you through|quick/.test(l)) return ['PERFORMS','A deck answer to a person who told you the clock is a test. Watch her thumb.'];
+   if(/congratul|board|initiative|read|research/.test(l)) return ['FLATTERS','Research-flexing reads as rehearsed here — fourth vendor this month to open that way.'];
+   return ['UNCLEAR','Neither a move nor a question. In the room this is throat-clearing.'];},
+ 'The number':l=>{
+   if(/\d/.test(l)&&/site|spoke|hub|per/.test(l)) return ['ANSWERS STRAIGHT','A number she can write down and defend upstairs. That is the whole test.'];
+   if(/depends|scope|map|proper|build you/.test(l)) return ['HEDGES','That is — word for word — the category answer. She has heard it twice this month.'];
+   if(/roi|case|context|first/.test(l)) return ['DELAYS','Real number was the ask; she will let it pass and ask again, on her clock.'];
+   return ['UNCLEAR','She asked for one number. Whatever this is, it is not one number.'];},
+ 'The close':l=>{
+   if(/thursday|monday|tuesday|wednesday|friday|calendar|thirty|30 min|both|owner/.test(l)) return ['BANKS THE DATE','Concrete time, named people. The meeting compounds instead of evaporating.'];
+   if(/marcus/.test(l)) return ['COVERS THE FLANK','You heard the stammer. Coverage bought — check what it cost the calendar.'];
+   if(/summary|send|write up|recap|email/.test(l)) return ['DEFERS','A document where a date should be. That shelf has a deck on it already.'];
+   if(/sign|quarter|close|contract/.test(l)) return ['PRESSES','Your quarter is not her problem — and she will say so.'];
+   return ['UNCLEAR','She asked what you need. Name a thing or lose the handoff.'];}
+};
 async function say(turns){ for(const t of turns){
   if(t.k==='beatline'){ beat(t.x); await sleep(650); continue; }
   bubble(t.k,t.w,t.x,t.i); await sleep(t.d??1050);} }
@@ -325,7 +428,8 @@ const CALL=[
 function ending(){
   const f=S.flags, perfect = f.straightNumber && f.caughtMigration && f.heldSidebar && S.lastBestForkable;
   if(perfect) return {v:'fork', title:'‼ The Fork', cls:'fork-hero',
-    sub:'One agenda line — "March-actual, not March-official" — banked her respect AND put the real date on the calendar. A concession was never needed: skipping your own deck at the open was the concession, and it just won on two fronts. This verdict is rare by design.'};
+    sub:'One agenda line — "March-actual, not March-official" — <span class="f1">banked her respect</span> AND <span class="f2">put the real date on the calendar</span>.',
+    teach:'A concession was never needed: skipping your own deck at the open was the concession, and it just won on two fronts. This verdict is rare by design.'};
   if(S.temp>=2) return {v:'best', title:'◆ Next Step Booked', cls:'',
     sub:'Thursday exists, both threads are alive, and the number held. Read the call back — one line was available that would have made it art.'};
   if(S.temp>=0) return {v:'fine', title:'· Deck Limbo', cls:'',
@@ -345,20 +449,30 @@ async function runNode(){
   if(n.type==='mark') return renderMark(n);
   renderPick(n);
 }
-function typerFirst(container, onCommitted){
+function typerFirst(container, n){
   const d=document.createElement('details'); d.className='typerfirst';
   d.innerHTML='<summary>say it yourself first (optional)</summary><textarea placeholder="your line, before you see any options…"></textarea><button class="commit">Commit line</button>';
   d.querySelector('.commit').onclick=()=>{
     const v=d.querySelector('textarea').value.trim(); if(!v) return;
-    const y=document.createElement('div'); y.className='yourline fade'; y.textContent='your committed line · "'+v+'" · compared in Read-Back (in-app: DetectorLocal, offline)';
-    feed.appendChild(y); S.record[nodeIdx]=S.record[nodeIdx]||{}; S.record[nodeIdx].typed=v; d.remove();
+    ToneKit.play.tick();
+    const y=document.createElement('div'); y.className='yourline fade'; y.textContent='your committed line · "'+v+'"';
+    feed.appendChild(y);
+    const det=DETECTORS[n&&n.beatname]; let readTxt=null;
+    if(det){ const [tag,why]=det(v.toLowerCase());
+      readTxt=tag+' — '+why;
+      const rc=document.createElement('div'); rc.className='readchip fade';
+      rc.innerHTML='<b>Read: '+tag+'.</b> '+why+' <span style="opacity:.55">(prototype detector — in-app: DetectorLocal, offline; typed line never touches the rating)</span>';
+      feed.appendChild(rc); rc.scrollIntoView({block:'nearest',behavior:'smooth'});
+    }
+    S.record[nodeIdx]=S.record[nodeIdx]||{}; S.record[nodeIdx].typed=v; S.record[nodeIdx].read=readTxt;
+    d.remove();
   };
   container.appendChild(d);
 }
 function renderPick(n){
   stage.innerHTML='';
   const ask=document.createElement('div'); ask.className='ask fade'; ask.textContent=n.ask; stage.appendChild(ask);
-  typerFirst(stage);
+  typerFirst(stage, n);
   const box=document.createElement('div'); box.className='opts';
   n.options.forEach((o,i)=>{
     const b=document.createElement('button'); b.className='opt'+(o.hold?' hold':''); b.textContent=o.t;
@@ -367,6 +481,7 @@ function renderPick(n){
   stage.appendChild(box);
 }
 async function pick(n,o,i){
+  ToneKit.play.tick();
   stage.querySelectorAll('.opt').forEach(x=>x.disabled=true);
   if(o.flag) S.flags[o.flag]=true; if(o.scar) S.flags[o.scar]=true;
   if(n.beatname==='The close') S.lastBestForkable = !!(o.best && o.forkable);
@@ -382,13 +497,28 @@ async function renderMark(n){
   const note=document.createElement('div'); note.className='tapnote fade'; note.textContent=n.tapnote; stage.appendChild(note);
   feed.classList.add('markable');
   const els=[];
+  let pending=null;
+  const arm=(el,c)=>{ el.onclick=()=>{
+      if(pending&&pending.el===el) return;
+      if(pending){ pending.el.classList.remove('provisional'); pending.chip.remove(); }
+      ToneKit.play.tick();
+      el.classList.add('provisional');
+      const chip=document.createElement('div'); chip.className='confirm fade';
+      chip.innerHTML='<button class="go">Come in here</button><button class="stay">Keep listening</button>';
+      el.insertAdjacentElement('afterend', chip);
+      pending={el, chip};
+      chip.querySelector('.stay').onclick=()=>{ el.classList.remove('provisional'); chip.remove(); pending=null; };
+      chip.querySelector('.go').onclick=()=>commit(el, c, chip);
+      chip.scrollIntoView({block:'nearest',behavior:'smooth'});
+    }; };
   for(const c of n.clauses){
     const t=bubble('buyer tappable', c.w, c.x, c.i); els.push({el:t, c});
+    arm(t, c);                       // tappable the moment it renders — interrupting early is a legal move
     await sleep(1150);
   }
-  els.forEach(({el,c})=>{
-    el.onclick=async ()=>{
-      feed.classList.remove('markable'); els.forEach(x=>{x.el.classList.remove('tappable'); x.el.onclick=null;});
+  async function commit(el, c, chip){
+      chip.remove(); pending=null;
+      feed.classList.remove('markable'); els.forEach(x=>{x.el.classList.remove('tappable','provisional'); x.el.onclick=null;});
       el.style.boxShadow='0 0 0 2px '+(c.key?'#81B64C':'#E5A50A');
       S.record[nodeIdx]={node:n, marked:c};
       if(c.key){
@@ -414,15 +544,43 @@ async function renderMark(n){
         S.flags.missedMigration=true;
         nodeIdx++; setTimeout(runNode,700);
       }
-    };
-  });
+  }
 }
 function finish(){
   const e=ending();
   stage.innerHTML='';
   const card=document.createElement('div'); card.className='endcard fade '+e.cls;
-  card.innerHTML='<div class="micro" style="margin-bottom:6px">call over</div><div class="e-title disp" style="color:'+V[e.v].c+'">'+e.title+'</div><div class="e-sub">'+e.sub+'</div><button class="rb-btn">Read the call back</button>';
+  card.innerHTML='<div class="micro" style="margin-bottom:6px">call over</div>'+
+    '<div class="e-title disp" style="color:'+V[e.v].c+'">'+e.title+'</div>'+
+    (e.v==='fork'?'<div class="bar-cue"></div>':'')+
+    '<div class="e-sub">'+e.sub+'</div>'+
+    (e.teach?'<div class="e-teach">'+e.teach+'</div>':'')+
+    '<button class="rb-btn">Read the call back</button>';
   stage.appendChild(card);
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(e.v==='fork'){
+    // JUICE-DOCTRINE §5: anticipation → land alone → savor → replay the fronts → teach last
+    card.classList.add('fork-anticipation');
+    const antic=reduced?0:430;
+    setTimeout(()=>{
+      card.classList.remove('fork-anticipation'); card.classList.add('fork-land');
+      const cue=card.querySelector('.bar-cue'); if(cue) cue.remove();
+      ToneKit.play.fork();
+      const savor=reduced?0:(520+180);
+      setTimeout(()=>{
+        const f1=card.querySelector('.f1'), f2=card.querySelector('.f2');
+        if(f1) f1.classList.add('front-hi');
+        setTimeout(()=>{ if(f2) f2.classList.add('front-hi');
+          setTimeout(()=>{ const t=card.querySelector('.e-teach'); if(t) t.classList.add('shown'); }, 300);
+        }, 120);
+      }, savor);
+    }, antic);
+  } else {
+    if(e.v==='tell'){ card.classList.add('endcard-heavy'); ToneKit.play.tell(); }
+    else if(e.v==='best'){ ToneKit.play.best(); }
+    else { ToneKit.play.routine(); }
+    const t=card.querySelector('.e-teach'); if(t) t.classList.add('shown');
+  }
   card.querySelector('.rb-btn').onclick=()=>{ renderReadback(e); };
 }
 
@@ -444,14 +602,26 @@ function renderReadback(e){
     const v=V[vk];
     const masterOpt = n.options ? n.options[n.master] : (r.marked&&r.marked.key ? r.marked.opts[0] : (n.clauses||[]).find(c=>c.key)?.opts?.[0]);
     const branches=(n.options||[]).filter((_,bi)=>bi!==r.idx).map(b=>'<div class="rb-branch"><b>'+(b.hold?'the hold':'“'+b.t.replace(/^"|"$/g,'').slice(0,90)+'…”')+'</b> — '+(b.room||'a line you didn’t play')+'</div>').join('');
-    const div=document.createElement('div'); div.className='rb-node'+(vk==='fork'?' fork-hero':'');
+    const div=document.createElement('div'); div.className='rb-node'+(vk==='fork'?' fork-hero':'')+((vk==='tell'||vk==='missed')?' land-heavy':'');
+    div.dataset.vk=vk;
     div.innerHTML='<div class="rb-top"><div class="v-chip" style="background:'+v.c+'">'+v.g+'</div>'+
       '<div><div class="rb-beatname">'+n.beatname+'</div><div class="rb-label disp">'+v.label+'</div></div></div>'+
       '<div class="rb-yours"><b>You:</b> '+(o.t||'(no move recorded)').replace(/^"|"$/g,'')+(r.typed?'<br><b>Your typed line:</b> “'+r.typed.replace(/</g,'&lt;')+'”':'')+'</div>'+
+      (r.read?'<div class="rb-read">'+r.read+'</div>':'')+
       (o.room||r.marked?.room ? '<div class="rb-room">'+(o.room||r.marked.room)+'</div>':'')+
       (masterOpt&&!isBest ? '<div class="rb-master">“'+masterOpt.t.replace(/^"|"$/g,'')+'”</div>':'')+
       (branches?'<details class="rb-branches"><summary>the lines you didn’t play</summary>'+branches+'</details>':'');
     wrap.appendChild(div);
+  });
+  // Land the verdicts one at a time — routine fast and near-silent, heavy slow, fork protected for the endcard
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [...wrap.children].forEach((div,i)=>{
+    const land=()=>{ div.classList.add('landed');
+      const vk=div.dataset.vk;
+      if(vk==='fork') ToneKit.play.sharp();      // the full fork sound already played on the endcard — keep it scarce
+      else ToneKit.forVerdict(vk)();
+    };
+    if(reduced) land(); else setTimeout(land, 260*i+120);
   });
   rb.scrollIntoView({block:'start', behavior:'smooth'});
 }
