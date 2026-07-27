@@ -25,6 +25,7 @@
 
 ## IV · Gates (run before Marion ever sees a call)
 17. **Recoverability band.** N≥3 fresh-context blind readers annotate perceived intent per buyer turn (no notes visible). Load-bearing turns must land in the band: recovered by SOME but not ALL readers (target ~40–85%). ~100% = on-the-nose; ~0% = unfair. Off-band → rewrite the leaks, not the options.
+    *Calibration (learned on the flagship, 2026-07-27):* ceiling-strength readers recover ~everything, so with frontier readers score **inference-vs-literal**, not raw recovery — a turn passes if every reader had to build a chain (leak + leak → conclusion) and fails if any reader could quote the meaning straight off the surface. The gate's second yield is **divergence**: when readers split on the top threat/read, that split is a defensible alternative read, and law 8's option requirement applies (its best response must exist, graded Solid+). The flagship's Marcus read was caught exactly this way.
 18. **Cover-the-options.** An options-only agent (sees choices, not the scene) must not beat chance materially at picking keys. PUZZLE-DOCTRINE's length/tag balance per node.
 19. **Ban-list lint** (mechanical): lab-speak (operator/recipient/prospect-facing jargon), curriculum shapes, rounded numbers in buyer facts.
 20. **Verdict agreement.** Same eval bands as `Verdict.from` (Models/Verdict.swift) so HTML prototypes and the app never tell different stories.
