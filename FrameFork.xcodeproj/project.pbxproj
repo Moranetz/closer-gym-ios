@@ -46,6 +46,7 @@
 		987F19F01AD27DCAB9A89990 /* Puzzles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D647DDA23ED8176AE61BA42 /* Puzzles.swift */; };
 		9C34976FBC0BD1003D2D8548 /* LiveGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ADEEFCC893844434E893CC /* LiveGameView.swift */; };
 		9C483BE875FCA51612891A14 /* MasterGameViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220775A0781B7279EF710491 /* MasterGameViewer.swift */; };
+		9C4AF7D84ED34D5A2AE560FD /* puzzle-bank-invariants.json in Resources */ = {isa = PBXBuildFile; fileRef = DC969AAA3FE0B0B16EC6200B /* puzzle-bank-invariants.json */; };
 		9E1E3A125CDEA12DCBDC4173 /* PuzzlesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4373BAEFA031FE46236CA5 /* PuzzlesTab.swift */; };
 		A657D1DC383F16B7F83E2E0B /* SimpleReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA4CE19DE6F32BA93926153 /* SimpleReviewView.swift */; };
 		A8E8E9888DE72EAFE2802D4A /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014D2147E4D1E14969CC440 /* ShareCard.swift */; };
@@ -155,6 +156,7 @@
 		D4656CCEBAF2A6A3A0C06D5E /* Technique.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Technique.swift; sourceTree = "<group>"; };
 		D851339D08442110151A39DD /* Techniques.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techniques.swift; sourceTree = "<group>"; };
 		D8DE88FD4FECF4DAE17CA497 /* AIConsent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIConsent.swift; sourceTree = "<group>"; };
+		DC969AAA3FE0B0B16EC6200B /* puzzle-bank-invariants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-bank-invariants.json"; sourceTree = "<group>"; };
 		E5A4531C78DA44C8B069C986 /* EvalCurveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalCurveView.swift; sourceTree = "<group>"; };
 		E6192F27BB239B044C4F3796 /* SafetySpineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetySpineTests.swift; sourceTree = "<group>"; };
 		EFC59B171E990662163049DA /* PreGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreGameView.swift; sourceTree = "<group>"; };
@@ -282,6 +284,14 @@
 			path = Play;
 			sourceTree = "<group>";
 		};
+		9C6BBBA4A984F32CA589A9DD /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				DC969AAA3FE0B0B16EC6200B /* puzzle-bank-invariants.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
 		AE1E31F42787D81D2A93A0A1 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +309,7 @@
 				8CF2E39162C00DE2FB49B090 /* PuzzleBankInvariantTests.swift */,
 				A7C6A4267B8E6873EB275D31 /* RegressionTests.swift */,
 				E6192F27BB239B044C4F3796 /* SafetySpineTests.swift */,
+				9C6BBBA4A984F32CA589A9DD /* Fixtures */,
 			);
 			path = FrameForkTests;
 			sourceTree = "<group>";
@@ -391,6 +402,7 @@
 			buildConfigurationList = 634A3D2FBE1497BC5E548C2C /* Build configuration list for PBXNativeTarget "FrameForkTests" */;
 			buildPhases = (
 				89E95AE0F04921565CC7DE45 /* Sources */,
+				BC59F181C9460B8AF47D8F39 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -489,6 +501,14 @@
 			files = (
 				EAB9E35166231EE03442C6C1 /* Assets.xcassets in Resources */,
 				F7952E9A522985453C8664F2 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BC59F181C9460B8AF47D8F39 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C4AF7D84ED34D5A2AE560FD /* puzzle-bank-invariants.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,7 +669,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -825,7 +845,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_NS_ASSERTIONS = NO;
