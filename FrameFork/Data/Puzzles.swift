@@ -2001,6 +2001,121 @@ public enum Puzzles {
             themeHint: "A green scorecard ages — re-run the letters every time the buyer's org chart changes.",
             transcriptId: nil
         ),
+
+        // ─── Read step (ported from the framefork-game.html teaching-loop prototype) ───
+        // These two carry `read`: a diagnosis of the buyer's state committed BEFORE the
+        // move is even shown. Content transcribed verbatim from SCENARIOS[0] and [1].
+        Puzzle(
+            id: "read-001", theme: .multistakeholder, difficulty: 1700,
+            buyerRole: "VP Ops, mid-market · Marcus R.",
+            setup: "Twenty-two minutes in. Trust reads earned, interest warm but starting to cool — and \u{201c}the room\u{201d} is still one of an unknown number of decision-makers you haven't met.",
+            buyerLine: "This looks great. Let me take it to my team and circle back.",
+            candidates: [
+                PuzzleCandidate(
+                    text: "\u{201c}Sounds like this has to clear people who aren't on this call.\u{201d}",
+                    eval: 0.9,
+                    rationale: "Labels the real variable. Names the hidden room without a question he can dodge — he either corrects it or confirms it, and either way you've found the ceiling. There it is. He just named the hidden decision-maker — and handed you the real objection to solve.",
+                    atlasTags: ["labeling", "multi-threading"],
+                    buyerReply: "\u{201c}Yeah… honestly my CFO will have questions about the ROI.\u{201d}"
+                ),
+                PuzzleCandidate(
+                    text: "\u{201c}Totally — what kind of budget are we working within?\u{201d}",
+                    eval: -0.6,
+                    rationale: "Chases price. He never made it about money; you re-anchored on a problem that isn't the blocker. You spent a turn on a problem he doesn't have. He's now slightly guarded.",
+                    atlasTags: ["calibrated-question"],
+                    buyerReply: "\u{201c}Uh — budget's not really the issue.\u{201d}"
+                ),
+                PuzzleCandidate(
+                    text: "\u{201c}Great — I'll send a recap you can forward to them.\u{201d}",
+                    eval: -0.2,
+                    rationale: "Stays single-threaded. A recap you can't see equals no control; the energy cools in someone else's inbox. The recap goes into a forward you'll never see. You just handed the room to an inbox.",
+                    atlasTags: [],
+                    buyerReply: "\u{201c}Sure, thanks.\u{201d}"
+                ),
+                PuzzleCandidate(
+                    text: "\u{201c}Before you go — any concerns I can clear up now?\u{201d}",
+                    eval: -0.35,
+                    rationale: "Invites doubt. \u{201c}Any concerns?\u{201d} at a warm moment hands him a reason to hesitate. You manufactured a doubt at the exact moment to build momentum. Unforced.",
+                    atlasTags: ["trial-close"],
+                    buyerReply: "\u{201c}Well — now that you mention it…\u{201d}"
+                ),
+            ],
+            bestIndex: 0,
+            themeHint: "\u{201c}My team\u{201d} is rarely about the team. When a warm buyer suddenly needs to \u{201c}run it by the team,\u{201d} the blocker is usually not what they name. Your job is to surface the room he didn't mention while he's still on the call.",
+            transcriptId: nil,
+            read: PuzzleRead(
+                question: "What's actually happening?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "A price objection wearing a polite coat.", isKey: false,
+                          why: "Nothing in what he said was about money — reading price here invents an objection and talks past the real one."),
+                    .init(text: "There are decision-makers who aren't on this call.", isKey: true,
+                          why: "\u{201c}My team\u{201d} + going vague on timing is the classic hidden-stakeholder tell. This is the read."),
+                    .init(text: "He's politely telling you no.", isKey: false,
+                          why: "A real no sounds like a no; \u{201c}circle back\u{201d} with warmth is a stall, not a rejection."),
+                    .init(text: "He's sold — just being thorough.", isKey: false,
+                          why: "If he were sold he'd talk next steps, not a handoff to people you've never met."),
+                ],
+                cue: "the tell was \u{201c}my team\u{201d} + the vague timeline — a hidden-stakeholder signal, not price and not a no",
+                contrast: "If Marcus had said \u{201c}the number's higher than I planned\u{201d} instead — a real money signal — then surfacing the budget (option A) would have been the right move. Same warmth, one word changed."
+            )
+        ),
+
+        Puzzle(
+            id: "read-002", theme: .stall, difficulty: 1600,
+            buyerRole: "Director, eval stage · Dana K.",
+            setup: "Third call. Interest reads high, conviction is wobbling, and there's still no timeline — this is her third \u{201c}quick question\u{201d} in as many meetings.",
+            buyerLine: "Can you send the enterprise comparison too? I just want to be sure we pick right.",
+            candidates: [
+                PuzzleCandidate(
+                    text: "\u{201c}For a team your size, I'd start on Growth — here's why it's the safe call, and we can revisit in 90 days.\u{201d}",
+                    eval: 0.9,
+                    rationale: "Recommends + de-risks. Take a position, make it the safe one, and hand her a low-stakes exit. When someone else will make the call, an indecisive buyer moves. You took the weight off. A firm recommendation plus an exit ramp is exactly what an indecisive buyer needs to move.",
+                    atlasTags: ["assumptive", "puppy-dog"],
+                    buyerReply: "\u{201c}Okay — that actually makes it feel a lot less risky. Let's do Growth.\u{201d}"
+                ),
+                PuzzleCandidate(
+                    text: "\u{201c}Absolutely — I'll add the enterprise deck and a full feature matrix.\u{201d}",
+                    eval: -0.55,
+                    rationale: "Feeds the fear. More options is more surface to second-guess. The diligent instinct is the trap here. You handed a fearful buyer more to be afraid of. The stack of docs is where this deal goes to die.",
+                    atlasTags: ["concrete-construal"],
+                    buyerReply: "\u{201c}Great — I'll review it all and get back to you.\u{201d}"
+                ),
+                PuzzleCandidate(
+                    text: "\u{201c}What would you need to see to feel confident?\u{201d}",
+                    eval: 0.1,
+                    rationale: "More diligence. Reasonable-sounding, but it outsources the decision back to the person who can't make it. You asked the scared buyer to design her own reassurance. She just ordered more diligence.",
+                    atlasTags: ["calibrated-question"],
+                    buyerReply: "\u{201c}Hmm, I'm not totally sure — maybe more references?\u{201d}"
+                ),
+                PuzzleCandidate(
+                    text: "\u{201c}This offer's only good through Friday, so let's lock it.\u{201d}",
+                    eval: -0.7,
+                    rationale: "Urgency on a scared buyer. Manufactured scarcity is the single worst move against indecision — it amplifies the fear it's trying to shortcut. Urgency reads as a threat to someone afraid of a mistake. You made the fear worse.",
+                    atlasTags: ["scarcity"],
+                    buyerReply: "\u{201c}That kind of pressure makes me want to slow down, honestly.\u{201d}"
+                ),
+            ],
+            bestIndex: 0,
+            themeHint: "More proof won't fix fear. A buyer who keeps asking for more — more options, more proof, more time — is usually scared of picking wrong. Piling on more value feeds that fear. Your job is to shrink the decision down to one safe next step.",
+            transcriptId: nil,
+            read: PuzzleRead(
+                question: "What's the real state here?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "She needs more information to be convinced.", isKey: false,
+                          why: "She's on call three asking for more — the problem isn't a gap in information, it's a gap in confidence."),
+                    .init(text: "She's afraid of making the wrong call.", isKey: true,
+                          why: "\u{201c}Want to be sure\u{201d} + endless diligence is fear of messing up (FOMU). This is the read — and it's the opposite of an objection."),
+                    .init(text: "She's stalling to ghost you politely.", isKey: false,
+                          why: "Ghosting is silent; she's still showing up and engaging. This is stuck, not gone."),
+                    .init(text: "She's comparing you against a cheaper option.", isKey: false,
+                          why: "Nothing here is about price or a competitor — reading it that way sends you solving the wrong problem."),
+                ],
+                cue: "the tell was \u{201c}want to be sure\u{201d} + a third round of diligence — fear of messing up, not a lack of proof",
+                contrast: "If Dana had said \u{201c}my boss isn't convinced this beats [competitor]\u{201d} instead — a real conviction gap — then adding the comparison deck (option A) would have been right. Same diligence, a different thing driving it."
+            )
+        ),
     ]
 
     // O(1) lookup — `get` is called per solve row on screens that re-evaluate per

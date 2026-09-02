@@ -13,10 +13,15 @@ public struct Puzzle: Identifiable, Hashable, Codable, Sendable {
     public let bestIndex: Int
     public let themeHint: String?
     public let transcriptId: String?   // ID into Transcripts; surfaces a Read Full Transcript sheet on solve
+    // Optional teaching-loop step (ported from framefork-game.html): commit a diagnosis of
+    // the buyer's state BEFORE picking a move. nil on every pre-existing puzzle — the
+    // Optional's synthesized Codable decodeIfPresent means old/decoded data with no "read"
+    // key still decodes cleanly to nil, so this is additive, never breaking.
+    public let read: PuzzleRead?
 
     public init(id: String, theme: PuzzleTheme, difficulty: Int, buyerRole: String, setup: String,
                 buyerLine: String, candidates: [PuzzleCandidate], bestIndex: Int,
-                themeHint: String? = nil, transcriptId: String? = nil) {
+                themeHint: String? = nil, transcriptId: String? = nil, read: PuzzleRead? = nil) {
         self.id = id
         self.theme = theme
         self.difficulty = difficulty
@@ -27,6 +32,37 @@ public struct Puzzle: Identifiable, Hashable, Codable, Sendable {
         self.bestIndex = bestIndex
         self.themeHint = themeHint
         self.transcriptId = transcriptId
+        self.read = read
+    }
+}
+
+/// The read step: a diagnosis of the buyer's state committed BEFORE any move is shown.
+/// Ported verbatim (content-wise) from framefork-game.html's `read`/`move.cue`/`move.contrast`.
+public struct PuzzleRead: Hashable, Codable, Sendable {
+    public struct ReadOption: Hashable, Codable, Sendable {
+        public let text: String
+        public let isKey: Bool
+        public let why: String
+
+        public init(text: String, isKey: Bool, why: String) {
+            self.text = text
+            self.isKey = isKey
+            self.why = why
+        }
+    }
+
+    public let question: String
+    public let sub: String
+    public let options: [ReadOption]
+    public let cue: String?        // what the tell actually was
+    public let contrast: String?   // the one-word change that would have made a different move right
+
+    public init(question: String, sub: String, options: [ReadOption], cue: String? = nil, contrast: String? = nil) {
+        self.question = question
+        self.sub = sub
+        self.options = options
+        self.cue = cue
+        self.contrast = contrast
     }
 }
 
@@ -42,11 +78,17 @@ public struct PuzzleCandidate: Hashable, Codable, Sendable {
     // has been wired end-to-end and waiting; flagging content is all that's left.
     public var isFork: Bool = false
     public var isSharp: Bool = false
+    // The buyer's literal spoken reaction to this candidate line, ported from the
+    // teaching-loop prototype's `react.line` (distinct from `rationale`, which carries
+    // the why + narrated consequence — this is what the buyer actually SAYS back).
+    // nil on every pre-existing candidate.
+    public var buyerReply: String? = nil
 
     public init(text: String, eval: Double, rationale: String, atlasTags: [String],
-                isFork: Bool = false, isSharp: Bool = false) {
+                isFork: Bool = false, isSharp: Bool = false, buyerReply: String? = nil) {
         self.text = text; self.eval = eval; self.rationale = rationale
         self.atlasTags = atlasTags; self.isFork = isFork; self.isSharp = isSharp
+        self.buyerReply = buyerReply
     }
 
     // Tolerant decode: the synthesized decoder REQUIRES isFork/isSharp keys despite
@@ -59,6 +101,7 @@ public struct PuzzleCandidate: Hashable, Codable, Sendable {
         atlasTags = (try? c.decodeIfPresent([String].self, forKey: .atlasTags)) ?? []
         isFork    = (try? c.decodeIfPresent(Bool.self, forKey: .isFork)) ?? false
         isSharp   = (try? c.decodeIfPresent(Bool.self, forKey: .isSharp)) ?? false
+        buyerReply = (try? c.decodeIfPresent(String.self, forKey: .buyerReply)) ?? nil
     }
 }
 

@@ -6,12 +6,28 @@ struct PuzzlesTab: View {
     // TCC-walled, so automation pushes the miss queue via env var instead.
     @State private var showMisses = ProcessInfo.processInfo.environment["FF_PUSH_MISSES"] == "1"
 
+    #if DEBUG
+    // Debug/screenshot hook: FF_OPEN_PUZZLE=<id> opens that puzzle's PuzzleSolveView on
+    // launch so the read step can be photographed without tapping through the index
+    // (the sim has no accessibility labels to drive by name). No effect in Release —
+    // never reachable outside DEBUG, and a bad/missing id is just a no-op.
+    @State private var debugOpenPuzzle: Puzzle? = {
+        guard let id = ProcessInfo.processInfo.environment["FF_OPEN_PUZZLE"] else { return nil }
+        return Puzzles.get(id)
+    }()
+    #endif
+
     var body: some View {
         NavigationStack {
             // The destination is registered at STACK level and driven by state, so the
             // Misses card can appear/disappear freely without popping a presented queue.
             PuzzleIndexView(showMisses: $showMisses)
                 .navigationDestination(isPresented: $showMisses) { MissReviewView() }
+                #if DEBUG
+                .navigationDestination(item: $debugOpenPuzzle) { p in
+                    PuzzleSolveView(puzzle: p, isDaily: false)
+                }
+                #endif
         }
     }
 }

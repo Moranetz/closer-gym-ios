@@ -18,6 +18,11 @@ struct PuzzleSolveView: View {
     // Reveal flow state
     @State private var pickedDisplayIdx: Int? = nil
     @State private var revealed = false
+    // Read-step state (ported from framefork-game.html) — only touched when
+    // puzzle.read != nil; every existing puzzle behaves exactly as before.
+    @State private var readSelectedDisplayIdx: Int? = nil
+    @State private var readCommitted = false
+    @State private var confidence: Int? = nil   // 0 Hunch, 1 Fairly sure, 2 Certain
     // Element order matches Store.recordSolve's return so assignment doesn't implicitly reorder
     // (that reorder is a deprecation warning → future error). Access is by label, so callers are unaffected.
     @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int, rated: Bool)? = nil
@@ -46,6 +51,30 @@ struct PuzzleSolveView: View {
         displayOrder.firstIndex(of: puzzle.bestIndex)
     }
 
+    // MARK: - Read step
+
+    private var hasRead: Bool { puzzle.read != nil }
+
+    // Deterministic display shuffle for the read options, keyed by puzzle id so
+    // option position never carries the answer (mirrors the HTML's seededOrder).
+    private var readDisplayOrder: [Int] {
+        guard let read = puzzle.read else { return [] }
+        var idxs = Array(read.options.indices)
+        var seed: UInt64 = 0
+        for c in (puzzle.id + "|read").unicodeScalars { seed = seed &* 31 &+ UInt64(c.value) }
+        var rng = SeededRNG(seed: seed)
+        idxs.shuffle(using: &rng)
+        return idxs
+    }
+
+    /// Whether the committed read named the actual driver (`isKey`). nil until a read
+    /// puzzle's read has been committed.
+    private var readHeld: Bool? {
+        guard let read = puzzle.read, let displayIdx = readSelectedDisplayIdx else { return nil }
+        let origIdx = readDisplayOrder[displayIdx]
+        return read.options[origIdx].isKey
+    }
+
     var body: some View {
         ScrollViewReader { proxy in
         ScrollView {
@@ -55,7 +84,20 @@ struct PuzzleSolveView: View {
 
                 positionCard
 
-                candidatesStack
+                if hasRead && !readCommitted {
+                    readPhaseBlock
+                } else {
+                    candidatesStack
+
+                    if hasRead && !revealed {
+                        confidenceRow
+                        PrimaryButton(title: "Make the move", symbol: "arrow.right",
+                                      isEnabled: pickedDisplayIdx != nil && confidence != nil,
+                                      style: .green) {
+                            if let idx = pickedDisplayIdx { handlePick(displayIdx: idx) }
+                        }
+                    }
+                }
 
                 if revealed, let change = ratingChange, let v = verdict {
                     revealPanel(change: change, v: v)
@@ -161,11 +203,92 @@ struct PuzzleSolveView: View {
                         shake: shakeWrong && pickedDisplayIdx == displayIdx
                     ) {
                         guard !revealed else { return }
-                        handlePick(displayIdx: displayIdx)
+                        if hasRead {
+                            // Read puzzles gate on confidence too — select only, "Make
+                            // the move" commits (mirrors the HTML's showMoveOptions()).
+                            Haptics.shared.light()
+                            withAnimation(.snappy(duration: 0.18, extraBounce: 0)) {
+                                pickedDisplayIdx = displayIdx
+                            }
+                        } else {
+                            handlePick(displayIdx: displayIdx)
+                        }
                     }
                 }
             }
         }
+    }
+
+    // MARK: - Read phase
+
+    @ViewBuilder
+    private var readPhaseBlock: some View {
+        if let read = puzzle.read {
+            VStack(alignment: .leading, spacing: 12) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(read.question)
+                        .scaledFont(size: 16, weight: .bold, design: .rounded)
+                        .foregroundStyle(Color.textPrimary)
+                    Text(read.sub)
+                        .scaledFont(size: 12)
+                        .foregroundStyle(Color.textMuted)
+                }
+
+                VStack(spacing: 10) {
+                    ForEach(Array(readDisplayOrder.enumerated()), id: \.offset) { displayIdx, origIdx in
+                        ReadOptionButton(
+                            option: read.options[origIdx],
+                            letter: String(UnicodeScalar(65 + min(displayIdx, 25))!),
+                            isPicked: readSelectedDisplayIdx == displayIdx
+                        ) {
+                            Haptics.shared.light()
+                            withAnimation(.snappy(duration: 0.18, extraBounce: 0)) {
+                                readSelectedDisplayIdx = displayIdx
+                            }
+                        }
+                    }
+                }
+
+                PrimaryButton(title: "Commit your read", symbol: "checkmark", isEnabled: readSelectedDisplayIdx != nil, style: .green) {
+                    withAnimation(.easeInOut(duration: 0.22)) {
+                        readCommitted = true
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Confidence row
+
+    private var confidenceRow: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("How sure are you?").microLabel()
+            HStack(spacing: 8) {
+                confidenceButton(0, title: "Hunch", sub: "guessing")
+                confidenceButton(1, title: "Fairly sure", sub: "lean")
+                confidenceButton(2, title: "Certain", sub: "locked")
+            }
+        }
+    }
+
+    private func confidenceButton(_ c: Int, title: String, sub: String) -> some View {
+        let isSel = confidence == c
+        return Button {
+            Haptics.shared.light()
+            withAnimation(.snappy(duration: 0.15, extraBounce: 0)) { confidence = c }
+        } label: {
+            VStack(spacing: 2) {
+                Text(title).scaledFont(size: 12, weight: .bold, design: .rounded)
+                Text(sub).scaledFont(size: 10).foregroundStyle(isSel ? Color.brandGreen.opacity(0.8) : Color.textFaint)
+            }
+            .foregroundStyle(isSel ? Color.brandGreen : Color.textSecondary)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 10)
+            .background(isSel ? Color.brandGreen.opacity(0.16) : Color.bgPanel)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(isSel ? Color.brandGreen : Color.border, lineWidth: 1.5))
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Reveal panel
@@ -217,6 +340,8 @@ struct PuzzleSolveView: View {
 
             ConvictionBar(fill: v.convictionFill)
 
+            readVerdictLine
+
             if let promotedTo {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.up.circle.fill")
@@ -245,6 +370,8 @@ struct PuzzleSolveView: View {
                     Text(hint).scaledFont(size: 13).foregroundStyle(Color.textSecondary).italic().lineSpacing(2)
                 }
             }
+
+            readRecapSection
 
             HStack(spacing: 10) {
                 PrimaryButton(title: "Next Puzzle", symbol: "arrow.right", isEnabled: true, style: .green) {
@@ -292,6 +419,77 @@ struct PuzzleSolveView: View {
         .sheet(isPresented: $transcriptOpen) {
             if let t = transcript {
                 TranscriptSheet(transcript: t)
+            }
+        }
+    }
+
+    // MARK: - Read verdict (reveal-time)
+
+    /// "Read held" / "Lucky" / "Wrong read, wrong move" — reported alongside the move
+    /// verdict, never before it, so the read's suspense survives the move (the HTML's
+    /// move-phase copy is literally "play it out and we'll see if it holds").
+    /// Plain (non-ViewBuilder) helper — an if/else chain that only assigns locals
+    /// confuses @ViewBuilder into requiring every branch to itself produce a View.
+    private func readVerdictCopy() -> (text: String, color: Color)? {
+        guard let held = readHeld else { return nil }
+        if held {
+            return ("Read held — you saw it before you played it.", .brandGreen)
+        }
+        if verdict?.isWin ?? false {
+            return ("Lucky — right line, wrong read.", .warning)
+        }
+        return ("Wrong read, wrong move.", .danger)
+    }
+
+    @ViewBuilder
+    private var readVerdictLine: some View {
+        if let copy = readVerdictCopy() {
+            Text(copy.text)
+                .scaledFont(size: 13, weight: .bold, design: .rounded)
+                .foregroundStyle(copy.color)
+        }
+    }
+
+    /// Full read recap: the cue, the contrast (the one-word change that flips the right
+    /// move), and all four read options with their `why` — ported from the HTML's
+    /// "Every line, and why" treatment, applied here to the read instead of the move.
+    @ViewBuilder
+    private var readRecapSection: some View {
+        if let read = puzzle.read {
+            Divider().background(Color.border)
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Your read").microLabel(Color.brandGreen)
+                if let cue = read.cue {
+                    Text(cue).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
+                }
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(Array(readDisplayOrder.enumerated()), id: \.offset) { displayIdx, origIdx in
+                        let opt = read.options[origIdx]
+                        let picked = readSelectedDisplayIdx == displayIdx
+                        HStack(alignment: .top, spacing: 8) {
+                            Image(systemName: opt.isKey ? "checkmark.circle.fill" : (picked ? "xmark.circle.fill" : "circle"))
+                                .scaledFont(size: 12)
+                                .foregroundStyle(opt.isKey ? Color.brandGreen : (picked ? Color.danger : Color.textFaint))
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(opt.text)
+                                    .scaledFont(size: 12, weight: (picked || opt.isKey) ? .bold : .regular)
+                                    .foregroundStyle(Color.textPrimary)
+                                Text(opt.why)
+                                    .scaledFont(size: 11)
+                                    .foregroundStyle(Color.textMuted)
+                                    .lineSpacing(2)
+                            }
+                        }
+                    }
+                }
+                if let contrast = read.contrast {
+                    Text(contrast)
+                        .scaledFont(size: 12)
+                        .foregroundStyle(Color.textMuted)
+                        .italic()
+                        .lineSpacing(2)
+                        .padding(.top, 2)
+                }
             }
         }
     }
@@ -401,6 +599,9 @@ struct PuzzleSolveView: View {
             ratingChange = nil
         }
         pickedDisplayIdx = nil
+        readSelectedDisplayIdx = nil
+        readCommitted = false
+        confidence = nil
         shakeWrong = false
         transcriptOpen = false
         promotedTo = nil
@@ -420,6 +621,40 @@ struct SeededRNG: RandomNumberGenerator {
         z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
         z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
         return z ^ (z >> 31)
+    }
+}
+
+/// A read-step diagnosis option — deliberately plain (no eval glyph, no rationale-on-
+/// reveal) so it reads as a different kind of choice than a move candidate. Correctness
+/// is never shown here; it lands later, in the reveal panel, alongside the move.
+private struct ReadOptionButton: View {
+    let option: PuzzleRead.ReadOption
+    let letter: String
+    let isPicked: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(alignment: .top, spacing: 12) {
+                Text(letter)
+                    .scaledFont(size: 12, weight: .heavy, design: .rounded)
+                    .foregroundStyle(isPicked ? Color.bgPage : Color.textMuted)
+                    .frame(width: 22, height: 22)
+                    .background(Circle().fill(isPicked ? Color.brandGreen : Color.bgRail))
+                Text(option.text)
+                    .scaledFont(size: 14)
+                    .foregroundStyle(Color.textPrimary)
+                    .multilineTextAlignment(.leading)
+                    .lineSpacing(2)
+                Spacer(minLength: 0)
+            }
+            .padding(14)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.bgPanel)
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(isPicked ? Color.brandGreen : Color.border, lineWidth: isPicked ? 1.5 : 1))
+        }
+        .buttonStyle(.plain)
     }
 }
 

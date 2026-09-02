@@ -36,6 +36,16 @@ struct PuzzleCandidateButton: View {
                                 .scaledFont(size: 12)
                                 .foregroundStyle(Color.textMuted)
                                 .lineSpacing(2)
+                            // Only the line the player actually played gets a reply —
+                            // the buyer only reacts to what was said (ported from the
+                            // teaching-loop prototype's per-candidate `react.line`).
+                            if isPicked, let reply = candidate.buyerReply {
+                                Text(reply)
+                                    .scaledFont(size: 12, weight: .semibold)
+                                    .foregroundStyle(Color.textSecondary)
+                                    .italic()
+                                    .lineSpacing(2)
+                            }
                         }
                     }
                 }

@@ -321,3 +321,61 @@ extension RegressionTests {
         }
     }
 }
+
+// MARK: - Read step (ported from framefork-game.html teaching-loop prototype)
+
+extension RegressionTests {
+    /// The two authored read puzzles must round-trip through Codable with exactly 4
+    /// read options, exactly one of which is the key — the invariant the read UI
+    /// (and its shuffle) depends on.
+    func testReadPuzzles_decodeWithFourOptionsExactlyOneKey() throws {
+        for id in ["read-001", "read-002"] {
+            let puzzle = try XCTUnwrap(Puzzles.get(id), "\(id) missing from Puzzles.all")
+            let data = try JSONEncoder().encode(puzzle)
+            let decoded = try JSONDecoder().decode(Puzzle.self, from: data)
+            let read = try XCTUnwrap(decoded.read, "\(id): read must decode, not nil")
+            XCTAssertEqual(read.options.count, 4, "\(id): must have exactly 4 read options")
+            XCTAssertEqual(read.options.filter(\.isKey).count, 1, "\(id): exactly one read option must be key")
+        }
+    }
+
+    /// A pre-existing puzzle (no `read` authored) must still decode cleanly to a nil
+    /// read — the additive-field contract the whole port depends on not regressing.
+    func testExistingPuzzle_withoutRead_stillDecodesAsNil() throws {
+        let puzzle = try XCTUnwrap(Puzzles.get("p001"))
+        XCTAssertNil(puzzle.read, "p001 was never authored with a read")
+        let data = try JSONEncoder().encode(puzzle)
+        let decoded = try JSONDecoder().decode(Puzzle.self, from: data)
+        XCTAssertNil(decoded.read, "p001: a missing 'read' key must decode to nil, not fail the whole puzzle")
+    }
+
+    /// The read options are shuffled for display (same id-seeded scheme as the move
+    /// candidates) so option POSITION never carries the answer. The shuffle must be
+    /// (1) deterministic and (2) a true permutation, and mapping a display slot back
+    /// to its original index must still resolve to the correct `isKey` — i.e. the
+    /// shuffle reorders an INDEX array, never the option data itself.
+    func testReadOptionShuffle_deterministicAndPreservesKeyMapping() throws {
+        for id in ["read-001", "read-002"] {
+            let read = try XCTUnwrap(Puzzles.get(id)?.read, "\(id) missing read")
+
+            func shuffledOrder() -> [Int] {
+                var idxs = Array(read.options.indices)
+                var seed: UInt64 = 0
+                for c in (id + "|read").unicodeScalars { seed = seed &* 31 &+ UInt64(c.value) }
+                var rng = SeededRNG(seed: seed)
+                idxs.shuffle(using: &rng)
+                return idxs
+            }
+
+            let order1 = shuffledOrder()
+            let order2 = shuffledOrder()
+            XCTAssertEqual(order1, order2, "\(id): read shuffle must be deterministic")
+            XCTAssertEqual(Set(order1), Set(read.options.indices), "\(id): shuffle must be a permutation of all options")
+
+            let keyOrig = try XCTUnwrap(read.options.firstIndex(where: \.isKey), "\(id): no key option")
+            let displayIdx = try XCTUnwrap(order1.firstIndex(of: keyOrig), "\(id): key index missing from shuffled order")
+            let origIdx = order1[displayIdx]
+            XCTAssertTrue(read.options[origIdx].isKey, "\(id): shuffle broke the key-index mapping")
+        }
+    }
+}
