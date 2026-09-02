@@ -395,17 +395,53 @@ extension RegressionTests {
 // MARK: - Read step (ported from framefork-game.html teaching-loop prototype)
 
 extension RegressionTests {
-    /// The two authored read puzzles must round-trip through Codable with exactly 4
-    /// read options, exactly one of which is the key — the invariant the read UI
-    /// (and its shuffle) depends on.
+    /// Every authored read puzzle (not just the original two — this must keep holding
+    /// as more get authored) must round-trip through Codable with exactly 4 read
+    /// options, exactly one of which is the key — the invariant the read UI (and its
+    /// shuffle) depends on.
     func testReadPuzzles_decodeWithFourOptionsExactlyOneKey() throws {
-        for id in ["read-001", "read-002"] {
+        let readPuzzleIds = Puzzles.all.filter { $0.read != nil }.map(\.id)
+        XCTAssertGreaterThanOrEqual(readPuzzleIds.count, 10, "expected the 2 originally-ported rooms plus the 8 daily-drill rooms")
+        for id in readPuzzleIds {
             let puzzle = try XCTUnwrap(Puzzles.get(id), "\(id) missing from Puzzles.all")
             let data = try JSONEncoder().encode(puzzle)
             let decoded = try JSONDecoder().decode(Puzzle.self, from: data)
             let read = try XCTUnwrap(decoded.read, "\(id): read must decode, not nil")
             XCTAssertEqual(read.options.count, 4, "\(id): must have exactly 4 read options")
             XCTAssertEqual(read.options.filter(\.isKey).count, 1, "\(id): exactly one read option must be key")
+        }
+    }
+
+    /// The 8 daily-drill rooms authored for JOB 2 (first two puzzles of the four
+    /// most-populated themes) must derive their key diagnosis from the best
+    /// candidate's own rationale, and every `why` must stay short enough to read in
+    /// one breath. A loose token-overlap check (rather than an exact-string match)
+    /// so paraphrasing is fine but an entirely disconnected read fails loudly.
+    func testAuthoredReads_keyDiagnosisDerivesFromBestCandidateRationale() throws {
+        let stopwords: Set<String> = ["the", "a", "an", "and", "or", "to", "of", "in", "on",
+            "is", "are", "was", "were", "he", "she", "his", "her", "this", "that", "it",
+            "you", "your", "i", "be", "with", "for", "as", "at", "not", "no", "just",
+            "so", "but", "if", "then", "will", "would", "can", "could", "may", "might",
+            "do", "does", "did", "has", "have", "had", "only", "still", "right", "now",
+            "what", "who", "him", "them", "their", "they", "we", "us", "already", "than",
+            "here", "there", "before", "after", "up", "down", "one", "some", "any", "into",
+            "from", "by", "about", "out", "get", "gave", "named", "asked", "said", "wants",
+            "want", "needs", "need", "actually"]
+        func tokens(_ s: String) -> Set<String> {
+            Set(s.lowercased().split { !$0.isLetter }.map(String.init).filter { $0.count > 2 && !stopwords.contains($0) })
+        }
+
+        let dailyDrillIds = ["p008", "p009", "p011", "p012", "p014", "p015", "p018", "p019"]
+        for id in dailyDrillIds {
+            let puzzle = try XCTUnwrap(Puzzles.get(id), "\(id) missing from Puzzles.all")
+            let read = try XCTUnwrap(puzzle.read, "\(id): expected an authored read (a daily-drill room)")
+            let keyOption = try XCTUnwrap(read.options.first(where: \.isKey), "\(id): no key read option")
+            let best = puzzle.candidates[puzzle.bestIndex]
+
+            let keyTokens = tokens(keyOption.text).union(tokens(keyOption.why))
+            let rationaleTokens = tokens(best.rationale)
+            XCTAssertFalse(keyTokens.isDisjoint(with: rationaleTokens),
+                           "\(id): the key read (\"\(keyOption.text)\") shares no real word with the best candidate's rationale (\"\(best.rationale)\") — it isn't derived from it")
         }
     }
 

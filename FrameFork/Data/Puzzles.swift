@@ -139,7 +139,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Just so you know — the pricing we scoped expires end of month, and with your Q this packed we should lock it now before it resets.", eval: -0.8, rationale: "Fake urgency stacked on a real capacity constraint tells them you're quota-driven, not customer-driven. The stall doesn't break — it hardens.", atlasTags: ["scarcity", "loss-framing"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "tracy-think-it-over"
+            transcriptId: "tracy-think-it-over",
+            read: PuzzleRead(
+                question: "What's really going on with him?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He gave you a real reason. His time is eaten by another project right now.", isKey: true,
+                          why: "He named a specific, real project eating his time this quarter. That is a genuine constraint you can test."),
+                    .init(text: "Given enough time, this will come back on its own.", isKey: false,
+                          why: "Waiting quietly assumes the priority shift fixes itself. Nothing in his answer promises that will happen."),
+                    .init(text: "He needs to see more value before this becomes a priority.", isKey: false,
+                          why: "Doing free extra work assumes he lacks proof. He never said he needed more convincing."),
+                    .init(text: "He needs a push. A deadline will get him moving again.", isKey: false,
+                          why: "Manufactured urgency assumes pressure works here. He described a real calendar problem, and pressure ignores it."),
+                ],
+                cue: "the tell was \u{201c}not the priority right now,\u{201d} paired with a named, specific project eating his quarter",
+                contrast: "If he had said he wasn't sure this was worth the switch instead of naming a specific project, offering more proof of value would fit better."
+            )
         ),
 
         Puzzle(
@@ -154,7 +170,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Heads up — our new rate card lands next week and this pricing resets with it. Any way legal moves faster?", eval: -0.7, rationale: "Pressure keyed to an event they can't control reads as your quota anxiety, not their problem. Trust degrades and the stall stays.", atlasTags: ["scarcity"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "cardone-snapbacks"
+            transcriptId: "cardone-snapbacks",
+            read: PuzzleRead(
+                question: "What's actually holding this up?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "The real blockers might sit inside his own control, and legal may only be part of it.", isKey: true,
+                          why: "This move surfaces the blockers inside his control. Legal may be real, or covering something else entirely."),
+                    .init(text: "This is definitely just a legal logistics problem.", isKey: false,
+                          why: "Offering a joint legal session assumes legal is truly the only holdup. He never said that for certain."),
+                    .init(text: "If I just wait, Monday will bring the signature.", isKey: false,
+                          why: "Saying no problem accepts the delay at face value. Monday could just become next Thursday."),
+                    .init(text: "He needs a push. A deadline will get legal moving.", isKey: false,
+                          why: "A rate card deadline assumes he needs pressure to move. His reason was a vendor dispute, an event outside his control."),
+                ],
+                cue: "the tell was \u{201c}bumped it for a vendor dispute,\u{201d} a real-sounding event with no clear tie to him personally",
+                contrast: "If he had gone quiet with no explanation instead of naming the vendor dispute, waiting quietly would fit better."
+            )
         ),
 
         Puzzle(
@@ -185,7 +217,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "One thing to be aware of — teams that cut this mid-adoption usually pay double to reinstate it later.", eval: -1.2, rationale: "Consequence-pressure on a first call, against someone who has zero relationship equity with you. They file you under vendors who threaten, and the eval gets easier to run against you.", atlasTags: ["loss-framing"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "klaff-prize-frame"
+            transcriptId: "klaff-prize-frame",
+            read: PuzzleRead(
+                question: "What's actually happening here?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He's running a systematic evaluation, and you need his criteria first.", isKey: true,
+                          why: "He's running the same evaluation across three other contracts. Learn his criteria before walking through anything else."),
+                    .init(text: "He just needs to see the usage numbers to be convinced.", isKey: false,
+                          why: "Sending raw data skips his stated framework. He asked what 'keep' means to him, and numbers alone miss that."),
+                    .init(text: "He wants me to make this decision for him.", isKey: false,
+                          why: "A brand-new VP was hired to judge these contracts himself. Doing his evaluation for him lands as overreach."),
+                    .init(text: "He's already looking for a reason to cut this.", isKey: false,
+                          why: "Nothing he said was adversarial. He asked for a plain walkthrough, and threatening him now just adds pressure."),
+                ],
+                cue: "the tell was naming a formal \u{201c}baseline-vs-replace evaluation\u{201d} running across three other contracts this quarter",
+                contrast: "If he had said your team seemed unhappy with the product instead of naming a formal evaluation, leading with usage data would fit better."
+            )
         ),
 
         Puzzle(
@@ -200,7 +248,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Worth noting the contract holds the 200-seat floor through the term regardless of utilization — so the real conversation is renewal, not now.", eval: -0.7, rationale: "Technically true and relationally fatal. A CFO holding a board question hears 'we collect either way' — and starts pricing the exit.", atlasTags: ["authority", "commitment-consistency"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: nil
+            transcriptId: nil,
+            read: PuzzleRead(
+                question: "What does he actually need from you?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He needs one defensible number for the board today.", isKey: true,
+                          why: "He asked for a defensible answer before quarter close, with the board waiting on a specific number today."),
+                    .init(text: "He wants to negotiate the seat count down with me.", isKey: false,
+                          why: "He asked for a reason to keep 200 seats. A phased cut answers a different question than the one he asked."),
+                    .init(text: "He just needs reassurance this utilization rate is normal.", isKey: false,
+                          why: "A board question about idle seats wants a specific dollar answer. An industry average never defends one specific number."),
+                    .init(text: "He's bluffing about the board to get a discount.", isKey: false,
+                          why: "He described a specific board question with a real deadline. Treating it as a bluff ignores the pressure he named."),
+                ],
+                cue: "the tell was \u{201c}board-asked-question\u{201d} plus \u{201c}before close-of-quarter,\u{201d} a real deadline with a real audience waiting",
+                contrast: "If he had asked this casually with no deadline or board mention, the phased seat reduction would fit better."
+            )
         ),
 
         Puzzle(
@@ -231,7 +295,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "The honest answer is that the operational profile depends on discovery we haven't done yet.", eval: -0.5, rationale: "The CFO hears deflection — and a CFO who finally spoke after 35 minutes of silence doesn't give you a second opening.", atlasTags: ["takeaway"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "voss-live-label"
+            transcriptId: "voss-live-label",
+            read: PuzzleRead(
+                question: "What's the CFO actually asking?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He's speaking from three real operational incidents, and he wants the exact pattern named.", isKey: true,
+                          why: "He named three actual operational rollouts that broke a process owner, and he wants the specific pattern named."),
+                    .init(text: "He just wants a strong statistic to feel reassured.", isKey: false,
+                          why: "He described three specific incidents he lived through. An average escalation rate never touches what happened to him."),
+                    .init(text: "My champion can answer this operational question just as well.", isKey: false,
+                          why: "The champion has talked product for 35 minutes straight. Process-owner failure is the CFO's own memory, and the champion never saw it."),
+                    .init(text: "He'll accept that this needs more discovery before anyone can answer.", isKey: false,
+                          why: "He just spoke for the first time in 35 minutes. Answering with 'we haven't done that yet' closes the only opening he gave."),
+                ],
+                cue: "the tell was three named past rollouts and one exact break point, a process owner failing after a clean technical rollout",
+                contrast: "If the CFO had asked for your uptime numbers instead of describing three specific incidents, a strong statistic would fit better."
+            )
         ),
 
         Puzzle(
@@ -246,7 +326,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Honestly, the failure scenario you're describing is remote — the risk here is very low.", eval: -1.0, rationale: "Telling a director who has sat through two vendor blow-ups that the risk is low signals you don't understand the job. They're not pricing probability — they're pricing the paragraph.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "voss-accusation-audit"
+            transcriptId: "voss-accusation-audit",
+            read: PuzzleRead(
+                question: "What is he actually asking for?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He wants the exact paragraph a failure would write about us.", isKey: true,
+                          why: "He asked what the proxy paragraph would say if this failed in eighteen months, and he wants that exact paragraph."),
+                    .init(text: "He wants to hear that other boards trust us too.", isKey: false,
+                          why: "He has personally sat through two actual blowups. Naming other happy customers never answers what his own paragraph would say."),
+                    .init(text: "He wants to see our compliance certificates and paperwork.", isKey: false,
+                          why: "Certificates prove a process exists. He asked what gets written after a failure, a different question than what you can show now."),
+                    .init(text: "He wants me to tell him the risk here is small.", isKey: false,
+                          why: "He has personally sat through two vendor blowups. Calling the risk low to someone who lived it reads as out of touch."),
+                ],
+                cue: "the tell was asking \u{201c}what does the proxy paragraph look like,\u{201d} from someone who has read two of them already",
+                contrast: "If he had asked broad governance questions instead of naming the proxy paragraph directly, walking him through certificates would fit better."
+            )
         ),
 
         // ─── Endgame (2) ────────────────────────────────────────────────
@@ -294,7 +390,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Hi — do you have two quick minutes?", eval: -0.4, rationale: "If yes, you still haven't earned the next sentence. If no, they hang up. A yes/no question in second one is a coin-flip you built yourself.", atlasTags: ["fitd"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "klaff-time-reversal"
+            transcriptId: "klaff-time-reversal",
+            read: PuzzleRead(
+                question: "What's happening on the other end of the line?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He's already bracing to hang up on pure reflex.", isKey: true,
+                          why: "It's the first second of a cold call, and his script-detection reflex is already primed to hang up."),
+                    .init(text: "He just needs a polite, warm opener to relax.", isKey: false,
+                          why: "Softeners like 'bad time' are exactly the script his reflex is listening for. Warmth alone rarely disarms it."),
+                    .init(text: "He'll stay on the line because I researched him.", isKey: false,
+                          why: "A personal detail buys a few seconds of curiosity. It's still a sales windup, and the reflex catches up fast."),
+                    .init(text: "He'll answer honestly if I just ask for his time.", isKey: false,
+                          why: "A yes or no question in the first second is a coin flip he can end instantly. It earns nothing yet."),
+                ],
+                cue: "the tell was the flat \u{201c}Hello?\u{201d} itself, a stranger picking up cold with zero context",
+                contrast: "If he already knew who you were from a warm intro, opening with 'I read your post' would fit better."
+            )
         ),
 
         Puzzle(
@@ -309,7 +421,23 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Sam said we should talk — worth a quick call?", eval: 0.0, rationale: "Courtesy might get you the meeting, but a referral with no substance converts at almost nothing. You used the name and wasted the window.", atlasTags: ["liking"]),
             ],
             bestIndex: 0, themeHint: nil,
-            transcriptId: "belfort-aerotyne"
+            transcriptId: "belfort-aerotyne",
+            read: PuzzleRead(
+                question: "What does he actually need from you?",
+                sub: "Commit before you see anything.",
+                options: [
+                    .init(text: "He set a hard time limit and wants one specific, provable answer.", isKey: true,
+                          why: "He gave a hard thirty-second limit and wants one specific, concrete answer right now."),
+                    .init(text: "He wants to hear how big and established we are.", isKey: false,
+                          why: "Procurement reads size claims like this all week. A vague scale claim burns his thirty seconds on nothing specific."),
+                    .init(text: "He'll make time later to read something I send him.", isKey: false,
+                          why: "He set a thirty-second limit for right now. Asking him to read something later ignores the limit he just gave."),
+                    .init(text: "The referral alone will earn me his attention.", isKey: false,
+                          why: "He still asked what you do in under thirty seconds. A name with no substance never answers his question."),
+                ],
+                cue: "the tell was \u{201c}under thirty seconds,\u{201d} a hard limit set before you said a word back",
+                contrast: "If he had opened warmly and asked to hear more instead of setting a hard limit, the one-pager offer would fit better."
+            )
         ),
 
         Puzzle(
