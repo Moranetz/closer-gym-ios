@@ -130,13 +130,13 @@ public enum Puzzles {
         Puzzle(
             id: "p008", theme: .stall, difficulty: 1400,
             buyerRole: "VP Sales, mid-market",
-            setup: "Second meeting. Proposal sent three weeks ago. Follow-ups unanswered. You finally got them back on a call.",
+            setup: "It is the second meeting, three weeks after you sent the proposal. Your follow-ups went unanswered, but you finally got them back on a call.",
             buyerLine: "Yeah. I should've gotten back to you. We're still in it but I'm not the priority right now. Leadership has me on a sales-comp redesign that's eating my Q.",
             candidates: [
                 PuzzleCandidate(text: "Two options: we park it till your Q clears, or I shrink it to one team. Which is real?", eval: 0.7, rationale: "Both options respect the constraint they named, and the pick does your diagnostic work for you: park means genuinely deprioritized, shrink means the interest is still alive.", atlasTags: ["calibrated-question", "alternative-choice"]),
                 PuzzleCandidate(text: "Totally understand. Want me to check back in six weeks?", eval: -0.3, rationale: "You just scheduled the same conversation for six weeks from now. Nothing about their priority stack will have changed by then.", atlasTags: ["mutual-close-plan"]),
-                PuzzleCandidate(text: "What if I built the whole rollout plan and the internal deck for you — zero lift on your side?", eval: -0.4, rationale: "The deck gets delivered; the attention doesn't. You've traded real work for the same silence, and the pattern repeats.", atlasTags: ["reciprocity"]),
-                PuzzleCandidate(text: "Just so you know — the pricing we scoped expires end of month, and with your Q this packed we should lock it now before it resets.", eval: -0.8, rationale: "Fake urgency stacked on a real capacity constraint tells them you're quota-driven, not customer-driven. The stall doesn't break — it hardens.", atlasTags: ["scarcity", "loss-framing"]),
+                PuzzleCandidate(text: "What if I built the whole rollout plan and the internal deck for you, with zero lift on your side?", eval: -0.4, rationale: "The deck gets delivered, but the attention does not follow. You have traded real work for the same silence, and the pattern repeats.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "Just so you know, the pricing we scoped expires end of month, and with your Q this packed we should lock it now before it resets.", eval: -0.8, rationale: "This is fake urgency stacked on a real capacity constraint, and it tells them you are quota-driven rather than customer-driven. The stall does not break. It hardens.", atlasTags: ["scarcity", "loss-framing"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "tracy-think-it-over",
@@ -161,13 +161,13 @@ public enum Puzzles {
         Puzzle(
             id: "p009", theme: .stall, difficulty: 1700,
             buyerRole: "Founder, post-Series B",
-            setup: "Founder said yes 30 days ago to a $200K contract. Legal review has been 'in progress' for three weeks.",
+            setup: "The founder said yes 30 days ago to a $200K contract, and legal review has been in progress for three weeks.",
             buyerLine: "Still with legal. They bumped it for a vendor dispute that broke this week. I'll get them back on it Monday.",
             candidates: [
-                PuzzleCandidate(text: "Monday works. While legal's tied up — is there anything else on your side that could bump this again, and does the vendor dispute touch anything in our contract?", eval: 0.7, rationale: "You didn't press the legal team's availability — you surfaced the blockers actually inside their control. The wait state becomes information whichever way they answer.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "Want me to take the coordination off your plate entirely? I'll get our counsel and yours into one working session Monday morning and we'll clear the redlines in an hour.", eval: 0.3, rationale: "Useful if legal really is the blocker. If legal is a proxy for cold feet, the session gets deflected and the deprioritization finally shows itself — an expensive way to find out.", atlasTags: ["multi-threading"]),
-                PuzzleCandidate(text: "No problem at all — I'll check in Monday.", eval: -0.2, rationale: "You accepted the frame wholesale. They drop back into low-attention mode, and Monday quietly becomes next Thursday.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "Heads up — our new rate card lands next week and this pricing resets with it. Any way legal moves faster?", eval: -0.7, rationale: "Pressure keyed to an event they can't control reads as your quota anxiety, not their problem. Trust degrades and the stall stays.", atlasTags: ["scarcity"]),
+                PuzzleCandidate(text: "Monday works. While legal's tied up, is there anything else on your side that could bump this again? Does the vendor dispute touch anything in our contract?", eval: 0.7, rationale: "You did not press the legal team's availability. Instead, you surfaced the blockers actually inside their control. The wait state becomes information whichever way they answer.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "Want me to take the coordination off your plate entirely? I'll get our counsel and yours into one working session Monday morning and we'll clear the redlines in an hour.", eval: 0.3, rationale: "This is useful if legal really is the blocker. If legal is a proxy for cold feet, the session gets deflected, and the deprioritization finally shows itself. That is an expensive way to find out.", atlasTags: ["multi-threading"]),
+                PuzzleCandidate(text: "No problem at all. I'll check in Monday.", eval: -0.2, rationale: "You accepted the frame wholesale. They drop back into low-attention mode, and Monday quietly becomes next Thursday.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Heads up, our new rate card lands next week, and this pricing resets with it. Any way legal moves faster?", eval: -0.7, rationale: "Pressure keyed to an event they cannot control reads as your quota anxiety rather than their problem. Trust degrades, and the stall stays.", atlasTags: ["scarcity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "cardone-snapbacks",
@@ -192,13 +192,13 @@ public enum Puzzles {
         Puzzle(
             id: "p010", theme: .stall, difficulty: 2000,
             buyerRole: "Champion VP-Eng",
-            setup: "You've pushed for close for two weeks. Champion unusually quiet after a month of high engagement.",
+            setup: "You have pushed for close for two weeks. Your champion has gone unusually quiet after a month of high engagement.",
             buyerLine: "Have to push to Q3. CTO's been pulled into the Series B prep and the spend committee is on hold until that closes. Not a no. Just a wrong-quarter.",
             candidates: [
-                PuzzleCandidate(text: "Q3's fine — no pressure on the date from me. One thing I want straight: is this a calendar problem, or has something shifted in the deal itself?", eval: 0.7, rationale: "Releasing the schedule pressure costs you nothing; the calendar-versus-content question buys you everything. The answer tells you whether this is a procedural deferral or lost air cover — actionable either way.", atlasTags: ["calibrated-question", "labeling"]),
-                PuzzleCandidate(text: "Understood — let's pick it up in Q3.", eval: -0.2, rationale: "Graceful and empty. You leave without learning whether Q3 is real or a soft no — the one thing this call could have told you.", atlasTags: ["liking", "silence"]),
-                PuzzleCandidate(text: "While the CTO's heads-down, would it help if I walked your ops lead through the rollout plan so Q3 starts warm?", eval: 0.3, rationale: "Works if your champion welcomes the coverage, backfires if it smells like a bypass. Multi-threading during their stated capacity crunch is a coin-flip you don't have to take today.", atlasTags: ["multi-threading"]),
-                PuzzleCandidate(text: "One thing — our pricing holds through June only, so the wait has a cost. Should I take fifteen minutes directly with the CTO so this doesn't die in committee?", eval: -0.9, rationale: "Fake price pressure plus an end-run to the one person they told you is unavailable. Your champion hears self-interest overriding everything they just said.", atlasTags: ["scarcity", "authority"]),
+                PuzzleCandidate(text: "Q3's fine. No pressure on the date from me. One thing I want straight: is this a calendar problem, or has something shifted in the deal itself?", eval: 0.7, rationale: "Releasing the schedule pressure costs you nothing, and the calendar-versus-content question buys you everything. The answer tells you whether this is a procedural deferral or lost air cover, and it is actionable either way.", atlasTags: ["calibrated-question", "labeling"]),
+                PuzzleCandidate(text: "Understood. Let's pick it up in Q3.", eval: -0.2, rationale: "This is graceful and empty. You leave without learning whether Q3 is real or a soft no, which is the one thing this call could have told you.", atlasTags: ["liking", "silence"]),
+                PuzzleCandidate(text: "While the CTO's heads-down, would it help if I walked your ops lead through the rollout plan so Q3 starts warm?", eval: 0.3, rationale: "This works if your champion welcomes the coverage, but it backfires if it smells like a bypass. Multi-threading during their stated capacity crunch is a coin-flip you don't have to take today.", atlasTags: ["multi-threading"]),
+                PuzzleCandidate(text: "One thing, our pricing holds through June only, so the wait has a cost. Should I take fifteen minutes directly with the CTO so this doesn't die in committee?", eval: -0.9, rationale: "This is fake price pressure plus an end-run to the one person they told you is unavailable. Your champion hears self-interest overriding everything they just said.", atlasTags: ["scarcity", "authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "tracy-think-it-over"
@@ -771,13 +771,13 @@ public enum Puzzles {
         Puzzle(
             id: "p041", theme: .stall, difficulty: 1400,
             buyerRole: "VP Marketing, post-demo, six days of radio silence",
-            setup: "Strong demo last week. Two follow-ups unanswered.",
-            buyerLine: "[no reply for six days, then on the seventh:] Hey — got pulled into a campaign launch. Can we push to next month?",
+            setup: "You had a strong demo last week, but two follow-ups have gone unanswered.",
+            buyerLine: "[no reply for six days, then on the seventh:] Hey, got pulled into a campaign launch. Can we push to next month?",
             candidates: [
-                PuzzleCandidate(text: "Happy to work around the launch. You mentioned the campaign post-mortem and Q-end planning in the demo — next month lands after both. I've got two twenty-five-minute slots inside the campaign window; would either work?", eval: 0.7, rationale: "Push-to-next-month is a deprioritization signal. When you tie the timing to a milestone the VP herself named, you re-anchor the urgency without applying any pressure.", atlasTags: ["calibrated-question", "concrete-construal"]),
-                PuzzleCandidate(text: "Of course — I'll send an invite four weeks out.", eval: -0.4, rationale: "You accepted the push without testing what's underneath it. The probability of the next push just compounded.", atlasTags: ["mutual-close-plan"]),
+                PuzzleCandidate(text: "Happy to work around the launch. You mentioned the campaign post-mortem and Q-end planning in the demo, and next month lands after both. I've got two twenty-five-minute slots inside the campaign window. Would either work?", eval: 0.7, rationale: "Push-to-next-month is a deprioritization signal. When you tie the timing to a milestone the VP herself named, you re-anchor the urgency without applying any pressure.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "Of course. I'll send an invite four weeks out.", eval: -0.4, rationale: "You accepted the push without testing what's underneath it. The probability of the next push just compounded.", atlasTags: ["mutual-close-plan"]),
                 PuzzleCandidate(text: "Got it. We'll pull the proposal off the table.", eval: -0.6, rationale: "A takeaway after one push reads as theatrical. The VP files the move in her pattern-recognition folder and trusts you less.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "No problem — I'll send a case study over.", eval: -0.2, rationale: "You added asymmetric work with no live-moment leverage. The buyer absorbs it as noise.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "No problem. I'll send a case study over.", eval: -0.2, rationale: "You added asymmetric work with no live-moment leverage. The buyer absorbs it as noise.", atlasTags: ["social-proof"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label"
@@ -786,12 +786,12 @@ public enum Puzzles {
         Puzzle(
             id: "p042", theme: .stall, difficulty: 1600,
             buyerRole: "Director of Sales Ops, ghosting after pricing",
-            setup: "Pricing reveal landed cold. Two follow-ups unanswered.",
+            setup: "Your pricing reveal landed cold, and two follow-ups have gone unanswered.",
             buyerLine: "[silence]",
             candidates: [
-                PuzzleCandidate(text: "I imagine the pricing landed differently than you expected, and you're probably thinking we're overpriced. If that's where you are, tell me straight — I'd rather hear it than keep guessing at the silence.", eval: 0.7, rationale: "The accusation audit names the appraisal the buyer is already making silently. Sales Ops leaders respect you for saying the likely truth out loud — and it gives the real signal somewhere to land.", atlasTags: ["accusation-audit"]),
+                PuzzleCandidate(text: "I imagine the pricing landed differently than you expected, and you're probably thinking we're overpriced. If that's where you are, tell me straight. I'd rather hear it than keep guessing at the silence.", eval: 0.7, rationale: "The accusation audit names the appraisal the buyer is already making silently. Sales Ops leaders respect you for saying the likely truth out loud, and it gives the real signal somewhere to land.", atlasTags: ["accusation-audit"]),
                 PuzzleCandidate(text: "If price is the blocker, we can do fifteen off.", eval: -0.8, rationale: "You discounted into a silence with no surfaced objection. You just trained the buyer that going quiet is a price lever.", atlasTags: ["sharp-angle"]),
-                PuzzleCandidate(text: "Just circling back to see where things stand on your side — nothing new from me, no rush at all, happy to find a time whenever works for you.", eval: -0.4, rationale: "A generic check-in after two ignored follow-ups has near-zero re-engagement rate. You're adding to the pile.", atlasTags: ["liking"]),
+                PuzzleCandidate(text: "Just circling back to see where things stand on your side. Nothing new from me, no rush at all, and happy to find a time whenever works for you.", eval: -0.4, rationale: "A generic check-in after two ignored follow-ups has near-zero re-engagement rate. You're adding to the pile.", atlasTags: ["liking"]),
                 PuzzleCandidate(text: "Here's how we stack up against the field.", eval: -0.5, rationale: "You added work the buyer never asked for. Silence stays the path of least resistance.", atlasTags: ["contrast"]),
             ],
             bestIndex: 0,
@@ -802,13 +802,13 @@ public enum Puzzles {
         Puzzle(
             id: "p043", theme: .stall, difficulty: 1500,
             buyerRole: "Champion VP Engineering, internal review pending for three weeks",
-            setup: "Champion warm. Internal review keeps slipping.",
+            setup: "Your champion is warm, but the internal review keeps slipping.",
             buyerLine: "Sorry for the delay. Trying to get on my CFO's calendar. Should have something by end of next week.",
             candidates: [
-                PuzzleCandidate(text: "What if we grabbed twenty minutes with your CFO directly this week? You shouldn't have to be the one fighting his calendar for us.", eval: 0.7, rationale: "Your champion is bottlenecked on calendar access, not conviction. When you carry the meeting request yourself, you move the constraint to a path the champion can't solve alone.", atlasTags: ["multi-threading"]),
-                PuzzleCandidate(text: "Let me build you a one-page ROI doc on your own numbers, formatted so you can forward it to your CFO without touching a thing. Would that make the conversation easier once you're on his calendar?", eval: 0.3, rationale: "It's a useful artifact — but the champion told you the constraint is calendar, not content. You're solving the wrong bottleneck.", atlasTags: ["reciprocity"]),
-                PuzzleCandidate(text: "End of next week works — I'll check in then.", eval: -0.4, rationale: "The three-week pattern just continued with your blessing. Every week of slip decays the deal's momentum.", atlasTags: ["mutual-close-plan"]),
-                PuzzleCandidate(text: "Is this still real on your end? Three weeks now.", eval: -0.5, rationale: "The champion is real; the calendar is the constraint. Pushing on the person absorbing the friction damages the one relationship carrying the deal.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "What if we grabbed twenty minutes with your CFO directly this week? You shouldn't have to be the one fighting his calendar for us.", eval: 0.7, rationale: "Your champion is bottlenecked on calendar access rather than conviction. When you carry the meeting request yourself, you move the constraint to a path the champion cannot solve alone.", atlasTags: ["multi-threading"]),
+                PuzzleCandidate(text: "Let me build you a one-page ROI doc on your own numbers, formatted so you can forward it to your CFO without touching a thing. Would that make the conversation easier once you're on his calendar?", eval: 0.3, rationale: "This is a useful artifact, but the champion told you the constraint is calendar rather than content. You are solving the wrong bottleneck.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "End of next week works. I'll check in then.", eval: -0.4, rationale: "The three-week pattern just continued with your blessing. Every week of slip decays the deal's momentum.", atlasTags: ["mutual-close-plan"]),
+                PuzzleCandidate(text: "Is this still real on your end? Three weeks now.", eval: -0.5, rationale: "The champion is real, and the calendar is the constraint. Pushing on the person absorbing the friction damages the one relationship carrying the deal.", atlasTags: ["takeaway"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label"
@@ -817,12 +817,12 @@ public enum Puzzles {
         Puzzle(
             id: "p044", theme: .stall, difficulty: 1700,
             buyerRole: "VP Customer Success, deal stalled in legal for eight weeks",
-            setup: "Business alignment confirmed. MSA red-lines bouncing.",
+            setup: "Business alignment is confirmed, but the MSA red-lines keep bouncing back and forth.",
             buyerLine: "Legal's slow. We're still on red-line round three. They'll get there.",
             candidates: [
-                PuzzleCandidate(text: "What if we got both legal teams on a thirty-minute call and walked the open red-lines together, live? Round three almost always clears in a single synchronous session.", eval: 0.7, rationale: "Async legal cycles compound delay by design. Offering the sync session — and naming that round three usually clears in one — routes the conversation toward a path everyone can accept.", atlasTags: ["concrete-construal", "multi-threading"]),
+                PuzzleCandidate(text: "What if we got both legal teams on a thirty-minute call and walked the open red-lines together, live? Round three almost always clears in a single synchronous session.", eval: 0.7, rationale: "Async legal cycles compound delay by design. Offering the sync session, and naming that round three usually clears in one, routes the conversation toward a path everyone can accept.", atlasTags: ["concrete-construal", "multi-threading"]),
                 PuzzleCandidate(text: "We'll accept the open red-lines as they stand. Clear it.", eval: -0.7, rationale: "You made material legal concessions just to clear a stall. The buyer learned your flexibility, and the NPV degrades.", atlasTags: ["sharp-angle"]),
-                PuzzleCandidate(text: "Could you raise this internally? Frame it as protecting the renewal date rather than pressuring legal — and I'll tell you exactly which redline is gating signature so you walk in armed.", eval: 0.1, rationale: "This works only if the VP has the authority and the appetite to push their own legal team. Many don't, and you're spending relationship capital to find out.", atlasTags: ["authority", "multi-threading"]),
+                PuzzleCandidate(text: "Could you raise this internally? Frame it as protecting the renewal date rather than pressuring legal, and I'll tell you exactly which redline is gating signature so you walk in armed.", eval: 0.1, rationale: "This works only if the VP has the authority and the appetite to push their own legal team. Many don't, and you're spending relationship capital to find out.", atlasTags: ["authority", "multi-threading"]),
                 PuzzleCandidate(text: "Understood. We'll sit tight.", eval: -0.5, rationale: "Eight weeks of waiting with no surfaced friction tells the buyer you don't understand how legal cycles actually move.", atlasTags: ["silence"]),
             ],
             bestIndex: 0, themeHint: nil,
@@ -835,13 +835,13 @@ public enum Puzzles {
             // CQ-concentration metric (same class as p010).
             id: "p045", theme: .stall, difficulty: 1300,
             buyerRole: "Director, mid-funnel, vague timeline",
-            setup: "Director engaged in demo. Timeline cited as Q2 with no specifics.",
+            setup: "The director engaged well in the demo, but the timeline is just Q2, with no specifics.",
             buyerLine: "We're targeting Q2. Hard to be more specific until the planning cycle closes.",
             candidates: [
-                PuzzleCandidate(text: "What actually has to happen for Q2 to go from a target to a scheduled project? I'd like the right artifact ready before your planning cycle closes, not after.", eval: 0.7, rationale: "You surfaced the trigger event. Planning cycles run on specific trigger criteria, and tying your next move to the trigger gets you into the cycle before procurement does.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "Q2 works — I'll check in with you in thirty days.", eval: -0.3, rationale: "Accept-and-defer with nothing surfaced. Q2 stays exactly as vague as it was when the call started.", atlasTags: ["mutual-close-plan"]),
+                PuzzleCandidate(text: "What actually has to happen for Q2 to go from a target to a scheduled project? I'd like the right artifact ready before your planning cycle closes rather than after.", eval: 0.7, rationale: "You surfaced the trigger event. Planning cycles run on specific trigger criteria, and tying your next move to the trigger gets you into the cycle before procurement does.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "Q2 works. I'll check in with you in thirty days.", eval: -0.3, rationale: "This is accept-and-defer with nothing surfaced. Q2 stays exactly as vague as it was when the call started.", atlasTags: ["mutual-close-plan"]),
                 PuzzleCandidate(text: "Which week in Q2 are we talking?", eval: -0.5, rationale: "You pressured a timeline the buyer just told you is inherently vague. It signals you don't respect how their planning cycle works.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "I'll send over a Q2-readiness checklist.", eval: -0.2, rationale: "Asymmetric work, mistimed. The checklist arrives before the buyer is ready to act on any of it.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "I'll send over a Q2-readiness checklist.", eval: -0.2, rationale: "This is asymmetric work, and it is mistimed. The checklist arrives before the buyer is ready to act on any of it.", atlasTags: ["reciprocity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-haiti-how"
@@ -850,13 +850,13 @@ public enum Puzzles {
         Puzzle(
             id: "p046", theme: .stall, difficulty: 1900,
             buyerRole: "C-suite executive, ghost after exec call",
-            setup: "Executive call appeared positive. Three weeks of silence.",
+            setup: "The executive call appeared positive, but three weeks of silence followed.",
             buyerLine: "[no reply to four follow-ups across three weeks]",
             candidates: [
-                PuzzleCandidate(text: "It sounds like the timing didn't line up on your end — I'm going to archive this on our side unless you'd like to revisit. Either way, no more follow-ups from me.", eval: 0.6, rationale: "After four ignored follow-ups, the takeaway is the highest-information move you have left. Executives respond to permission-to-disengage at higher rates than to another nudge.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "One more thought — new numbers attached.", eval: -0.5, rationale: "A fifth follow-up after four ignores just reinforces the silence pattern. The executive archives you, not the attachment.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "It sounds like the timing didn't line up on your end. I'm going to archive this on our side unless you'd like to revisit. Either way, no more follow-ups from me.", eval: 0.6, rationale: "After four ignored follow-ups, the takeaway is the highest-information move you have left. Executives respond to permission-to-disengage at higher rates than to another nudge.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "One more thought, with new numbers attached.", eval: -0.5, rationale: "A fifth follow-up after four ignores just reinforces the silence pattern. The executive archives you along with the attachment.", atlasTags: ["reciprocity"]),
                 PuzzleCandidate(text: "Could your chief of staff help us find fifteen minutes?", eval: -0.4, rationale: "Going around the executive damages the relationship and almost never produces re-engagement. They notice.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "Closing the loop on my side — thought you'd want to see what a peer at your scale in your vertical just did with this. One line, no ask, and I'm happy to share their playbook whenever it's useful.", eval: -0.6, rationale: "You added noise to someone who has signaled disengagement four times. Every extra touch lowers the odds of a real re-engagement.", atlasTags: ["social-proof", "takeaway"]),
+                PuzzleCandidate(text: "Closing the loop on my side, I thought you'd want to see what a peer at your scale in your vertical just did with this. One line, no ask, and I'm happy to share their playbook whenever it's useful.", eval: -0.6, rationale: "You added noise to someone who has signaled disengagement four times. Every extra touch lowers the odds of a real re-engagement.", atlasTags: ["social-proof", "takeaway"]),
             ],
             bestIndex: 0,
             themeHint: "Takeaway after multiple ignored follow-ups is the highest-information move.",
@@ -866,12 +866,12 @@ public enum Puzzles {
         Puzzle(
             id: "p047", theme: .stall, difficulty: 1600,
             buyerRole: "Procurement coordinator, delayed on security review",
-            setup: "Security questionnaire submitted three weeks ago. No response.",
+            setup: "You submitted the security questionnaire three weeks ago, and there has been no response.",
             buyerLine: "Security team is backed up. Probably another two weeks.",
             candidates: [
-                PuzzleCandidate(text: "What if I walked your security reviewer through the questionnaire live — thirty minutes, no document back-and-forth? That's usually where the weeks go.", eval: 0.7, rationale: "Async security reviews compound delay. A live walk-through swaps document ping-pong for one synchronous clarification cycle — a routine path coordinators say yes to.", atlasTags: ["multi-threading", "reciprocity"]),
-                PuzzleCandidate(text: "Two weeks is fine — I'll follow up with you then.", eval: -0.3, rationale: "You accepted the estimate without surfacing the friction that produced it. Two weeks like these have a habit of becoming four.", atlasTags: ["mutual-close-plan"]),
-                PuzzleCandidate(text: "Here's how we stack up on security.", eval: -0.4, rationale: "Wrong vector entirely. Security review is an internal process — it won't weigh a vendor-supplied competitor comparison.", atlasTags: ["contrast"]),
+                PuzzleCandidate(text: "What if I walked your security reviewer through the questionnaire live, thirty minutes, no document back-and-forth? That's usually where the weeks go.", eval: 0.7, rationale: "Async security reviews compound delay. A live walk-through swaps document ping-pong for one synchronous clarification cycle, a routine path coordinators say yes to.", atlasTags: ["multi-threading", "reciprocity"]),
+                PuzzleCandidate(text: "Two weeks is fine. I'll follow up with you then.", eval: -0.3, rationale: "You accepted the estimate without surfacing the friction that produced it. Two weeks like these have a habit of becoming four.", atlasTags: ["mutual-close-plan"]),
+                PuzzleCandidate(text: "Here's how we stack up on security.", eval: -0.4, rationale: "This is the wrong vector entirely. Security review is an internal process, and it will not weigh a vendor-supplied competitor comparison.", atlasTags: ["contrast"]),
                 PuzzleCandidate(text: "Can we go to your director?", eval: -0.2, rationale: "Escalating around the security team usually slows the cycle further. You've traded a queue for a process argument.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
@@ -881,29 +881,29 @@ public enum Puzzles {
         Puzzle(
             id: "p048", theme: .stall, difficulty: 1800,
             buyerRole: "VP Engineering, deal paused at hiring freeze",
-            setup: "Verbal commit. Headcount freeze announced two days later.",
+            setup: "You had a verbal commit, but a headcount freeze was announced two days later.",
             buyerLine: "We're frozen on net-new spend until the freeze lifts. No ETA.",
             candidates: [
-                PuzzleCandidate(text: "Most headcount freezes are written against new hires, not existing operational tooling — and this reduces your hiring pressure, which makes it freeze mitigation. I'll write a three-line note for your CFO making exactly that case.", eval: 0.8, rationale: "Freezes target headcount; tooling that reduces hiring pressure usually sits outside them. The re-classification is a routine path, and the three-line note is ammunition your champion can actually use.", atlasTags: ["contrast", "reciprocity"]),
+                PuzzleCandidate(text: "Most headcount freezes are written against new hires rather than existing operational tooling, and this reduces your hiring pressure, which makes it freeze mitigation. I'll write a three-line note for your CFO making exactly that case.", eval: 0.8, rationale: "Freezes target headcount, and tooling that reduces hiring pressure usually sits outside them. The re-classification is a routine path, and the three-line note is ammunition your champion can actually use.", atlasTags: ["contrast", "reciprocity"]),
                 PuzzleCandidate(text: "We'll wait for it to lift.", eval: -0.4, rationale: "Freezes commonly extend. You just let a verbal commit sit in the open air while its momentum drains.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "Would half off get this through the freeze?", eval: -0.7, rationale: "You discounted against a freeze that was never a price objection. Margin gone, classification problem untouched.", atlasTags: ["sharp-angle"]),
-                PuzzleCandidate(text: "Honestly, this spend sits outside the freeze's intent — you've already committed two workflows to it, so it's not net-new. Can you carry that distinction to finance before the freeze hardens into next quarter's baseline? I'd hate to watch a hiring policy freeze the thing that reduces hiring.", eval: -0.5, rationale: "You're pushing back on an internal policy the VP has to live under — and asking them to fight finance with your framing. That's a champion relationship you're spending, not building.", atlasTags: ["commitment-consistency"]),
+                PuzzleCandidate(text: "Would half off get this through the freeze?", eval: -0.7, rationale: "You discounted against a freeze that was never a price objection. Your margin is gone, and the classification problem is still untouched.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Honestly, this spend sits outside the freeze's intent. You have already committed two workflows to it, so it is not net-new. Can you carry that distinction to finance before the freeze hardens into next quarter's baseline? I'd hate to watch a hiring policy freeze the thing that reduces hiring.", eval: -0.5, rationale: "You are pushing back on an internal policy the VP has to live under, and asking them to fight finance with your framing. That spends a champion relationship instead of building one.", atlasTags: ["commitment-consistency"]),
             ],
             bestIndex: 0,
-            themeHint: "Hiring freezes are usually written against headcount, not against productivity tooling. Re-classification is permitted.",
+            themeHint: "Hiring freezes are usually written against headcount rather than productivity tooling. Re-classification is permitted.",
             transcriptId: "voss-haiti-how"
         ),
 
         Puzzle(
             id: "p049", theme: .stall, difficulty: 1500,
             buyerRole: "Director, partial team buy-in, two skeptics",
-            setup: "Demo done. Director enthused. Two team members visibly skeptical.",
+            setup: "The demo is done, and the director is enthused, but two team members looked visibly skeptical.",
             buyerLine: "I love it. But two of my people aren't sold. Give me a week to bring them around.",
             candidates: [
-                PuzzleCandidate(text: "What if I took thirty minutes directly with your two skeptics — structured Q&A? When the objections are technical, having me in the room converts better than making you carry it alone for a week.", eval: 0.7, rationale: "The champion's internal-selling job is asymmetric work when the skeptics' objections are technical. You in the room converts at higher rates, and it frees the director from a lift they didn't sign up for.", atlasTags: ["multi-threading", "reciprocity"]),
-                PuzzleCandidate(text: "Let me build you an FAQ aimed at their three named objections — deployment evidence for each, plus talk-track bullets for the follow-ups they're likely to raise — so you've got everything you need to bring them around yourself.", eval: 0.2, rationale: "It's a useful artifact, but you just handed the conversion work back to the director. Only works if their appetite for that lift is real.", atlasTags: ["reciprocity"]),
-                PuzzleCandidate(text: "Take the week — I'll follow up Friday.", eval: -0.3, rationale: "Skeptic conversion without support from you fails more often than it succeeds. The week becomes two.", atlasTags: ["mutual-close-plan"]),
-                PuzzleCandidate(text: "You're the director — can't you just make the call?", eval: -0.6, rationale: "An override torches the director's standing with their own team, and the resentment surfaces at rollout.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "What if I took thirty minutes directly with your two skeptics, in a structured Q&A? When the objections are technical, having me in the room converts better than making you carry it alone for a week.", eval: 0.7, rationale: "The champion's internal-selling job is asymmetric work when the skeptics' objections are technical. You in the room converts at higher rates, and it frees the director from a lift they didn't sign up for.", atlasTags: ["multi-threading", "reciprocity"]),
+                PuzzleCandidate(text: "Let me build you an FAQ aimed at their three named objections, deployment evidence for each, plus talk-track bullets for the follow-ups they're likely to raise, so you've got everything you need to bring them around yourself.", eval: 0.2, rationale: "This is a useful artifact, but you just handed the conversion work back to the director. It only works if their appetite for that lift is real.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "Take the week. I'll follow up Friday.", eval: -0.3, rationale: "Skeptic conversion without support from you fails more often than it succeeds. The week becomes two.", atlasTags: ["mutual-close-plan"]),
+                PuzzleCandidate(text: "You're the director. Can't you just make the call?", eval: -0.6, rationale: "An override torches the director's standing with their own team, and the resentment surfaces at rollout.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label"
@@ -912,13 +912,13 @@ public enum Puzzles {
         Puzzle(
             id: "p050", theme: .stall, difficulty: 2000,
             buyerRole: "Chief of Staff to CFO, deal paused for board cycle",
-            setup: "Board cycle delay. Decision waiting for next quarterly board meeting.",
+            setup: "There is a board cycle delay, and the decision is waiting for the next quarterly board meeting.",
             buyerLine: "Board meets in six weeks. CFO won't approve anything net-new before then.",
             candidates: [
-                PuzzleCandidate(text: "Let me pre-package the board narrative for your CFO — a two-page memo, a named-peer comparable, and the exit-impact line — so when the cycle opens he's presenting a decision, not opening a discussion.", eval: 0.8, rationale: "Six-week board cycles compound risk. When the CFO arrives with a decision-ready memo instead of a starting position, you've routed yourself into the board cycle through the messenger's own workflow.", atlasTags: ["reciprocity", "concrete-construal", "social-proof"]),
+                PuzzleCandidate(text: "Let me pre-package the board narrative for your CFO, a two-page memo, a named-peer comparable, and the exit-impact line, so when the cycle opens he is presenting a decision instead of opening a discussion.", eval: 0.8, rationale: "Six-week board cycles compound risk. When the CFO arrives with a decision-ready memo instead of a starting position, you've routed yourself into the board cycle through the messenger's own workflow.", atlasTags: ["reciprocity", "concrete-construal", "social-proof"]),
                 PuzzleCandidate(text: "We'll wait for the board.", eval: -0.4, rationale: "Six weeks of passive waiting is where deals get deprioritized. When the cycle opens, other priorities have taken your seat.", atlasTags: ["silence"]),
                 PuzzleCandidate(text: "Any chance the CFO approves this outside the cycle?", eval: -0.6, rationale: "You asked a CFO to bypass their own board process. The relationship takes the hit and the deal gets routed lower.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "What if we scoped a pilot under the CFO's discretionary threshold right now, with graduation criteria tied to the board cycle? I'll even pre-write the full-rollout line item for the board packet so the path is already on paper.", eval: 0.1, rationale: "Pilots can clear smaller thresholds — but without a structurally defined path to full rollout, the pilot becomes the permanent state. Conditional at best.", atlasTags: ["puppy-dog", "fitd"]),
+                PuzzleCandidate(text: "What if we scoped a pilot under the CFO's discretionary threshold right now, with graduation criteria tied to the board cycle? I'll even pre-write the full-rollout line item for the board packet so the path is already on paper.", eval: 0.1, rationale: "Pilots can clear smaller thresholds, but without a structurally defined path to full rollout, the pilot becomes the permanent state. This is conditional at best.", atlasTags: ["puppy-dog", "fitd"]),
             ],
             bestIndex: 0,
             themeHint: "Board cycles are pre-packaging opportunities. The memo-shape matters more than the substance the CFO already knows.",
@@ -928,12 +928,12 @@ public enum Puzzles {
         Puzzle(
             id: "p051", theme: .stall, difficulty: 1700,
             buyerRole: "VP Operations, deal stalled on a technical integration concern",
-            setup: "Discovery completed. Technical due-diligence raised a single integration question.",
+            setup: "Discovery is complete, and technical due diligence raised a single integration question.",
             buyerLine: "Our infra team flagged a question about your auth model. We need to get it resolved before we move forward.",
             candidates: [
                 PuzzleCandidate(text: "Let's book forty-five minutes with your infra team and our solutions engineer, together. Auth-model questions like this one resolve in a single session nine times out of ten once both teams are looking at the same docs.", eval: 0.7, rationale: "Technical due-diligence stalls usually clear in one synchronous session. Naming the session shape and the resolution rate routes the buyer toward saying yes to it.", atlasTags: ["concrete-construal", "multi-threading"]),
-                PuzzleCandidate(text: "I'll send the auth documentation annotated against your exact SSO topology, flag the two sections that answer their stated concern, and include a sandbox tenant so your team can verify it directly instead of taking my word for it.", eval: 0.1, rationale: "Async review stretches the cycle even when the doc is excellent. Default to the live session; send the doc as the follow-up, not the plan.", atlasTags: ["reciprocity", "puppy-dog"]),
-                PuzzleCandidate(text: "Can we call it a verbal yes while the auth question closes out?", eval: -0.6, rationale: "A verbal commit taken before technical resolution gets rescinded the moment the infra team flags the issue — and the VP remembers who asked.", atlasTags: ["assumptive"]),
+                PuzzleCandidate(text: "I'll send the auth documentation annotated against your exact SSO topology, flag the two sections that answer their stated concern, and include a sandbox tenant so your team can verify it directly instead of taking my word for it.", eval: 0.1, rationale: "Async review stretches the cycle even when the doc is excellent. Default to the live session, and send the doc as the follow-up rather than the plan.", atlasTags: ["reciprocity", "puppy-dog"]),
+                PuzzleCandidate(text: "Can we call it a verbal yes while the auth question closes out?", eval: -0.6, rationale: "A verbal commit taken before technical resolution gets rescinded the moment the infra team flags the issue, and the VP remembers who asked.", atlasTags: ["assumptive"]),
                 PuzzleCandidate(text: "There's a workaround that sidesteps auth.", eval: -0.4, rationale: "Dodging the infra team's specific concern tells them you don't take their technical input seriously. The stall deepens.", atlasTags: ["alternative-choice"]),
             ],
             bestIndex: 0, themeHint: nil,
@@ -2192,40 +2192,40 @@ public enum Puzzles {
         Puzzle(
             id: "read-002", theme: .stall, difficulty: 1600,
             buyerRole: "Director, eval stage · Dana K.",
-            setup: "Third call. Interest reads high, conviction is wobbling, and there's still no timeline — this is her third \u{201c}quick question\u{201d} in as many meetings.",
+            setup: "This is the third call. Interest reads high, but conviction is wobbling, and there is still no timeline. This is her third quick question in as many meetings.",
             buyerLine: "Can you send the enterprise comparison too? I just want to be sure we pick right.",
             candidates: [
                 PuzzleCandidate(
-                    text: "\u{201c}For a team your size, I'd start on Growth — here's why it's the safe call, and we can revisit in 90 days.\u{201d}",
+                    text: "\u{201c}For a team your size, I'd start on Growth. Here's why it's the safe call, and we can revisit in 90 days.\u{201d}",
                     eval: 0.9,
-                    rationale: "Recommends + de-risks. Take a position, make it the safe one, and hand her a low-stakes exit. When someone else will make the call, an indecisive buyer moves. You took the weight off. A firm recommendation plus an exit ramp is exactly what an indecisive buyer needs to move.",
+                    rationale: "This recommends and de-risks in the same line. You took a position, made it the safe one, and handed her a low-stakes exit. When someone else makes the call, an indecisive buyer can finally move.",
                     atlasTags: ["assumptive", "puppy-dog"],
                     buyerReply: "\u{201c}Okay — that actually makes it feel a lot less risky. Let's do Growth.\u{201d}"
                 ),
                 PuzzleCandidate(
-                    text: "\u{201c}Absolutely — I'll add the enterprise deck and a full feature matrix.\u{201d}",
+                    text: "\u{201c}Absolutely. I'll add the enterprise deck and a full feature matrix.\u{201d}",
                     eval: -0.55,
-                    rationale: "Feeds the fear. More options is more surface to second-guess. The diligent instinct is the trap here. You handed a fearful buyer more to be afraid of. The stack of docs is where this deal goes to die.",
+                    rationale: "This feeds the fear. More options is more surface to second-guess, and the diligent instinct is the trap here. You handed a fearful buyer more to be afraid of, and the stack of docs is where this deal goes to die.",
                     atlasTags: ["concrete-construal"],
                     buyerReply: "\u{201c}Great — I'll review it all and get back to you.\u{201d}"
                 ),
                 PuzzleCandidate(
                     text: "\u{201c}What would you need to see to feel confident?\u{201d}",
                     eval: 0.1,
-                    rationale: "More diligence. Reasonable-sounding, but it outsources the decision back to the person who can't make it. You asked the scared buyer to design her own reassurance. She just ordered more diligence.",
+                    rationale: "This asks for more diligence. It sounds reasonable, but it outsources the decision back to the person who cannot make it. You asked the scared buyer to design her own reassurance, and she just ordered more diligence.",
                     atlasTags: ["calibrated-question"],
                     buyerReply: "\u{201c}Hmm, I'm not totally sure — maybe more references?\u{201d}"
                 ),
                 PuzzleCandidate(
                     text: "\u{201c}This offer's only good through Friday, so let's lock it.\u{201d}",
                     eval: -0.7,
-                    rationale: "Urgency on a scared buyer. Manufactured scarcity is the single worst move against indecision — it amplifies the fear it's trying to shortcut. Urgency reads as a threat to someone afraid of a mistake. You made the fear worse.",
+                    rationale: "This is urgency aimed at a scared buyer. Manufactured scarcity is one of the worst moves against indecision, because it amplifies the fear it is trying to shortcut. Urgency reads as a threat to someone afraid of a mistake, and you made the fear worse.",
                     atlasTags: ["scarcity"],
                     buyerReply: "\u{201c}That kind of pressure makes me want to slow down, honestly.\u{201d}"
                 ),
             ],
             bestIndex: 0,
-            themeHint: "More proof won't fix fear. A buyer who keeps asking for more — more options, more proof, more time — is usually scared of picking wrong. Piling on more value feeds that fear. Your job is to shrink the decision down to one safe next step.",
+            themeHint: "More proof will not fix fear. A buyer who keeps asking for more, more options, more proof, more time, is usually scared of picking wrong. Piling on more value feeds that fear. Your job is to shrink the decision down to one safe next step.",
             transcriptId: nil,
             read: PuzzleRead(
                 question: "What's the real state here?",
