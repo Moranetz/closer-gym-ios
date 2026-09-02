@@ -21,7 +21,7 @@ public enum Puzzles {
         Puzzle(
             id: "p001", theme: .budget, difficulty: 1300,
             buyerRole: "VP Operations, mid-market SaaS",
-            setup: "You are eighteen minutes into discovery. You have already established the onboarding-churn problem, and the buyer just heard your price.",
+            setup: "Eighteen minutes into discovery, the onboarding-churn problem is already established. The buyer just heard your price.",
             buyerLine: "It's just not in the FY26 envelope. We'd have to pull from training or shift the hire freeze around, and neither one's going to fly with the board.",
             candidates: [
                 PuzzleCandidate(text: "It sounds like you are less worried about the price than about defending training cuts or the hiring freeze to the board.", eval: 0.8, rationale: "They just listed two levers they have already rejected. That is a board-defensibility problem dressed up as a budget objection. A label names it without demanding an answer. They will correct it or confirm it, and either way you learn the real ceiling.", atlasTags: ["labeling"]),
@@ -37,7 +37,7 @@ public enum Puzzles {
         Puzzle(
             id: "p002", theme: .budget, difficulty: 1600,
             buyerRole: "CFO, $200M revenue SaaS",
-            setup: "It is the fourth meeting, and your champion, the VP of Engineering, is on the call. You mapped $1.2M in value last week, and the CFO just joined.",
+            setup: "Your champion, the VP of Engineering, is on the call for the fourth meeting. You mapped $1.2M in value last week, and the CFO just joined.",
             buyerLine: "I need a payback number I can defend to the board. Anything past 14 months and I'm not pushing this up. What's your math?",
             candidates: [
                 PuzzleCandidate(text: "Halden's CFO defended an 11-month payback to their board in March. I can walk you through their math, or we can build yours from your numbers. Which is more useful?", eval: 0.8, rationale: "A named peer with a specific number is hard to dismiss as vendor math, and the either/or hands the CFO the choice of method. They shift from evaluating your cost to evaluating the math. You are now solving their board problem with them.", atlasTags: ["social-proof", "alternative-choice"]),
@@ -53,7 +53,7 @@ public enum Puzzles {
         Puzzle(
             id: "p003", theme: .procurement, difficulty: 1800,
             buyerRole: "Procurement specialist, F500",
-            setup: "This is the first procurement call after the business team agreed in principle. This specialist has seen every tactic in the book.",
+            setup: "The business team already agreed in principle, and procurement is now running its own review. This specialist has seen every tactic in the book.",
             buyerLine: "Our procurement guidelines flag anything above 12% premium versus the next bid. You're at 15. Either we close the delta or this goes to a re-bid process I can't accelerate.",
             candidates: [
                 PuzzleCandidate(text: "Before we work the delta, can we put both SOWs side by side, line for line? Fifteen percent against a matched scope is a different number than fifteen against list.", eval: 0.7, rationale: "The 12% guideline only binds against comparable bids. Moving the reference point from list price to matched scope changes what the premium gets judged against. Procurement respects comparison rigor, because it is their own daily work.", atlasTags: ["contrast", "concrete-construal"]),
@@ -68,7 +68,7 @@ public enum Puzzles {
         Puzzle(
             id: "p004", theme: .budget, difficulty: 1500,
             buyerRole: "Founder, Series A startup",
-            setup: "This founder is cash-conscious with real burn-rate constraints, but she is also genuinely interested. You are twenty-eight minutes into the call.",
+            setup: "Twenty-eight minutes into the call, the founder is cash-conscious with real burn-rate constraints. She is also genuinely interested.",
             buyerLine: "Real talk, we're burning $310K a month and can't push the round. $30K is what I have. If your product isn't a $30K product, we'll find a workaround.",
             candidates: [
                 PuzzleCandidate(text: "Let's scope this instead of discounting it. Give me 24 hours to design a starter package that's genuinely a $30K product. If it isn't one, I'll tell you straight and we part clean.", eval: 0.7, rationale: "She gets a yes-to-something path plus an explicit no-fit exit, which is exactly the register a real-talk founder respects. The 24-hour deadline also moves you out of chase posture and into fit-evaluation posture.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -84,7 +84,7 @@ public enum Puzzles {
         Puzzle(
             id: "p005", theme: .procurement, difficulty: 1900,
             buyerRole: "Senior procurement specialist",
-            setup: "This is a late stage deal. Your champion has verbally committed, and procurement is now running its standard process.",
+            setup: "Your champion has verbally committed, and procurement is now running its standard process on this late-stage deal.",
             buyerLine: "We've been burned twice in the last 18 months on year-one cancellations. Procurement now requires a 90-day evaluation period before any multi-year. That's policy, not preference.",
             candidates: [
                 PuzzleCandidate(text: "The 90 days is fine. We'll run it. Two things to make it work: what does a pass look like at day 90, and should we flag to your sponsor what a quarter of delay costs their team?", eval: 0.9, rationale: "You absorb the policy without contest, then open two doors in the same breath: procurement's exit criteria and the sponsor's cost of delay. This is multi-threading embedded inside compliance. The policy stays intact, and the deal keeps moving.", atlasTags: ["calibrated-question", "multi-threading"], isFork: true),
@@ -114,7 +114,7 @@ public enum Puzzles {
         Puzzle(
             id: "p007", theme: .procurement, difficulty: 1700,
             buyerRole: "IT security architect, technical evaluator",
-            setup: "This is the security review meeting, and the architect just finished walking through their concerns.",
+            setup: "The architect just finished walking through their concerns at the security review meeting.",
             buyerLine: "SOC2's fine. FedRAMP's the issue. We're under a federal data-sharing agreement and audit's been getting more aggressive. Even a Moderate ATO would unblock us.",
             candidates: [
                 PuzzleCandidate(text: "Straight answer: we don't hold a FedRAMP ATO today, and I won't pretend otherwise. When does the audit actually land? If it's Q4, this is a different timing conversation than if it's next month.", eval: 0.6, rationale: "You named the gap accurately and surfaced a timing question the architect can actually answer. They walk away reading you as audit-literate, which is worth more than a promise you cannot keep.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -130,7 +130,7 @@ public enum Puzzles {
         Puzzle(
             id: "p008", theme: .stall, difficulty: 1400,
             buyerRole: "VP Sales, mid-market",
-            setup: "It is the second meeting, three weeks after you sent the proposal. Your follow-ups went unanswered, but you finally got them back on a call.",
+            setup: "Three weeks after you sent the proposal, follow-ups went unanswered. You finally got them back on a call for this second meeting.",
             buyerLine: "Yeah. I should've gotten back to you. We're still in it but I'm not the priority right now. Leadership has me on a sales-comp redesign that's eating my Q.",
             candidates: [
                 PuzzleCandidate(text: "Two options: we park it till your Q clears, or I shrink it to one team. Which is real?", eval: 0.7, rationale: "Both options respect the constraint they named, and the pick does your diagnostic work for you: park means genuinely deprioritized, shrink means the interest is still alive.", atlasTags: ["calibrated-question", "alternative-choice"]),
@@ -161,7 +161,7 @@ public enum Puzzles {
         Puzzle(
             id: "p009", theme: .stall, difficulty: 1700,
             buyerRole: "Founder, post-Series B",
-            setup: "The founder said yes 30 days ago to a $200K contract, and legal review has been in progress for three weeks.",
+            setup: "The founder said yes 30 days ago to a $200K contract. Legal review has been in progress for three weeks.",
             buyerLine: "Still with legal. They bumped it for a vendor dispute that broke this week. I'll get them back on it Monday.",
             candidates: [
                 PuzzleCandidate(text: "Monday works. While legal's tied up, is there anything else on your side that could bump this again? Does the vendor dispute touch anything in our contract?", eval: 0.7, rationale: "You did not press the legal team's availability. Instead, you surfaced the blockers actually inside their control. The wait state becomes information whichever way they answer.", atlasTags: ["calibrated-question"]),
@@ -208,7 +208,7 @@ public enum Puzzles {
         Puzzle(
             id: "p011", theme: .renewal, difficulty: 1500,
             buyerRole: "New VP Operations, renewal contact",
-            setup: "It is thirty days before renewal. Usage data shows heavy team adoption, but the new VP does not know you yet.",
+            setup: "Thirty days remain before renewal. Usage data shows heavy team adoption, but the new VP does not know you yet.",
             buyerLine: "I inherited this and three other contracts in a similar range. I'm running a baseline-vs-replace evaluation across all of them this quarter. Walk me through what your team's been getting.",
             candidates: [
                 PuzzleCandidate(text: "Happy to walk you through it. First, though, what does keep need to look like in your evaluation? I'd rather map our value to your criteria than to ours.", eval: 0.7, rationale: "Asking for the evaluation criteria signals you understand this review is systematic rather than personal. Now the value story lands inside their framework instead of bouncing off it.", atlasTags: ["calibrated-question", "alternative-choice"]),
@@ -286,7 +286,7 @@ public enum Puzzles {
         Puzzle(
             id: "p014", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Champion VP-Eng, with quiet CFO on the call",
-            setup: "This is a joint call with your champion and the CFO. Your champion has been enthusiastic for 35 minutes, but the CFO has said almost nothing.",
+            setup: "Your champion has been enthusiastic for 35 minutes on this joint call with the CFO, who has said almost nothing.",
             buyerLine: "[CFO finally speaks] Deployment risk. What's the operational profile? I've been through three vendor rollouts where the technical part went fine and the operational part broke a process owner.",
             candidates: [
                 PuzzleCandidate(text: "Two ways this breaks operationally: a process owner inherits a workflow nobody redesigned, or approvals move and nobody re-maps them. Which did your three look like?", eval: 0.8, rationale: "You named concrete failure modes in the CFO's own framing, operational rather than technical, and the branch question makes them specify which pattern they are actually afraid of. The quiet CFO just became a participant.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -317,7 +317,7 @@ public enum Puzzles {
         Puzzle(
             id: "p015", theme: .multistakeholder, difficulty: 2000,
             buyerRole: "Independent board director joining the eval call",
-            setup: "A board director with audit-committee experience has joined the deal call, and nothing you say here will be new to them.",
+            setup: "A board director with audit-committee experience has joined the deal call. Nothing you say here will be new to them.",
             buyerLine: "If this vendor blows up in eighteen months, what does the proxy paragraph look like? I've sat through two of those and I want to know what I'm signing up for.",
             candidates: [
                 PuzzleCandidate(text: "If this blows up, the paragraph reads inadequate vendor diligence or no exit provisions. We can pre-empt both in the contract, with annual audit rights and a tested transition plan.", eval: 0.8, rationale: "You answered a narrative-risk question with the two sentences the proxy paragraph would actually contain, plus the structure that pre-empts them. The director now reads you as audit-committee-literate, and the conversation moves into their home domain.", atlasTags: ["calibrated-question", "authority", "labeling"]),
@@ -365,7 +365,7 @@ public enum Puzzles {
         Puzzle(
             id: "p017", theme: .endgame, difficulty: 2200,
             buyerRole: "Procurement, final call before signature",
-            setup: "This is the final call. They have sent redlines, and you are walking through them.",
+            setup: "They have sent redlines for this final call, and you are walking through them.",
             buyerLine: "Last item. Unilateral termination at 90 days, 50% refund. That's the clause language. Standard in our vendor contracts since the [redacted competitor] incident.",
             candidates: [
                 PuzzleCandidate(text: "The policy makes sense, and I won't fight the why. Could we hit the same protection another way: quarterly performance gates with a cure period, accountability without the refund accounting?", eval: 0.7, rationale: "You took the policy at face value and offered equivalent accountability without the refund plumbing. Procurement experiences you as policy-aware, which, on a final call, is the fastest route through.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -381,7 +381,7 @@ public enum Puzzles {
         Puzzle(
             id: "p018", theme: .coldOpen, difficulty: 1300,
             buyerRole: "VP at a target account who just answered the cold call",
-            setup: "This is a cold call to a senior VP who actually picked up. You have eight seconds before they say not interested.",
+            setup: "A senior VP actually picked up on this cold call. You have eight seconds before they say not interested.",
             buyerLine: "Hello?",
             candidates: [
                 PuzzleCandidate(text: "Hi [Name], this is a cold call, I'll say that up front. You can hang up now, or give me 27 seconds and then decide. Which would you prefer?", eval: 0.7, rationale: "Naming the call type out loud kills the script-detection reflex, and handing over the time control means they decide to stay. That is the only version of staying that lasts.", atlasTags: ["accusation-audit"]),
@@ -443,7 +443,7 @@ public enum Puzzles {
         Puzzle(
             id: "p020", theme: .coldOpen, difficulty: 1500,
             buyerRole: "Founder, intro Zoom — first 60 seconds",
-            setup: "This is the first Zoom call, and the founder opens before you can.",
+            setup: "The founder opens before you can, on this first Zoom call.",
             buyerLine: "Okay. Pitch me. I've got 18 minutes.",
             candidates: [
                 PuzzleCandidate(text: "I could pitch, but half of it wouldn't apply to you. Give me five minutes of questions first. If I hear what I think I'll hear, the pitch takes six minutes and you keep the other seven.", eval: 0.7, rationale: "You flipped pitch me into qualification while handing the time back. That reads as homework-done and time-respecting. The demo in minute six is twice as sharp because of minutes one through five.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -459,7 +459,7 @@ public enum Puzzles {
         Puzzle(
             id: "p021", theme: .budget, difficulty: 1400,
             buyerRole: "Director of RevOps, 800-employee SaaS",
-            setup: "This is the pricing call, and your champion is in the room. The number just landed cold.",
+            setup: "Your champion is in the room for the pricing call. The number just landed cold.",
             buyerLine: "That number's a stretch. We capped tooling spend at $40k per team for the year and you're at $58.",
             candidates: [
                 PuzzleCandidate(text: "Let's break the 58 into what the cap was actually written against, per-seat spend or per-event spend. My bet is only one of those lines is capped, and I want to know which.", eval: 0.7, rationale: "Decomposing unbundles a flat number into the vectors the cap was actually written against. Often only one of them is binding, and the conversation shifts from line-item rejection to figuring out which constraint is real.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -475,7 +475,7 @@ public enum Puzzles {
         Puzzle(
             id: "p022", theme: .budget, difficulty: 1500,
             buyerRole: "VP Finance, holdco-owned manufacturer",
-            setup: "This is the third call. The operations VP has been championing the deal, and finance was just looped in.",
+            setup: "Finance was just looped in for the third call. The operations VP has been championing the deal.",
             buyerLine: "The holdco mandates 18-month payback on operational tools. You're showing me 22. Walk me through the assumptions.",
             candidates: [
                 PuzzleCandidate(text: "Let's walk it right now. Two assumptions carry the 22, the adoption ramp and the soft-savings line. Let's strip it to hard savings only and re-run it here. Then we will see which side of 18 it lands on, before anyone talks about touching the price.", eval: 0.8, rationale: "They asked for the assumptions, so supply them at operating altitude. A finance audience trusts the number they watched get built, and the hard-versus-soft split shows whether the mandate even binds. You find out without conceding a cent.", atlasTags: ["concrete-construal"]),
@@ -490,7 +490,7 @@ public enum Puzzles {
         Puzzle(
             id: "p023", theme: .budget, difficulty: 1700,
             buyerRole: "VP Engineering, Series C SaaS",
-            setup: "This has been a five-month cycle, and you already have verbal alignment. Now it is the pricing reveal call.",
+            setup: "Five months into the cycle, you already have verbal alignment. Now it is the pricing reveal call.",
             buyerLine: "Look, I want this. But we're 80% through OpEx for the half and I can't get net-new approved until July.",
             candidates: [
                 PuzzleCandidate(text: "What if May and June run as a flat-fee pilot, priced inside the budget you already have, and full rate starts in July with the pilot credited back? It is a different approval path with the same start date.", eval: 0.8, rationale: "You re-routed a net-new approval into within-period pilot spend, which clears a different sign-off threshold. Your champion gets a path their finance partner can absorb, and you get May instead of July.", atlasTags: ["concrete-construal", "alternative-choice"]),
@@ -506,7 +506,7 @@ public enum Puzzles {
         Puzzle(
             id: "p024", theme: .budget, difficulty: 1300,
             buyerRole: "Director of Marketing, growth-stage B2B",
-            setup: "This is the second demo. The director seemed engaged, and pricing came at the end.",
+            setup: "The director seemed engaged through the second demo. Pricing came at the end.",
             buyerLine: "That's higher than I was thinking. Honestly I had $25k in my head and you're at $48.",
             candidates: [
                 PuzzleCandidate(text: "Appreciate you naming the number. Where does the 25 come from, a quote on a comparable tool? And is that tool delivering the outcome you want?", eval: 0.7, rationale: "You surfaced the anchor's origin instead of fighting the number. Nine times out of ten, the 25 is a competitor's list price for a different scope, and once that is visible, the gap explains itself.", atlasTags: ["calibrated-question"]),
@@ -521,7 +521,7 @@ public enum Puzzles {
         Puzzle(
             id: "p025", theme: .budget, difficulty: 1900,
             buyerRole: "CFO, Series B SaaS, board-driven discipline",
-            setup: "This is the last call before contract, and the CFO has been the gate the whole way.",
+            setup: "The CFO has been the gate the whole way, through to this last call before contract.",
             buyerLine: "I've reviewed your pricing against three vendors in this category. You're 22% above the median. Walk me through what justifies that.",
             candidates: [
                 PuzzleCandidate(text: "Here's the 22, line by line: implementation is scoped in, the SLA is a tier above what the median bids carry, and the integrations they quote as add-ons come included.", eval: 0.7, rationale: "The CFO just offered you the floor, so take it. A line-itemed premium is precise, and precision signals information. It is hard to adjust downward and hard to dismiss. Dodge the question, and procurement will do the itemizing for you.", atlasTags: ["precise-anchor", "contrast"]),
@@ -537,7 +537,7 @@ public enum Puzzles {
         Puzzle(
             id: "p026", theme: .budget, difficulty: 1600,
             buyerRole: "Head of Operations, family-owned mid-market",
-            setup: "The owner is the one approving this. The head of ops is just the messenger, and the number lands as a multiple of what the family will tolerate.",
+            setup: "The owner is the one approving this. The head of ops is just the messenger. The number lands as a multiple of what the family will tolerate.",
             buyerLine: "The owner's going to balk. He thinks software shouldn't cost more than a hire.",
             candidates: [
                 PuzzleCandidate(text: "He's already comparing it to a hire, so finish the comparison for him. Tell him this replaces the ops coordinator he would otherwise be hiring, at 60% of the loaded cost and with zero ramp time.", eval: 0.7, rationale: "The owner already thinks in hires, so you complete that frame instead of fighting it. You also handed your messenger a defensible one-liner, which is the actual job here.", atlasTags: ["contrast", "concrete-construal"]),
@@ -552,7 +552,7 @@ public enum Puzzles {
         Puzzle(
             id: "p027", theme: .budget, difficulty: 1500,
             buyerRole: "VP People, 600-person scaleup",
-            setup: "Discovery is confirmed, and you have already mapped the ROI. Pricing comes up midway through this call.",
+            setup: "Discovery is confirmed, and the ROI is already mapped. Pricing comes up midway through this call.",
             buyerLine: "Our finance partner won't approve any new SaaS spend without a documented displacement. What are we cutting?",
             candidates: [
                 PuzzleCandidate(text: "You're already paying for this three times: the survey tool, the LMS module, and the engagement add-on. I'll hand you a one-pager your finance partner can lift straight into the approval.", eval: 0.8, rationale: "You took the work off your champion's plate and answered the constraint in exactly the form finance asked for. It routes upward with zero friction, which is the whole game when your buyer is a messenger.", atlasTags: ["concrete-construal", "reciprocity"]),
@@ -567,7 +567,7 @@ public enum Puzzles {
         Puzzle(
             id: "p028", theme: .budget, difficulty: 1800,
             buyerRole: "CRO, public company, $400M revenue",
-            setup: "This is the final pricing call, and both the CFO and the CRO are present.",
+            setup: "Both the CFO and the CRO are present for this final pricing call.",
             buyerLine: "I've got room for one new tool this year. You're one of three I'm evaluating. Make your case in five minutes.",
             candidates: [
                 PuzzleCandidate(text: "I'll do better than a pitch. Of the three ways revenue leaks at your scale, pipeline coverage, rep ramp, and win-rate decay, which one actually scares you for 2026? I'll map us against that one, with numbers.", eval: 0.8, rationale: "You re-framed a pitch contest into a diagnosis contest. A CRO responds to diagnosis first, because it proves you did the homework on their specific revenue equation, while the other two vendors just pitch.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -614,7 +614,7 @@ public enum Puzzles {
         Puzzle(
             id: "p031", theme: .budget, difficulty: 1700,
             buyerRole: "Chief of Staff, mid-market PE-backed",
-            setup: "The PE sponsor reviews all new SaaS spend over $50k, and the chief of staff is the one preparing the memo.",
+            setup: "The PE sponsor reviews all new SaaS spend over $50k. The chief of staff is the one preparing the memo.",
             buyerLine: "The sponsor's going to ask for two things: a comparable spend at a portfolio peer, and an exit-impact statement. Got them?",
             candidates: [
                 PuzzleCandidate(text: "Both, by Thursday. Crestline Group's spend on us, same sector and sponsor-approved, plus a one-line exit-impact statement tied to the multiple your sponsor pays for in this space. Both are formatted to drop straight into the memo.", eval: 0.8, rationale: "You handed over exactly the two artifacts the sponsor will ask for, formatted for the memo flow that already exists. The chief of staff's job just got easier, and easy routes upward fast.", atlasTags: ["social-proof", "concrete-construal", "reciprocity"]),
@@ -631,7 +631,7 @@ public enum Puzzles {
         Puzzle(
             id: "p032", theme: .procurement, difficulty: 1700,
             buyerRole: "Strategic sourcing manager, F500 healthcare",
-            setup: "This is the second procurement call. The business case is already approved internally, and procurement is the gate.",
+            setup: "The business case is already approved internally, and procurement is the gate for this second call.",
             buyerLine: "I need three things by end of week: BAFO, MSA red-lines, and a security questionnaire. Standard.",
             candidates: [
                 PuzzleCandidate(text: "Red-lines and the questionnaire land Friday. BAFO comes 48 hours after we lock the SOW, and I'll send you the dated sequence today.", eval: 0.7, rationale: "You met procurement at tempo on the two artifacts that are ready and gave the third a date instead of a refusal. A written sequence with owners reads as process competence, and that is the currency strategic sourcing actually trades in.", atlasTags: ["mutual-close-plan", "commitment-consistency"]),
@@ -662,7 +662,7 @@ public enum Puzzles {
         Puzzle(
             id: "p034", theme: .procurement, difficulty: 1600,
             buyerRole: "Procurement analyst, education sector",
-            setup: "This is the first procurement call after a year-long pilot, and the pilot's success is already documented.",
+            setup: "A year-long pilot just wrapped, with its success already documented, going into the first procurement call since.",
             buyerLine: "Our standard template caps the per-user fee at $9. You're at $14. Pilot or not, that's the template.",
             candidates: [
                 PuzzleCandidate(text: "Totally hear you on the template. What if the nine dollars covers the base license and we break the platform services out onto their own line? The pilot data you already have supports both pieces.", eval: 0.8, rationale: "Templates are rigid about the line they cover, but flexible about structure. When you present the compliant line structure yourself, procurement can say yes without breaking their own rules.", atlasTags: ["alternative-choice", "concrete-construal"]),
@@ -678,7 +678,7 @@ public enum Puzzles {
         Puzzle(
             id: "p035", theme: .procurement, difficulty: 2000,
             buyerRole: "Senior counsel, large law firm",
-            setup: "This is the legal review. Counsel has seen every negotiation tactic in the book and is testing how far your terms bend.",
+            setup: "Counsel has seen every negotiation tactic in the book. They are testing how far your terms bend in this legal review.",
             buyerLine: "We're going to need uncapped indemnity, no limitation on consequential damages, and unilateral termination for convenience. Standard.",
             candidates: [
                 PuzzleCandidate(text: "We can give you uncapped indemnity scoped to IP and confidentiality, consequential damages capped at deal value, and termination for convenience with sixty days' notice and a pro-rata refund. Each of those is the symmetric market position.", eval: 0.8, rationale: "Senior counsel respects you when you counter from defensible market positions. Every one of these is the recognized vendor counter for that exact ask.", atlasTags: ["alternative-choice"]),
@@ -694,7 +694,7 @@ public enum Puzzles {
         Puzzle(
             id: "p036", theme: .procurement, difficulty: 1500,
             buyerRole: "Procurement specialist, retail chain",
-            setup: "This is the first procurement call. The business team is unenthused, and procurement is performing the gate.",
+            setup: "The business team is unenthused, and procurement is performing the gate on this first call.",
             buyerLine: "We're benchmarking your category against four other vendors. I'll need a final-and-final by Thursday.",
             candidates: [
                 PuzzleCandidate(text: "If nobody on the business side owns the outcome, we'll sit Thursday out.", eval: 0.7, rationale: "Four vendors, a flat business team, and a price-only gate is a contest you lose by winning. The takeaway flushes the truth: a real evaluation produces the business owner, a theater one accepts your exit. Either answer beats a blind best-and-final.", atlasTags: ["takeaway"]),
@@ -709,7 +709,7 @@ public enum Puzzles {
         Puzzle(
             id: "p037", theme: .procurement, difficulty: 1800,
             buyerRole: "Director of procurement, government contractor",
-            setup: "This is the second procurement call. RFP scoring weights have shifted, and your bid was originally first.",
+            setup: "RFP scoring weights have shifted for this second call, and your bid was originally first.",
             buyerLine: "Scoring weights got revised. You're now second behind a competitor at lower cost. I need a 7% reduction or a written justification for the gap.",
             candidates: [
                 PuzzleCandidate(text: "Can you share the revised rubric? If a specific weighting change drives the seven percent, we'll respond to it directly. Worth noting, we still score higher on every weight that didn't change.", eval: 0.7, rationale: "Scoring shifts are usually procedural and defensible. When you tie your response to the specific weight changes, you route the conversation back to the rubric the director has to defend.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -724,7 +724,7 @@ public enum Puzzles {
         Puzzle(
             id: "p038", theme: .procurement, difficulty: 2100,
             buyerRole: "Chief procurement officer, $5B enterprise",
-            setup: "This is the final call, and the business team is aligned. The CPO has run this exact play before, from your side of the table.",
+            setup: "The business team is aligned for this final call. The CPO has run this exact play before, from your side of the table.",
             buyerLine: "I've seen this dance a hundred times. You'll give me 12% off if I sign today, 18% if I sign for two years. Let's skip to the part where I tell you neither is acceptable.",
             candidates: [
                 PuzzleCandidate(text: "You're right, you've seen that dance, so let's not do it. The one lever you haven't named is multi-year with a price-lock and a joint-marketing offset. What would make that worth your time to evaluate?", eval: 0.9, rationale: "The CPO just told you they've memorized the standard discount tree. You surface a lever they haven't priced and ask for their value frame on it. That is the pattern-break, and it is the only credible move left.", atlasTags: ["calibrated-question"], isSharp: true),
@@ -740,7 +740,7 @@ public enum Puzzles {
         Puzzle(
             id: "p039", theme: .procurement, difficulty: 1400,
             buyerRole: "Procurement coordinator, mid-market services",
-            setup: "This is the first procurement call, and the cycle so far has been low-friction.",
+            setup: "The cycle has been low-friction so far, into this first procurement call.",
             buyerLine: "Looks good. Can you get me references at three named peers in the next 48 hours?",
             candidates: [
                 PuzzleCandidate(text: "You'll have two warm references inside twenty-four hours. The third peer you named is under NDA, so I'll swap in a peer at the same revenue band. Does that work?", eval: 0.6, rationale: "You delivered on tempo and on substance. A substitute peer with the reason disclosed is a routine procurement swap, and naming the NDA makes it credible.", atlasTags: ["concrete-construal", "social-proof"]),
@@ -755,7 +755,7 @@ public enum Puzzles {
         Puzzle(
             id: "p040", theme: .procurement, difficulty: 1700,
             buyerRole: "Procurement manager, insurance carrier",
-            setup: "This is the renewal procurement call. The original deal ran three years, and renewal is now up.",
+            setup: "The original deal ran three years, and renewal is now up for this procurement call.",
             buyerLine: "Three-year renewal at flat pricing or we'll RFP this and you'll compete.",
             candidates: [
                 PuzzleCandidate(text: "We'll do flat for year one, with years two and three indexed to inflation and capped at four percent. Flat across all three years would actually sit below your own procurement inflation policy.", eval: 0.9, rationale: "Carrier procurement policies almost always index inflation on multi-year contracts. When you surface that mismatch, your counter becomes the position the procurement manager can defend internally.", atlasTags: ["calibrated-question", "alternative-choice"], isFork: true),
@@ -771,7 +771,7 @@ public enum Puzzles {
         Puzzle(
             id: "p041", theme: .stall, difficulty: 1400,
             buyerRole: "VP Marketing, post-demo, six days of radio silence",
-            setup: "You had a strong demo last week, but two follow-ups have gone unanswered.",
+            setup: "A strong demo happened last week, but two follow-ups have gone unanswered.",
             buyerLine: "[no reply for six days, then on the seventh:] Hey, got pulled into a campaign launch. Can we push to next month?",
             candidates: [
                 PuzzleCandidate(text: "Happy to work around the launch. You mentioned the campaign post-mortem and Q-end planning in the demo, and next month lands after both. I've got two twenty-five-minute slots inside the campaign window. Would either work?", eval: 0.7, rationale: "Push-to-next-month is a deprioritization signal. When you tie the timing to a milestone the VP herself named, you re-anchor the urgency without applying any pressure.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -912,7 +912,7 @@ public enum Puzzles {
         Puzzle(
             id: "p050", theme: .stall, difficulty: 2000,
             buyerRole: "Chief of Staff to CFO, deal paused for board cycle",
-            setup: "There is a board cycle delay, and the decision is waiting for the next quarterly board meeting.",
+            setup: "A board cycle delay now has the decision waiting on the next quarterly board meeting.",
             buyerLine: "Board meets in six weeks. CFO won't approve anything net-new before then.",
             candidates: [
                 PuzzleCandidate(text: "Let me pre-package the board narrative for your CFO, a two-page memo, a named-peer comparable, and the exit-impact line, so when the cycle opens he is presenting a decision instead of opening a discussion.", eval: 0.8, rationale: "Six-week board cycles compound risk. When the CFO arrives with a decision-ready memo instead of a starting position, you've routed yourself into the board cycle through the messenger's own workflow.", atlasTags: ["reciprocity", "concrete-construal", "social-proof"]),
@@ -975,7 +975,7 @@ public enum Puzzles {
         Puzzle(
             id: "p054", theme: .renewal, difficulty: 1700,
             buyerRole: "Existing customer, Head of Procurement, year three renewal",
-            setup: "This is year three. Procurement has taken over the renewal conversation, though the business team is still happy.",
+            setup: "Procurement has taken over the renewal conversation in year three, though the business team is still happy.",
             buyerLine: "We're benchmarking against three alternatives this cycle. I'll need a 12% reduction or you go to RFP.",
             candidates: [
                 PuzzleCandidate(text: "Before we talk percentages, switching means data migration, retraining, and rebuilding every integration. That's specific dollars and specific weeks, and I'll map both. Priced against that, we're actually proposing four percent up.", eval: 0.8, rationale: "Benchmarking ignores switching cost by default. When you put specific dollars and weeks on the table, the conversation moves to total cost of switching instead of new-vendor sticker price.", atlasTags: ["loss-framing", "concrete-construal"]),
@@ -991,7 +991,7 @@ public enum Puzzles {
         Puzzle(
             id: "p055", theme: .renewal, difficulty: 1400,
             buyerRole: "Existing customer, VP Sales, mid-cycle expansion conversation",
-            setup: "This is quarter four of a three-year deal, and VP Sales is mid-cycle.",
+            setup: "VP Sales is mid-cycle, in quarter four of a three-year deal.",
             buyerLine: "We're growing fast. Probably need to add 40 seats by end of year.",
             candidates: [
                 PuzzleCandidate(text: "Forty by end of year. Let's lock it in now, co-termed to your existing contract so billing stays on one date, with a thirty-day onboarding plan keyed to your revenue target.", eval: 0.7, rationale: "Co-terming consolidates billing on the existing renewal date and locks the expansion while the growth is live. It's the lowest-friction path for a customer moving fast.", atlasTags: ["concrete-construal", "commitment-consistency"]),
@@ -1037,7 +1037,7 @@ public enum Puzzles {
         Puzzle(
             id: "p058", theme: .renewal, difficulty: 1800,
             buyerRole: "Existing customer, CFO, year-two renewal with budget squeeze",
-            setup: "This is the year-two renewal, and the CFO has signaled budget pressure across all SaaS.",
+            setup: "The CFO has signaled budget pressure across all SaaS, heading into this year-two renewal.",
             buyerLine: "We're cutting 18% across the SaaS line this year. You're going to need to absorb part of that.",
             candidates: [
                 PuzzleCandidate(text: "Instead of cutting us, cut around us. There are two vendors sitting next to us in your stack that we can replace under a consolidated renewal. That is net savings to the SaaS line rather than a haircut on the tool that's working.", eval: 0.8, rationale: "Consolidation converts a margin-compression conversation into an expansion one. It is the CFO-friendly pattern, when your product map actually supports the replacement.", atlasTags: ["alternative-choice", "contrast"]),
@@ -1053,7 +1053,7 @@ public enum Puzzles {
         Puzzle(
             id: "p059", theme: .renewal, difficulty: 1300,
             buyerRole: "Existing customer, Director of Ops, low-friction renewal",
-            setup: "This is a three-year customer whose usage grew 40%, and the director is engaged.",
+            setup: "Usage grew 40% for this three-year customer, and the director is engaged.",
             buyerLine: "Renewal looks straightforward. What are we doing on terms?",
             candidates: [
                 PuzzleCandidate(text: "Your usage grew forty percent this cycle, so we're proposing six percent, the growth plus our standard market-rate adjustment. The usage data is the anchor here.", eval: 0.7, rationale: "A usage-tied increase is a recognized renewal mechanism, and the director already knows the growth number. Your job is just to map it to defensible pricing.", atlasTags: ["concrete-construal"]),
@@ -1068,7 +1068,7 @@ public enum Puzzles {
         Puzzle(
             id: "p060", theme: .renewal, difficulty: 2000,
             buyerRole: "Existing customer, IT Director, security-driven renewal pressure",
-            setup: "This is the renewal call. The IT director has been the executive sponsor, and the security review surfaced one finding from your last SOC2.",
+            setup: "The IT director has been the executive sponsor through this renewal call. The security review surfaced one finding from your last SOC2.",
             buyerLine: "There's one finding in your last SOC2 that our CISO wants closed before we renew.",
             candidates: [
                 PuzzleCandidate(text: "I know the finding. The compensating control is already deployed, and full remediation closes next quarter. I'll send the dated timeline. Want me to set up a call between our CISO and yours to walk the closure path directly?", eval: 0.8, rationale: "Security findings are remediation-path questions rather than verdicts. Specificity, the compensating control, the date, plus CISO-to-CISO routing converts security pressure into procedural confidence.", atlasTags: ["concrete-construal", "multi-threading"]),
@@ -1084,7 +1084,7 @@ public enum Puzzles {
         Puzzle(
             id: "p061", theme: .renewal, difficulty: 1600,
             buyerRole: "Existing customer, VP Marketing, multi-year renewal at neutral usage",
-            setup: "This is the year-three renewal. Usage is neutral, and the customer is satisfied but not advocating for expansion.",
+            setup: "Usage is neutral for this year-three renewal, and the customer is satisfied but not advocating for expansion.",
             buyerLine: "We're happy. But I'm not sure I can defend a price increase. Same terms?",
             candidates: [
                 PuzzleCandidate(text: "Keep year four flat, and we'll add the new feature bundle at no charge, with year five moving to full market rate once the bundle has proven itself in your stack.", eval: 0.7, rationale: "The buyer told you they can't defend an increase at neutral usage. The bundled uplift turns a flat-price standoff into a value-expansion story that justifies the year-five step.", atlasTags: ["alternative-choice", "commitment-consistency"]),
@@ -1130,7 +1130,7 @@ public enum Puzzles {
         Puzzle(
             id: "p064", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Champion + economic buyer split on solution choice",
-            setup: "Your champion, the VP of Engineering, prefers your solution, but the economic buyer, the CFO, prefers the competitor.",
+            setup: "The VP of Engineering, your champion, prefers your solution, but the economic buyer, the CFO, prefers the competitor.",
             buyerLine: "[Champion privately] He's going to ask for a side-by-side. I told him you'd send one.",
             candidates: [
                 PuzzleCandidate(text: "I'll build it around the three outcomes you've all agreed are the decision criteria, leading with the ones we win. Where the competitor takes a category, we'll say so, with a short note on how much it actually matters. Honest beats airtight with a CFO.", eval: 0.9, rationale: "Visible neutrality is what earns the CFO's trust, and champion-coordinated criteria win you the dimensions that matter. Conceding where it's honest is exactly what makes the rest of the document believable.", atlasTags: ["concrete-construal", "contrast"], isFork: true),
@@ -1146,7 +1146,7 @@ public enum Puzzles {
         Puzzle(
             id: "p065", theme: .multistakeholder, difficulty: 1800,
             buyerRole: "Champion at risk; new stakeholder added late",
-            setup: "You are five months in. The champion, VP Sales, is aligned, but the CRO was surprise-added in week 22.",
+            setup: "Five months in, the champion, VP Sales, is aligned, but the CRO was surprise-added in week 22.",
             buyerLine: "[CRO] I just got pulled in. I'm not sure why we'd pick this over the platform we already have.",
             candidates: [
                 PuzzleCandidate(text: "Fair question. Could I take thirty minutes with you directly, anchored on your revenue equation? I'd rather not assume five months of someone else's framing transfers to you.", eval: 0.7, rationale: "A stakeholder added in week twenty-two is a net-new buyer. Re-discovering with the CRO and earning the buy explicitly converts far better than trusting the champion's handoff to carry it.", atlasTags: ["calibrated-question"]),
@@ -1177,7 +1177,7 @@ public enum Puzzles {
         Puzzle(
             id: "p067", theme: .multistakeholder, difficulty: 1900,
             buyerRole: "Senior executive + skeptical CISO joint call",
-            setup: "This is the final-stage call. The senior executive is supportive, but the CISO is present and skeptical of data residency.",
+            setup: "The senior executive is supportive on this final-stage call, but the CISO is present and skeptical of data residency.",
             buyerLine: "[CISO] Our customer data cannot leave the region. Where does your processing happen?",
             candidates: [
                 PuzzleCandidate(text: "All our processing stays in your region. I'll send you the SOC 2 control reference behind that today. Want 30 minutes with your security team and our architect to walk the residency design?", eval: 0.8, rationale: "CISOs convert on specifics, the region, the control reference, the invitation to inspect. You answered the question and opened up the architecture, and that is how you stop getting filed under does not know their own product.", atlasTags: ["concrete-construal", "multi-threading"]),
@@ -1317,7 +1317,7 @@ public enum Puzzles {
         Puzzle(
             id: "p076", theme: .endgame, difficulty: 1700,
             buyerRole: "Late-stage redline on indemnity scope",
-            setup: "This is the final legal review, and there is one open issue.",
+            setup: "One open issue remains in this final legal review.",
             buyerLine: "[legal] We need IP indemnity uncapped. Everything else looks good.",
             candidates: [
                 PuzzleCandidate(text: "We can go uncapped on IP indemnity if it's scoped to our own patents and copyrights, and we'd ask for the same obligation on content your side supplies. That's the symmetric position you'll see across the market.", eval: 0.7, rationale: "Uncapped IP indemnity scoped to your own IP is a recognized vendor concession, because you are covering what you actually control. Asking for symmetry on customer-supplied content is the standard counter that survives legal review.", atlasTags: ["alternative-choice"]),
@@ -1332,7 +1332,7 @@ public enum Puzzles {
         Puzzle(
             id: "p077", theme: .endgame, difficulty: 1900,
             buyerRole: "Late-stage discount ask, deal contingent",
-            setup: "This is the final call with procurement, and the verbal commit is dependent on one final ask.",
+            setup: "The verbal commit is dependent on one final ask, on this final call with procurement.",
             buyerLine: "Look, we're a yes if you give me one more 5 percent. Otherwise this goes back to committee.",
             candidates: [
                 PuzzleCandidate(text: "I can do 3, if we extend the term twelve months and add a published case-study clause. Five is a nice round number. Three with structure behind it is a real one.", eval: 0.8, rationale: "A round 5% at the finish line is procurement theater. Counter with structurally different levers, term, case study, and they get a defensible win to carry inside while your anchor stays intact.", atlasTags: ["alternative-choice", "anchor-with-range"]),
@@ -1363,7 +1363,7 @@ public enum Puzzles {
         Puzzle(
             id: "p079", theme: .endgame, difficulty: 2000,
             buyerRole: "Endgame politics: customer's general counsel inserting new clauses",
-            setup: "This is the last week of the cycle, and the GC is opening new clauses that were never raised in red-lines.",
+            setup: "The GC is opening new clauses that were never raised in red-lines, in the last week of the cycle.",
             buyerLine: "[GC] We need a most-favored-nation clause, a unilateral price-cap, and a competitor non-compete.",
             candidates: [
                 PuzzleCandidate(text: "We can take the price cap, scoped to year-over-year increases above 6%. That's within our standard tolerance. The MFN and the non-compete we can't do. Neither is market-standard, and I can show you the enterprise norms we benchmark against.", eval: 0.8, rationale: "Differentiating signals market fluency. Accept what's standard, a scoped price cap, and reject what isn't. GCs respect a vendor who demonstrably knows the norms.", atlasTags: ["alternative-choice", "concrete-construal"]),
@@ -1394,7 +1394,7 @@ public enum Puzzles {
         Puzzle(
             id: "p081", theme: .endgame, difficulty: 1800,
             buyerRole: "Procurement insertion at endgame asking for a fourth signer",
-            setup: "This is the final paperwork stage, and procurement has inserted a new requirement.",
+            setup: "Procurement has inserted a new requirement at the final paperwork stage.",
             buyerLine: "Our process requires an additional VP-level signoff. Adds two weeks.",
             candidates: [
                 PuzzleCandidate(text: "Completely understand. Process is process. Would it help if I gave the new signer a 15-minute briefing on the deal at whatever time suits them, just to shrink their review load?", eval: 0.7, rationale: "An added signer is standard endgame friction, so treat them as an audience instead of an obstacle. A short briefing shrinks the VP's review and puts your framing in front of the decision.", atlasTags: ["multi-threading", "reciprocity"]),
@@ -1425,7 +1425,7 @@ public enum Puzzles {
         Puzzle(
             id: "p083", theme: .endgame, difficulty: 1700,
             buyerRole: "Customer wants payment-term concession at endgame",
-            setup: "This is the final paperwork, and the customer requests net-90 instead of net-30.",
+            setup: "The customer requests net-90 instead of net-30, at final paperwork.",
             buyerLine: "Our standard is net-90. Can we get that on the contract?",
             candidates: [
                 PuzzleCandidate(text: "We can meet you at net-60, paired with a small price adjustment indexed to our working-capital cost. That keeps the whole thing NPV-neutral for both sides instead of a one-way transfer.", eval: 0.7, rationale: "Payment terms are an NPV transfer wearing a process costume. Meet at the midpoint and index the difference to your working-capital cost. That is symmetric, defensible, and done.", atlasTags: ["anchor-with-range", "concrete-construal"]),
@@ -1440,7 +1440,7 @@ public enum Puzzles {
         Puzzle(
             id: "p084", theme: .endgame, difficulty: 1900,
             buyerRole: "Final discount ask from procurement, contingent",
-            setup: "This is the final negotiation, and procurement signals one more concession need.",
+            setup: "Procurement signals one more concession need in this final negotiation.",
             buyerLine: "Give me 7%. I'll get the deal closed by Friday. That's the absolute last ask.",
             candidates: [
                 PuzzleCandidate(text: "Here's what I can do: 4%, if we sign Friday, extend the term six months, and add a published case-study clause. Every concession comes with a lever attached instead of just a smaller number.", eval: 0.8, rationale: "The absolute last ask is procurement's last-shot play. A multi-lever counter holds your anchor and still hands them a face-saving win to carry inside.", atlasTags: ["alternative-choice", "scarcity"]),
@@ -1470,7 +1470,7 @@ public enum Puzzles {
         Puzzle(
             id: "p086", theme: .endgame, difficulty: 1700,
             buyerRole: "Customer asks for parallel-vendor language in contract",
-            setup: "This is the final legal review, and the customer requests right-to-evaluate-competitor language.",
+            setup: "The customer requests right-to-evaluate-competitor language in this final legal review.",
             buyerLine: "[legal] We want a clause permitting us to evaluate parallel vendors during the term without contract penalty.",
             candidates: [
                 PuzzleCandidate(text: "That's fine as a stated business right. We'd just add a 30-day notice obligation before any active competitor evaluation begins. This gives both sides symmetric process clarity.", eval: 0.7, rationale: "The right to evaluate exists whether or not it's written down. Grant the clause, add 30 days' notice, and you've bought yourself reaction time for the price of ink.", atlasTags: ["alternative-choice"]),
@@ -1485,7 +1485,7 @@ public enum Puzzles {
         Puzzle(
             id: "p087", theme: .endgame, difficulty: 2000,
             buyerRole: "Last-minute exec change midway through endgame paperwork",
-            setup: "You have a verbal commit, but the CFO who approved it has left the company, and a new CFO has inherited the deal.",
+            setup: "You have a verbal commit, but the CFO who approved it has left the company. A new CFO has inherited the deal.",
             buyerLine: "[champion] New CFO wants to re-review before signing. Adds two weeks minimum.",
             candidates: [
                 PuzzleCandidate(text: "Makes sense. A new CFO should absolutely look at this. Let me package it decision-ready: the full memo, named peer references, and the rationale the prior CFO approved on, so the review is a confirmation rather than a restart.", eval: 0.8, rationale: "An inherited executive is a net-new buyer wearing an old approval. Hand them a decision-ready memo that carries the prior rationale forward, and you shrink the review and the odds it becomes a re-decision.", atlasTags: ["reciprocity", "social-proof"]),
@@ -1502,7 +1502,7 @@ public enum Puzzles {
         Puzzle(
             id: "p088", theme: .coldOpen, difficulty: 1300,
             buyerRole: "First-time intro Zoom, founder, expecting a pitch",
-            setup: "This is the first Zoom call. The founder accepted via a warm intro, and opens skeptical.",
+            setup: "A warm intro got the founder onto this first Zoom call. The founder opens skeptical.",
             buyerLine: "Okay, so what does this thing do?",
             candidates: [
                 PuzzleCandidate(text: "Before I answer that, which of these two is more painful at your company right now: [problem one] or [problem two]? Then I can show you exactly what we do about the one that actually hurts.", eval: 0.7, rationale: "A skeptical founder reads a diagnosis-first open as homework done and time respected. You flipped a pitch request into fit-discovery, which is the frame you actually want.", atlasTags: ["calibrated-question", "alternative-choice"]),
@@ -1532,7 +1532,7 @@ public enum Puzzles {
         Puzzle(
             id: "p090", theme: .coldOpen, difficulty: 1400,
             buyerRole: "Cold outreach reply from a Director, skeptical tone",
-            setup: "This cold outreach went via LinkedIn, and the director replied with one sentence.",
+            setup: "LinkedIn carried this cold outreach, and the director replied with one sentence.",
             buyerLine: "We already have a vendor for this. What's different?",
             candidates: [
                 PuzzleCandidate(text: "Which one are you on, [vendor A] or [vendor B]? And what's the one outcome it isn't delivering yet? I'd rather answer what's different against that than in the abstract.", eval: 0.7, rationale: "We already have a vendor is the discovery surface rather than the wall. Get the vendor and the gap, and what's different becomes a fit conversation instead of a brochure.", atlasTags: ["calibrated-question", "contrast"]),
@@ -1547,7 +1547,7 @@ public enum Puzzles {
         Puzzle(
             id: "p091", theme: .coldOpen, difficulty: 1600,
             buyerRole: "Cold outreach to a CFO, terse reply",
-            setup: "This cold email carried a specific revenue impact claim, and the CFO replied within an hour.",
+            setup: "A specific revenue impact claim went out in this cold email, and the CFO replied within an hour.",
             buyerLine: "Send me the math. 15 minutes.",
             candidates: [
                 PuzzleCandidate(text: "Here it is on one page: three assumptions, all specified, a named peer in your revenue band, and a single payback number. If the math holds up for you, my calendar link is at the bottom.", eval: 0.8, rationale: "A CFO who says 15 minutes is telling you the format. One page, three assumptions, one payback number, specificity in their language, is what converts here.", atlasTags: ["concrete-construal", "social-proof"]),
@@ -1562,7 +1562,7 @@ public enum Puzzles {
         Puzzle(
             id: "p092", theme: .coldOpen, difficulty: 1500,
             buyerRole: "Cold call interception, gatekeeper administrative assistant",
-            setup: "This is a cold call to a target executive, and you reached the executive assistant instead.",
+            setup: "A cold call to a target executive reached the executive assistant instead.",
             buyerLine: "What's this regarding? She's in back-to-back meetings.",
             candidates: [
                 PuzzleCandidate(text: "You'd know best how to route this. It's about the international expansion she announced last month. Would she rather get a short email with the context from you, so you can vet it first, or would a 30-second call with me be easier to pass along?", eval: 0.7, rationale: "Assistants aren't obstacles. They're routers with judgment. Give a specific reason tied to the executive's actual priority and let them choose the path. You made their job easier, and they remember who does that.", atlasTags: ["alternative-choice", "liking"]),
@@ -1577,7 +1577,7 @@ public enum Puzzles {
         Puzzle(
             id: "p093", theme: .coldOpen, difficulty: 1700,
             buyerRole: "Cold reply from a CRO, single-line skepticism",
-            setup: "This cold email carried a peer-outcome anchor, and the CRO replied within hours.",
+            setup: "A peer-outcome anchor rode along in this cold email, and the CRO replied within hours.",
             buyerLine: "I've heard this pitch before. What's actually different?",
             candidates: [
                 PuzzleCandidate(text: "Fair, you've heard the category pitch. What you haven't heard: we staff customer success at one-to-eight instead of the usual one-to-forty, and that's why [named peer] renewed at three times the original contract. That part doesn't fit on a slide.", eval: 0.7, rationale: "A CRO has heard the category pitch dozens of times. The operational facts that don't fit on a slide, staffing ratios, deployment depth, one named peer's specific outcome, are what earn conversation two.", atlasTags: ["concrete-construal", "social-proof"]),
@@ -1592,7 +1592,7 @@ public enum Puzzles {
         Puzzle(
             id: "p094", theme: .coldOpen, difficulty: 1400,
             buyerRole: "Cold outreach reply, Operations Director, neutral tone",
-            setup: "This cold LinkedIn message got a reply from the director a week later.",
+            setup: "The director replied to this cold LinkedIn message a week later.",
             buyerLine: "Possibly relevant. Send me more info.",
             candidates: [
                 PuzzleCandidate(text: "Attached is one page I built for your function specifically, with three peer outcomes at named companies inside. There is no meeting ask attached. If it's relevant, you'll know what to do with it.", eval: 0.6, rationale: "Send me more info is a low-effort probe, and asymmetric work converts it. A page that cost you an hour and costs them ninety seconds creates pull, and withholding the ask is exactly what makes it read as a gift.", atlasTags: ["reciprocity", "social-proof"]),
@@ -1607,7 +1607,7 @@ public enum Puzzles {
         Puzzle(
             id: "p095", theme: .coldOpen, difficulty: 1800,
             buyerRole: "Cold event-conversation with a senior executive",
-            setup: "This is a conference hallway, and the senior executive is scanning for an exit.",
+            setup: "The senior executive is scanning for an exit, in this conference hallway.",
             buyerLine: "[two-second window before exit]",
             candidates: [
                 PuzzleCandidate(text: "Thirty seconds: we cut [named peer]'s onboarding time forty percent. Is that a problem your team has too?", eval: 0.7, rationale: "The hallway gives you one sentence before the exit. Named peer, specific outcome, and a question that invites them to claim the problem: that is the highest-information shape that fits the window.", atlasTags: ["social-proof", "concrete-construal"]),
@@ -1623,7 +1623,7 @@ public enum Puzzles {
         Puzzle(
             id: "p096", theme: .coldOpen, difficulty: 1600,
             buyerRole: "Cold reply from a Procurement specialist, no business engagement yet",
-            setup: "This cold email reached procurement instead of the business team, and procurement replied first.",
+            setup: "Procurement received this cold email instead of the business team, and replied first.",
             buyerLine: "If you want to engage with us, please complete the RFI in our vendor portal first.",
             candidates: [
                 PuzzleCandidate(text: "Absolutely. We'll get the RFI completed promptly. One quick question so we answer it well: who on the business side owns this use case day to day? It'd help us write to the actual workflow.", eval: 0.6, rationale: "Procurement respects vendors who follow the process, so follow it, and use one polite question to locate the business owner. You honored the gate and found the user without going around anyone.", atlasTags: ["calibrated-question", "liking"]),
@@ -1653,7 +1653,7 @@ public enum Puzzles {
         Puzzle(
             id: "p098", theme: .coldOpen, difficulty: 1700,
             buyerRole: "Cold reply from a category-skeptic, pointed first message",
-            setup: "This is a cold email, and the buyer is publicly skeptical of your category.",
+            setup: "The buyer is publicly skeptical of your category, on this cold email.",
             buyerLine: "I don't believe in this category. You'll have to convince me it's not snake oil.",
             candidates: [
                 PuzzleCandidate(text: "I've read your piece on this. Your core objection is that the results don't survive scale. Let me answer that one point mechanically, because I won't defend the category as a whole. Most of it has earned your skepticism.", eval: 0.7, rationale: "A category skeptic respects the vendor who engages their specific objection instead of defending the abstraction. A mechanistic answer to the named objection, plus conceding the category's sins, earns conversation two.", atlasTags: ["labeling", "concrete-construal"]),
@@ -1669,7 +1669,7 @@ public enum Puzzles {
         Puzzle(
             id: "p099", theme: .coldOpen, difficulty: 1400,
             buyerRole: "Cold call interception, prospect picks up unexpectedly",
-            setup: "This is a cold call. The prospect answered directly and sounds rushed.",
+            setup: "The prospect answered this cold call directly and sounds rushed.",
             buyerLine: "Yeah, hi. What is this?",
             candidates: [
                 PuzzleCandidate(text: "Thirty seconds and you decide: [named peer] cut invoice processing in half with us. Worth continuing right now, or should I grab ten minutes on your calendar instead?", eval: 0.7, rationale: "A rushed tone is a time budget, and thirty seconds with a two-path exit respects it. Whichever path they pick, you kept your credibility, and delivered one concrete outcome that earns the next step.", atlasTags: ["social-proof", "alternative-choice"]),
@@ -1717,7 +1717,7 @@ public enum Puzzles {
         Puzzle(
             id: "p102", theme: .coldOpen, difficulty: 1700,
             buyerRole: "Head of RevOps, mid-market; inbound demo request",
-            setup: "This is an inbound form fill asking for a quick demo. On the call, he has a spreadsheet open with two competitor tabs visible.",
+            setup: "An inbound form fill asked for a quick demo. On the call, he has a spreadsheet open with two competitor tabs visible.",
             buyerLine: "We're evaluating a few tools this week. Just run me through the demo and send pricing after — we're mostly there on requirements.",
             candidates: [
                 PuzzleCandidate(text: "Happy to demo, and I'll give you pricing up front so we're not dancing around it. But first, can we agree what this demo has to show for us to earn a real next step, so you're not just filling in a column?", eval: 0.7, rationale: "You called the fish without calling it a fish. Price up front kills the evasion game, and the agreed bar, what the demo must prove to earn a next step, converts a comparison-shopper into someone who just handed you the buying criteria. If he won't agree to a bar, you learned that for free too.", atlasTags: ["upfront-contract", "calibrated-question", "mutual-close-plan"]),
@@ -1749,7 +1749,7 @@ public enum Puzzles {
         Puzzle(
             id: "p104", theme: .renewal, difficulty: 1600,
             buyerRole: "VP Customer Experience, mid-market; landed account, month seven",
-            setup: "You landed 40 seats seven months ago. The analytics module has sat at its seat cap for six weeks, and two adjacent teams have requested access. Renewal is five months out, and this is the quarterly check-in call.",
+            setup: "40 seats landed seven months ago. The analytics module has sat at its seat cap for six weeks. Two adjacent teams have requested access. Renewal is five months out, on this quarterly check-in call.",
             buyerLine: "Team's happy, numbers look good. Let's keep everything steady and just revisit it all at renewal in the spring.",
             candidates: [
                 PuzzleCandidate(text: "Steady works for me. One flag, though: you've been capped on analytics for six weeks now, and two teams are waiting on access. Want me to scope unblocking them today, rather than making them wait for spring?", eval: 0.7, rationale: "You timed expansion off the usage signal, which is the entire land-and-expand playbook. A capped module plus waiting teams is live demand, today. Raise it now, and it is an access problem you are solving. Park it until spring, and the same demand gets netted against your renewal price by procurement.", atlasTags: ["concrete-construal", "gain-framing"]),
@@ -1781,7 +1781,7 @@ public enum Puzzles {
         Puzzle(
             id: "p107", theme: .renewal, difficulty: 1400,
             buyerRole: "Operations Manager, SMB; renewal 90 days out",
-            setup: "This is an SMB account with renewal in 90 days. The company has grown headcount roughly 30% since signing, and your admin panel shows steady logins from more names than they have licenses. This is a casual monthly check-in.",
+            setup: "This SMB account has renewal in 90 days. The company has grown headcount roughly 30% since signing. Your admin panel shows steady logins from more names than they have licenses, on this casual monthly check-in.",
             buyerLine: "All good on our end — I guess we'll just sort everything out at the renewal, right?",
             candidates: [
                 PuzzleCandidate(text: "We can, though you've hired a lot since we signed, and I can see more people logging in than you've got seats. Want to true that up now, so renewal day itself stays boring?", eval: 0.7, rationale: "You raised seat growth while it is still an operations chat rather than a negotiation. Ninety days out, a true-up is housekeeping he can wave through. Inside the renewal, it is a surprise line item that sours the whole table. Naming the shared logins plainly, with no threat attached, is what keeps it friendly.", atlasTags: ["concrete-construal", "mutual-close-plan"]),
@@ -1813,7 +1813,7 @@ public enum Puzzles {
         Puzzle(
             id: "p109", theme: .salesAssist, difficulty: 1500,
             buyerRole: "Engineering lead, Series B startup; free-tier power account, first sales touch ever",
-            setup: "This is PQL outreach. His team has hit the free tier's API rate cap on 14 of the last 20 workdays, and someone shipped a retry wrapper around it. You emailed, and he replied with one wary line.",
+            setup: "His team has hit the free tier's API rate cap on 14 of the last 20 workdays. Someone shipped a retry wrapper around it, in classic PQL outreach. You emailed, and he replied with one wary line.",
             buyerLine: "Not looking to get on a sales call. What do you want?",
             candidates: [
                 PuzzleCandidate(text: "No call needed. You've hit the rate cap fourteen of the last twenty days and someone built a retry wrapper around it. The paid tier removes that wall. Want the number right here in this thread?", eval: 0.7, rationale: "His usage already did the discovery, so you skipped to the only question left: whether removing a wall his team feels daily is worth a price. Answering in-thread honors the self-serve preference his wariness is broadcasting. A PQL is qualified by behavior, and the winning move is to act like you noticed.", atlasTags: ["concrete-construal", "gain-framing"]),
@@ -1845,7 +1845,7 @@ public enum Puzzles {
         Puzzle(
             id: "p111", theme: .salesAssist, difficulty: 1800,
             buyerRole: "Staff engineer, enterprise; organic champion of a 40-user footprint",
-            setup: "This is bottom-up adoption. Forty engineers across three squads are on self-serve, expensed monthly. IT flagged the spend, and now a security review plus procurement stand between the tool and an annual contract. Your champion pinged you.",
+            setup: "Forty engineers across three squads are on self-serve, expensed monthly, in classic bottom-up adoption. IT flagged the spend, and now a security review plus procurement stand between the tool and an annual contract. Your champion pinged you.",
             buyerLine: "So apparently this has to go through our VP and procurement now. I've never bought software in my life — what do I do?",
             candidates: [
                 PuzzleCandidate(text: "You don't have to become a buyer. You have to introduce one. Get me thirty minutes with your VP: you open with what the squads ship on it, I take security and procurement from there.", eval: 0.8, rationale: "He told you his ceiling. He is a user rather than a buyer, and the move is to lift the buying weight off him instead of coaching him to carry it. Joining the VP conversation splits the roles cleanly: his credibility on the work, yours on the process. Forty organic users is the pitch. The paperwork is your job.", atlasTags: ["multi-threading", "mutual-close-plan"]),
@@ -1877,7 +1877,7 @@ public enum Puzzles {
         Puzzle(
             id: "p113", theme: .salesAssist, difficulty: 1500,
             buyerRole: "Founder, eight-person startup; paying self-serve customer, first sales contact",
-            setup: "This is a self-serve customer paying $190 a month on a card, with eight months of tenure. Your new sales-assist motion flagged the account, and you emailed to introduce yourself.",
+            setup: "A self-serve customer has paid $190 a month on a card for eight months. Your new sales-assist motion flagged the account, and you emailed to introduce yourself.",
             buyerLine: "Honestly, being handed a 'dedicated account executive' makes me nervous. Does this mean pricing changes, or that we can't just use the product anymore?",
             candidates: [
                 PuzzleCandidate(text: "Nothing changes. Same product, same price, the card keeps working, and you may never need me. I exist for what checkout can't do: security reviews, invoicing, volume pricing if you grow. Otherwise, delete this email guilt-free.", eval: 0.6, rationale: "You answered the fear before anything else. That is the whole handoff. A self-serve buyer's nightmare is that a rep's arrival means the product just grew a gate. Naming exactly what stays the same, and scoping yourself to jobs self-serve can't do, keeps the motion intact. The best sales-assist intro reads like an opt-in rather than a reassignment.", atlasTags: ["accusation-audit", "labeling"]),
@@ -1909,7 +1909,7 @@ public enum Puzzles {
         Puzzle(
             id: "p115", theme: .salesAssist, difficulty: 1400,
             buyerRole: "Design lead, 20-person agency; free plan with a three-editor cap",
-            setup: "This is a free plan, capped at three editor seats per project. Seven people rotate through the three seats, and view-only teammates leave comments asking to be toggled in. She replied to your check-in email.",
+            setup: "Seven people rotate through a free plan's three editor seats per project. View-only teammates leave comments asking to be toggled in. She replied to your check-in email.",
             buyerLine: "We're fine, honestly! We've got a rotation going for the editor seats — bit of a dance, but it works.",
             candidates: [
                 PuzzleCandidate(text: "The dance is the tell: seven people, three seats, someone waiting to work every day. What's a week of that costing you? If the math says upgrade, I'll price it. If not, keep dancing.", eval: 0.6, rationale: "She named the pain and filed it under fine. Your job is to un-file it, gently. Making her put a cost on the seat rotation converts a workaround she's proud of into a line item she can weigh against a price. The honest exit, keep dancing, is what makes the question feel like math instead of a trap.", atlasTags: ["spin-implication", "takeaway"]),
@@ -1925,7 +1925,7 @@ public enum Puzzles {
         Puzzle(
             id: "p116", theme: .salesAssist, difficulty: 2000,
             buyerRole: "Head of Product, enterprise; your champion on a healthy 80-seat contract",
-            setup: "This is the quarterly check-in. Fourteen marketing-domain guest accounts have been active over the last 60 days, and two marketing-built boards now sit among the most-viewed on the account. Marketing has no contract, no owner, and no support entitlement.",
+            setup: "Fourteen marketing-domain guest accounts have been active over the last 60 days, on this quarterly check-in. Two marketing-built boards now sit among the most-viewed on the account. Marketing has no contract, no owner, and no support entitlement.",
             buyerLine: "Ha, yeah — marketing basically lives in our workspace now. We just add them as guests, it's easier than making them buy anything.",
             candidates: [
                 PuzzleCandidate(text: "Easier for now, but fourteen guests deep, marketing's work lives where they can't own it: your permissions, your support line, your renewal. Who runs those boards over there? If it's real, they deserve their own room.", eval: 0.7, rationale: "You built the expansion case out of your champion's interests rather than your quota. Guest sprawl costs him: permissions he polices, clutter he owns, a renewal quietly subsidizing another team. Asking for the marketing owner routes you in with his blessing instead of around it. The signal found the deal. The framing decides whether he sponsors it.", atlasTags: ["concrete-construal", "calibrated-question"]),
@@ -1941,7 +1941,7 @@ public enum Puzzles {
         Puzzle(
             id: "p117", theme: .forecastCall, difficulty: 1450,
             buyerRole: "Your VP of Sales, Monday-morning forecast call",
-            setup: "This is the forecast call, week two of the quarter. The CFO gave you a verbal yes on Thursday's call, but nothing is in writing. Redlines have not started, and the security review has no date. Your champion says it's done, just formalities now. You moved it into Commit last night.",
+            setup: "Week two of the quarter. The CFO gave you a verbal yes on Thursday's call, but nothing is in writing. Redlines have not started, and the security review has no date. Your champion says it's done, just formalities now. You moved it into Commit last night.",
             buyerLine: "Walk me through why this is Commit.",
             candidates: [
                 PuzzleCandidate(text: "It shouldn't be. I got ahead of it. I have a verbal and nothing in pen: no redlines, no security date. It's Best Case until paper moves.", eval: 0.7, rationale: "Commit means bet your job on it, and you cannot bet a job on words that aren't in writing. A verbal is a mood with a timestamp. The CFO meant it Thursday, but nothing binds him to mean it in week eleven. Moving it yourself, before your VP finds it, is what makes your Commit column worth reading all year.", atlasTags: ["labeling", "concrete-construal"]),
@@ -1957,7 +1957,7 @@ public enum Puzzles {
         Puzzle(
             id: "p118", theme: .forecastCall, difficulty: 1700,
             buyerRole: "Your VP of Sales, weekly forecast call",
-            setup: "This is the weekly forecast call. It is the same deal, third straight week in your Commit. It was signing Friday two weeks ago, and it slipped. It was this Friday for sure last week, and it slipped again. The buyer emails an apology each Monday. The order form is out, but there is no signature. The stated blocker changed each time: first the GC's vacation, then a budget-code question.",
+            setup: "The same deal sits in your Commit for the third straight week, on this weekly forecast call. It was signing Friday two weeks ago, and it slipped. It was this Friday for sure last week, and it slipped again. The buyer emails an apology each Monday. The order form is out, but there is no signature. The stated blocker changed each time: first the GC's vacation, then a budget-code question.",
             buyerLine: "It's slipped two Fridays in a row. Is this week real?",
             candidates: [
                 PuzzleCandidate(text: "No. A slip whose reason changes weekly means the real reason hasn't surfaced. I'm re-dating it two weeks out and asking him straight what's holding the pen.", eval: 0.65, rationale: "The tell is not the slipping. It is the rotating explanation. A real blocker stays the same blocker until it clears. A new excuse every Monday means the true obstacle hasn't been said out loud yet, and you cannot forecast around a thing that has no name. Re-date it, then go get the name.", atlasTags: ["labeling", "calibrated-question"]),
@@ -1973,7 +1973,7 @@ public enum Puzzles {
         Puzzle(
             id: "p119", theme: .forecastCall, difficulty: 1500,
             buyerRole: "Your Director of Sales, quarterly pipeline scrub",
-            setup: "This is the quarterly pipeline scrub, deal by deal. The opportunity is 148 days old, parked at Negotiation, 60%, since March. The last live meeting was five weeks ago. He opens every email you send, but answers none. You have sent two checking-in notes since. No next step sits on anyone's calendar.",
+            setup: "The opportunity is 148 days old, parked at Negotiation, 60%, since March, in this quarterly pipeline scrub. The last live meeting was five weeks ago. He opens every email you send, but answers none. You have sent two checking-in notes since. No next step sits on anyone's calendar.",
             buyerLine: "This one's been sitting at sixty percent since March. Live or dead?",
             candidates: [
                 PuzzleCandidate(text: "Dead until it proves otherwise. That's a stall wearing a stage label. It comes out of the forecast today, and a close-the-file note will tell us within a week if anyone's home.", eval: 0.7, rationale: "A third of most pipelines is stalled deals masquerading as live, and this is the costume: an old stage percentage doing the breathing the buyer stopped doing five weeks ago. Pulling it costs nothing, since the number was fiction, and the takeaway note is the one message a silent buyer reliably answers.", atlasTags: ["takeaway", "labeling"]),
@@ -1989,7 +1989,7 @@ public enum Puzzles {
         Puzzle(
             id: "p120", theme: .forecastCall, difficulty: 1850,
             buyerRole: "Your VP of Sales, forecast one-on-one",
-            setup: "This is the forecast one-on-one. There is a $180K expansion in Best Case, dated this quarter. Your champion drove every meeting since January, then went quiet three weeks ago. She declined last week's check-in with no reschedule. Two of her LinkedIn posts mention her company restructuring. The procurement contact still replies, but only about process.",
+            setup: "A $180K expansion sits in Best Case, dated this quarter, on this forecast one-on-one. Your champion drove every meeting since January, then went quiet three weeks ago. She declined last week's check-in with no reschedule. Two of her LinkedIn posts mention her company restructuring. The procurement contact still replies, but only about process.",
             buyerLine: "Still comfortable with this one in Best Case?",
             candidates: [
                 PuzzleCandidate(text: "No. The engine of this deal went silent three weeks ago and there's a reorg in the air. Until I know she still owns it, this is Pipeline, and finding that out is my whole week.", eval: 0.75, rationale: "You read the right instrument. This deal never had momentum. It had a champion, and she is dark during a restructuring, which means her budget, her mandate, or her job may not exist by close date. Downgrading is not pessimism. It is refusing to forecast a person you cannot currently find.", atlasTags: ["labeling", "multi-threading"]),
@@ -2005,7 +2005,7 @@ public enum Puzzles {
         Puzzle(
             id: "p121", theme: .forecastCall, difficulty: 1400,
             buyerRole: "Your new sales manager, her first pipeline review with you",
-            setup: "This is the first pipeline review with a new manager. There is $300K net-new in Commit, dated week eleven. You have one relationship, a director of ops who loves the product. Every executive touch has gone through him, and he presents your slides internally himself. You have never spoken to the CFO who signs. Legal has the paper. The buying committee is six people, and you have met one.",
+            setup: "A new manager runs this first pipeline review. $300K net-new sits in Commit, dated week eleven. You have one relationship, a director of ops who loves the product. Every executive touch has gone through him, and he presents your slides internally himself. You have never spoken to the CFO who signs. Legal has the paper. The buying committee is six people, and you have met one.",
             buyerLine: "Three hundred K in Commit. Why do I believe it?",
             candidates: [
                 PuzzleCandidate(text: "You half shouldn't. Paper's moving, but I've met one of six people and never the signer. It's Best Case until the CFO's in a room with me. That meeting request goes out today.", eval: 0.6, rationale: "Single-threaded is the risk that eats Commits: your entire $300K is one director's internal salesmanship, unverified. Best Case honors what's real, paper, love, momentum, while pricing what isn't: you have never watched the person who signs react to the number. That is the honest downgrade plus the fix, in one breath.", atlasTags: ["multi-threading", "concrete-construal"]),
@@ -2037,7 +2037,7 @@ public enum Puzzles {
         Puzzle(
             id: "p123", theme: .forecastCall, difficulty: 1550,
             buyerRole: "Your VP of Sales, deal inspection",
-            setup: "This is a deal inspection. It is a mid-market deal worth $95K. The champion, the head of support, meets you weekly and walked the business case through their internal ops review herself last month. Pain is quantified in writing: a 31% ticket backlog, costed at $310K a year. The eval scorecard is agreed. Procurement confirmed a standard MSA, a two-week turnaround, and no security review under $100K. The champion says the budget comes out of their ops line and it's fine. You have never met or emailed the CFO who owns that line.",
+            setup: "A mid-market deal worth $95K is under inspection. The champion, the head of support, meets you weekly and walked the business case through their internal ops review herself last month. Pain is quantified in writing: a 31% ticket backlog, costed at $310K a year. The eval scorecard is agreed. Procurement confirmed a standard MSA, a two-week turnaround, and no security review under $100K. The champion says the budget comes out of their ops line and it's fine. You have never met or emailed the CFO who owns that line.",
             buyerLine: "Run the MEDDPICC on this one for me. What's missing?",
             candidates: [
                 PuzzleCandidate(text: "The Economic Buyer. I can't write the EB sentence. I'm taking the champion's word for whose budget this is and how freely she spends it. It's real to everyone but the funder.", eval: 0.7, rationale: "You audited the file instead of your feelings about it. Every other letter has evidence attached. The budget claim has a champion's confidence and nothing else, and it's fine, it comes out of our line is the exact sentence that precedes a CFO surprise in week twelve. If you cannot write the EB sentence, you do not forecast the deal.", atlasTags: ["multi-threading", "concrete-construal"]),
@@ -2053,7 +2053,7 @@ public enum Puzzles {
         Puzzle(
             id: "p124", theme: .forecastCall, difficulty: 1600,
             buyerRole: "Your VP of Sales, forecast call — five weeks left",
-            setup: "This is the forecast call, five weeks left in the quarter. It is an enterprise deal worth $240K, forecast to close in three weeks. The CIO sponsored the eval personally and joined two calls. The champion is tested. She killed the incumbent's renewal herself. Metrics are agreed in writing: $40K a month in overage fees eliminated. You have a verbal from the CIO on Friday. Security review, MSA redlines, and vendor onboarding have not started, and their procurement's published minimum is six weeks.",
+            setup: "Five weeks are left in the quarter, on this forecast call. An enterprise deal worth $240K is forecast to close in three weeks. The CIO sponsored the eval personally and joined two calls. The champion is tested. She killed the incumbent's renewal herself. Metrics are agreed in writing: $40K a month in overage fees eliminated. You have a verbal from the CIO on Friday. Security review, MSA redlines, and vendor onboarding have not started, and their procurement's published minimum is six weeks.",
             buyerLine: "Something kills this deal in three weeks. What is it?",
             candidates: [
                 PuzzleCandidate(text: "The paper. Their procurement floor is six weeks and we haven't filed a single form. No CIO enthusiasm compresses that. The real close is next quarter, and paper should have started with the eval.", eval: 0.75, rationale: "Paper process is the only letter with physics in it. Six weeks does not fit inside three, regardless of how the humans feel. Everything else in this file is genuinely strong, which is exactly why the unstarted paperwork is invisible: nothing feels wrong. The calendar does not care. Re-date it and start the forms today.", atlasTags: ["mutual-close-plan", "concrete-construal"]),
@@ -2069,7 +2069,7 @@ public enum Puzzles {
         Puzzle(
             id: "p125", theme: .forecastCall, difficulty: 2000,
             buyerRole: "Your CRO, deep-dive deal review",
-            setup: "This is the deep-dive deal review. There is $150K in Best Case. Your contact, a senior PM, is wildly enthusiastic. He replies in minutes, forwards your decks upward, and calls it his project. In four months he has never gotten you a meeting above him, never put a recommendation in writing, and never moved anything internally without you drafting it. The budget-owning VP joined one call, asked two cost questions, and left early. An eval scorecard exists, and the PM wrote it with you. Competition is checked: they would be replacing a homegrown script, and no other vendor is in the picture.",
+            setup: "$150K sits in Best Case, under deep-dive review. Your contact, a senior PM, is wildly enthusiastic. He replies in minutes, forwards your decks upward, and calls it his project. In four months he has never gotten you a meeting above him, never put a recommendation in writing, and never moved anything internally without you drafting it. The budget-owning VP joined one call, asked two cost questions, and left early. An eval scorecard exists, and the PM wrote it with you. Competition is checked: they would be replacing a homegrown script, and no other vendor is in the picture.",
             buyerLine: "Strongest slot and weakest slot. Go.",
             candidates: [
                 PuzzleCandidate(text: "Weakest is Champion, and it is rotten rather than thin. Four months and he's never sold one thing inside without my hands on it. He's a fan. Strongest is Pain: the enthusiasm's real, it just doesn't transfer.", eval: 0.7, rationale: "This is the brutal read, and the correct one. A champion is defined by what he does when you are not in the room, and in four months that has been nothing. Responsiveness, forwarded decks, his project, those are fandom, and fandom does not survive contact with a budget meeting. Every other weak slot in this file is downstream of this one.", atlasTags: ["labeling", "commitment-consistency"]),
@@ -2085,7 +2085,7 @@ public enum Puzzles {
         Puzzle(
             id: "p126", theme: .forecastCall, difficulty: 1650,
             buyerRole: "Your VP of Sales, one-on-one before the forecast roll-up",
-            setup: "This is the one-on-one before the roll-up. There is $120K in Commit, closing in five weeks. The COO, the economic buyer, has met you twice and likes it. The champion is tested. She ran an internal workshop on the product without you. Paper is mapped: their legal quoted ten business days. The decision process is written and signed off. Everyone, the COO included, says it will save the team a ton of time. No baseline, no target, and no dollar figure appears anywhere in the file. CFO review is the final gate.",
+            setup: "The COO, the economic buyer, has met you twice and likes it, ahead of the one-on-one before the roll-up. $120K sits in Commit, closing in five weeks. The champion is tested. She ran an internal workshop on the product without you. Paper is mapped: their legal quoted ten business days. The decision process is written and signed off. Everyone, the COO included, says it will save the team a ton of time. No baseline, no target, and no dollar figure appears anywhere in the file. CFO review is the final gate.",
             buyerLine: "It goes to CFO review in two weeks. Where's the exposure?",
             candidates: [
                 PuzzleCandidate(text: "Metrics. The whole case is a ton of time, and a CFO doesn't sign adjectives. The first how much, against what baseline, kills it politely. I need the number agreed before the review.", eval: 0.65, rationale: "You found the empty letter behind the good feelings. This deal has sponsors, paper, and process, but no arithmetic, which is the only language the final gate speaks. Finance does not kill unquantified deals out of malice. It kills them as policy. A baseline and a dollar figure, co-authored with the champion now, is cheap insurance on $120K.", atlasTags: ["concrete-construal", "precise-anchor"]),
@@ -2101,7 +2101,7 @@ public enum Puzzles {
         Puzzle(
             id: "p127", theme: .forecastCall, difficulty: 1800,
             buyerRole: "Your Director of Sales, pipeline review",
-            setup: "This is the pipeline review. There is a $200K competitive eval in Best Case. Discovery went deep, and pain is identified and costed at $500K a year. The EB is confirmed, met, and engaged. Your demo went great, and the champion texted that you clearly led. You have since learned the buyer scored demo week on an internal rubric nobody on your side has seen. Two other vendors demoed the same week. The champion mentioned once, in passing, that they are weighting integrations heavily.",
+            setup: "A $200K competitive eval sits in Best Case, up for pipeline review. Discovery went deep, and pain is identified and costed at $500K a year. The EB is confirmed, met, and engaged. Your demo went great, and the champion texted that you clearly led. You have since learned the buyer scored demo week on an internal rubric nobody on your side has seen. Two other vendors demoed the same week. The champion mentioned once, in passing, that they are weighting integrations heavily.",
             buyerLine: "Three vendors in the mix and you're Best Case. What don't you know?",
             candidates: [
                 PuzzleCandidate(text: "How they're scoring us. That is the whole answer. We clearly led is my read of a test I never saw. Getting that rubric, or getting my champion to co-author the weightings, is the entire deal this week.", eval: 0.75, rationale: "Decision Criteria is the letter reps skip because it feels covered by a good demo, but a hidden rubric means you are being graded on axes you are guessing at. One passing mention of integrations weighted heavily is the only glimpse you have had of the actual scoreboard. Get the criteria or shape them. Everything else is commentary.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -2117,7 +2117,7 @@ public enum Puzzles {
         Puzzle(
             id: "p128", theme: .forecastCall, difficulty: 2100,
             buyerRole: "Your CRO, inspecting the biggest deal on the board",
-            setup: "This is the CRO's inspection of the quarter's anchor deal. There is $400K in Commit, week nine of thirteen. Every letter reads green: metrics costed and CFO-validated, EB met three times, champion tested twice and passed, paper started early and on schedule, decision criteria in writing since spring. Buried in the file: six weeks ago the buyer hired a new VP of Engineering, from a company that runs your main competitor globally. Nobody on your side has met him, and the criteria doc predates his arrival.",
+            setup: "The CRO is inspecting the quarter's anchor deal. $400K sits in Commit, week nine of thirteen. Every letter reads green: metrics costed and CFO-validated, EB met three times, champion tested twice and passed, paper started early and on schedule, decision criteria in writing since spring. Buried in the file: six weeks ago the buyer hired a new VP of Engineering, from a company that runs your main competitor globally. Nobody on your side has met him, and the criteria doc predates his arrival.",
             buyerLine: "Four hundred K in Commit. Steelman the loss for me.",
             candidates: [
                 PuzzleCandidate(text: "The new VP of Engineering. An incumbent competitor walked in wearing a badge six weeks ago, and the criteria doc is older than he is. If he reopens the eval, every letter re-votes. I meet him before I defend Commit.", eval: 0.7, rationale: "Competition is not a slot you fill in spring and file. It re-opens every time the buyer's org changes, and this org just hired your rival's institutional memory into the exact chair that owns your criteria doc. The steelman with a name, a date, and a fix beats every abstract one. Meet him before he meets your deal.", atlasTags: ["multi-threading", "labeling"]),
@@ -2136,7 +2136,7 @@ public enum Puzzles {
         Puzzle(
             id: "read-001", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "VP Ops, mid-market · Marcus R.",
-            setup: "You are twenty-two minutes in. Trust reads earned, and interest is warm but starting to cool. The room is still an unknown number of decision-makers you have not met.",
+            setup: "Twenty-two minutes in, trust reads earned, and interest is warm but starting to cool. The room is still an unknown number of decision-makers you have not met.",
             buyerLine: "This looks great. Let me take it to my team and circle back.",
             candidates: [
                 PuzzleCandidate(
@@ -2192,7 +2192,7 @@ public enum Puzzles {
         Puzzle(
             id: "read-002", theme: .stall, difficulty: 1600,
             buyerRole: "Director, eval stage · Dana K.",
-            setup: "This is the third call. Interest reads high, but conviction is wobbling, and there is still no timeline. This is her third quick question in as many meetings.",
+            setup: "Interest reads high on this third call, but conviction is wobbling, and there is still no timeline. This is her third quick question in as many meetings.",
             buyerLine: "Can you send the enterprise comparison too? I just want to be sure we pick right.",
             candidates: [
                 PuzzleCandidate(
