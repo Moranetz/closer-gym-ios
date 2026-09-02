@@ -192,7 +192,7 @@ struct SettingsView: View {
                         .scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
                     Text(storage.companyProfile.isConfigured
                          ? "Role-play buyers raise your real objections."
-                         : "Make role-play buyers argue your real objections, not a generic script.")
+                         : "Make role-play buyers argue your real objections.")
                         .scaledFont(size: 12).foregroundStyle(Color.textMuted)
                 }
                 Spacer()

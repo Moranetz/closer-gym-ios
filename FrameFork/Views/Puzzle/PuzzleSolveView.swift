@@ -321,7 +321,7 @@ struct PuzzleSolveView: View {
                             // On a daily whose puzzle was solved before via its theme
                             // list, the streak still counts — say that, not "practice",
                             // or the copy contradicts the flame incrementing beside it.
-                            Text(isDaily ? "Rating unchanged" : "Practice · not rated")
+                            Text(isDaily ? "Rating unchanged" : "Unrated practice")
                                 .scaledFont(size: 12, weight: .semibold)
                                 .foregroundStyle(Color.textMuted)
                         }

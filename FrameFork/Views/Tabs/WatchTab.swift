@@ -32,7 +32,7 @@ struct MasterGameIndexView: View {
                 }
                 .padding(.horizontal, 16)
 
-                Text("Inspired-by-style constructions, not verbatim quotes.")
+                Text("Inspired-by-style constructions in the speaker's voice.")
                     .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
                     .padding(.horizontal, 16)

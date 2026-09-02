@@ -140,7 +140,7 @@ struct BotLadderView: View {
                 Text("Bring your own key").scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
                 Spacer()
             }
-            Text("Sparring vs authored buyers works offline — no key, no account. For free-text play against all \(BotLadder.all.count) personas, connect your own Anthropic key in Settings; usage is billed by Anthropic, not by this app.")
+            Text("Sparring vs authored buyers works offline — no key, no account. For free-text play against all \(BotLadder.all.count) personas, connect your own Anthropic key in Settings; Anthropic bills that usage directly.")
                 .scaledFont(size: 13)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)

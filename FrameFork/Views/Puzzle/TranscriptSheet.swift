@@ -58,7 +58,7 @@ struct TranscriptSheet: View {
 
                     // Paraphrased disclosure
                     if transcript.paraphrased {
-                        Text("Paraphrased reconstruction. Not a verbatim recovered transcript. Sourced from the speaker's published teaching material plus widely-cited reconstructions.")
+                        Text("These lines are reconstructed in the speaker's style from published material.")
                             .scaledFont(size: 11)
                             .foregroundStyle(Color.warning)
                             .lineSpacing(3)
