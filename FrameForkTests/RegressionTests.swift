@@ -29,7 +29,7 @@ final class RegressionTests: XCTestCase {
     @discardableResult
     @MainActor
     private func solve(_ store: Store, id: String = "p001", correct: Bool = true,
-                       isDaily: Bool = false, todayKey: String? = nil)
+                       isDaily: Bool = false, todayKey: String? = nil, readHeld: Bool? = nil)
     -> (newRating: Double, delta: Double, newStreak: Int, rated: Bool) {
         store.recordSolve(puzzleId: id,
                           pickedIndex: correct ? 0 : 1,
@@ -38,7 +38,8 @@ final class RegressionTests: XCTestCase {
                           puzzleDifficulty: 1600,
                           timeRemainingSec: 0,
                           isDaily: isDaily,
-                          todayKey: todayKey)
+                          todayKey: todayKey,
+                          readHeld: readHeld)
     }
 
     // MARK: - Rating-farm locks
@@ -82,6 +83,75 @@ final class RegressionTests: XCTestCase {
         let miss = solve(store, correct: false, isDaily: true, todayKey: today)
         XCTAssertEqual(miss.newStreak, 0)
         XCTAssertEqual(store.puzzleState.lastDailyDate, today, "a failed daily must still consume the day")
+    }
+
+    // MARK: - Read-step scoring (the read is SCORED, not just committed)
+
+    /// A wrong read shouldn't gate the CORRECTNESS of a solve — the streak, the
+    /// re-solve lock, and "rated" all key off the move, exactly as before.
+    @MainActor
+    func testLuckySolve_isStillCorrectAndStillMovesTheStreak() {
+        let store = freshStore()
+        let today = Store.todayKey(date: Date(timeIntervalSinceReferenceDate: 800_000_000))
+        let lucky = solve(store, isDaily: true, todayKey: today, readHeld: false)
+        XCTAssertTrue(lucky.rated)
+        XCTAssertEqual(lucky.newStreak, 1, "a lucky (best-move, wrong-read) solve still counts as correct for the streak")
+    }
+
+    /// The core fix: today a wrong read riding a correct move earns the FULL rating
+    /// delta — the diagnosis never has to be right to be rewarded like it was. Mirror
+    /// framefork-game.html's `reveal()`: a best move off a wrong read ("Lucky") is
+    /// worth exactly HALF the delta the same move earns with a held read.
+    @MainActor
+    func testLuckySolve_earnsExactlyHalfTheDeltaOfAHeldSolve() {
+        let heldStore = freshStore()
+        let held = solve(heldStore, readHeld: true)
+
+        let luckyStore = freshStore()
+        let lucky = solve(luckyStore, readHeld: false)
+
+        XCTAssertGreaterThan(held.delta, 0, "a correct solve on an underrated puzzle must move the rating up")
+        XCTAssertEqual(lucky.delta, held.delta * 0.5, accuracy: 0.0000001,
+                       "a lucky solve must earn exactly half of what the same move earns with a held read")
+        XCTAssertEqual(lucky.newRating, luckyStore.puzzleState.rating.rating, accuracy: 0.0000001)
+    }
+
+    /// A puzzle with no read step at all (`readHeld == nil`, the default for every
+    /// puzzle authored before this change) must score identically to the pre-read
+    /// contract, to the decimal — nothing about this feature may leak onto puzzles
+    /// that never opted into it.
+    @MainActor
+    func testNoReadPuzzle_scoringIsUnchangedToTheDecimal() {
+        let withDefault = freshStore()
+        let implicitNil = solve(withDefault)
+
+        let explicitNil = freshStore()
+        let explicit = solve(explicitNil, readHeld: nil)
+
+        let reference = freshStore()
+        let opponent = GlickoState(rating: 1600, rd: initialRD * 0.4, volatility: initialVolatility)
+        let expected = Glicko2.applyMatch(reference.puzzleState.rating, opponent: opponent, score: 1.0)
+
+        XCTAssertEqual(implicitNil.delta, expected.delta, accuracy: 0.0000001)
+        XCTAssertEqual(explicit.delta, expected.delta, accuracy: 0.0000001)
+        XCTAssertEqual(implicitNil.newRating, expected.state.rating, accuracy: 0.0000001)
+    }
+
+    /// Held read + wrong move: the diagnosis was right even though the line wasn't —
+    /// a small flat credit, ported from `reveal()`'s separate "+N read" line, distinct
+    /// from (and never larger than) what a correct move itself is worth.
+    @MainActor
+    func testHeldReadWithWrongMove_earnsASmallBonusOverAnUnreadWrongMove() {
+        let readStore = freshStore()
+        let readHeldWrong = solve(readStore, correct: false, readHeld: true)
+
+        let noReadStore = freshStore()
+        let plainWrong = solve(noReadStore, correct: false, readHeld: nil)
+
+        XCTAssertGreaterThan(readHeldWrong.delta, plainWrong.delta,
+                             "holding the read on a wrong move must earn a bit more than the same wrong move with no read at all")
+        XCTAssertLessThan(readHeldWrong.delta - plainWrong.delta, 10,
+                          "the read bonus must stay small — nowhere near what getting the move right is worth")
     }
 
     @MainActor

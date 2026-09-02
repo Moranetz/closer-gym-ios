@@ -524,7 +524,8 @@ struct PuzzleSolveView: View {
             puzzleDifficulty: puzzle.difficulty,
             timeRemainingSec: 0,   // no time limit; field retained for storage compatibility
             isDaily: isDaily,
-            todayKey: isDaily ? Store.todayKey() : nil
+            todayKey: isDaily ? Store.todayKey() : nil,
+            readHeld: readHeld
         )
 
         let newTitle = titleForRating(result.newRating).label

@@ -151,9 +151,26 @@ public final class Store: ObservableObject {
         saveGameState()
     }
 
+    /// A held read despite a wrong move still earns something (ported from
+    /// framefork-game.html's `reveal()`, which adds a flat "+N read" line on top of the
+    /// move score). Deliberately small and flat, not scaled to the move's own delta —
+    /// it rewards an accurate diagnosis on its own terms, separate from execution.
+    private static let readBonus: Double = 3.0
+
     /// Record a puzzle solve. Returns new rating + delta + streak, and whether the
     /// solve was RATED (a re-solve of an already-solved puzzle is practice: recorded,
     /// but the rating doesn't move — callers should say so instead of showing "+0").
+    ///
+    /// `readHeld` is the outcome of the puzzle's optional read step (`PuzzleRead`):
+    /// nil for a puzzle authored without one (behavior below is then untouched, to
+    /// the decimal, from before the read step existed), true when the committed
+    /// diagnosis named the actual driver, false when it missed.
+    ///
+    /// The read step used to be commit-only theater: a wrong read plus the best move
+    /// still paid the FULL rating delta, so the diagnosis never had to be right to be
+    /// rewarded like it was. Mirroring the prototype's `reveal()`: a best move off a
+    /// wrong read is "Lucky" and is worth only HALF the delta a held read earns for
+    /// the same move — the line landed, but not because you saw it coming.
     public func recordSolve(puzzleId: String,
                              pickedIndex: Int,
                              bestIndex: Int,
@@ -161,7 +178,8 @@ public final class Store: ObservableObject {
                              puzzleDifficulty: Int,
                              timeRemainingSec: Int,
                              isDaily: Bool,
-                             todayKey: String?) -> (newRating: Double, delta: Double, newStreak: Int, rated: Bool) {
+                             todayKey: String?,
+                             readHeld: Bool? = nil) -> (newRating: Double, delta: Double, newStreak: Int, rated: Bool) {
         let correct = pickedIndex == bestIndex
 
         // Durable backstop against a second SCORED attempt on the same calendar day.
@@ -186,6 +204,25 @@ public final class Store: ObservableObject {
             let result = Glicko2.applyMatch(puzzleState.rating, opponent: opponent, score: score)
             ratedState = result.state
             delta = result.delta
+
+            if let readHeld {
+                if readHeld == false {
+                    // Lucky: the move landed, the read didn't. Half credit — the same
+                    // shape as the prototype's `movePts = Math.round(movePts * ...)`
+                    // cut on a best-pick-off-a-wrong-read, just at Glicko's scale.
+                    delta *= 0.5
+                    ratedState.rating = puzzleState.rating.rating + delta
+                } else if !correct {
+                    // Held the read, missed the move: the diagnosis was right even
+                    // though the execution wasn't — small flat credit for that alone,
+                    // ported from `reveal()`'s separate "+N read" line. (A correct
+                    // move already scores 1.0, Glicko's ceiling, so there's no extra
+                    // room to add here — the bonus only shows up where it's needed:
+                    // the diagnosis was the only thing that went right.)
+                    delta += Self.readBonus
+                    ratedState.rating = puzzleState.rating.rating + delta
+                }
+            }
         }
 
         var currentStreak = puzzleState.currentStreak
