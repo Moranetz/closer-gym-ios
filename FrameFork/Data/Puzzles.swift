@@ -286,13 +286,13 @@ public enum Puzzles {
         Puzzle(
             id: "p014", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Champion VP-Eng, with quiet CFO on the call",
-            setup: "Joint call with champion + CFO. Champion enthusiastic for 35 minutes. CFO has said almost nothing.",
+            setup: "This is a joint call with your champion and the CFO. Your champion has been enthusiastic for 35 minutes, but the CFO has said almost nothing.",
             buyerLine: "[CFO finally speaks] Deployment risk. What's the operational profile? I've been through three vendor rollouts where the technical part went fine and the operational part broke a process owner.",
             candidates: [
-                PuzzleCandidate(text: "Two ways this breaks operationally: a process owner inherits a workflow nobody redesigned, or approvals move and nobody re-maps them. Which did your three look like?", eval: 0.8, rationale: "You named concrete failure modes in the CFO's own framing — operational, not technical — and the branch question makes them specify which pattern they're actually afraid of. The quiet CFO just became a participant.", atlasTags: ["calibrated-question", "concrete-construal"]),
-                PuzzleCandidate(text: "Fair concern — for what it's worth, across 200-plus deployments our operational escalation rate is under two percent.", eval: -0.4, rationale: "An aggregate stat doesn't touch the three specific incidents the CFO lived through. They're not asking about your average — they're asking about their scar tissue.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "[To champion] You've been closest to how our rollout would touch your team's day-to-day processes — want to walk through how the three incidents map onto ours? I'll add color afterward.", eval: -0.2, rationale: "Your champion probably doesn't carry the process-owner-failure framing, and watching them fumble it deepens the exact hesitation you're trying to close.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "The honest answer is that the operational profile depends on discovery we haven't done yet.", eval: -0.5, rationale: "The CFO hears deflection — and a CFO who finally spoke after 35 minutes of silence doesn't give you a second opening.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "Two ways this breaks operationally: a process owner inherits a workflow nobody redesigned, or approvals move and nobody re-maps them. Which did your three look like?", eval: 0.8, rationale: "You named concrete failure modes in the CFO's own framing, operational rather than technical, and the branch question makes them specify which pattern they are actually afraid of. The quiet CFO just became a participant.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "Fair concern. For what it's worth, across 200-plus deployments our operational escalation rate is under two percent.", eval: -0.4, rationale: "An aggregate stat does not touch the three specific incidents the CFO lived through. Their question is about their own scar tissue, and your average never answers it.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "[To champion] You've been closest to how our rollout would touch your team's day-to-day processes. Want to walk through how the three incidents map onto ours? I'll add color afterward.", eval: -0.2, rationale: "Your champion probably doesn't carry the process-owner-failure framing, and watching them fumble it deepens the exact hesitation you're trying to close.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "The honest answer is that the operational profile depends on discovery we haven't done yet.", eval: -0.5, rationale: "The CFO hears deflection. A CFO who finally spoke after 35 minutes of silence does not give you a second opening.", atlasTags: ["takeaway"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label",
@@ -317,13 +317,13 @@ public enum Puzzles {
         Puzzle(
             id: "p015", theme: .multistakeholder, difficulty: 2000,
             buyerRole: "Independent board director joining the eval call",
-            setup: "Board director with audit-committee experience has joined a deal call. Nothing you say here will be new to them.",
+            setup: "A board director with audit-committee experience has joined the deal call, and nothing you say here will be new to them.",
             buyerLine: "If this vendor blows up in eighteen months, what does the proxy paragraph look like? I've sat through two of those and I want to know what I'm signing up for.",
             candidates: [
-                PuzzleCandidate(text: "If this blows up, the paragraph reads 'inadequate vendor diligence' or 'no exit provisions.' We can pre-empt both in the contract — annual audit rights and a tested transition plan.", eval: 0.8, rationale: "You answered a narrative-risk question with the two sentences the proxy paragraph would actually contain, plus the structure that pre-empts them. The director now reads you as audit-committee-literate, and the conversation moves into their home domain.", atlasTags: ["calibrated-question", "authority", "labeling"]),
-                PuzzleCandidate(text: "We work with a lot of board-governed enterprises — governance questions like this come up often, and our customers are comfortable.", eval: -0.5, rationale: "Board directors have heard 'lots of board-level customers' from every vendor who ever pitched them. It lands as content-free.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "I'd point you to our SOC 2, the ISO cert, and our contractual templates — in fact, I can walk you through the audit-committee mapping document clause by clause right now if that's useful.", eval: 0.3, rationale: "Necessary but insufficient. They asked what the story looks like when it blows up, and you answered with paperwork — documentation risk isn't narrative risk.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "Honestly, the failure scenario you're describing is remote — the risk here is very low.", eval: -1.0, rationale: "Telling a director who has sat through two vendor blow-ups that the risk is low signals you don't understand the job. They're not pricing probability — they're pricing the paragraph.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "If this blows up, the paragraph reads inadequate vendor diligence or no exit provisions. We can pre-empt both in the contract, with annual audit rights and a tested transition plan.", eval: 0.8, rationale: "You answered a narrative-risk question with the two sentences the proxy paragraph would actually contain, plus the structure that pre-empts them. The director now reads you as audit-committee-literate, and the conversation moves into their home domain.", atlasTags: ["calibrated-question", "authority", "labeling"]),
+                PuzzleCandidate(text: "We work with a lot of board-governed enterprises. Governance questions like this come up often, and our customers are comfortable.", eval: -0.5, rationale: "Board directors have heard lots of board-level customers from every vendor who ever pitched them. It lands as content-free.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "I'd point you to our SOC 2, the ISO cert, and our contractual templates. In fact, I can walk you through the audit-committee mapping document clause by clause right now if that's useful.", eval: 0.3, rationale: "This is necessary but insufficient. They asked what the story looks like when it blows up, and you answered with paperwork. Documentation risk is a different thing than narrative risk.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "Honestly, the failure scenario you're describing is remote. The risk here is very low.", eval: -1.0, rationale: "Telling a director who has sat through two vendor blow-ups that the risk is low signals you do not understand the job. Their real concern is the paragraph a failure would write, and probability never touches that.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-accusation-audit",
@@ -1115,13 +1115,13 @@ public enum Puzzles {
         Puzzle(
             id: "p063", theme: .multistakeholder, difficulty: 1500,
             buyerRole: "Champion VP Operations, hostile CFO joining call",
-            setup: "Champion has run discovery. CFO joins for first time. CFO's first words.",
+            setup: "Your champion has already run discovery, and the CFO is joining for the first time. These are the CFO's first words.",
             buyerLine: "I haven't seen anything on this yet. Walk me through why we're spending money on it.",
             candidates: [
-                PuzzleCandidate(text: "Actually — before I say anything: [to the champion] this started with your team, so walk us through the problem you pulled me in on. Then I'll pick up what the current state costs and what the outcome data shows once the problem's on the table from your side.", eval: 0.7, rationale: "A cold CFO discounts vendor narrative by default and extends real credit to their own VP. Sequencing champion-first spends each voice where it carries: the champion on the problem, you on the evidence.", atlasTags: ["multi-threading"]),
-                PuzzleCandidate(text: "What threshold would this spend need to clear for you?", eval: 0.2, rationale: "Reasonable in a warm room. Asked cold, before any problem anchoring, it reads as fishing for the answer key in front of the one person scoring the test.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "Happy to walk you through it — full ROI story, I've got the deck ready.", eval: -0.3, rationale: "You're competing on raw pitch against a hostile decision-maker while the strongest asset in the room — the champion's credibility — sits unused.", atlasTags: ["gain-framing"]),
-                PuzzleCandidate(text: "This deserves better than a group walk-through — could you and I take thirty minutes one-on-one?", eval: -0.6, rationale: "You just bypassed your champion mid-meeting. The CFO notes it, the champion remembers it, and you now own a relationship you haven't earned.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "Actually, before I say anything, [to the champion] this started with your team, so walk us through the problem you pulled me in on. Then I'll pick up what the current state costs and what the outcome data shows once the problem's on the table from your side.", eval: 0.7, rationale: "A cold CFO discounts vendor narrative by default and extends real credit to their own VP. Sequencing champion-first spends each voice where it carries: the champion on the problem, you on the evidence.", atlasTags: ["multi-threading"]),
+                PuzzleCandidate(text: "What threshold would this spend need to clear for you?", eval: 0.2, rationale: "This is reasonable in a warm room. Asked cold, before any problem anchoring, it reads as fishing for the answer key in front of the one person scoring the test.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "Happy to walk you through it. Full ROI story, I've got the deck ready.", eval: -0.3, rationale: "You are competing on raw pitch against a hostile decision-maker while the strongest asset in the room, the champion's credibility, sits unused.", atlasTags: ["gain-framing"]),
+                PuzzleCandidate(text: "This deserves better than a group walk-through. Could you and I take thirty minutes one-on-one?", eval: -0.6, rationale: "You just bypassed your champion mid-meeting. The CFO notes it, the champion remembers it, and you now own a relationship you haven't earned.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label"
@@ -1130,12 +1130,12 @@ public enum Puzzles {
         Puzzle(
             id: "p064", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Champion + economic buyer split on solution choice",
-            setup: "Champion VP-Eng prefers your solution. Economic buyer CFO prefers the competitor.",
+            setup: "Your champion, the VP of Engineering, prefers your solution, but the economic buyer, the CFO, prefers the competitor.",
             buyerLine: "[Champion privately] He's going to ask for a side-by-side. I told him you'd send one.",
             candidates: [
-                PuzzleCandidate(text: "I'll build it around the three outcomes you've all agreed are the decision criteria — leading with the ones we win. Where the competitor takes a category, we'll say so, with a short note on how much it actually matters. Honest beats airtight with a CFO.", eval: 0.9, rationale: "Visible neutrality is what earns the CFO's trust, and champion-coordinated criteria win you the dimensions that matter. Conceding where it's honest is exactly what makes the rest of the document believable.", atlasTags: ["concrete-construal", "contrast"], isFork: true),
-                PuzzleCandidate(text: "I'll send one where we win every single category — leading with the two biggest deltas, structured around the CFO's stated evaluation criteria, third-party benchmarks in every row, plus a summary paragraph written so you can forward it straight upward. He won't have an angle left to argue when it lands.", eval: -0.5, rationale: "CFOs discount unanimous-win comparisons as marketing on sight. Worse, your champion forwarded it — so their standing takes the hit alongside yours.", atlasTags: ["contrast", "social-proof"]),
-                PuzzleCandidate(text: "Let's skip the side-by-side — your recommendation should carry it.", eval: -0.7, rationale: "CFOs respond to structured comparisons; refusing one signals your data won't survive daylight. He defaults to the competitor.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "I'll build it around the three outcomes you've all agreed are the decision criteria, leading with the ones we win. Where the competitor takes a category, we'll say so, with a short note on how much it actually matters. Honest beats airtight with a CFO.", eval: 0.9, rationale: "Visible neutrality is what earns the CFO's trust, and champion-coordinated criteria win you the dimensions that matter. Conceding where it's honest is exactly what makes the rest of the document believable.", atlasTags: ["concrete-construal", "contrast"], isFork: true),
+                PuzzleCandidate(text: "I'll send one where we win every single category, leading with the two biggest deltas, structured around the CFO's stated evaluation criteria, third-party benchmarks in every row, plus a summary paragraph written so you can forward it straight upward. He won't have an angle left to argue when it lands.", eval: -0.5, rationale: "CFOs discount unanimous-win comparisons as marketing on sight. Worse, your champion forwarded it, so their standing takes the hit alongside yours.", atlasTags: ["contrast", "social-proof"]),
+                PuzzleCandidate(text: "Let's skip the side-by-side. Your recommendation should carry it.", eval: -0.7, rationale: "CFOs respond to structured comparisons, and refusing one signals your data won't survive daylight. He defaults to the competitor.", atlasTags: ["social-proof"]),
                 PuzzleCandidate(text: "I'll send the comparison straight to the CFO and save you the relay.", eval: -0.6, rationale: "You bypassed the champion on their own play. They lose standing, and a champion who loses standing can reverse a recommendation.", atlasTags: ["contrast"]),
             ],
             bestIndex: 0,
@@ -1146,29 +1146,29 @@ public enum Puzzles {
         Puzzle(
             id: "p065", theme: .multistakeholder, difficulty: 1800,
             buyerRole: "Champion at risk; new stakeholder added late",
-            setup: "Five months in. Champion VP Sales aligned. CRO surprise-added in week 22.",
+            setup: "You are five months in. The champion, VP Sales, is aligned, but the CRO was surprise-added in week 22.",
             buyerLine: "[CRO] I just got pulled in. I'm not sure why we'd pick this over the platform we already have.",
             candidates: [
-                PuzzleCandidate(text: "Fair question — could I take thirty minutes with you directly, anchored on your revenue equation? I'd rather not assume five months of someone else's framing transfers to you.", eval: 0.7, rationale: "A stakeholder added in week twenty-two is a net-new buyer. Re-discovering with the CRO and earning the buy explicitly converts far better than trusting the champion's handoff to carry it.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "Fair question. Could I take thirty minutes with you directly, anchored on your revenue equation? I'd rather not assume five months of someone else's framing transfers to you.", eval: 0.7, rationale: "A stakeholder added in week twenty-two is a net-new buyer. Re-discovering with the CRO and earning the buy explicitly converts far better than trusting the champion's handoff to carry it.", atlasTags: ["calibrated-question"]),
                 PuzzleCandidate(text: "[to the champion] Go make our case to him.", eval: -0.3, rationale: "You just assigned your champion asymmetric work in front of their boss. Their standing degrades either way it goes.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "Let me send over our closest revenue-comparable customer, with one line on why it's relevant. [to the champion] Which metric does he screen for first when something new crosses his desk?", eval: -0.2, rationale: "A case study without re-discovery underwhelms a CRO — you get absorbed as the vendor who didn't do the homework.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "Let me send over our closest revenue-comparable customer, with one line on why it's relevant. [to the champion] Which metric does he screen for first when something new crosses his desk?", eval: -0.2, rationale: "A case study without re-discovery underwhelms a CRO. You get absorbed as the vendor who didn't do the homework.", atlasTags: ["social-proof"]),
                 PuzzleCandidate(text: "What if we took twenty-five off to clear the friction?", eval: -0.6, rationale: "You discounted to a brand-new stakeholder before discovering anything. Their first data point about you: discount-by-default.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0,
-            themeHint: "Late-stage stakeholders are net-new buyers; re-discover.",
+            themeHint: "Late-stage stakeholders are net-new buyers. Re-discover.",
             transcriptId: "voss-haiti-how"
         ),
 
         Puzzle(
             id: "p066", theme: .multistakeholder, difficulty: 1600,
             buyerRole: "Three-person buying committee, one blocker",
-            setup: "Champion + champion's peer aligned. Third committee member is a blocker.",
+            setup: "The champion and the champion's peer are aligned, but the third committee member is a blocker.",
             buyerLine: "[committee call] [Third member] I don't think the integration risk is acceptable. I'd vote no.",
             candidates: [
-                PuzzleCandidate(text: "Which integration risk specifically has you at a no? We've resolved that exact risk two ways — an architectural change, or a scoped integration-services engagement — and I'd like to walk both with your infra lead in a follow-up session.", eval: 0.7, rationale: "A blocker's objection is always specific. Generic reassurance hardens the block; naming the risk and offering concrete resolution paths is what converts it.", atlasTags: ["calibrated-question", "concrete-construal", "multi-threading"]),
+                PuzzleCandidate(text: "Which integration risk specifically has you at a no? We've resolved that exact risk two ways, an architectural change, or a scoped integration-services engagement, and I'd like to walk both with your infra lead in a follow-up session.", eval: 0.7, rationale: "A blocker's objection is always specific. Generic reassurance hardens the block, and naming the risk and offering concrete resolution paths is what converts it.", atlasTags: ["calibrated-question", "concrete-construal", "multi-threading"]),
                 PuzzleCandidate(text: "Two of three votes is a yes in my book.", eval: -0.7, rationale: "Forcing a two-to-one decision over a stated blocker poisons the rollout. That blocker now has you on their list, permanently.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "[to the champion, afterward] Give it two weeks to run internally — you work on him, we'll hold a weekly check-in for signal, and I'll stay entirely out of the technical debate so the resolution reads as yours rather than ours when it lands.", eval: -0.3, rationale: "Champion-to-blocker conversion on a technical objection usually fails without your support. You're betting the deal on a conversation you've chosen not to attend.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "I'll send over our technical FAQ.", eval: -0.2, rationale: "The FAQ assumes the blocker's question is in the FAQ. Specific risks need specific resolutions, not a document.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "[to the champion, afterward] Give it two weeks to run internally. You work on him, we'll hold a weekly check-in for signal, and I'll stay entirely out of the technical debate so the resolution reads as yours rather than ours when it lands.", eval: -0.3, rationale: "Champion-to-blocker conversion on a technical objection usually fails without your support. You're betting the deal on a conversation you've chosen not to attend.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "I'll send over our technical FAQ.", eval: -0.2, rationale: "The FAQ assumes the blocker's question is in the FAQ. Specific risks need specific resolutions instead of a document.", atlasTags: ["reciprocity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label"
@@ -1177,29 +1177,29 @@ public enum Puzzles {
         Puzzle(
             id: "p067", theme: .multistakeholder, difficulty: 1900,
             buyerRole: "Senior executive + skeptical CISO joint call",
-            setup: "Final-stage call. Senior executive supportive. CISO present and skeptical of data residency.",
+            setup: "This is the final-stage call. The senior executive is supportive, but the CISO is present and skeptical of data residency.",
             buyerLine: "[CISO] Our customer data cannot leave the region. Where does your processing happen?",
             candidates: [
-                PuzzleCandidate(text: "All our processing stays in your region — I'll send you the SOC 2 control reference behind that today. Want 30 minutes with your security team and our architect to walk the residency design?", eval: 0.8, rationale: "CISOs convert on specifics — the region, the control reference, the invitation to inspect. You answered the question and opened up the architecture; that's how you stop getting filed under doesn't-know-their-own-product.", atlasTags: ["concrete-construal", "multi-threading"]),
-                PuzzleCandidate(text: "That deserves a precise written answer — give me 24 hours and I'll get you a document structured around your three regions, with your compliance lead copied so it lands with the right internal weight behind it.", eval: -0.5, rationale: "You deferred a security question to a follow-up doc, and a skeptical CISO hears one thing: you don't have the answer ready. That's how deals get routed to procurement to die quietly.", atlasTags: ["reciprocity", "authority"]),
-                PuzzleCandidate(text: "We can also run this as an enclaved deployment inside your region.", eval: 0.2, rationale: "Maybe a real path — but if that deployment model doesn't actually exist yet, you just overpromised to the one person in the room who will check.", atlasTags: ["alternative-choice"]),
-                PuzzleCandidate(text: "[to the executive] I know security has concerns — can I count on you to keep this moving?", eval: -1.0, rationale: "Executives do not overrule CISOs on data residency, ever. You just damaged both relationships with one sentence.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "All our processing stays in your region. I'll send you the SOC 2 control reference behind that today. Want 30 minutes with your security team and our architect to walk the residency design?", eval: 0.8, rationale: "CISOs convert on specifics, the region, the control reference, the invitation to inspect. You answered the question and opened up the architecture, and that is how you stop getting filed under does not know their own product.", atlasTags: ["concrete-construal", "multi-threading"]),
+                PuzzleCandidate(text: "That deserves a precise written answer. Give me 24 hours and I'll get you a document structured around your three regions, with your compliance lead copied so it lands with the right internal weight behind it.", eval: -0.5, rationale: "You deferred a security question to a follow-up doc, and a skeptical CISO hears one thing: you don't have the answer ready. That's how deals get routed to procurement to die quietly.", atlasTags: ["reciprocity", "authority"]),
+                PuzzleCandidate(text: "We can also run this as an enclaved deployment inside your region.", eval: 0.2, rationale: "This may be a real path, but if that deployment model doesn't actually exist yet, you just overpromised to the one person in the room who will check.", atlasTags: ["alternative-choice"]),
+                PuzzleCandidate(text: "[to the executive] I know security has concerns. Can I count on you to keep this moving?", eval: -1.0, rationale: "Executives do not overrule CISOs on data residency, ever. You just damaged both relationships with one sentence.", atlasTags: ["authority"]),
             ],
             bestIndex: 0,
-            themeHint: "CISO objections require specificity. Architectural references and joint sessions convert; vague reassurance does not.",
+            themeHint: "CISO objections require specificity. Architectural references and joint sessions convert, but vague reassurance does not.",
             transcriptId: "voss-haiti-how"
         ),
 
         Puzzle(
             id: "p068", theme: .multistakeholder, difficulty: 1500,
             buyerRole: "Buying committee chair signaling tempo, not consensus",
-            setup: "Chair runs committee processes. Process-driven, not outcome-driven.",
+            setup: "The chair runs committee process, and is process-driven rather than outcome-driven.",
             buyerLine: "We'll get back to you in two weeks with the committee's response.",
             candidates: [
-                PuzzleCandidate(text: "Happy to work with your process — what path does the committee follow from here, and who needs what by when? I can get each member a tailored one-page brief 24 hours before you convene.", eval: 0.7, rationale: "A process-driven chair respects the rep who works the mechanics. Per-member briefs the day before the meeting cut committee friction — and put your words in a room you can't enter.", atlasTags: ["calibrated-question", "multi-threading", "reciprocity"]),
-                PuzzleCandidate(text: "Sounds good — we'll wait to hear from you in two weeks.", eval: -0.3, rationale: "You accepted the timeline and gave up your one window to shape the committee's read. Two weeks has a way of becoming six.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "Two weeks is a while — is there any way we could get an answer sooner?", eval: -0.5, rationale: "Pressuring a process-driven chair on tempo costs you the chair. They'll route you lower and let the process bury you.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "I'll send over a deck you can circulate to the committee.", eval: -0.2, rationale: "One generic deck assumes the committee is one audience. It isn't — each member scores on their own question, and a circulated deck answers none of them.", atlasTags: ["gain-framing"]),
+                PuzzleCandidate(text: "Happy to work with your process. What path does the committee follow from here, and who needs what by when? I can get each member a tailored one-page brief 24 hours before you convene.", eval: 0.7, rationale: "A process-driven chair respects the rep who works the mechanics. Per-member briefs the day before the meeting cut committee friction, and put your words in a room you cannot enter.", atlasTags: ["calibrated-question", "multi-threading", "reciprocity"]),
+                PuzzleCandidate(text: "Sounds good. We'll wait to hear from you in two weeks.", eval: -0.3, rationale: "You accepted the timeline and gave up your one window to shape the committee's read. Two weeks has a way of becoming six.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Two weeks is a while. Is there any way we could get an answer sooner?", eval: -0.5, rationale: "Pressuring a process-driven chair on tempo costs you the chair. They'll route you lower and let the process bury you.", atlasTags: ["scarcity"]),
+                PuzzleCandidate(text: "I'll send over a deck you can circulate to the committee.", eval: -0.2, rationale: "One generic deck assumes the committee is one audience. It is not. Each member scores on their own question, and a circulated deck answers none of them.", atlasTags: ["gain-framing"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-haiti-how"
@@ -1208,13 +1208,13 @@ public enum Puzzles {
         Puzzle(
             id: "p069", theme: .multistakeholder, difficulty: 2000,
             buyerRole: "Champion neutralized by political constraint",
-            setup: "Strong champion, but the champion's boss publicly favored a competitor and is unlikely to reverse.",
+            setup: "You have a strong champion, but the champion's boss publicly favored a competitor and is unlikely to reverse course.",
             buyerLine: "[champion privately] He's not going to switch. The political cost is too high.",
             candidates: [
-                PuzzleCandidate(text: "What if nobody has to switch positions? Propose both vendors run in parallel against a published rubric — that way your boss isn't reversing himself in front of anyone, he's just following the data wherever it lands.", eval: 0.9, rationale: "Political cost is face-saving cost. A head-to-head against a published rubric gives the boss a way to change his mind without ever admitting he changed it — he's not reversing, he's following the data.", atlasTags: ["concrete-construal", "alternative-choice"], isFork: true),
+                PuzzleCandidate(text: "What if nobody has to switch positions? Propose both vendors run in parallel against a published rubric. That way your boss is not reversing himself in front of anyone. He is just following the data wherever it lands.", eval: 0.9, rationale: "Political cost is face-saving cost. A head-to-head against a published rubric gives the boss a way to change his mind without ever admitting he changed it. He gets to call it following the data.", atlasTags: ["concrete-construal", "alternative-choice"], isFork: true),
                 PuzzleCandidate(text: "Could you push it up to him one more time?", eval: -0.7, rationale: "You just asked your champion to spend their standing challenging the boss's public position. That's how champions get destroyed.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "Let's give it a few months and see if things cool off.", eval: -0.5, rationale: "Political positions calcify with time — they don't fade. Waiting hands the deal to the choice already made.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "What if we just beat their price outright — a gap big enough to force a re-evaluation, plus a switching-cost credit so the total-cost story clearly wins?", eval: -0.4, rationale: "Price was never the issue — face is. A discount doesn't buy the boss a way out of his own public commitment.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Let's give it a few months and see if things cool off.", eval: -0.5, rationale: "Political positions calcify with time. They do not fade. Waiting hands the deal to the choice already made.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "What if we just beat their price outright, a gap big enough to force a re-evaluation, plus a switching-cost credit so the total-cost story clearly wins?", eval: -0.4, rationale: "Price was never the issue. Face is. A discount doesn't buy the boss a way out of his own public commitment.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0,
             themeHint: "Political constraints need face-saving paths. POV-with-rubric is the standard mechanism.",
@@ -1224,12 +1224,12 @@ public enum Puzzles {
         Puzzle(
             id: "p070", theme: .multistakeholder, difficulty: 1400,
             buyerRole: "Two champions across two teams, fragmented buy-in",
-            setup: "VP Engineering and VP Marketing both champion. Each owns half the use case.",
+            setup: "VP Engineering and VP Marketing are both championing this deal, and each owns half the use case.",
             buyerLine: "[VP Eng] We'll sponsor it together. We just need to align on which budget it comes from.",
             candidates: [
-                PuzzleCandidate(text: "Let me make this easy on both of you: I'll put a recommended 60/40 split in writing, weighted to how each team uses it, with a named budget owner on each side. Deals like this close about 30% faster that way.", eval: 0.7, rationale: "Joint-budget deals stall on exactly this question. When you recommend the split in writing with named owners, you hand both champions a shared decision they can carry upward — instead of a fight they have to referee.", atlasTags: ["concrete-construal", "alternative-choice"]),
-                PuzzleCandidate(text: "You two know your budgets better than I do — I'll send you both the same cost breakdown so you're working from one set of numbers, and we can set up the three-way call once you've had the internal conversation and landed somewhere.", eval: -0.4, rationale: "You just delegated the hardest question in the deal to the two people most likely to fight over it. That coordination job was yours, and your silence is the missed move.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "Honestly, this goes faster if one of you owns the whole budget.", eval: -0.3, rationale: "Faster on paper — but you just asked one champion to absorb the entire political cost, and demoted the other one inside their own building.", atlasTags: ["commitment-consistency"]),
+                PuzzleCandidate(text: "Let me make this easy on both of you: I'll put a recommended 60/40 split in writing, weighted to how each team uses it, with a named budget owner on each side. Deals like this close about 30% faster that way.", eval: 0.7, rationale: "Joint-budget deals stall on exactly this question. When you recommend the split in writing with named owners, you hand both champions a shared decision they can carry upward, instead of a fight they have to referee.", atlasTags: ["concrete-construal", "alternative-choice"]),
+                PuzzleCandidate(text: "You two know your budgets better than I do. I'll send you both the same cost breakdown so you're working from one set of numbers, and we can set up the three-way call once you've had the internal conversation and landed somewhere.", eval: -0.4, rationale: "You just delegated the hardest question in the deal to the two people most likely to fight over it. That coordination job was yours, and your silence is the missed move.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Honestly, this goes faster if one of you owns the whole budget.", eval: -0.3, rationale: "This is faster on paper, but you just asked one champion to absorb the entire political cost, and demoted the other one inside their own building.", atlasTags: ["commitment-consistency"]),
                 PuzzleCandidate(text: "What if I took 10% off so the split hurts less?", eval: -0.5, rationale: "The budget split isn't a price objection. Cutting price misreads the constraint and buys you nothing.", atlasTags: ["reciprocity"]),
             ],
             bestIndex: 0, themeHint: nil,
@@ -1239,13 +1239,13 @@ public enum Puzzles {
         Puzzle(
             id: "p071", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Procurement + business team disagreement on vendor selection",
-            setup: "Business team prefers you. Procurement is pushing for a lower-cost competitor.",
+            setup: "The business team prefers you, but procurement is pushing for a lower-cost competitor.",
             buyerLine: "[procurement] The business team likes you. But on a total-cost view I have to recommend the competitor.",
             candidates: [
-                PuzzleCandidate(text: "Fair enough — rather than argue your output, can I offer better inputs? I have implementation costs and the year-three switching premium from two named deployments in your revenue band; drop them into your own TCO sheet and see where it lands.", eval: 0.7, rationale: "A TCO recommendation moves when its inputs move, and inputs move on evidence, not advocacy. Named-peer actuals are the one data class procurement can defend substituting — the model stays theirs, the numbers become yours.", atlasTags: ["social-proof", "concrete-construal"]),
-                PuzzleCandidate(text: "Could you walk me through the TCO model — which assumptions move the total the most?", eval: 0.4, rationale: "Right diagnosis, half a move. You opened the model but arrived empty-handed — without substitute data, the review closes on the same recommendation.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "The business team has been clear about their preference — I'd let that carry it.", eval: -0.5, rationale: "Overriding procurement wins you one recommendation and loses you the function. Remember who writes the renewal terms.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "We'll match their number and close the gap.", eval: -0.4, rationale: "Matching confirms their sheet instead of correcting it. That match is your new list price — the cheaper competitor now sets your pricing from here on.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Fair enough, rather than argue your output, can I offer better inputs? I have implementation costs and the year-three switching premium from two named deployments in your revenue band. Drop them into your own TCO sheet and see where it lands.", eval: 0.7, rationale: "A TCO recommendation moves when its inputs move, and inputs move on evidence rather than advocacy. Named-peer actuals are the one data class procurement can defend substituting. The model stays theirs, and the numbers become yours.", atlasTags: ["social-proof", "concrete-construal"]),
+                PuzzleCandidate(text: "Could you walk me through the TCO model? Which assumptions move the total the most?", eval: 0.4, rationale: "This is the right diagnosis, but only half a move. You opened the model but arrived empty-handed, and without substitute data, the review closes on the same recommendation.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "The business team has been clear about their preference. I'd let that carry it.", eval: -0.5, rationale: "Overriding procurement wins you one recommendation and loses you the function. Remember who writes the renewal terms.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "We'll match their number and close the gap.", eval: -0.4, rationale: "Matching confirms their sheet instead of correcting it. That match is your new list price, and the cheaper competitor now sets your pricing from here on.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "klaff-time-reversal"
@@ -1254,13 +1254,13 @@ public enum Puzzles {
         Puzzle(
             id: "p072", theme: .multistakeholder, difficulty: 1600,
             buyerRole: "C-suite champion, mid-level skeptic owning daily usage",
-            setup: "CEO sponsors deal. Director of Ops would own daily operation and is unconvinced.",
+            setup: "The CEO sponsors this deal, but the director of ops would own daily operation and is unconvinced.",
             buyerLine: "[Director] The CEO likes it. I'm the one who's going to live with the workflow. I've got concerns.",
             candidates: [
-                PuzzleCandidate(text: "You're the one who has to live in it, so let's do this properly — give me 45 minutes and we'll walk your actual daily workflow step by step against the product. If it doesn't hold up at your desk, the CEO's opinion doesn't matter.", eval: 0.7, rationale: "C-suite mandates without end-user buy-in produce shelfware. Sit down inside the Director's real workflow and earn the yes — that's how the skeptic becomes your daily advocate instead of your quiet saboteur.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "You're the one who has to live in it, so let's do this properly. Give me 45 minutes and we'll walk your actual daily workflow step by step against the product. If it doesn't hold up at your desk, the CEO's opinion doesn't matter.", eval: 0.7, rationale: "C-suite mandates without end-user buy-in produce shelfware. Sit down inside the director's real workflow and earn the yes. That is how the skeptic becomes your daily advocate instead of your quiet saboteur.", atlasTags: ["calibrated-question", "concrete-construal"]),
                 PuzzleCandidate(text: "I'll talk with the CEO about making the rollout a directive.", eval: -0.7, rationale: "Mandated adoption is the express lane to shelfware. Force it through the CEO and the Director becomes your internal opposition.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "Let me put together a full side-by-side of your current process against the new one — every step mapped, the time saved per analyst per week quantified, the two steps that don't change at all flagged so the migration looks honest — and then if it's useful we can find time for a working session whenever your calendar opens up.", eval: 0.1, rationale: "A document assumes a skeptic will read it sympathetically. They won't — a live working session converts where paper gets skimmed, filed, and quietly held against you.", atlasTags: ["contrast", "concrete-construal"]),
-                PuzzleCandidate(text: "What if I sharpened the price to ease your concerns?", eval: -0.6, rationale: "The Director's concerns are workflow-shaped, not price-shaped. A discount answers a question nobody asked.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Let me put together a full side-by-side of your current process against the new one, every step mapped, the time saved per analyst per week quantified, the two steps that don't change at all flagged so the migration looks honest. Then, if it's useful, we can find time for a working session whenever your calendar opens up.", eval: 0.1, rationale: "A document assumes a skeptic will read it sympathetically. They will not. A live working session converts where paper gets skimmed, filed, and quietly held against you.", atlasTags: ["contrast", "concrete-construal"]),
+                PuzzleCandidate(text: "What if I sharpened the price to ease your concerns?", eval: -0.6, rationale: "The director's concerns are workflow-shaped rather than price-shaped. A discount answers a question nobody asked.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0,
             themeHint: "End-user champions outperform C-suite mandates for adoption.",
@@ -1270,13 +1270,13 @@ public enum Puzzles {
         Puzzle(
             id: "p073", theme: .multistakeholder, difficulty: 1800,
             buyerRole: "Champion VP + competing internal initiative for the same budget",
-            setup: "Champion supportive but their VP-peer is pitching a competing internal build for the same budget line.",
+            setup: "Your champion is supportive, but their VP peer is pitching a competing internal build for the same budget line.",
             buyerLine: "[champion privately] I'm pretty sure the build pitch is going to win. He's got the CEO's ear.",
             candidates: [
-                PuzzleCandidate(text: "Let me arm you properly: a one-pager on the build-vs-buy math — time to deploy, fully-loaded engineering cost, and what those engineers won't ship while they're building this — plus two named companies that started this same build and abandoned it.", eval: 0.7, rationale: "Build-vs-buy contests turn on engineering opportunity cost, not sticker price. Named peers who abandoned the build give your champion a brief the CEO will actually absorb.", atlasTags: ["loss-framing", "social-proof", "concrete-construal"]),
-                PuzzleCandidate(text: "What if we priced under what the build will really cost them?", eval: -0.4, rationale: "Build advocacy is rarely price-driven. Matching the implied build cost rewards the wrong comparison — and cheapens you in the process.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Let me arm you properly: a one-pager on the build-vs-buy math, time to deploy, fully-loaded engineering cost, and what those engineers won't ship while they're building this, plus two named companies that started this same build and abandoned it.", eval: 0.7, rationale: "Build-vs-buy contests turn on engineering opportunity cost rather than sticker price. Named peers who abandoned the build give your champion a brief the CEO will actually absorb.", atlasTags: ["loss-framing", "social-proof", "concrete-construal"]),
+                PuzzleCandidate(text: "What if we priced under what the build will really cost them?", eval: -0.4, rationale: "Build advocacy is rarely price-driven. Matching the implied build cost rewards the wrong comparison, and cheapens you in the process.", atlasTags: ["sharp-angle"]),
                 PuzzleCandidate(text: "Any way to get me in front of the CEO directly?", eval: -0.6, rationale: "Going over the VP's head burns your champion and makes an enemy of the peer. Even if the override lands, you've poisoned the account.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "Let's not fight it head-on. Keep a light monthly check-in going with me, I'll track their hiring posts and roadmap slippage from the outside, and the moment that first internal milestone slips we come back in with the re-entry case ready — positioned right when the estimate meets reality.", eval: -0.5, rationale: "Internal builds with executive air cover survive scrutiny far longer than you expect. Waiting for the collapse is how you watch the budget line disappear.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Let's not fight it head-on. Keep a light monthly check-in going with me, I'll track their hiring posts and roadmap slippage from the outside, and the moment that first internal milestone slips we come back in with the re-entry case ready, positioned right when the estimate meets reality.", eval: -0.5, rationale: "Internal builds with executive air cover survive scrutiny far longer than you expect. Waiting for the collapse is how you watch the budget line disappear.", atlasTags: ["silence"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "klaff-time-reversal"
@@ -1285,16 +1285,16 @@ public enum Puzzles {
         Puzzle(
             id: "p074", theme: .multistakeholder, difficulty: 1900,
             buyerRole: "Cross-functional steering committee with rotating decision authority",
-            setup: "Three executives rotate decision authority across capabilities. Your deal sits at the intersection.",
+            setup: "Three executives rotate decision authority across capabilities, and your deal sits at the intersection.",
             buyerLine: "[committee] We're going to ask each function leader to score this independently. We'll convene next month.",
             candidates: [
-                PuzzleCandidate(text: "Could you share the scoring rubric? I'd like to offer each function leader a 30-minute working session on how we map to their specific metric — it should make everyone's scoring faster, not slower.", eval: 0.8, rationale: "Committees that score independently converge when each leader sees the mapping to their own metric. Working sessions shrink each scorer's homework — you're accelerating their process, not fighting it.", atlasTags: ["multi-threading", "reciprocity", "concrete-construal"]),
-                PuzzleCandidate(text: "I'll build one deck for the full committee — leading with the shared business case, pitched at the cross-functional altitude you've described — and route it through you with an offer to walk it live when you convene next month.", eval: 0.0, rationale: "One joint deck assumes joint evaluation. They just told you the scoring is independent — without per-function content, your story dies in translation three separate times.", atlasTags: ["gain-framing"]),
-                PuzzleCandidate(text: "Any way we could get a read before next month?", eval: -0.4, rationale: "Leaning on a committee's tempo reads as disrespect for the process. The chair hears it — and routes you down.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "We trust the process — see you next month.", eval: -0.3, rationale: "Trusting the process forfeits your only chance to shape three independent scores. Committees that convene without your input converge on someone else.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Could you share the scoring rubric? I'd like to offer each function leader a 30-minute working session on how we map to their specific metric, which should make everyone's scoring faster instead of slower.", eval: 0.8, rationale: "Committees that score independently converge when each leader sees the mapping to their own metric. Working sessions shrink each scorer's homework, and you are accelerating their process rather than fighting it.", atlasTags: ["multi-threading", "reciprocity", "concrete-construal"]),
+                PuzzleCandidate(text: "I'll build one deck for the full committee, leading with the shared business case, pitched at the cross-functional altitude you've described, and route it through you with an offer to walk it live when you convene next month.", eval: 0.0, rationale: "One joint deck assumes joint evaluation. They just told you the scoring is independent, and without per-function content, your story dies in translation three separate times.", atlasTags: ["gain-framing"]),
+                PuzzleCandidate(text: "Any way we could get a read before next month?", eval: -0.4, rationale: "Leaning on a committee's tempo reads as disrespect for the process. The chair hears it, and routes you down.", atlasTags: ["scarcity"]),
+                PuzzleCandidate(text: "We trust the process. See you next month.", eval: -0.3, rationale: "Trusting the process forfeits your only chance to shape three independent scores. Committees that convene without your input converge on someone else.", atlasTags: ["silence"]),
             ],
             bestIndex: 0,
-            themeHint: "Cross-functional committees converge through per-function articulation, not joint pitches.",
+            themeHint: "Cross-functional committees converge through per-function articulation rather than joint pitches.",
             transcriptId: "voss-live-label"
         ),
 
@@ -2136,40 +2136,40 @@ public enum Puzzles {
         Puzzle(
             id: "read-001", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "VP Ops, mid-market · Marcus R.",
-            setup: "Twenty-two minutes in. Trust reads earned, interest warm but starting to cool — and \u{201c}the room\u{201d} is still one of an unknown number of decision-makers you haven't met.",
+            setup: "You are twenty-two minutes in. Trust reads earned, and interest is warm but starting to cool. The room is still an unknown number of decision-makers you have not met.",
             buyerLine: "This looks great. Let me take it to my team and circle back.",
             candidates: [
                 PuzzleCandidate(
                     text: "\u{201c}Sounds like this has to clear people who aren't on this call.\u{201d}",
                     eval: 0.9,
-                    rationale: "Labels the real variable. Names the hidden room without a question he can dodge — he either corrects it or confirms it, and either way you've found the ceiling. There it is. He just named the hidden decision-maker — and handed you the real objection to solve.",
+                    rationale: "This labels the real variable. It names the hidden room without a question he can dodge. He will either correct it or confirm it, and either way you have found the ceiling. He just named the hidden decision-maker and handed you the real objection to solve.",
                     atlasTags: ["labeling", "multi-threading"],
                     buyerReply: "\u{201c}Yeah… honestly my CFO will have questions about the ROI.\u{201d}"
                 ),
                 PuzzleCandidate(
-                    text: "\u{201c}Totally — what kind of budget are we working within?\u{201d}",
+                    text: "\u{201c}Totally, what kind of budget are we working within?\u{201d}",
                     eval: -0.6,
-                    rationale: "Chases price. He never made it about money; you re-anchored on a problem that isn't the blocker. You spent a turn on a problem he doesn't have. He's now slightly guarded.",
+                    rationale: "This chases price. He never made it about money, and you re-anchored on a problem that is not the blocker. You spent a turn on a problem he does not have, and he is now slightly guarded.",
                     atlasTags: ["calibrated-question"],
                     buyerReply: "\u{201c}Uh — budget's not really the issue.\u{201d}"
                 ),
                 PuzzleCandidate(
-                    text: "\u{201c}Great — I'll send a recap you can forward to them.\u{201d}",
+                    text: "\u{201c}Great, I'll send a recap you can forward to them.\u{201d}",
                     eval: -0.2,
-                    rationale: "Stays single-threaded. A recap you can't see equals no control; the energy cools in someone else's inbox. The recap goes into a forward you'll never see. You just handed the room to an inbox.",
+                    rationale: "This stays single-threaded. A recap you cannot see means no control, and the energy cools in someone else's inbox. You just handed the room to an inbox you will never see.",
                     atlasTags: [],
                     buyerReply: "\u{201c}Sure, thanks.\u{201d}"
                 ),
                 PuzzleCandidate(
-                    text: "\u{201c}Before you go — any concerns I can clear up now?\u{201d}",
+                    text: "\u{201c}Before you go, any concerns I can clear up now?\u{201d}",
                     eval: -0.35,
-                    rationale: "Invites doubt. \u{201c}Any concerns?\u{201d} at a warm moment hands him a reason to hesitate. You manufactured a doubt at the exact moment to build momentum. Unforced.",
+                    rationale: "This invites doubt. Asking for concerns at a warm moment hands him a reason to hesitate. You manufactured a doubt at the exact moment you needed momentum, and nobody forced you to do it.",
                     atlasTags: ["trial-close"],
                     buyerReply: "\u{201c}Well — now that you mention it…\u{201d}"
                 ),
             ],
             bestIndex: 0,
-            themeHint: "\u{201c}My team\u{201d} is rarely about the team. When a warm buyer suddenly needs to \u{201c}run it by the team,\u{201d} the blocker is usually not what they name. Your job is to surface the room he didn't mention while he's still on the call.",
+            themeHint: "My team is rarely about the team. When a warm buyer suddenly needs to run it by the team, the blocker is usually not what they name. Your job is to surface the room he did not mention while he is still on the call.",
             transcriptId: nil,
             read: PuzzleRead(
                 question: "What's actually happening?",
