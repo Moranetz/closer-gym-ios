@@ -349,29 +349,29 @@ public enum Puzzles {
         Puzzle(
             id: "p016", theme: .endgame, difficulty: 1800,
             buyerRole: "Champion who has just verbally committed",
-            setup: "Champion just said yes. You have 30 seconds before they pivot to another meeting.",
+            setup: "Your champion just said yes, and you have 30 seconds before they pivot to another meeting.",
             buyerLine: "Yeah, this is making sense. I'm in. What do you need from me?",
             candidates: [
-                PuzzleCandidate(text: "Three things while we're still on: who should the MSA go to, what's a realistic turnaround on your side, and let's put the signing call on the calendar right now — does Thursday work?", eval: 0.8, rationale: "Three procedural commitments in one breath, while the yes is still warm. 'While we're still on' converts champion momentum into calendar state — and calendar state survives the week in a way enthusiasm doesn't.", atlasTags: ["mutual-close-plan", "alternative-choice"]),
-                PuzzleCandidate(text: "Fantastic — I'll let you get to your next meeting. I'll send a recap tonight capturing where we landed and proposing a procurement kickoff window, and we can touch base tomorrow once you've read it.", eval: 0.1, rationale: "By tomorrow they've been through three other meetings and the yes has cooled to 'let me re-read that email.' You had thirty seconds of peak momentum and spent them on politeness.", atlasTags: ["summary-close", "mutual-close-plan"]),
-                PuzzleCandidate(text: "Amazing. Any chance we can get the signature done today?", eval: -0.4, rationale: "They said yes — they didn't say they sign contracts unilaterally. Pushing for same-day signature says you don't understand how their org buys.", atlasTags: ["assumptive"]),
-                PuzzleCandidate(text: "Great — before you run, let me send over two more case studies and a reference list.", eval: -0.9, rationale: "They already said yes — selling past it reads as hedging, and now they wonder what you're hedging against. You've created doubt where there wasn't any.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "Three things while we're still on: who should the MSA go to, what's a realistic turnaround on your side, and let's put the signing call on the calendar right now. Does Thursday work?", eval: 0.8, rationale: "This is three procedural commitments in one breath, while the yes is still warm. Saying while we're still on converts champion momentum into calendar state, and calendar state survives the week in a way enthusiasm does not.", atlasTags: ["mutual-close-plan", "alternative-choice"]),
+                PuzzleCandidate(text: "Fantastic. I'll let you get to your next meeting. I'll send a recap tonight capturing where we landed and proposing a procurement kickoff window, and we can touch base tomorrow once you've read it.", eval: 0.1, rationale: "By tomorrow they have been through three other meetings, and the yes has cooled to let me re-read that email. You had thirty seconds of peak momentum and spent them on politeness.", atlasTags: ["summary-close", "mutual-close-plan"]),
+                PuzzleCandidate(text: "Amazing. Any chance we can get the signature done today?", eval: -0.4, rationale: "They said yes, but they never said they sign contracts unilaterally. Pushing for same-day signature says you do not understand how their org buys.", atlasTags: ["assumptive"]),
+                PuzzleCandidate(text: "Great. Before you run, let me send over two more case studies and a reference list.", eval: -0.9, rationale: "They already said yes. Selling past it reads as hedging, and now they wonder what you are hedging against. You have created doubt where there wasn't any.", atlasTags: ["social-proof"]),
             ],
             bestIndex: 0,
-            themeHint: "Mate-in-1. The verbal yes is the move; procedural commitments in the next 30 seconds determine whether it survives the week.",
+            themeHint: "Mate-in-1. The verbal yes is the move, and procedural commitments in the next 30 seconds determine whether it survives the week.",
             transcriptId: "cardone-yay-or-nay"
         ),
 
         Puzzle(
             id: "p017", theme: .endgame, difficulty: 2200,
             buyerRole: "Procurement, final call before signature",
-            setup: "Final call. They've sent redlines. You're walking through.",
+            setup: "This is the final call. They have sent redlines, and you are walking through them.",
             buyerLine: "Last item. Unilateral termination at 90 days, 50% refund. That's the clause language. Standard in our vendor contracts since the [redacted competitor] incident.",
             candidates: [
-                PuzzleCandidate(text: "The policy makes sense — I won't fight the why. Could we hit the same protection another way: quarterly performance gates with a cure period, accountability without the refund accounting?", eval: 0.7, rationale: "You took the policy at face value and offered equivalent accountability without the refund plumbing. Procurement experiences you as policy-aware — which, on a final call, is the fastest route through.", atlasTags: ["calibrated-question", "concrete-construal"]),
-                PuzzleCandidate(text: "We can live with 30 days' notice and no refund — that's as far as this clause moves.", eval: -0.3, rationale: "You countered the terms without acknowledging why the clause exists. Procurement hears a vendor who wasn't listening — on the last call, on the last item.", atlasTags: ["anchor-with-range"]),
-                PuzzleCandidate(text: "Before I respond to the clause language — which vendor incident actually wrote this into your playbook? I'd much rather understand and solve the failure you're protecting against than argue the symptom.", eval: 0.4, rationale: "Structurally a fine question — three calls ago. This late in the cycle, digging into the incident history reads as reopening a negotiation everyone thought was closing.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "If the clause is truly a must-have, this may not be the right contract for us.", eval: -0.5, rationale: "A takeaway only works when the walk is credible — and with this much pipeline cost sunk, they know you won't. Bluffs read as bluffs.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "The policy makes sense, and I won't fight the why. Could we hit the same protection another way: quarterly performance gates with a cure period, accountability without the refund accounting?", eval: 0.7, rationale: "You took the policy at face value and offered equivalent accountability without the refund plumbing. Procurement experiences you as policy-aware, which, on a final call, is the fastest route through.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "We can live with 30 days' notice and no refund. That's as far as this clause moves.", eval: -0.3, rationale: "You countered the terms without acknowledging why the clause exists. Procurement hears a vendor who wasn't listening, on the last call, on the last item.", atlasTags: ["anchor-with-range"]),
+                PuzzleCandidate(text: "Before I respond to the clause language, which vendor incident actually wrote this into your playbook? I'd much rather understand and solve the failure you're protecting against than argue the symptom.", eval: 0.4, rationale: "This is structurally a fine question, three calls ago. This late in the cycle, digging into the incident history reads as reopening a negotiation everyone thought was closing.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "If the clause is truly a must-have, this may not be the right contract for us.", eval: -0.5, rationale: "A takeaway only works when the walk is credible, and with this much pipeline cost sunk, they know you will not. Bluffs read as bluffs.", atlasTags: ["takeaway"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: nil
@@ -1302,13 +1302,13 @@ public enum Puzzles {
         Puzzle(
             id: "p075", theme: .endgame, difficulty: 1500,
             buyerRole: "Verbal commit obtained; final paperwork pending",
-            setup: "Champion verbally committed. Paperwork drafted. Signature pending one week.",
+            setup: "Your champion has verbally committed. The paperwork is drafted, and signature is pending within one week.",
             buyerLine: "We're good. Sending to legal Friday for sign-off.",
             candidates: [
-                PuzzleCandidate(text: "Love it. Before Friday, let's put a quick close plan on paper — who owns sign-off, the kick-off date, your onboarding lead — because in our data that cuts post-commit slippage by more than half.", eval: 0.7, rationale: "Verbal-to-signature is where 20-30% of committed deals slip. Named owners and dates turn a promise into a plan with joint accountability — that's the whole game after the yes.", atlasTags: ["mutual-close-plan", "commitment-consistency"]),
-                PuzzleCandidate(text: "Perfect — everything's coming over today: a pre-filled signature packet with our counter-signature already applied, a one-line summary of the agreed terms, and if legal has a question on any clause I'm available same-day to walk it through with them.", eval: -0.3, rationale: "Sending paperwork and waiting accepts the slippage rate as given. Frictionless, sure — but you built no shared plan and you hold no lever on tempo.", atlasTags: ["assumptive", "summary-close"]),
+                PuzzleCandidate(text: "Love it. Before Friday, let's put a quick close plan on paper: who owns sign-off, the kick-off date, your onboarding lead. In our data, that cuts post-commit slippage by more than half.", eval: 0.7, rationale: "Verbal-to-signature is where 20-30% of committed deals slip. Named owners and dates turn a promise into a plan with joint accountability, and that is the whole game after the yes.", atlasTags: ["mutual-close-plan", "commitment-consistency"]),
+                PuzzleCandidate(text: "Perfect. Everything's coming over today: a pre-filled signature packet with our counter-signature already applied, a one-line summary of the agreed terms, and if legal has a question on any clause I'm available same-day to walk it through with them.", eval: -0.3, rationale: "Sending paperwork and waiting accepts the slippage rate as given. This is frictionless, sure, but you built no shared plan and you hold no lever on tempo.", atlasTags: ["assumptive", "summary-close"]),
                 PuzzleCandidate(text: "Any chance we could get signature in before Friday?", eval: -0.4, rationale: "They just told you the path. Pushing for earlier now spends champion goodwill to buy days you don't need.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "If you can sign this week, I'll add a kickoff bonus for you.", eval: -0.5, rationale: "A bonus for signing this week teaches them — one week before close — that your terms bend under pressure. That lesson survives into every renewal.", atlasTags: ["sharp-angle", "scarcity"]),
+                PuzzleCandidate(text: "If you can sign this week, I'll add a kickoff bonus for you.", eval: -0.5, rationale: "A bonus for signing this week teaches them, one week before close, that your terms bend under pressure. That lesson survives into every renewal.", atlasTags: ["sharp-angle", "scarcity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: nil
@@ -1317,13 +1317,13 @@ public enum Puzzles {
         Puzzle(
             id: "p076", theme: .endgame, difficulty: 1700,
             buyerRole: "Late-stage redline on indemnity scope",
-            setup: "Final legal review. One open issue.",
+            setup: "This is the final legal review, and there is one open issue.",
             buyerLine: "[legal] We need IP indemnity uncapped. Everything else looks good.",
             candidates: [
-                PuzzleCandidate(text: "We can go uncapped on IP indemnity if it's scoped to our own patents and copyrights — and we'd ask for the same obligation on content your side supplies. That's the symmetric position you'll see across the market.", eval: 0.7, rationale: "Uncapped IP indemnity scoped to your own IP is a recognized vendor concession — you're covering what you actually control. Asking for symmetry on customer-supplied content is the standard counter that survives legal review.", atlasTags: ["alternative-choice"]),
-                PuzzleCandidate(text: "Done — uncapped IP indemnity it is.", eval: -0.8, rationale: "Uncapped and unscoped means you're on the hook for IP claims arising from content they supply. That's existence-level exposure, signed away in one sentence.", atlasTags: ["reciprocity"]),
-                PuzzleCandidate(text: "We can't do uncapped — capped indemnity is standard across every enterprise agreement we hold. I'll attach the insurance certificate showing our coverage limits, and I'm glad to set up a call between our counsel and yours to walk the precedent, so you can see this is policy, not posture.", eval: -0.3, rationale: "A flat rejection on the final redline is how signatures die. You might win the precedent argument and lose the deal.", atlasTags: ["authority", "social-proof"]),
-                PuzzleCandidate(text: "Could we park the indemnity question in a side letter and sign the rest?", eval: -0.4, rationale: "Legal teams resist side letters on final redlines — you just extended the cycle to dodge a question you'll have to answer anyway.", atlasTags: ["isolate-and-conquer"]),
+                PuzzleCandidate(text: "We can go uncapped on IP indemnity if it's scoped to our own patents and copyrights, and we'd ask for the same obligation on content your side supplies. That's the symmetric position you'll see across the market.", eval: 0.7, rationale: "Uncapped IP indemnity scoped to your own IP is a recognized vendor concession, because you are covering what you actually control. Asking for symmetry on customer-supplied content is the standard counter that survives legal review.", atlasTags: ["alternative-choice"]),
+                PuzzleCandidate(text: "Done. Uncapped IP indemnity it is.", eval: -0.8, rationale: "Uncapped and unscoped means you're on the hook for IP claims arising from content they supply. That's existence-level exposure, signed away in one sentence.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "We can't do uncapped. Capped indemnity is standard across every enterprise agreement we hold. I'll attach the insurance certificate showing our coverage limits, and I'm glad to set up a call between our counsel and yours to walk the precedent, so you can see this is policy rather than posture.", eval: -0.3, rationale: "A flat rejection on the final redline is how signatures die. You might win the precedent argument and lose the deal.", atlasTags: ["authority", "social-proof"]),
+                PuzzleCandidate(text: "Could we park the indemnity question in a side letter and sign the rest?", eval: -0.4, rationale: "Legal teams resist side letters on final redlines. You just extended the cycle to dodge a question you'll have to answer anyway.", atlasTags: ["isolate-and-conquer"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-accusation-audit"
@@ -1332,13 +1332,13 @@ public enum Puzzles {
         Puzzle(
             id: "p077", theme: .endgame, difficulty: 1900,
             buyerRole: "Late-stage discount ask, deal contingent",
-            setup: "Procurement, final call. Verbal commit dependent on one final ask.",
+            setup: "This is the final call with procurement, and the verbal commit is dependent on one final ask.",
             buyerLine: "Look, we're a yes if you give me one more 5 percent. Otherwise this goes back to committee.",
             candidates: [
-                PuzzleCandidate(text: "I can do 3 — if we extend the term twelve months and add a published case-study clause. Five is a nice round number; three with structure behind it is a real one.", eval: 0.8, rationale: "A round 5% at the finish line is procurement theater. Counter with structurally different levers — term, case study — and they get a defensible win to carry inside while your anchor stays intact.", atlasTags: ["alternative-choice", "anchor-with-range"]),
-                PuzzleCandidate(text: "Okay — 5% and we're done.", eval: -0.4, rationale: "You just paid the theater price. A clean 5% at the end teaches procurement exactly how you fold — and next renewal opens from there.", atlasTags: ["sharp-angle"]),
-                PuzzleCandidate(text: "Can't do it. Take it back to committee if you need to.", eval: -0.6, rationale: "Walking over 5% at the finish line torches your sunk position. The committee reopens the decision — and the competitor is still in the building.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "You can have the 5% if we sign today — I'll paper it into the order form with an expiration stamp, and on our side it gets framed as quarter-end capacity planning, not price flexibility.", eval: -0.2, rationale: "Full concession plus a deadline is the most predictable branch of procurement's discount tree. They absorb it as routine — and remember the fold, not the framing.", atlasTags: ["sharp-angle", "scarcity"]),
+                PuzzleCandidate(text: "I can do 3, if we extend the term twelve months and add a published case-study clause. Five is a nice round number. Three with structure behind it is a real one.", eval: 0.8, rationale: "A round 5% at the finish line is procurement theater. Counter with structurally different levers, term, case study, and they get a defensible win to carry inside while your anchor stays intact.", atlasTags: ["alternative-choice", "anchor-with-range"]),
+                PuzzleCandidate(text: "Okay. 5% and we're done.", eval: -0.4, rationale: "You just paid the theater price. A clean 5% at the end teaches procurement exactly how you fold, and next renewal opens from there.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Can't do it. Take it back to committee if you need to.", eval: -0.6, rationale: "Walking over 5% at the finish line torches your sunk position. The committee reopens the decision, and the competitor is still in the building.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "You can have the 5% if we sign today. I'll paper it into the order form with an expiration stamp, and on our side it gets framed as quarter-end capacity planning rather than price flexibility.", eval: -0.2, rationale: "Full concession plus a deadline is the most predictable branch of procurement's discount tree. They absorb it as routine, and remember the fold instead of the framing.", atlasTags: ["sharp-angle", "scarcity"]),
             ],
             bestIndex: 0,
             themeHint: "Round-number concession asks are procurement-theater. Structurally-different counters preserve the anchor.",
@@ -1348,13 +1348,13 @@ public enum Puzzles {
         Puzzle(
             id: "p078", theme: .endgame, difficulty: 1600,
             buyerRole: "Endgame stall: signature delayed by holiday",
-            setup: "Verbal commit. Signature delayed by holiday calendar.",
+            setup: "You have a verbal commit, but signature is delayed by the holiday calendar.",
             buyerLine: "We're closing the office for the holiday. Back in two weeks.",
             candidates: [
-                PuzzleCandidate(text: "Totally understand — enjoy the break. Let me pre-stage everything on our side: a one-click DocuSign envelope ready to go, and if you can name one person who can sign when you're back, there's zero friction on the return.", eval: 0.7, rationale: "Holiday-delayed signatures slip badly when nothing is staged. A pre-loaded envelope and one named signer on return costs you nothing and insures the close.", atlasTags: ["concrete-construal", "commitment-consistency"]),
-                PuzzleCandidate(text: "No problem — talk in two weeks.", eval: -0.3, rationale: "Accept-and-wait accepts the slippage rate along with it. Deals really do die over a holiday-extended quiet period.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "Any chance we could squeeze the signature in before you close up?", eval: -0.4, rationale: "Pressuring someone against their own holiday reads as your quota, not their interest. It costs the relationship more than two weeks costs you.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "If you can get it signed before the holiday, I can take a little more off the price.", eval: -0.5, rationale: "A discount to beat a holiday teaches them your price bends under calendar pressure — a lesson they'll cash in at year two.", atlasTags: ["sharp-angle", "scarcity"]),
+                PuzzleCandidate(text: "Totally understand. Enjoy the break. Let me pre-stage everything on our side: a one-click DocuSign envelope ready to go, and if you can name one person who can sign when you're back, there's zero friction on the return.", eval: 0.7, rationale: "Holiday-delayed signatures slip badly when nothing is staged. A pre-loaded envelope and one named signer on return costs you nothing and insures the close.", atlasTags: ["concrete-construal", "commitment-consistency"]),
+                PuzzleCandidate(text: "No problem. Talk in two weeks.", eval: -0.3, rationale: "Accept-and-wait accepts the slippage rate along with it. Deals really do die over a holiday-extended quiet period.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Any chance we could squeeze the signature in before you close up?", eval: -0.4, rationale: "Pressuring someone against their own holiday reads as your quota rather than their interest. It costs the relationship more than two weeks costs you.", atlasTags: ["scarcity"]),
+                PuzzleCandidate(text: "If you can get it signed before the holiday, I can take a little more off the price.", eval: -0.5, rationale: "A discount to beat a holiday teaches them your price bends under calendar pressure, a lesson they will cash in at year two.", atlasTags: ["sharp-angle", "scarcity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: nil
@@ -1363,13 +1363,13 @@ public enum Puzzles {
         Puzzle(
             id: "p079", theme: .endgame, difficulty: 2000,
             buyerRole: "Endgame politics: customer's general counsel inserting new clauses",
-            setup: "Last week of cycle. GC opens new clauses not raised in red-lines.",
+            setup: "This is the last week of the cycle, and the GC is opening new clauses that were never raised in red-lines.",
             buyerLine: "[GC] We need a most-favored-nation clause, a unilateral price-cap, and a competitor non-compete.",
             candidates: [
-                PuzzleCandidate(text: "We can take the price cap, scoped to year-over-year increases above 6% — that's within our standard tolerance. The MFN and the non-compete we can't do; neither is market-standard, and I can show you the enterprise norms we benchmark against.", eval: 0.8, rationale: "Differentiate and you signal market fluency: accept what's standard — a scoped price cap — and reject what isn't. GCs respect a vendor who demonstrably knows the norms.", atlasTags: ["alternative-choice", "concrete-construal"]),
+                PuzzleCandidate(text: "We can take the price cap, scoped to year-over-year increases above 6%. That's within our standard tolerance. The MFN and the non-compete we can't do. Neither is market-standard, and I can show you the enterprise norms we benchmark against.", eval: 0.8, rationale: "Differentiating signals market fluency. Accept what's standard, a scoped price cap, and reject what isn't. GCs respect a vendor who demonstrably knows the norms.", atlasTags: ["alternative-choice", "concrete-construal"]),
                 PuzzleCandidate(text: "We can work with all three.", eval: -1.2, rationale: "MFN plus a non-compete plus a unilateral price cap hands them asymmetric leverage forever. That's existence-level NPV damage, accepted in one breath.", atlasTags: ["sharp-angle"]),
-                PuzzleCandidate(text: "None of the three will work for us.", eval: -0.5, rationale: "Blanket rejection stalls the close — and the price cap was legitimate territory. You just told the GC you can't tell standard from non-standard.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "Could we move all three into a side letter? We'd sequence it so the price cap — the one with real territory — lands first with agreed language, then hold the MFN and the non-compete for a scheduled counsel-to-counsel session with a named date, so the deferral reads as process rather than avoidance.", eval: -0.4, rationale: "Three clauses in a side letter is complexity legal teams refuse. You've delayed the close and may have collapsed it.", atlasTags: ["isolate-and-conquer", "mutual-close-plan"]),
+                PuzzleCandidate(text: "None of the three will work for us.", eval: -0.5, rationale: "Blanket rejection stalls the close, and the price cap was legitimate territory. You just told the GC you cannot tell standard from non-standard.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "Could we move all three into a side letter? We'd sequence it so the price cap, the one with real territory, lands first with agreed language, then hold the MFN and the non-compete for a scheduled counsel-to-counsel session with a named date, so the deferral reads as process rather than avoidance.", eval: -0.4, rationale: "Three clauses in a side letter is complexity legal teams refuse. You've delayed the close and may have collapsed it.", atlasTags: ["isolate-and-conquer", "mutual-close-plan"]),
             ],
             bestIndex: 0,
             themeHint: "Late-stage GC clause insertion requires differentiated response: accept market-standard, reject non-standard.",
@@ -1379,13 +1379,13 @@ public enum Puzzles {
         Puzzle(
             id: "p080", theme: .endgame, difficulty: 1500,
             buyerRole: "Verbal commit; champion has lost momentum internally",
-            setup: "Verbal commit two weeks ago. Champion has not advanced the paperwork.",
+            setup: "You had a verbal commit two weeks ago, but the champion has not advanced the paperwork.",
             buyerLine: "Sorry, been swamped. I'll get the paperwork to legal this week.",
             candidates: [
-                PuzzleCandidate(text: "I know how much internal routing this stuff takes — want me to draft the routing email and the legal-handoff doc for you? You'd just review and hit send.", eval: 0.7, rationale: "Post-commit stalls are almost always routing friction, not doubt. Draft the email and the handoff doc yourself — taking the work off the champion's plate is the standard endgame intervention.", atlasTags: ["reciprocity", "concrete-construal"]),
-                PuzzleCandidate(text: "No worries — this week works.", eval: -0.4, rationale: "'This week' from a swamped champion means nothing yet. Wait passively and you watch the momentum decay one week at a time.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "I know how much internal routing this stuff takes. Want me to draft the routing email and the legal-handoff doc for you? You'd just review and hit send.", eval: 0.7, rationale: "Post-commit stalls are almost always routing friction rather than doubt. Draft the email and the handoff doc yourself. Taking the work off the champion's plate is the standard endgame intervention.", atlasTags: ["reciprocity", "concrete-construal"]),
+                PuzzleCandidate(text: "No worries. This week works.", eval: -0.4, rationale: "This week from a swamped champion means nothing yet. Wait passively, and you watch the momentum decay one week at a time.", atlasTags: ["silence"]),
                 PuzzleCandidate(text: "Is there someone above you who could help push it through faster?", eval: -0.5, rationale: "Pushing a stalled champion to escalate presses on the exact spot where their standing may already be weak. You'll damage the person who got you here.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "If we can get signature this week, I can add an implementation credit on top — papered with a hard expiration date so it never touches your renewal baseline at year two.", eval: -0.5, rationale: "A discount nobody asked for, offered into a stall, teaches your champion that delay pays. It also sours the dynamic right before you become a line item they defend.", atlasTags: ["sharp-angle", "scarcity"]),
+                PuzzleCandidate(text: "If we can get signature this week, I can add an implementation credit on top, papered with a hard expiration date so it never touches your renewal baseline at year two.", eval: -0.5, rationale: "A discount nobody asked for, offered into a stall, teaches your champion that delay pays. It also sours the dynamic right before you become a line item they defend.", atlasTags: ["sharp-angle", "scarcity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-haiti-how"
@@ -1394,13 +1394,13 @@ public enum Puzzles {
         Puzzle(
             id: "p081", theme: .endgame, difficulty: 1800,
             buyerRole: "Procurement insertion at endgame asking for a fourth signer",
-            setup: "Final paperwork. Procurement inserts a new requirement.",
+            setup: "This is the final paperwork stage, and procurement has inserted a new requirement.",
             buyerLine: "Our process requires an additional VP-level signoff. Adds two weeks.",
             candidates: [
-                PuzzleCandidate(text: "Completely understand — process is process. Would it help if I gave the new signer a 15-minute briefing on the deal at whatever time suits them, just to shrink their review load?", eval: 0.7, rationale: "An added signer is standard endgame friction — treat them as an audience, not an obstacle. A short briefing shrinks the VP's review and puts your framing in front of the decision.", atlasTags: ["multi-threading", "reciprocity"]),
+                PuzzleCandidate(text: "Completely understand. Process is process. Would it help if I gave the new signer a 15-minute briefing on the deal at whatever time suits them, just to shrink their review load?", eval: 0.7, rationale: "An added signer is standard endgame friction, so treat them as an audience instead of an obstacle. A short briefing shrinks the VP's review and puts your framing in front of the decision.", atlasTags: ["multi-threading", "reciprocity"]),
                 PuzzleCandidate(text: "Is there any way to waive the extra signoff? We had a plan for Friday.", eval: -0.4, rationale: "Procurement doesn't waive its own process, and asking them to marks you adversarial for the entire post-purchase relationship.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "That's fine — we'll use the two weeks well: I'll tighten up the implementation plan, confirm the countersignature logistics with our legal team, and hold the kickoff date steady so the delay doesn't cost us anything downstream.", eval: -0.3, rationale: "Productive-looking patience — but you surrendered the one thing that matters: shaping how the new signer sees the deal before they judge it.", atlasTags: ["silence", "mutual-close-plan"]),
-                PuzzleCandidate(text: "What if I improved the price to skip the extra signer?", eval: -0.7, rationale: "You just offered procurement money to break their own rules. That's not a discount, it's an insult — and they'll remember it.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "That's fine. We'll use the two weeks well: I'll tighten up the implementation plan, confirm the countersignature logistics with our legal team, and hold the kickoff date steady so the delay doesn't cost us anything downstream.", eval: -0.3, rationale: "This is productive-looking patience, but you surrendered the one thing that matters: shaping how the new signer sees the deal before they judge it.", atlasTags: ["silence", "mutual-close-plan"]),
+                PuzzleCandidate(text: "What if I improved the price to skip the extra signer?", eval: -0.7, rationale: "You just offered procurement money to break their own rules. That reads as an insult rather than a discount, and they will remember it.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "klaff-time-reversal"
@@ -1409,13 +1409,13 @@ public enum Puzzles {
         Puzzle(
             id: "p082", theme: .endgame, difficulty: 2100,
             buyerRole: "Champion suddenly silent at endgame",
-            setup: "Verbal commit three weeks ago. Champion has not responded in 10 days.",
+            setup: "You had a verbal commit three weeks ago, and the champion has not responded in 10 days.",
             buyerLine: "[silence]",
             candidates: [
-                PuzzleCandidate(text: "You've probably gone quiet because something changed — budget pulled, another vendor in the mix, or someone senior stepped in. Whichever it is, I'd rather hear it straight. If not, I'll assume the timing's wrong and step away.", eval: 0.8, rationale: "Ten days of silence after a verbal commit means one of three specific things happened. Name them out loud — you give the champion permission to tell you the truth, and the takeaway gives them a reason to answer now.", atlasTags: ["accusation-audit", "takeaway"]),
+                PuzzleCandidate(text: "You've probably gone quiet because something changed: budget pulled, another vendor in the mix, or someone senior stepped in. Whichever it is, I'd rather hear it straight. If not, I'll assume the timing's wrong and step away.", eval: 0.8, rationale: "Ten days of silence after a verbal commit means one of three specific things happened. Naming them out loud gives the champion permission to tell you the truth, and the takeaway gives them a reason to answer now.", atlasTags: ["accusation-audit", "takeaway"]),
                 PuzzleCandidate(text: "Just floating this back to the top of your inbox!", eval: -0.5, rationale: "Another cheerful bump reinforces the silence pattern. You've become the notification they archive.", atlasTags: ["liking"]),
-                PuzzleCandidate(text: "[to the exec, champion cc'd] Wanted to check in on the Q3 priority you flagged at our kickoff — no rush at all on the agreement itself, just making sure you have everything you need from us while things are clearly busy on your side. Happy to help however is useful.", eval: -0.4, rationale: "Going over a silent champion's head rarely re-engages them and often finishes them. Even copied on the thread, they'll read it as a bypass.", atlasTags: ["authority", "commitment-consistency"]),
-                PuzzleCandidate(text: "Would another 10% off help get this over the line?", eval: -0.8, rationale: "A discount thrown into silence — with no objection on the table — teaches every future champion that going quiet is the lever that moves your price.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "[to the exec, champion cc'd] Wanted to check in on the Q3 priority you flagged at our kickoff. No rush at all on the agreement itself, just making sure you have everything you need from us while things are clearly busy on your side. Happy to help however is useful.", eval: -0.4, rationale: "Going over a silent champion's head rarely re-engages them and often finishes them. Even copied on the thread, they'll read it as a bypass.", atlasTags: ["authority", "commitment-consistency"]),
+                PuzzleCandidate(text: "Would another 10% off help get this over the line?", eval: -0.8, rationale: "A discount thrown into silence, with no objection on the table, teaches every future champion that going quiet is the lever that moves your price.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0,
             themeHint: "Late-stage silence usually signals a specific event. Accusation audit surfaces it.",
@@ -1425,13 +1425,13 @@ public enum Puzzles {
         Puzzle(
             id: "p083", theme: .endgame, difficulty: 1700,
             buyerRole: "Customer wants payment-term concession at endgame",
-            setup: "Final paperwork. Customer requests net-90 instead of net-30.",
+            setup: "This is the final paperwork, and the customer requests net-90 instead of net-30.",
             buyerLine: "Our standard is net-90. Can we get that on the contract?",
             candidates: [
-                PuzzleCandidate(text: "We can meet you at net-60, paired with a small price adjustment indexed to our working-capital cost — that keeps the whole thing NPV-neutral for both sides instead of a one-way transfer.", eval: 0.7, rationale: "Payment terms are an NPV transfer wearing a process costume. Meet at the midpoint and index the difference to your working-capital cost — symmetric, defensible, done.", atlasTags: ["anchor-with-range", "concrete-construal"]),
-                PuzzleCandidate(text: "Sure — net-90 at the same price works.", eval: -0.5, rationale: "Sixty extra days at the same price is a silent price cut. You just absorbed their financing cost and called it goodwill.", atlasTags: ["reciprocity"]),
+                PuzzleCandidate(text: "We can meet you at net-60, paired with a small price adjustment indexed to our working-capital cost. That keeps the whole thing NPV-neutral for both sides instead of a one-way transfer.", eval: 0.7, rationale: "Payment terms are an NPV transfer wearing a process costume. Meet at the midpoint and index the difference to your working-capital cost. That is symmetric, defensible, and done.", atlasTags: ["anchor-with-range", "concrete-construal"]),
+                PuzzleCandidate(text: "Sure. Net-90 at the same price works.", eval: -0.5, rationale: "Sixty extra days at the same price is a silent price cut. You just absorbed their financing cost and called it goodwill.", atlasTags: ["reciprocity"]),
                 PuzzleCandidate(text: "We can't move off net-30.", eval: -0.3, rationale: "A flat no on a standard ask, this late, stalls a deal that's already agreed in spirit. Concede-with-counter beats the stonewall here.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "We could do net-90 if you go on autopay.", eval: 0.3, rationale: "Autopay trims collection cost, not working-capital cost. Useful garnish — but it isn't the counter.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "We could do net-90 if you go on autopay.", eval: 0.3, rationale: "Autopay trims collection cost rather than working-capital cost. This is a useful garnish, but it isn't the counter.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "tracy-think-it-over"
@@ -1440,13 +1440,13 @@ public enum Puzzles {
         Puzzle(
             id: "p084", theme: .endgame, difficulty: 1900,
             buyerRole: "Final discount ask from procurement, contingent",
-            setup: "Final negotiations. Procurement signals one more concession need.",
+            setup: "This is the final negotiation, and procurement signals one more concession need.",
             buyerLine: "Give me 7%. I'll get the deal closed by Friday. That's the absolute last ask.",
             candidates: [
-                PuzzleCandidate(text: "Here's what I can do: 4% — if we sign Friday, extend the term six months, and add a published case-study clause. Every concession comes with a lever attached, not just a smaller number.", eval: 0.8, rationale: "The 'absolute last ask' is procurement's last-shot play. A multi-lever counter holds your anchor and still hands them a face-saving win to carry inside.", atlasTags: ["alternative-choice", "scarcity"]),
-                PuzzleCandidate(text: "Done — 7% for a Friday signature.", eval: -0.4, rationale: "You hit their number with a single lever. Procurement logs the fold, and year two opens from the new, lower anchor.", atlasTags: ["sharp-angle", "scarcity"]),
-                PuzzleCandidate(text: "The number stands. Your own stakeholders signed off on the value case, and the price already reflects everything we negotiated into the scope — so if it needs to go back to committee, I'm comfortable with that.", eval: -0.6, rationale: "Calling the bluff on a winnable 7-point spread risks the whole deal to win an argument. Only defensible if you're certain of their posture — and you're not.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "Okay — we'll do the 7%.", eval: -0.7, rationale: "Unconditional surrender is the worst branch: they record the concession and the absence of any counter. You just priced next year's negotiation for them.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Here's what I can do: 4%, if we sign Friday, extend the term six months, and add a published case-study clause. Every concession comes with a lever attached instead of just a smaller number.", eval: 0.8, rationale: "The absolute last ask is procurement's last-shot play. A multi-lever counter holds your anchor and still hands them a face-saving win to carry inside.", atlasTags: ["alternative-choice", "scarcity"]),
+                PuzzleCandidate(text: "Done. 7% for a Friday signature.", eval: -0.4, rationale: "You hit their number with a single lever. Procurement logs the fold, and year two opens from the new, lower anchor.", atlasTags: ["sharp-angle", "scarcity"]),
+                PuzzleCandidate(text: "The number stands. Your own stakeholders signed off on the value case, and the price already reflects everything we negotiated into the scope. If it needs to go back to committee, I'm comfortable with that.", eval: -0.6, rationale: "Calling the bluff on a winnable 7-point spread risks the whole deal to win an argument. This is only defensible if you are certain of their posture, and you are not.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "Okay. We'll do the 7%.", eval: -0.7, rationale: "Unconditional surrender is the worst branch: they record the concession and the absence of any counter. You just priced next year's negotiation for them.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-accusation-audit"
@@ -1455,13 +1455,13 @@ public enum Puzzles {
         Puzzle(
             id: "p085", theme: .endgame, difficulty: 1600,
             buyerRole: "Champion needs internal positioning help for signature",
-            setup: "Verbal commit. Champion asks for help framing the deal upward.",
+            setup: "You have a verbal commit, and the champion is asking for help framing the deal upward.",
             buyerLine: "Honestly I need help selling this internally. What's the best way to position it to my CFO?",
             candidates: [
-                PuzzleCandidate(text: "I'll build you a one-page CFO memo: the outcome data behind our value claim, a named peer in your revenue band, and a one-line risk-mitigation statement — formatted so you can drop it straight into your own memo.", eval: 0.8, rationale: "Your champion just asked you to do the work — so do all of it. A drop-in CFO memo removes the last piece of cognitive load between verbal commit and signature.", atlasTags: ["reciprocity", "social-proof", "concrete-construal"]),
-                PuzzleCandidate(text: "What if I presented to your CFO directly?", eval: 0.4, rationale: "Useful if the CFO is responsive — but offered uninvited, it can read as going around your champion's own internal positioning. Their call, not yours.", atlasTags: ["multi-threading"]),
-                PuzzleCandidate(text: "I'll send over our ROI deck.", eval: -0.2, rationale: "They asked for help selling upward and you handed them homework. A generic deck assumes the champion will repackage it — the ask was for you to.", atlasTags: ["gain-framing"]),
-                PuzzleCandidate(text: "You know your CFO better than I ever will — I'd trust your instincts on framing.", eval: -0.5, rationale: "Flattery isn't help. The champion told you plainly they need material, and you left them to carry the load alone.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "I'll build you a one-page CFO memo: the outcome data behind our value claim, a named peer in your revenue band, and a one-line risk-mitigation statement, formatted so you can drop it straight into your own memo.", eval: 0.8, rationale: "Your champion just asked you to do the work, so do all of it. A drop-in CFO memo removes the last piece of cognitive load between verbal commit and signature.", atlasTags: ["reciprocity", "social-proof", "concrete-construal"]),
+                PuzzleCandidate(text: "What if I presented to your CFO directly?", eval: 0.4, rationale: "This is useful if the CFO is responsive, but offered uninvited, it can read as going around your champion's own internal positioning. It is their call to make, not yours.", atlasTags: ["multi-threading"]),
+                PuzzleCandidate(text: "I'll send over our ROI deck.", eval: -0.2, rationale: "They asked for help selling upward and you handed them homework. A generic deck assumes the champion will repackage it, but the ask was for you to do it.", atlasTags: ["gain-framing"]),
+                PuzzleCandidate(text: "You know your CFO better than I ever will. I'd trust your instincts on framing.", eval: -0.5, rationale: "Flattery is not help. The champion told you plainly they need material, and you left them to carry the load alone.", atlasTags: ["silence"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-haiti-how"
@@ -1470,13 +1470,13 @@ public enum Puzzles {
         Puzzle(
             id: "p086", theme: .endgame, difficulty: 1700,
             buyerRole: "Customer asks for parallel-vendor language in contract",
-            setup: "Final legal review. Customer requests right-to-evaluate-competitor language.",
+            setup: "This is the final legal review, and the customer requests right-to-evaluate-competitor language.",
             buyerLine: "[legal] We want a clause permitting us to evaluate parallel vendors during the term without contract penalty.",
             candidates: [
-                PuzzleCandidate(text: "That's fine as a stated business right — we'd just add a 30-day notice obligation before any active competitor evaluation begins. Symmetric process clarity, for both sides.", eval: 0.7, rationale: "The right to evaluate exists whether or not it's written down. Grant the clause, add 30 days' notice, and you've bought yourself reaction time for the price of ink.", atlasTags: ["alternative-choice"]),
-                PuzzleCandidate(text: "We can't include that — the standard MSA governs.", eval: -0.4, rationale: "Refusing to write down a right they already hold signals insecurity, not strength. The clause was cheap; the message you just sent wasn't.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "Absolutely — we'll add it as written. Honestly, we read it as a vote of confidence: you've told us you intend to standardize on the platform, and if you ever do run an evaluation, that's exactly the signal our customer-success team should be hearing and managing anyway.", eval: -0.3, rationale: "Unscoped, that clause is permission to run silent parallel pilots. You reframed a threat as a compliment — and gave away your reaction time to do it.", atlasTags: ["reciprocity", "liking"]),
-                PuzzleCandidate(text: "What if we took something off the price to drop the clause?", eval: -0.6, rationale: "Paying to remove the clause tells them it terrifies you — which prices it for them. It comes back at renewal with a number attached.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "That's fine as a stated business right. We'd just add a 30-day notice obligation before any active competitor evaluation begins. This gives both sides symmetric process clarity.", eval: 0.7, rationale: "The right to evaluate exists whether or not it's written down. Grant the clause, add 30 days' notice, and you've bought yourself reaction time for the price of ink.", atlasTags: ["alternative-choice"]),
+                PuzzleCandidate(text: "We can't include that. The standard MSA governs.", eval: -0.4, rationale: "Refusing to write down a right they already hold signals insecurity rather than strength. The clause was cheap, but the message you just sent was not.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "Absolutely. We'll add it as written. Honestly, we read it as a vote of confidence: you've told us you intend to standardize on the platform, and if you ever do run an evaluation, that's exactly the signal our customer-success team should be hearing and managing anyway.", eval: -0.3, rationale: "Unscoped, that clause is permission to run silent parallel pilots. You reframed a threat as a compliment, and gave away your reaction time to do it.", atlasTags: ["reciprocity", "liking"]),
+                PuzzleCandidate(text: "What if we took something off the price to drop the clause?", eval: -0.6, rationale: "Paying to remove the clause tells them it terrifies you, which prices it for them. It comes back at renewal with a number attached.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-accusation-audit"
@@ -1485,13 +1485,13 @@ public enum Puzzles {
         Puzzle(
             id: "p087", theme: .endgame, difficulty: 2000,
             buyerRole: "Last-minute exec change midway through endgame paperwork",
-            setup: "Verbal commit. CFO who approved leaves the company. New CFO inherits.",
+            setup: "You have a verbal commit, but the CFO who approved it has left the company, and a new CFO has inherited the deal.",
             buyerLine: "[champion] New CFO wants to re-review before signing. Adds two weeks minimum.",
             candidates: [
-                PuzzleCandidate(text: "Makes sense — a new CFO should absolutely look at this. Let me package it decision-ready: the full memo, named peer references, and the rationale the prior CFO approved on, so the review is a confirmation rather than a restart.", eval: 0.8, rationale: "An inherited executive is a net-new buyer wearing an old approval. Hand them a decision-ready memo that carries the prior rationale forward and you shrink the review — and the odds it becomes a re-decision.", atlasTags: ["reciprocity", "social-proof"]),
+                PuzzleCandidate(text: "Makes sense. A new CFO should absolutely look at this. Let me package it decision-ready: the full memo, named peer references, and the rationale the prior CFO approved on, so the review is a confirmation rather than a restart.", eval: 0.8, rationale: "An inherited executive is a net-new buyer wearing an old approval. Hand them a decision-ready memo that carries the prior rationale forward, and you shrink the review and the odds it becomes a re-decision.", atlasTags: ["reciprocity", "social-proof"]),
                 PuzzleCandidate(text: "Any way to get signature in before the new CFO settles in?", eval: -0.8, rationale: "Racing the new CFO's review reads as exactly what it is: bad faith. Even if you win the race, you lose the post-purchase relationship you have to live in.", atlasTags: ["scarcity"]),
-                PuzzleCandidate(text: "Of course — we'll stand down completely while the new CFO gets up to speed: no outreach from our side, the close plan stays exactly as drafted, and if any questions come out of the transition, surface them whenever the timing works for you.", eval: -0.5, rationale: "Standing down feels respectful and costs you the deal. Inherited-CFO transitions reverse a frightening share of pre-approved decisions when nobody re-positions.", atlasTags: ["silence"]),
-                PuzzleCandidate(text: "Would a discount help smooth the transition?", eval: -0.6, rationale: "Discounting to a buyer you haven't even met teaches them — before their first conversation with you — that your price is soft. The cap only moves down from here.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "Of course. We'll stand down completely while the new CFO gets up to speed: no outreach from our side, the close plan stays exactly as drafted, and if any questions come out of the transition, surface them whenever the timing works for you.", eval: -0.5, rationale: "Standing down feels respectful and costs you the deal. Inherited-CFO transitions reverse a frightening share of pre-approved decisions when nobody re-positions.", atlasTags: ["silence"]),
+                PuzzleCandidate(text: "Would a discount help smooth the transition?", eval: -0.6, rationale: "Discounting to a buyer you haven't even met teaches them, before their first conversation with you, that your price is soft. The cap only moves down from here.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0,
             themeHint: "Inherited executives at endgame are net-new buyers. Re-positioning beats waiting.",
