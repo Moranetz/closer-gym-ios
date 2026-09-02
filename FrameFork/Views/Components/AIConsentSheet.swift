@@ -16,7 +16,7 @@ struct AIConsentSheet: View {
                     .padding(.top, 20)
 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Live games and the AI coach run on Anthropic, the maker of Claude.")
+                    Text("Live games and the coach run on Anthropic. When you play one, this leaves your phone:")
                         .scaledFont(size: 14)
                         .foregroundStyle(Color.textSecondary)
                         .lineSpacing(3)
