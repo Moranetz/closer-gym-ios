@@ -53,13 +53,13 @@ public enum Puzzles {
         Puzzle(
             id: "p003", theme: .procurement, difficulty: 1800,
             buyerRole: "Procurement specialist, F500",
-            setup: "First procurement call after business team agreed in principle. This procurement specialist has seen every tactic in the book.",
+            setup: "This is the first procurement call after the business team agreed in principle. This specialist has seen every tactic in the book.",
             buyerLine: "Our procurement guidelines flag anything above 12% premium versus the next bid. You're at 15. Either we close the delta or this goes to a re-bid process I can't accelerate.",
             candidates: [
-                PuzzleCandidate(text: "Before we work the delta — can we put both SOWs side by side, line for line? Fifteen percent against a matched scope is a different number than fifteen against list.", eval: 0.7, rationale: "The 12% guideline only binds against comparable bids. Moving the reference point from list price to matched scope changes what the premium is judged from — and procurement respects comparison rigor, because it's their own daily work.", atlasTags: ["contrast", "concrete-construal"]),
-                PuzzleCandidate(text: "What did the other bid actually scope before we invoke the twelve percent?", eval: 0.4, rationale: "Right instinct, weaker instrument. An open question lets a specialist this savvy choose what to disclose; the side-by-side artifact forces the comparison onto the record.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "I can get to twelve if it keeps us out of the re-bid — call it a one-time accommodation to the guideline.", eval: -0.5, rationale: "A concession inside the first procurement turn. The guideline just became your price, the accommodation became the precedent, and the next guideline arrives at renewal.", atlasTags: ["sharp-angle"]),
-                PuzzleCandidate(text: "The business team already accepted this number in principle — the premium's been signed off at the level that owns the budget, so I'd hate to re-litigate something leadership has already agreed to.", eval: -0.9, rationale: "You just tried to route around procurement's mandate, and a specialist at this level reads it as exactly that. The re-bid stops being their threat and becomes their process.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "Before we work the delta, can we put both SOWs side by side, line for line? Fifteen percent against a matched scope is a different number than fifteen against list.", eval: 0.7, rationale: "The 12% guideline only binds against comparable bids. Moving the reference point from list price to matched scope changes what the premium gets judged against. Procurement respects comparison rigor, because it is their own daily work.", atlasTags: ["contrast", "concrete-construal"]),
+                PuzzleCandidate(text: "What did the other bid actually scope before we invoke the twelve percent?", eval: 0.4, rationale: "This is the right instinct with a weaker instrument. An open question lets a specialist this savvy choose what to disclose. The side-by-side artifact forces the comparison onto the record.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "I can get to twelve if it keeps us out of the re-bid. Call it a one-time accommodation to the guideline.", eval: -0.5, rationale: "This is a concession inside the first procurement turn. The guideline just became your price, and the accommodation became the precedent. The next guideline arrives at renewal.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "The business team already accepted this number in principle. The premium has been signed off at the level that owns the budget, so I'd hate to re-litigate something leadership has already agreed to.", eval: -0.9, rationale: "You just tried to route around procurement's mandate, and a specialist at this level reads it as exactly that. The re-bid stops being their threat and becomes their process.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "klaff-time-reversal"
@@ -84,13 +84,13 @@ public enum Puzzles {
         Puzzle(
             id: "p005", theme: .procurement, difficulty: 1900,
             buyerRole: "Senior procurement specialist",
-            setup: "Late stage. Champion verbally committed. Procurement running 'standard process.'",
+            setup: "This is a late stage deal. Your champion has verbally committed, and procurement is now running its standard process.",
             buyerLine: "We've been burned twice in the last 18 months on year-one cancellations. Procurement now requires a 90-day evaluation period before any multi-year. That's policy, not preference.",
             candidates: [
-                PuzzleCandidate(text: "The 90 days is fine — we'll run it. Two things to make it work: what does a pass look like at day 90, and should we flag to your sponsor what a quarter of delay costs their team?", eval: 0.9, rationale: "You absorb the policy without contest, then open two doors in the same breath: procurement's exit criteria and the sponsor's cost of delay. That's multi-threading embedded inside compliance — the policy stays intact and the deal keeps moving.", atlasTags: ["calibrated-question", "multi-threading"], isFork: true),
-                PuzzleCandidate(text: "Any way we could compress the evaluation to 30 days?", eval: -0.2, rationale: "You're negotiating the timeline without touching the policy frame. They told you it's policy, not preference — haggling the number tells procurement you need this deal more than they need the eval.", atlasTags: ["extreme-anchor"]),
+                PuzzleCandidate(text: "The 90 days is fine. We'll run it. Two things to make it work: what does a pass look like at day 90, and should we flag to your sponsor what a quarter of delay costs their team?", eval: 0.9, rationale: "You absorb the policy without contest, then open two doors in the same breath: procurement's exit criteria and the sponsor's cost of delay. This is multi-threading embedded inside compliance. The policy stays intact, and the deal keeps moving.", atlasTags: ["calibrated-question", "multi-threading"], isFork: true),
+                PuzzleCandidate(text: "Any way we could compress the evaluation to 30 days?", eval: -0.2, rationale: "You are negotiating the timeline without touching the policy frame. They already told you this is policy. Haggling the number tells procurement you need this deal more than they need the eval.", atlasTags: ["extreme-anchor"]),
                 PuzzleCandidate(text: "Would our SOC 2 and ISO 27001 packages cover what the evaluation is checking for? I can also set up reference calls with two security teams who've been through year one with us and renewed.", eval: -0.5, rationale: "You just offered paperwork as a substitute for a step they framed as non-negotiable. To a procurement specialist that reads as substitution, and the generic reference offer lands as every vendor's move.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "What if we papered the multi-year now with a 90-day out clause — same protection, no eval period?", eval: -1.0, rationale: "That's a route around procurement's authority dressed up as cleverness. They read it as either ignorance of their mandate or an attempt to dodge it — both cost you trust you can't buy back.", atlasTags: ["sharp-angle"]),
+                PuzzleCandidate(text: "What if we papered the multi-year now with a 90-day out clause, giving the same protection without the eval period?", eval: -1.0, rationale: "This is a route around procurement's authority dressed up as cleverness. They read it as either ignorance of their mandate or an attempt to dodge it, and both cost you trust you cannot buy back.", atlasTags: ["sharp-angle"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: nil
@@ -99,13 +99,13 @@ public enum Puzzles {
         Puzzle(
             id: "p006", theme: .procurement, difficulty: 2100,
             buyerRole: "Procurement counterparty in adversarial negotiation",
-            setup: "You've named your number. They've named theirs. Gap is $40K.",
+            setup: "You have named your number, and they have named theirs. The gap is $40K.",
             buyerLine: "We're $40K apart. Before either of us makes a move, what's your last quarter's win-loss ratio at our deal size? I want to know what the next vendor in line costs us.",
             candidates: [
-                PuzzleCandidate(text: "I don't have that number in a form I'd stand behind, so I'm not going to guess at it. What I can defend is the deployment math — you said the six-week install was worth real money to your team. Let's price that.", eval: 0.6, rationale: "You refused to invent a number you can't defend and re-anchored on a dimension they already told you they value. The conversation now sits on ground you can actually hold.", atlasTags: ["calibrated-question", "concrete-construal"]),
-                PuzzleCandidate(text: "Honestly? About three in five at your size — small sample.", eval: 0.1, rationale: "Honest, and free. They pocket the data point with zero obligation — you disclosed information without extracting anything in return.", atlasTags: ["liking"]),
-                PuzzleCandidate(text: "Let's just split the difference — meet at twenty and both stop negotiating.", eval: 0.2, rationale: "Workable, but you just told procurement you can move twenty grand. They'll be back for a second pass at half of it.", atlasTags: ["alternative-choice"]),
-                PuzzleCandidate(text: "Take the full forty off if we sign by Friday — and I'll put a signed delivery guarantee on top to make it easy.", eval: -1.1, rationale: "They don't read that as generosity — they read it as a rep hitting a quarter-end number. Full capitulation plus manufactured urgency confirms every lever they suspected they had.", atlasTags: ["scarcity"]),
+                PuzzleCandidate(text: "I don't have that number in a form I'd stand behind, so I'm not going to guess at it. What I can defend is the deployment math. You said the six-week install was worth real money to your team, so let's price that.", eval: 0.6, rationale: "You refused to invent a number you can't defend and re-anchored on a dimension they already told you they value. The conversation now sits on ground you can actually hold.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "Honestly, about three in five at your size, and that's a small sample.", eval: 0.1, rationale: "This is honest, and it is free. They pocket the data point with zero obligation. You disclosed information without extracting anything in return.", atlasTags: ["liking"]),
+                PuzzleCandidate(text: "Let's just split the difference, meet at twenty, and both stop negotiating.", eval: 0.2, rationale: "This is workable, but you just told procurement you can move twenty grand. They will be back for a second pass at half of it.", atlasTags: ["alternative-choice"]),
+                PuzzleCandidate(text: "Take the full forty off if we sign by Friday, and I'll put a signed delivery guarantee on top to make it easy.", eval: -1.1, rationale: "They read that as a rep hitting a quarter-end number. Full capitulation plus manufactured urgency confirms every lever they suspected they had.", atlasTags: ["scarcity"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-accusation-audit"
@@ -114,13 +114,13 @@ public enum Puzzles {
         Puzzle(
             id: "p007", theme: .procurement, difficulty: 1700,
             buyerRole: "IT security architect, technical evaluator",
-            setup: "Security review meeting. Architect finished walking through their concerns.",
+            setup: "This is the security review meeting, and the architect just finished walking through their concerns.",
             buyerLine: "SOC2's fine. FedRAMP's the issue. We're under a federal data-sharing agreement and audit's been getting more aggressive. Even a Moderate ATO would unblock us.",
             candidates: [
-                PuzzleCandidate(text: "Straight answer: we don't hold a FedRAMP ATO today, and I won't pretend otherwise. When does the audit actually land? If it's Q4, this is a different timing conversation than if it's next month.", eval: 0.6, rationale: "You named the gap accurately and surfaced a timing question the architect can actually answer. They walk away reading you as audit-literate — which is worth more than a promise you can't keep.", atlasTags: ["calibrated-question", "concrete-construal"]),
-                PuzzleCandidate(text: "We're targeting Moderate ATO next year. If that unblocks you, we'll put the date in the MSA as a milestone with remedies attached — and I'll send you the roadmap doc so your team can verify exactly where we are.", eval: 0.3, rationale: "Works if you can genuinely hold the date. If your roadmap slips, you've converted a compliance gap into a contract breach and a reputation hit.", atlasTags: ["commitment-consistency"]),
+                PuzzleCandidate(text: "Straight answer: we don't hold a FedRAMP ATO today, and I won't pretend otherwise. When does the audit actually land? If it's Q4, this is a different timing conversation than if it's next month.", eval: 0.6, rationale: "You named the gap accurately and surfaced a timing question the architect can actually answer. They walk away reading you as audit-literate, which is worth more than a promise you cannot keep.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "We're targeting Moderate ATO next year. If that unblocks you, we'll put the date in the MSA as a milestone with remedies attached. I'll also send you the roadmap doc, so your team can verify exactly where we are.", eval: 0.3, rationale: "This works if you can genuinely hold the date. If your roadmap slips, you have converted a compliance gap into a contract breach and a reputation hit.", atlasTags: ["commitment-consistency"]),
                 PuzzleCandidate(text: "Are you sure FedRAMP applies here? SOC 2 covers most of that same surface.", eval: -0.5, rationale: "You're arguing with a security architect about their own stated requirement. Even if you're technically defensible, you're spending credibility you'll need downstream.", atlasTags: ["social-proof"]),
-                PuzzleCandidate(text: "We're FedRAMP-equivalent — same control set, different auditor. It'll clear your audit.", eval: -0.9, rationale: "The architect is positioned to check that claim in five minutes, and it won't survive the check. Misrepresentation to a technical evaluator surfaces immediately.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "We're FedRAMP-equivalent, with the same control set under a different auditor. It'll clear your audit.", eval: -0.9, rationale: "The architect is positioned to check that claim in five minutes, and it won't survive the check. Misrepresentation to a technical evaluator surfaces immediately.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "voss-live-label"
@@ -631,29 +631,29 @@ public enum Puzzles {
         Puzzle(
             id: "p032", theme: .procurement, difficulty: 1700,
             buyerRole: "Strategic sourcing manager, F500 healthcare",
-            setup: "Second procurement call. Business case approved internally; procurement is the gate.",
+            setup: "This is the second procurement call. The business case is already approved internally, and procurement is the gate.",
             buyerLine: "I need three things by end of week: BAFO, MSA red-lines, and a security questionnaire. Standard.",
             candidates: [
-                PuzzleCandidate(text: "Red-lines and the questionnaire land Friday. BAFO comes 48 hours after we lock the SOW — I'll send you the dated sequence today.", eval: 0.7, rationale: "You met procurement at tempo on the two artifacts that are ready and gave the third a date instead of a refusal. A written sequence with owners reads as process competence — the currency strategic sourcing actually trades in.", atlasTags: ["mutual-close-plan", "commitment-consistency"]),
-                PuzzleCandidate(text: "Standard practice is that best-and-final follows scope-final, not the other way around — that sequencing exists for a reason, and it protects your evaluation as much as our number.", eval: 0.1, rationale: "The right rule delivered as a lecture. The sourcing manager knows the rule; what they're testing is whether you can run a sequence, not recite one.", atlasTags: ["authority"]),
-                PuzzleCandidate(text: "You'll have all three by Friday, BAFO included — and I've sharpened the number about ten percent to show good faith on where we can land.", eval: -0.4, rationale: "A BAFO before scope-final is a bid against yourself — and the ten percent 'good faith' just taught them that deadlines produce discounts.", atlasTags: ["reciprocity", "sharp-angle"]),
-                PuzzleCandidate(text: "A best-and-final before the SOW is final isn't something I can responsibly give you, so I won't put a date on it — and I'll keep saying that however many times the Friday deadline comes back around.", eval: -0.2, rationale: "The substance is right and the shape is wrong. A stand without a date is friction; the same content delivered as a dated sequence is competence.", atlasTags: ["commitment-consistency"]),
+                PuzzleCandidate(text: "Red-lines and the questionnaire land Friday. BAFO comes 48 hours after we lock the SOW, and I'll send you the dated sequence today.", eval: 0.7, rationale: "You met procurement at tempo on the two artifacts that are ready and gave the third a date instead of a refusal. A written sequence with owners reads as process competence, and that is the currency strategic sourcing actually trades in.", atlasTags: ["mutual-close-plan", "commitment-consistency"]),
+                PuzzleCandidate(text: "Standard practice has best-and-final follow scope-final. That sequencing exists for a reason, and it protects your evaluation as much as our number.", eval: 0.1, rationale: "This is the right rule delivered as a lecture. The sourcing manager already knows the rule. What they are testing is whether you can run a sequence rather than recite one.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "You'll have all three by Friday, BAFO included, and I've sharpened the number about ten percent to show good faith on where we can land.", eval: -0.4, rationale: "A BAFO before scope-final is a bid against yourself. The ten percent good faith move just taught them that deadlines produce discounts.", atlasTags: ["reciprocity", "sharp-angle"]),
+                PuzzleCandidate(text: "A best-and-final before the SOW is final isn't something I can responsibly give you, so I won't put a date on it. I'll keep saying that however many times the Friday deadline comes back around.", eval: -0.2, rationale: "The substance is right, but the shape is wrong. A stand without a date is friction. The same content delivered as a dated sequence is competence.", atlasTags: ["commitment-consistency"]),
             ],
             bestIndex: 0,
-            themeHint: "Strategic sourcing operates on sequence. BAFO before SOW is procedural; routing the sequence is permitted.",
+            themeHint: "Strategic sourcing operates on sequence. BAFO before SOW is procedural, and routing the sequence is permitted.",
             transcriptId: "klaff-time-reversal"
         ),
 
         Puzzle(
             id: "p033", theme: .procurement, difficulty: 1900,
             buyerRole: "Procurement director, defense contractor",
-            setup: "Compliance overlay. Standard cycle is six months minimum.",
+            setup: "This deal has a compliance overlay, and the standard cycle runs six months at minimum.",
             buyerLine: "We need DFARS, ITAR, and a CMMC L3 attestation. Without all three you're not getting a PO.",
             candidates: [
-                PuzzleCandidate(text: "DFARS and ITAR we hold today. On CMMC L3 — before I promise any timeline, which program is this for? The attestation scope is usually the program subset, not the whole environment.", eval: 0.7, rationale: "Defense compliance asks routinely overstate scope. Confirming the two you hold and scoping the third moves the conversation from full-compliance to in-scope compliance — before you've committed to a date you can't hit.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "DFARS and ITAR we hold today. On CMMC L3, before I promise any timeline, which program is this for? The attestation scope is usually just the program subset rather than the whole environment.", eval: 0.7, rationale: "Defense compliance asks routinely overstate scope. Confirming the two you hold and scoping the third moves the conversation from full-compliance to in-scope compliance, before you have committed to a date you cannot hit.", atlasTags: ["calibrated-question"]),
                 PuzzleCandidate(text: "We'll have full L3 inside 90 days.", eval: -0.6, rationale: "Compliance timelines are the one thing you can't reliably promise on a procurement call. Miss the 90 days and the credibility damage outruns the original gap.", atlasTags: ["commitment-consistency"]),
-                PuzzleCandidate(text: "We can bridge through a partner who already holds L3 — I'll bring their compliance officer to our next call and pre-draft the assignment-of-rights structure so your team can review it before anything moves.", eval: 0.2, rationale: "Partner-mediated compliance is a legitimate bridge — but only if procurement signs off on the assignment-of-rights structure. It's a real path with a real dependency, not a done deal.", atlasTags: ["multi-threading"]),
-                PuzzleCandidate(text: "Is the L3 requirement firm? For this data class, L2 has covered every contract we've seen.", eval: -0.4, rationale: "Arguing with a compliance requirement tells a defense procurement director you don't understand the threat model. They don't debate — they disengage.", atlasTags: ["authority"]),
+                PuzzleCandidate(text: "We can bridge through a partner who already holds L3. I'll bring their compliance officer to our next call and pre-draft the assignment-of-rights structure, so your team can review it before anything moves.", eval: 0.2, rationale: "Partner-mediated compliance is a legitimate bridge, but only if procurement signs off on the assignment-of-rights structure. It is a real path with a real dependency, and it is not yet a done deal.", atlasTags: ["multi-threading"]),
+                PuzzleCandidate(text: "Is the L3 requirement firm? For this data class, L2 has covered every contract we've seen.", eval: -0.4, rationale: "Arguing with a compliance requirement tells a defense procurement director you do not understand the threat model. Instead of debating, they simply disengage.", atlasTags: ["authority"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "klaff-time-reversal"
@@ -662,12 +662,12 @@ public enum Puzzles {
         Puzzle(
             id: "p034", theme: .procurement, difficulty: 1600,
             buyerRole: "Procurement analyst, education sector",
-            setup: "First procurement call after a year-long pilot. Pilot success documented.",
+            setup: "This is the first procurement call after a year-long pilot, and the pilot's success is already documented.",
             buyerLine: "Our standard template caps the per-user fee at $9. You're at $14. Pilot or not, that's the template.",
             candidates: [
-                PuzzleCandidate(text: "Totally hear you on the template. What if the nine dollars covers the base license and we break the platform services out onto their own line? The pilot data you already have supports both pieces.", eval: 0.8, rationale: "Templates are rigid on the line they cover, not on structure. When you present the compliant line structure yourself, procurement can say yes without breaking their own rules.", atlasTags: ["alternative-choice", "concrete-construal"]),
+                PuzzleCandidate(text: "Totally hear you on the template. What if the nine dollars covers the base license and we break the platform services out onto their own line? The pilot data you already have supports both pieces.", eval: 0.8, rationale: "Templates are rigid about the line they cover, but flexible about structure. When you present the compliant line structure yourself, procurement can say yes without breaking their own rules.", atlasTags: ["alternative-choice", "concrete-construal"]),
                 PuzzleCandidate(text: "We'll meet the nine. The pilot earned that.", eval: -0.5, rationale: "You just made the template the price. Every renewal from here re-anchors downward off that concession.", atlasTags: ["reciprocity"]),
-                PuzzleCandidate(text: "Could we take this to your procurement lead as an exception? I'll draft the memo with the pilot's usage data as the body of evidence, route it through your champion for sponsorship — and tell me, which precedent cases have cleared before?", eval: -0.2, rationale: "You can win an exception if a path already exists — but a cold ask to procurement leadership with no supporting structure underwhelms.", atlasTags: ["authority", "social-proof"]),
+                PuzzleCandidate(text: "Could we take this to your procurement lead as an exception? I'll draft the memo with the pilot's usage data as the body of evidence and route it through your champion for sponsorship. Which precedent cases have cleared before?", eval: -0.2, rationale: "You can win an exception if a path already exists, but a cold ask to procurement leadership with no supporting structure underwhelms.", atlasTags: ["authority", "social-proof"]),
                 PuzzleCandidate(text: "Then the pilot terms were conditional. Renewal is at risk.", eval: -1.0, rationale: "You threatened after a year-long pilot. That reads as bad faith, and procurement archives the relationship.", atlasTags: ["takeaway"]),
             ],
             bestIndex: 0,
@@ -678,7 +678,7 @@ public enum Puzzles {
         Puzzle(
             id: "p035", theme: .procurement, difficulty: 2000,
             buyerRole: "Senior counsel, large law firm",
-            setup: "Legal review. Counsel has seen every negotiation tactic in the book and is testing how far your terms bend.",
+            setup: "This is the legal review. Counsel has seen every negotiation tactic in the book and is testing how far your terms bend.",
             buyerLine: "We're going to need uncapped indemnity, no limitation on consequential damages, and unilateral termination for convenience. Standard.",
             candidates: [
                 PuzzleCandidate(text: "We can give you uncapped indemnity scoped to IP and confidentiality, consequential damages capped at deal value, and termination for convenience with sixty days' notice and a pro-rata refund. Each of those is the symmetric market position.", eval: 0.8, rationale: "Senior counsel respects you when you counter from defensible market positions. Every one of these is the recognized vendor counter for that exact ask.", atlasTags: ["alternative-choice"]),
@@ -687,20 +687,20 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Let me take all three to our counsel before I respond. I'll package the clauses with full deal context and your rationale, commit to a forty-eight-hour turnaround, and let's get the joint redline call on the calendar before we hang up today.", eval: -0.2, rationale: "If you exit the legal conversation, you cede the counter-framing entirely. Your own counsel, working without you, will concede more than necessary.", atlasTags: ["mutual-close-plan"]),
             ],
             bestIndex: 0,
-            themeHint: "Senior counsel is testing your market knowledge. Counters in market positions land; pure rejection does not.",
+            themeHint: "Senior counsel is testing your market knowledge. Counters in market positions land, and pure rejection does not.",
             transcriptId: "voss-accusation-audit"
         ),
 
         Puzzle(
             id: "p036", theme: .procurement, difficulty: 1500,
             buyerRole: "Procurement specialist, retail chain",
-            setup: "First procurement call. Business team unenthused; procurement is performing the gate.",
+            setup: "This is the first procurement call. The business team is unenthused, and procurement is performing the gate.",
             buyerLine: "We're benchmarking your category against four other vendors. I'll need a final-and-final by Thursday.",
             candidates: [
                 PuzzleCandidate(text: "If nobody on the business side owns the outcome, we'll sit Thursday out.", eval: 0.7, rationale: "Four vendors, a flat business team, and a price-only gate is a contest you lose by winning. The takeaway flushes the truth: a real evaluation produces the business owner, a theater one accepts your exit. Either answer beats a blind best-and-final.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "Before Thursday — what outcome is the chain actually benchmarking for? I'd rather scope our final number to that than to the feature-parity sheet everyone's filling in.", eval: 0.3, rationale: "It's the textbook move, one call too late. With no business enthusiasm behind the gate there's no outcome owner to scope for — your question lands on a spreadsheet, not a buyer.", atlasTags: ["calibrated-question"]),
-                PuzzleCandidate(text: "You'll have our final-and-final by Thursday — fifteen percent under list, with the full parity sheet against all four competitors.", eval: -0.6, rationale: "You just priced a deal nobody on the business side is pulling for. Best case you win a discounted contract with no sponsor; worst case your number calibrates the next four benchmarks.", atlasTags: ["reciprocity", "sharp-angle"]),
-                PuzzleCandidate(text: "Thursday works if we wrap a real evaluation around it — scoring criteria, a business-team readout, and a decision date we all commit to.", eval: -0.2, rationale: "That's process on top of a hollow process. Your plan assumes an engaged buyer the setup tells you does not exist.", atlasTags: ["mutual-close-plan"]),
+                PuzzleCandidate(text: "Before Thursday, what outcome is the chain actually benchmarking for? I'd rather scope our final number to that than to the feature-parity sheet everyone's filling in.", eval: 0.3, rationale: "This is the textbook move, one call too late. With no business enthusiasm behind the gate, there is no outcome owner to scope for. Your question lands on a spreadsheet instead of a buyer.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "You'll have our final-and-final by Thursday, fifteen percent under list, with the full parity sheet against all four competitors.", eval: -0.6, rationale: "You just priced a deal nobody on the business side is pulling for. Best case, you win a discounted contract with no sponsor. Worst case, your number calibrates the next four benchmarks.", atlasTags: ["reciprocity", "sharp-angle"]),
+                PuzzleCandidate(text: "Thursday works if we wrap a real evaluation around it, scoring criteria, a business-team readout, and a decision date we all commit to.", eval: -0.2, rationale: "This is process stacked on top of a hollow process. Your plan assumes an engaged buyer the setup tells you does not exist.", atlasTags: ["mutual-close-plan"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "klaff-time-reversal"
@@ -709,10 +709,10 @@ public enum Puzzles {
         Puzzle(
             id: "p037", theme: .procurement, difficulty: 1800,
             buyerRole: "Director of procurement, government contractor",
-            setup: "Second procurement call. RFP scoring weights have shifted; your bid was originally first.",
+            setup: "This is the second procurement call. RFP scoring weights have shifted, and your bid was originally first.",
             buyerLine: "Scoring weights got revised. You're now second behind a competitor at lower cost. I need a 7% reduction or a written justification for the gap.",
             candidates: [
-                PuzzleCandidate(text: "Can you share the revised rubric? If a specific weighting change drives the seven percent, we'll respond to it directly — and worth noting, we still score higher on every weight that didn't change.", eval: 0.7, rationale: "Scoring shifts are usually procedural and defensible. When you tie your response to the specific weight changes, you route the conversation back to the rubric the director has to defend.", atlasTags: ["calibrated-question", "concrete-construal"]),
+                PuzzleCandidate(text: "Can you share the revised rubric? If a specific weighting change drives the seven percent, we'll respond to it directly. Worth noting, we still score higher on every weight that didn't change.", eval: 0.7, rationale: "Scoring shifts are usually procedural and defensible. When you tie your response to the specific weight changes, you route the conversation back to the rubric the director has to defend.", atlasTags: ["calibrated-question", "concrete-construal"]),
                 PuzzleCandidate(text: "We'll match the seven.", eval: -0.4, rationale: "You validated the new rubric without ever testing it. Every future bid re-anchors to the lower number.", atlasTags: ["reciprocity"]),
                 PuzzleCandidate(text: "The original weights had it right, and our bid stands exactly as submitted. We're not revising the number over a rubric change we haven't even seen defended.", eval: -0.3, rationale: "You're arguing with a process the director owns. The director routes your bid lower and stops taking your calls.", atlasTags: ["commitment-consistency"]),
                 PuzzleCandidate(text: "We're withdrawing the bid. See you at the next RFP.", eval: -1.0, rationale: "You forfeited the live opportunity and the relationship leverage with it. The next RFP rarely shows up on the timeline you're counting on.", atlasTags: ["takeaway"]),
@@ -724,13 +724,13 @@ public enum Puzzles {
         Puzzle(
             id: "p038", theme: .procurement, difficulty: 2100,
             buyerRole: "Chief procurement officer, $5B enterprise",
-            setup: "Final call. Business team aligned. The CPO has run this exact play before, from your side of the table.",
+            setup: "This is the final call, and the business team is aligned. The CPO has run this exact play before, from your side of the table.",
             buyerLine: "I've seen this dance a hundred times. You'll give me 12% off if I sign today, 18% if I sign for two years. Let's skip to the part where I tell you neither is acceptable.",
             candidates: [
-                PuzzleCandidate(text: "You're right — you've seen that dance, so let's not do it. The one lever you haven't named is multi-year with a price-lock and a joint-marketing offset. What would make that worth your time to evaluate?", eval: 0.9, rationale: "The CPO just told you they've memorized the standard discount tree. You surface a lever they haven't priced and ask for their value frame on it — that's the pattern-break, and it's the only credible move left.", atlasTags: ["calibrated-question"], isSharp: true),
+                PuzzleCandidate(text: "You're right, you've seen that dance, so let's not do it. The one lever you haven't named is multi-year with a price-lock and a joint-marketing offset. What would make that worth your time to evaluate?", eval: 0.9, rationale: "The CPO just told you they've memorized the standard discount tree. You surface a lever they haven't priced and ask for their value frame on it. That is the pattern-break, and it is the only credible move left.", atlasTags: ["calibrated-question"], isSharp: true),
                 PuzzleCandidate(text: "Twenty-two percent. Sign today, three years.", eval: -0.6, rationale: "You escalated the exact discount tree the CPO just named. You've been pattern-matched as predictable, which is the one thing this buyer punishes.", atlasTags: ["sharp-angle"]),
                 PuzzleCandidate(text: "The value justifies list, and I'd rather re-walk the business case with your own sponsors in the room. Let's quantify what the capability gap the competitor leaves open actually costs, and we'll hold list while your process runs.", eval: -0.4, rationale: "Value-justifies-list to a CPO who has already signaled procurement readiness just disengages them. You're pitching past the person in front of you.", atlasTags: ["loss-framing", "contrast"]),
-                PuzzleCandidate(text: "Then we're not ready. I'll step back here.", eval: -1.1, rationale: "Walking on a final call after full business alignment torches the sunk cost. The CPO archives you as unstable, not principled.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "Then we're not ready. I'll step back here.", eval: -1.1, rationale: "Walking on a final call after full business alignment torches the sunk cost. The CPO archives you as unstable rather than principled.", atlasTags: ["takeaway"]),
             ],
             bestIndex: 0,
             themeHint: "Procurement professionals signal pattern recognition. Pattern-break is the only credible move.",
@@ -740,11 +740,11 @@ public enum Puzzles {
         Puzzle(
             id: "p039", theme: .procurement, difficulty: 1400,
             buyerRole: "Procurement coordinator, mid-market services",
-            setup: "First procurement call. Cycle has been low-friction.",
+            setup: "This is the first procurement call, and the cycle so far has been low-friction.",
             buyerLine: "Looks good. Can you get me references at three named peers in the next 48 hours?",
             candidates: [
-                PuzzleCandidate(text: "You'll have two warm references inside twenty-four hours. The third peer you named is under NDA, so I'll swap in a peer at the same revenue band — fair?", eval: 0.6, rationale: "You delivered on tempo and on substance. A substitute peer with the reason disclosed is a routine procurement swap, and naming the NDA makes it credible.", atlasTags: ["concrete-construal", "social-proof"]),
-                PuzzleCandidate(text: "All three, forty-eight hours. Done.", eval: 0.1, rationale: "There's upside if all three come through — but one peer ghosting inside your own deadline costs you more credibility than the ask was worth.", atlasTags: ["social-proof"]),
+                PuzzleCandidate(text: "You'll have two warm references inside twenty-four hours. The third peer you named is under NDA, so I'll swap in a peer at the same revenue band. Does that work?", eval: 0.6, rationale: "You delivered on tempo and on substance. A substitute peer with the reason disclosed is a routine procurement swap, and naming the NDA makes it credible.", atlasTags: ["concrete-construal", "social-proof"]),
+                PuzzleCandidate(text: "All three, forty-eight hours. Done.", eval: 0.1, rationale: "There is upside if all three come through, but one peer ghosting inside your own deadline costs you more credibility than the ask was worth.", atlasTags: ["social-proof"]),
                 PuzzleCandidate(text: "Honestly, our reference customers are stretched thin right now.", eval: -0.6, rationale: "Reference fatigue is real, but raised cold it reads as evasion. The coordinator escalates instead of sympathizing.", atlasTags: ["scarcity"]),
                 PuzzleCandidate(text: "How about case studies instead?", eval: -0.4, rationale: "Case studies are public and don't satisfy a named-peer ask. Procurement files you under non-responsive.", atlasTags: ["social-proof"]),
             ],
@@ -755,13 +755,13 @@ public enum Puzzles {
         Puzzle(
             id: "p040", theme: .procurement, difficulty: 1700,
             buyerRole: "Procurement manager, insurance carrier",
-            setup: "Renewal procurement call. Original deal was three years; renewal is up.",
+            setup: "This is the renewal procurement call. The original deal ran three years, and renewal is now up.",
             buyerLine: "Three-year renewal at flat pricing or we'll RFP this and you'll compete.",
             candidates: [
                 PuzzleCandidate(text: "We'll do flat for year one, with years two and three indexed to inflation and capped at four percent. Flat across all three years would actually sit below your own procurement inflation policy.", eval: 0.9, rationale: "Carrier procurement policies almost always index inflation on multi-year contracts. When you surface that mismatch, your counter becomes the position the procurement manager can defend internally.", atlasTags: ["calibrated-question", "alternative-choice"], isFork: true),
                 PuzzleCandidate(text: "Flat for three years works. Done.", eval: -0.6, rationale: "You just absorbed three years of inflation risk on your side of the table. The NPV degrades silently.", atlasTags: ["reciprocity"]),
-                PuzzleCandidate(text: "Run the RFP. We'll bid.", eval: -0.3, rationale: "You might win it — but you've spent cycle time and incumbency credit to find out. Only take this road if you're confident re-winning.", atlasTags: ["takeaway"]),
-                PuzzleCandidate(text: "We'd actually need ten percent in year one — the usage-growth data justifies the bump. Years two and three go CPI-indexed, and we'll add a rebate clause on our side if adoption targets are missed.", eval: -0.4, rationale: "A ten percent bump on renewal is the move that triggers the RFP. You overshot the manager's tolerance and handed them the exit.", atlasTags: ["extreme-anchor"]),
+                PuzzleCandidate(text: "Run the RFP. We'll bid.", eval: -0.3, rationale: "You might win it, but you've spent cycle time and incumbency credit to find out. Only take this road if you're confident of re-winning.", atlasTags: ["takeaway"]),
+                PuzzleCandidate(text: "We'd actually need ten percent in year one, since the usage-growth data justifies the bump. Years two and three go CPI-indexed, and we'll add a rebate clause on our side if adoption targets are missed.", eval: -0.4, rationale: "A ten percent bump on renewal is the move that triggers the RFP. You overshot the manager's tolerance and handed them the exit.", atlasTags: ["extreme-anchor"]),
             ],
             bestIndex: 0, themeHint: nil,
             transcriptId: "tracy-think-it-over"
