@@ -26,13 +26,30 @@ platform :ios do
       xcargs: "CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=Q242KWQD56 CODE_SIGN_IDENTITY='Apple Distribution: MARION MORANETZ (Q242KWQD56)' PROVISIONING_PROFILE_SPECIFIER='com.melmarion.FrameFork AppStore'"
     )
 
-    upload_to_app_store(
+    # 1.1.0 is READY_FOR_SALE (2026-07-27); deliver cannot create a version that exists, and
+    # pilot refuses a closed train. Binaries go to TestFlight only; the version is hers.
+    upload_to_testflight(
       api_key: api_key,
-      skip_screenshots: true,
-      skip_metadata: true,
-      team_id: "Q242KWQD56",
-      force: true,
-      precheck_include_in_app_purchases: false
+      skip_waiting_for_build_processing: true,
+      skip_submission: true
+    )
+  end
+
+  # TestFlight-only upload. `upload_to_app_store` (deliver) insists on creating the App Store
+  # version and fails with "The version number has been previously used" once 1.1.0 exists on
+  # the record (2026-09-02). Binaries go up through pilot; the version/metadata is hers.
+  lane :testflight do
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_CONNECT_API_KEY_KEY_ID"],
+      issuer_id: ENV["APP_STORE_CONNECT_API_KEY_ISSUER_ID"],
+      key_filepath: ENV["APP_STORE_CONNECT_API_KEY_KEY_FILEPATH"],
+      in_house: false
+    )
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: "./FrameFork.ipa",
+      skip_waiting_for_build_processing: true,
+      skip_submission: true
     )
   end
 end
