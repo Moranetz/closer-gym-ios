@@ -46,14 +46,14 @@ public enum Puzzles {
                 PuzzleCandidate(text: "What payback number would you need to see to push this up? We can work backward from there.", eval: -1.1, rationale: "You handed the CFO the framing pen. Whatever number they name becomes the ceiling — you've pre-positioned a concession nobody even asked for.", atlasTags: ["calibrated-question"]),
             ],
             bestIndex: 0,
-            themeHint: "On prestige-driven C-level, named-peer specificity outperforms generic stats. The branch offer doubles as a recipient-agency move.",
+            themeHint: "On prestige-driven C-level, named-peer specificity outperforms generic stats. The branch offer also hands the CFO the choice, not just the answer.",
             transcriptId: "tracy-money-reframe"
         ),
 
         Puzzle(
             id: "p003", theme: .procurement, difficulty: 1800,
             buyerRole: "Procurement specialist, F500",
-            setup: "First procurement call after business team agreed in principle. Procurement specialist has very high persuasion-knowledge.",
+            setup: "First procurement call after business team agreed in principle. This procurement specialist has seen every tactic in the book.",
             buyerLine: "Our procurement guidelines flag anything above 12% premium versus the next bid. You're at 15. Either we close the delta or this goes to a re-bid process I can't accelerate.",
             candidates: [
                 PuzzleCandidate(text: "Before we work the delta — can we put both SOWs side by side, line for line? Fifteen percent against a matched scope is a different number than fifteen against list.", eval: 0.7, rationale: "The 12% guideline only binds against comparable bids. Moving the reference point from list price to matched scope changes what the premium is judged from — and procurement respects comparison rigor, because it's their own daily work.", atlasTags: ["contrast", "concrete-construal"]),
@@ -237,7 +237,7 @@ public enum Puzzles {
         Puzzle(
             id: "p015", theme: .multistakeholder, difficulty: 2000,
             buyerRole: "Independent board director joining the eval call",
-            setup: "Board director with audit-committee experience has joined a deal call. Very high persuasion-knowledge.",
+            setup: "Board director with audit-committee experience has joined a deal call. Nothing you say here will be new to them.",
             buyerLine: "If this vendor blows up in eighteen months, what does the proxy paragraph look like? I've sat through two of those and I want to know what I'm signing up for.",
             candidates: [
                 PuzzleCandidate(text: "If this blows up, the paragraph reads 'inadequate vendor diligence' or 'no exit provisions.' We can pre-empt both in the contract — annual audit rights and a tested transition plan.", eval: 0.8, rationale: "You answered a narrative-risk question with the two sentences the proxy paragraph would actually contain, plus the structure that pre-empts them. The director now reads you as audit-committee-literate, and the conversation moves into their home domain.", atlasTags: ["calibrated-question", "authority", "labeling"]),
@@ -550,7 +550,7 @@ public enum Puzzles {
         Puzzle(
             id: "p035", theme: .procurement, difficulty: 2000,
             buyerRole: "Senior counsel, large law firm",
-            setup: "Legal review. Counsel has high persuasion-knowledge and is testing operator's terms tolerance.",
+            setup: "Legal review. Counsel has seen every negotiation tactic in the book and is testing how far your terms bend.",
             buyerLine: "We're going to need uncapped indemnity, no limitation on consequential damages, and unilateral termination for convenience. Standard.",
             candidates: [
                 PuzzleCandidate(text: "We can give you uncapped indemnity scoped to IP and confidentiality, consequential damages capped at deal value, and termination for convenience with sixty days' notice and a pro-rata refund. Each of those is the symmetric market position.", eval: 0.8, rationale: "Senior counsel respects you when you counter from defensible market positions. Every one of these is the recognized vendor counter for that exact ask.", atlasTags: ["alternative-choice"]),
@@ -559,7 +559,7 @@ public enum Puzzles {
                 PuzzleCandidate(text: "Let me take all three to our counsel before I respond. I'll package the clauses with full deal context and your rationale, commit to a forty-eight-hour turnaround, and let's get the joint redline call on the calendar before we hang up today.", eval: -0.2, rationale: "If you exit the legal conversation, you cede the counter-framing entirely. Your own counsel, working without you, will concede more than necessary.", atlasTags: ["mutual-close-plan"]),
             ],
             bestIndex: 0,
-            themeHint: "Senior counsel is testing the operator's market knowledge. Counters in market positions land; pure rejection does not.",
+            themeHint: "Senior counsel is testing your market knowledge. Counters in market positions land; pure rejection does not.",
             transcriptId: "voss-accusation-audit"
         ),
 
@@ -581,7 +581,7 @@ public enum Puzzles {
         Puzzle(
             id: "p037", theme: .procurement, difficulty: 1800,
             buyerRole: "Director of procurement, government contractor",
-            setup: "Second procurement call. RFP scoring weights have shifted; operator's bid was originally first.",
+            setup: "Second procurement call. RFP scoring weights have shifted; your bid was originally first.",
             buyerLine: "Scoring weights got revised. You're now second behind a competitor at lower cost. I need a 7% reduction or a written justification for the gap.",
             candidates: [
                 PuzzleCandidate(text: "Can you share the revised rubric? If a specific weighting change drives the seven percent, we'll respond to it directly — and worth noting, we still score higher on every weight that didn't change.", eval: 0.7, rationale: "Scoring shifts are usually procedural and defensible. When you tie your response to the specific weight changes, you route the conversation back to the rubric the director has to defend.", atlasTags: ["calibrated-question", "concrete-construal"]),
@@ -596,7 +596,7 @@ public enum Puzzles {
         Puzzle(
             id: "p038", theme: .procurement, difficulty: 2100,
             buyerRole: "Chief procurement officer, $5B enterprise",
-            setup: "Final call. Business team aligned. CPO has very high persuasion-knowledge.",
+            setup: "Final call. Business team aligned. The CPO has run this exact play before, from your side of the table.",
             buyerLine: "I've seen this dance a hundred times. You'll give me 12% off if I sign today, 18% if I sign for two years. Let's skip to the part where I tell you neither is acceptable.",
             candidates: [
                 PuzzleCandidate(text: "You're right — you've seen that dance, so let's not do it. The one lever you haven't named is multi-year with a price-lock and a joint-marketing offset. What would make that worth your time to evaluate?", eval: 0.9, rationale: "The CPO just told you they've memorized the standard discount tree. You surface a lever they haven't priced and ask for their value frame on it — that's the pattern-break, and it's the only credible move left.", atlasTags: ["calibrated-question"], isSharp: true),
@@ -940,7 +940,7 @@ public enum Puzzles {
         Puzzle(
             id: "p060", theme: .renewal, difficulty: 2000,
             buyerRole: "Existing customer, IT Director, security-driven renewal pressure",
-            setup: "Renewal call. IT director has been the executive sponsor; security review surfaced one finding from the operator's last SOC2.",
+            setup: "Renewal call. IT director has been the executive sponsor; security review surfaced one finding from your last SOC2.",
             buyerLine: "There's one finding in your last SOC2 that our CISO wants closed before we renew.",
             candidates: [
                 PuzzleCandidate(text: "I know the finding. The compensating control is already deployed, and full remediation closes next quarter — I'll send the dated timeline. Want me to set up a call between our CISO and yours to walk the closure path directly?", eval: 0.8, rationale: "Security findings are remediation-path questions, not verdicts. Specificity — the compensating control, the date — plus CISO-to-CISO routing converts security pressure into procedural confidence.", atlasTags: ["concrete-construal", "multi-threading"]),
@@ -1002,7 +1002,7 @@ public enum Puzzles {
         Puzzle(
             id: "p064", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Champion + economic buyer split on solution choice",
-            setup: "Champion VP-Eng prefers operator's solution. Economic buyer CFO prefers competitor.",
+            setup: "Champion VP-Eng prefers your solution. Economic buyer CFO prefers the competitor.",
             buyerLine: "[Champion privately] He's going to ask for a side-by-side. I told him you'd send one.",
             candidates: [
                 PuzzleCandidate(text: "I'll build it around the three outcomes you've all agreed are the decision criteria — leading with the ones we win. Where the competitor takes a category, we'll say so, with a short note on how much it actually matters. Honest beats airtight with a CFO.", eval: 0.9, rationale: "Visible neutrality is what earns the CFO's trust, and champion-coordinated criteria win you the dimensions that matter. Conceding where it's honest is exactly what makes the rest of the document believable.", atlasTags: ["concrete-construal", "contrast"], isFork: true),
@@ -1111,7 +1111,7 @@ public enum Puzzles {
         Puzzle(
             id: "p071", theme: .multistakeholder, difficulty: 1700,
             buyerRole: "Procurement + business team disagreement on vendor selection",
-            setup: "Business team prefers operator. Procurement is pushing for a lower-cost competitor.",
+            setup: "Business team prefers you. Procurement is pushing for a lower-cost competitor.",
             buyerLine: "[procurement] The business team likes you. But on a total-cost view I have to recommend the competitor.",
             candidates: [
                 PuzzleCandidate(text: "Fair enough — rather than argue your output, can I offer better inputs? I have implementation costs and the year-three switching premium from two named deployments in your revenue band; drop them into your own TCO sheet and see where it lands.", eval: 0.7, rationale: "A TCO recommendation moves when its inputs move, and inputs move on evidence, not advocacy. Named-peer actuals are the one data class procurement can defend substituting — the model stays theirs, the numbers become yours.", atlasTags: ["social-proof", "concrete-construal"]),
@@ -1157,7 +1157,7 @@ public enum Puzzles {
         Puzzle(
             id: "p074", theme: .multistakeholder, difficulty: 1900,
             buyerRole: "Cross-functional steering committee with rotating decision authority",
-            setup: "Three executives rotate decision authority across capabilities. Operator's deal sits at the intersection.",
+            setup: "Three executives rotate decision authority across capabilities. Your deal sits at the intersection.",
             buyerLine: "[committee] We're going to ask each function leader to score this independently. We'll convene next month.",
             candidates: [
                 PuzzleCandidate(text: "Could you share the scoring rubric? I'd like to offer each function leader a 30-minute working session on how we map to their specific metric — it should make everyone's scoring faster, not slower.", eval: 0.8, rationale: "Committees that score independently converge when each leader sees the mapping to their own metric. Working sessions shrink each scorer's homework — you're accelerating their process, not fighting it.", atlasTags: ["multi-threading", "reciprocity", "concrete-construal"]),
@@ -1393,7 +1393,7 @@ public enum Puzzles {
             buyerLine: "What's the differentiator?",
             candidates: [
                 PuzzleCandidate(text: "We deploy inside your VPC, not ours — same integration surface, about a tenth of the ops overhead.", eval: 0.7, rationale: "A three-word question earns a one-sentence answer. One concrete, checkable, stack-specific fact proves you know their world — that's what earns the reply.", atlasTags: ["concrete-construal"]),
-                PuzzleCandidate(text: "Good question — before I answer, which dimension matters most for your stack: deployment, integrations, or cost?", eval: 0.2, rationale: "You answered a direct factual question with a question, and a VP of Engineering reads that deflection in one line. This is the calibrated question's own contraindication.", atlasTags: ["calibrated-question"]),
+                PuzzleCandidate(text: "Good question — before I answer, which dimension matters most for your stack: deployment, integrations, or cost?", eval: 0.2, rationale: "You answered a direct factual question with a question, and a VP of Engineering reads that deflection in one line. This is exactly how calibrated questions go wrong.", atlasTags: ["calibrated-question"]),
                 PuzzleCandidate(text: "I'll send a three-column comparison against the two vendors you're probably weighing — advantage rows bolded so you can scan it in a minute.", eval: -0.3, rationale: "A comparison grid claims everything and therefore proves nothing to an engineer. It's marketing-shaped, and the question was engineering-shaped.", atlasTags: ["contrast"]),
                 PuzzleCandidate(text: "You know [the referrer] — after his team switched, they shipped their event pipeline in six weeks. Happy to walk you through what changed; the differentiator is inside that story.", eval: 0.1, rationale: "The warm thread is real, but the question was technical. Story-first reads as dodging the spec — the peer belongs one message later, as evidence.", atlasTags: ["social-proof"]),
             ],
@@ -1510,7 +1510,7 @@ public enum Puzzles {
         Puzzle(
             id: "p097", theme: .coldOpen, difficulty: 1500,
             buyerRole: "First-touch from a warm-intro champion's peer, indirect skepticism",
-            setup: "Champion intro'd operator to her peer VP. Peer expresses skepticism on intro call.",
+            setup: "Champion intro'd you to her peer VP. Peer expresses skepticism on intro call.",
             buyerLine: "[champion's peer] She's enthusiastic, but I don't see the same problem on my side. Convince me.",
             candidates: [
                 PuzzleCandidate(text: "I'd rather not convince you of a problem you don't have. What's the biggest operational drag in your function right now? If we map to it, I'll show you exactly how — and if we don't, I'll be the first to say so.", eval: 0.7, rationale: "'Convince me' is an invitation to overreach — decline it. Diagnose first, and be willing to say 'we may not fit'; the honest no is what earns the peer's trust and the second conversation.", atlasTags: ["calibrated-question", "takeaway"]),
@@ -1525,7 +1525,7 @@ public enum Puzzles {
         Puzzle(
             id: "p098", theme: .coldOpen, difficulty: 1700,
             buyerRole: "Cold reply from a category-skeptic, pointed first message",
-            setup: "Cold email. Recipient is publicly skeptical of the operator's category.",
+            setup: "Cold email. The buyer is publicly skeptical of your category.",
             buyerLine: "I don't believe in this category. You'll have to convince me it's not snake oil.",
             candidates: [
                 PuzzleCandidate(text: "I've read your piece on this — your core objection is that the results don't survive scale. Let me answer that one point mechanically, because I won't defend the category as a whole; most of it has earned your skepticism.", eval: 0.7, rationale: "A category skeptic respects the vendor who engages their specific objection instead of defending the abstraction. A mechanistic answer to the named objection — plus conceding the category's sins — earns conversation two.", atlasTags: ["labeling", "concrete-construal"]),
@@ -1555,11 +1555,11 @@ public enum Puzzles {
 
         Puzzle(
             id: "p100", theme: .coldOpen, difficulty: 2000,
-            buyerRole: "First-touch with a high-persuasion-knowledge senior executive",
+            buyerRole: "First-touch with a senior executive who's seen every pitch in the book",
             setup: "Cold email with named-peer-and-outcome anchor. Senior executive (board director, ex-VC) replied with one pointed sentence.",
             buyerLine: "Your peer outcome citation doesn't match the public data I've seen on that company. Care to explain?",
             candidates: [
-                PuzzleCandidate(text: "You're right to flag it. That number is Year-1, post-implementation, in a single business unit — not company-wide — and I'll send you the granular reference. If our framing implied more than that, that's on us.", eval: 0.8, rationale: "The executive just tested your data integrity — that's the whole email. Scope the claim precisely and concede whatever the framing overstated; with a high-persuasion-knowledge buyer, the honest concession is worth more than the citation ever was.", atlasTags: ["labeling", "concrete-construal"]),
+                PuzzleCandidate(text: "You're right to flag it. That number is Year-1, post-implementation, in a single business unit — not company-wide — and I'll send you the granular reference. If our framing implied more than that, that's on us.", eval: 0.8, rationale: "The executive just tested your data integrity — that's the whole email. Scope the claim precisely and concede whatever the framing overstated; with a buyer this sharp, the honest concession is worth more than the citation ever was.", atlasTags: ["labeling", "concrete-construal"]),
                 PuzzleCandidate(text: "The citation is accurate — we stand by it.", eval: -1.0, rationale: "Defending a number a board director flagged against public data is credibility suicide. Even if you're technically right, you chose defense over rigor in front of someone who tests for exactly that.", atlasTags: ["authority"]),
                 PuzzleCandidate(text: "That one may be a data-vintage issue — let me point you to a cleaner example instead: [different peer] published their results last quarter, they're honestly a closer comparable to your business anyway, and I think you'll find their numbers stand up to any diligence you'd want to run.", eval: -0.5, rationale: "Swapping in a fresh logo while the flagged one slides quietly out of the thread — an ex-VC sees that move instantly. You just answered an integrity question with an evasion.", atlasTags: ["social-proof"]),
                 PuzzleCandidate(text: "Understood — please disregard that citation entirely.", eval: -0.4, rationale: "Retracting without explaining reads as evasion: was it wrong, or just inconvenient? You left the doubt standing and the question open.", atlasTags: ["silence"]),

@@ -34,7 +34,7 @@ public enum Track: String, Codable, CaseIterable, Sendable {
         case .t2: return "Founder-led"
         case .t3: return "Transactional"
         case .t4: return "Negotiator"
-        case .t5: return "Research-operator"
+        case .t5: return "Research-led"
         }
     }
 }

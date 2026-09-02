@@ -61,10 +61,6 @@ struct MissReviewView: View {
                         .scaledFont(size: 10, weight: .semibold)
                         .foregroundStyle(Color.textMuted)
                         .monospacedDigit()
-                    Text(p.id.uppercased())
-                        .scaledFont(size: 10, weight: .heavy, design: .rounded)
-                        .kerning(0.5)
-                        .foregroundStyle(Color.textFaint)
                 }
                 Text(p.buyerRole)
                     .scaledFont(size: 14, weight: .semibold)

@@ -81,7 +81,7 @@ struct BotLadderView: View {
                     proLockedBanner
                 }
 
-                Text("Pick an opponent. \(BotLadder.all.count) adversarial buyer personas, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Win rating to unlock bots up to 200 above you.")
+                Text("Pick an opponent from \(BotLadder.all.count) adversarial buyer personas, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
@@ -178,8 +178,6 @@ struct BotLadderView: View {
                 HStack(spacing: 6) {
                     Text("\(bot.rating)").scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
                     if let p = persona {
-                        Text("Track \(p.track.rawValue.dropFirst())").scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).lineLimit(1).minimumScaleFactor(0.75)
-                        Text("·").foregroundStyle(Color.textFaint)
                         Text(p.track.label).scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).lineLimit(1).minimumScaleFactor(0.75)
                     }
                     if !unlocked { Image(systemName: "lock.fill").scaledFont(size: 10).foregroundStyle(Color.textFaint) }

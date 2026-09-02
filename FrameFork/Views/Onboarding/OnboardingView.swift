@@ -41,7 +41,7 @@ struct OnboardingView: View {
             tag: "The gym for closers",
             title: "A sparring app for sales.",
             bodyLines: [
-                "Fourteen adversarial buyer personas. A closing ELO that climbs as you win. Per-turn eval, fired-technique tags, Atlas-linked transcripts.",
+                "A buyer says \u{201C}send me something in writing.\u{201D} Fourteen personas will test you like that, live. Every move earns an ELO that only climbs when you're right.",
                 "There's no cheat code for a live buyer. We built the gym.",
             ]
         )
@@ -54,8 +54,8 @@ struct OnboardingView: View {
             tag: "How it works",
             title: "Solve. Learn. Climb.",
             bodyLines: [
-                "A fresh Daily Drill every day. 40 Atlas techniques cross-linked to every puzzle, transcript, and master move.",
-                "Watch hand-authored deal studies — Voss, Gap Selling, Challenger, Klaff, Burg, and two cautionary breakdowns of high-pressure tactics. Fully offline, no API key needed.",
+                "Solve wrong and the app names the exact technique you missed. It's one of forty, linked straight to the real transcript where it worked.",
+                "Watch hand-authored deal studies drawn from Voss, Gap Selling, Challenger, Klaff, and Burg, plus two cautionary breakdowns of high-pressure tactics. Fully offline, no API key needed.",
             ]
         )
     }
@@ -67,7 +67,7 @@ struct OnboardingView: View {
             tag: "Start now",
             title: "Today's Daily Drill is open.",
             bodyLines: [
-                "Solve at your own pace. Climb the ELO ladder as your rating rises. Two rating buckets: Game and Puzzle.",
+                "Solve at your own pace. Your puzzle rating and your game rating climb separately, so one rough night against a live buyer never touches your puzzle streak.",
                 "When you're ready, connect your own Anthropic API key in Settings and the bot ladder runs on your account.",
             ]
         )

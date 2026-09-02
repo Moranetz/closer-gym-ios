@@ -21,7 +21,7 @@ public enum Transcripts {
                 TranscriptTurn(role: .buyer, text: "It's fine. You can store it anywhere."),
                 TranscriptTurn(role: .op, text: "Anywhere?"),
             ],
-            techniqueNote: "Mirror followed by mirror forces a re-examination of the original premise. The operator never argues. The mirror does the work.",
+            techniqueNote: "Mirror followed by mirror forces a re-examination of the original premise. You never argue. The mirror does the work.",
             techniqueIds: ["mirroring"]
         ),
 
@@ -113,7 +113,7 @@ public enum Transcripts {
                 TranscriptTurn(role: .op, text: "This deal will be fully subscribed in the next 14 days. We don't need VC money. We want a big name on our cap sheet."),
                 TranscriptTurn(role: .op, text: "I think you're interesting, but are you really the right investor for us?"),
             ],
-            techniqueNote: "Intrigue frame (give headline numbers, defer the audit) plus push and pull tension plus prize frame at close. Buyer qualifies to operator, not the reverse.",
+            techniqueNote: "Intrigue frame (give headline numbers, defer the audit) plus push and pull tension plus prize frame at close. The buyer ends up qualifying to you, not the other way around.",
             techniqueIds: ["takeaway", "scarcity", "extreme-anchor", "accusation-audit"]
         ),
 

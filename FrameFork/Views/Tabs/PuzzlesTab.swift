@@ -311,10 +311,6 @@ struct PuzzleIndexView: View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text(p.id.uppercased())
-                        .scaledFont(size: 10, weight: .heavy, design: .rounded)
-                        .kerning(0.5)
-                        .foregroundStyle(Color.textFaint)
                     Text("ELO \(p.difficulty)")
                         .scaledFont(size: 10, weight: .semibold)
                         .foregroundStyle(Color.textMuted)

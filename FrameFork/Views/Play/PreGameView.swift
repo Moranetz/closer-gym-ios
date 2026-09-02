@@ -56,7 +56,7 @@ struct PreGameView: View {
                 .lineSpacing(3)
             if let p = persona {
                 HStack(spacing: 14) {
-                    stat(label: "PK", value: p.persuasionKnowledge.label)
+                    stat(label: "Savvy", value: p.persuasionKnowledge.label)
                     stat(label: "Valence", value: "\(p.valence >= 0 ? "+" : "")\(p.valence)")
                     stat(label: "Readability", value: p.readability.rawValue)
                 }

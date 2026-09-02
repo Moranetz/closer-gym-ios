@@ -42,7 +42,7 @@ struct LessonDetailView: View {
                                 .foregroundStyle(Color.bgPage)
                             VStack(alignment: .leading, spacing: 1) {
                                 Text("Drill this technique now").scaledFont(size: 14, weight: .bold).foregroundStyle(Color.bgPage)
-                                Text("\(drillPuzzle.id.uppercased()) · ELO \(drillPuzzle.difficulty) · \(drillPuzzle.theme.label)")
+                                Text("ELO \(drillPuzzle.difficulty) · \(drillPuzzle.theme.label)")
                                     .scaledFont(size: 11, weight: .semibold)
                                     .foregroundStyle(Color.bgPage.opacity(0.75))
                             }
@@ -230,7 +230,6 @@ struct LessonDetailView: View {
         HStack {
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text(p.id.uppercased()).scaledFont(size: 10, weight: .heavy, design: .rounded).foregroundStyle(Color.textFaint)
                     Text("ELO \(p.difficulty)").scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).monospacedDigit()
                     Text(p.theme.label.uppercased()).scaledFont(size: 10, weight: .semibold).foregroundStyle(p.theme.tint).kerning(0.3)
                 }

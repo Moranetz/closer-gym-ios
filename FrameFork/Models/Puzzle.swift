@@ -77,12 +77,12 @@ public enum PuzzleTheme: String, Codable, CaseIterable, Sendable {
         switch self {
         case .budget:           return "Budget objections"
         case .procurement:      return "Procurement gauntlet"
-        case .stall:            return "Stall / silence"
+        case .stall:            return "Stalls and silence"
         case .renewal:          return "Renewal saves"
-        case .multistakeholder: return "Multi-stakeholder"
+        case .multistakeholder: return "Committee deals"
         case .endgame:          return "Endgame studies"
         case .coldOpen:         return "Cold opens"
-        case .salesAssist:      return "Sales assist"
+        case .salesAssist:      return "Self-serve accounts"
         case .forecastCall:     return "Forecast calls"
         }
     }

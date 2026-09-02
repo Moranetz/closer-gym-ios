@@ -226,7 +226,7 @@ public enum Personas {
         Persona(
             id: "t5-research-operator",
             track: .t5,
-            role: "Operator-researcher; data team lead",
+            role: "Data infrastructure lead; runs the pipeline",
             seniority: "Director",
             buyingAuthority: .technical,
             decisionCriteriaStated: "Data pipeline integration, reproducibility, observability",
@@ -313,8 +313,8 @@ public enum BotLadder {
         case "t4-litigator-counterparty":      return "Litigator across the table. Every word is a record."
         case "t4-labor-counterparty":          return "Union rep. Ratification probability is the real metric."
         case "t5-research-academic":           return "Academic researcher. Survives peer review or doesn't."
-        case "t5-research-operator":           return "Operator-researcher. Knows the playbook."
-        default:                                return "\(p.persuasionKnowledge.label) PK · valence \(p.valence >= 0 ? "+" : "")\(p.valence) · \(p.readability.rawValue) readability"
+        case "t5-research-operator":           return "Data-team lead. Knows the playbook cold."
+        default:                                return "\(p.persuasionKnowledge.label)-savvy buyer, \(p.readability.rawValue) to read."
         }
     }
 }
