@@ -39,6 +39,8 @@ struct SimpleReviewView: View {
     @State private var judgeAttempted: Bool = false
     @State private var unrated: Bool = false
     @State private var openLesson: Technique? = nil
+    @State private var showAIConsent: Bool = false
+    @State private var consentDeclined: Bool = false
 
     private var persona: Persona? { Personas.get(botMeta.personaId) }
     private var operatorTurnCount: Int { transcript.filter { $0.role == "operator" }.count }
@@ -69,22 +71,39 @@ struct SimpleReviewView: View {
             }
         }
         .task { await judgeAndCommit() }
+        // 5.1.2(i): judging a game sends the WHOLE transcript to Anthropic even if the
+        // live game itself never got that far (e.g. eval saturated locally before any
+        // buyer turn was sent). Gate the judge call the same as a live send: on grant,
+        // resume grading; on decline, commit without a judge grade — the same path
+        // already used when there's no key.
+        .sheet(isPresented: $showAIConsent, onDismiss: {
+            if AIConsent.granted {
+                Task { await judgeAndCommit() }
+            } else {
+                consentDeclined = true
+                Task { await commitWithoutJudge() }
+            }
+        }) {
+            AIConsentSheet()
+        }
         .sheet(item: $openLesson) { t in
             NavigationStack { LessonDetailView(technique: t) }
         }
     }
 
-    /// Run the blind judge (if a key + enough turns), then commit the game ONCE with the
-    /// judge's process grade as the Glicko score — or the local eval score as a fallback.
+    /// Run the blind judge (if a key + enough turns + consent), then commit the game ONCE
+    /// with the judge's process grade as the Glicko score — or the local eval score as a
+    /// fallback. May return WITHOUT committing if it needs to show the consent gate first;
+    /// the sheet's onDismiss resumes or falls back to `commitWithoutJudge()`.
     private func judgeAndCommit() async {
         guard !didCommit else { return }
-        didCommit = true   // claim the commit up front so a re-entry can't double-record (Store is @MainActor)
 
         // A game needs at least 2 operator turns to be scorable. Without this, an
         // instant "/end" (or one greeting + End) records a free draw against a bot
         // rated up to +200 — a guaranteed Glicko gain, repeatable up the whole
         // ladder with zero turns played. Too-short games are simply not rated.
         guard operatorTurnCount >= 2 else {
+            didCommit = true   // claim the commit up front so a re-entry can't double-record (Store is @MainActor)
             // Record (transcript/history kept) but never rate — see recordGame.
             unrated = true
             let result = storage.recordGame(
@@ -96,13 +115,32 @@ struct SimpleReviewView: View {
             newRating = result.newRating
             return
         }
-        var judged: RolePlayJudgment? = nil
-        if operatorTurnCount >= 2, Keychain.hasAPIKey(), let p = persona {
-            judgeAttempted = true
-            grading = true
-            judged = try? await AnthropicClient.judgeGame(persona: p, transcript: transcript)
-            grading = false
+        guard Keychain.hasAPIKey(), let p = persona else {
+            await commitWithoutJudge()
+            return
         }
+        guard AIConsent.granted else {
+            showAIConsent = true
+            return
+        }
+
+        didCommit = true   // claim the commit up front so a re-entry can't double-record (Store is @MainActor)
+        judgeAttempted = true
+        grading = true
+        let judged = try? await AnthropicClient.judgeGame(persona: p, transcript: transcript)
+        grading = false
+        commit(judged: judged)
+    }
+
+    /// The no-judge path: no key, or the user declined the consent gate. Commits ONCE on
+    /// the local eval score, same as the "grader didn't respond" fallback already covers.
+    private func commitWithoutJudge() async {
+        guard !didCommit else { return }
+        didCommit = true
+        commit(judged: nil)
+    }
+
+    private func commit(judged: RolePlayJudgment?) {
         let finalScore = judged.map { max(0.0, min(1.0, $0.processScore)) } ?? score
         let result = storage.recordGame(
             botRating: botMeta.rating,
@@ -160,6 +198,8 @@ struct SimpleReviewView: View {
                 ratingLine
                 Text(unrated
                      ? "Not rated — a game needs at least two of your turns to be scored."
+                     : consentDeclined
+                     ? "Coach grade skipped — you didn't allow sending this game to Anthropic. Scored on the live read."
                      : judgeAttempted
                      ? "Coach grade unavailable for this game — the grader didn't respond. Scored on the live read."
                      : "Full AI craft grade needs a Pro key (Settings → Pro). Scored on the live read this game.")

@@ -12,6 +12,13 @@ struct RootTabView: View {
         return .puzzles
     }()
 
+    #if DEBUG
+    // Debug/screenshot hook: presents the 5.1.2(i) consent sheet on launch so it can
+    // be captured headlessly (the sim has no accessibility labels to tap through).
+    // No effect in a Release build — never reachable outside DEBUG.
+    @State private var showAIConsentDebug = ProcessInfo.processInfo.environment["FF_SHOW_AI_CONSENT"] == "1"
+    #endif
+
     enum Tab: String, Hashable {
         case play, puzzles, lessons, watch, profile
     }
@@ -56,5 +63,8 @@ struct RootTabView: View {
         // depth-plate buttons weren't laid out for the largest accessibility
         // sizes — cap growth at accessibility2 to keep layouts from breaking.
         .dynamicTypeSize(...DynamicTypeSize.accessibility2)
+        #if DEBUG
+        .sheet(isPresented: $showAIConsentDebug) { AIConsentSheet() }
+        #endif
     }
 }

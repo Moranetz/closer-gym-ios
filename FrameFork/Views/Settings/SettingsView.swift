@@ -356,17 +356,30 @@ private struct APIKeySheet: View {
     @State private var showingKey: Bool = false
     @State private var saveError: String? = nil
     @State private var keyHint: String? = nil
+    @State private var aiConsentGranted: Bool = AIConsent.granted
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Your Anthropic API key").microLabel(Color.brandGreen)
-                    Text("Your key is stored in the iOS Keychain on this device only. It is sent directly to Anthropic to generate bot responses. Frame & Fork does not receive, log, or store it.")
+                    Text("Your key is stored in the iOS Keychain on this device only. Frame & Fork does not receive, log, or store it.")
                         .scaledFont(size: 13)
                         .foregroundStyle(Color.textSecondary)
                         .lineSpacing(3)
-                        .padding(.bottom, 8)
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Once set, live games send to Anthropic, directly from this phone:")
+                            .scaledFont(size: 12, weight: .semibold)
+                            .foregroundStyle(Color.textSecondary)
+                        Text("• The lines you type in a live game.")
+                        Text("• The buyer's replies and the rest of that game's transcript.")
+                        Text("• Your Company Profile, if you filled one in.")
+                    }
+                    .scaledFont(size: 12)
+                    .foregroundStyle(Color.textMuted)
+                    .lineSpacing(2)
+                    .padding(.bottom, 8)
 
                     if let keyHint {
                         Text(keyHint)
@@ -445,6 +458,29 @@ private struct APIKeySheet: View {
                         }
                     }
 
+                    // 5.1.2(i): lets the user pull back a consent they granted — the
+                    // next live game or judge call shows the gate again.
+                    if aiConsentGranted {
+                        Button {
+                            AIConsent.revoke()
+                            aiConsentGranted = false
+                            Haptics.shared.medium()
+                        } label: {
+                            HStack {
+                                Image(systemName: "hand.raised.slash").scaledFont(size: 14)
+                                Text("Reset AI consent").scaledFont(size: 13, weight: .semibold)
+                                Spacer()
+                            }
+                            .foregroundStyle(Color.textSecondary)
+                            .padding(.horizontal, 12).padding(.vertical, 10)
+                            .background(Color.bgPanel)
+                            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                            .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.top, 4)
+                    }
+
                     Spacer(minLength: 24)
                 }
                 .padding(.horizontal, 20)
@@ -465,6 +501,7 @@ private struct APIKeySheet: View {
                 if let existing = Keychain.loadAPIKey(), existing.count > 6 {
                     keyHint = "Saved key: sk-ant-…\(existing.suffix(4))"
                 }
+                aiConsentGranted = AIConsent.granted
             }
         }
         .presentationDetents([.medium, .large])

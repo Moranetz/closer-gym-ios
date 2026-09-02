@@ -36,6 +36,7 @@ struct LiveGameView: View {
     @State private var startedAt: Date = .init()
     @State private var sendTask: Task<Void, Never>? = nil
     @State private var confirmLeave: Bool = false
+    @State private var showAIConsent: Bool = false
 
     @FocusState private var inputFocused: Bool
 
@@ -117,6 +118,14 @@ struct LiveGameView: View {
             // on a mere tab switch. Start the clock once; cancel only on Abandon.
             if transcript.isEmpty { startedAt = Date() }
             inputFocused = true
+        }
+        // 5.1.2(i): if the user granted consent from inside this sheet, retry the exact
+        // send they tapped. If they dismissed without granting, the draft stays put —
+        // send() already returned before touching the network or the transcript.
+        .sheet(isPresented: $showAIConsent, onDismiss: {
+            if AIConsent.granted { sendTask = Task { await send() } }
+        }) {
+            AIConsentSheet()
         }
     }
 
@@ -398,6 +407,22 @@ struct LiveGameView: View {
         }
         if operatorTurnCount >= maxTurns {
             endGame(score: scoreFromEval())
+            return
+        }
+
+        // 5.1.2(i): the first transmission of a live game — this operator turn, the
+        // rest of the transcript, and the Company Profile if set — needs affirmative,
+        // in-app consent naming Anthropic before it leaves the device. Roll back the
+        // same way a network failure does, so declining leaves the game untouched and
+        // granting from the sheet resends this exact turn.
+        guard AIConsent.granted else {
+            if transcript.last?.id == operatorTurn.id { transcript.removeLast() }
+            operatorTurnCount -= 1
+            evalCurve.removeLast()
+            eval = evalBefore
+            firedTechniques = firedBefore
+            if draft.isEmpty { draft = text }
+            showAIConsent = true
             return
         }
 
