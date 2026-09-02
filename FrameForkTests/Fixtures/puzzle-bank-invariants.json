@@ -1,0 +1,3684 @@
+[
+  {
+    "atlasTags" : [
+      [
+        "labeling"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "loss-framing"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1300,
+    "evals" : [
+      0.8,
+      0.3,
+      -0.4,
+      -0.9
+    ],
+    "id" : "p001",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "social-proof",
+        "alternative-choice"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "calibrated-question"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.8,
+      -0.3,
+      -0.5,
+      -1.1
+    ],
+    "id" : "p002",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "contrast",
+        "concrete-construal"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.7,
+      0.4,
+      -0.5,
+      -0.9
+    ],
+    "id" : "p003",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "lowball"
+      ],
+      [
+        "loss-framing",
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.1,
+      -0.3,
+      -1
+    ],
+    "id" : "p004",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "multi-threading"
+      ],
+      [
+        "extreme-anchor"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.9,
+      -0.2,
+      -0.5,
+      -1
+    ],
+    "id" : "p005",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "alternative-choice"
+      ],
+      [
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2100,
+    "evals" : [
+      0.6,
+      0.1,
+      0.2,
+      -1.1
+    ],
+    "id" : "p006",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.6,
+      0.3,
+      -0.5,
+      -0.9
+    ],
+    "id" : "p007",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "alternative-choice"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "scarcity",
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.4,
+      -0.8
+    ],
+    "id" : "p008",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      0.3,
+      -0.2,
+      -0.7
+    ],
+    "id" : "p009",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "labeling"
+      ],
+      [
+        "liking",
+        "silence"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "scarcity",
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.7,
+      -0.2,
+      0.3,
+      -0.9
+    ],
+    "id" : "p010",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "alternative-choice"
+      ],
+      [
+        "concrete-construal"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.2,
+      -0.3,
+      -1.2
+    ],
+    "id" : "p011",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "loss-framing",
+        "concrete-construal"
+      ],
+      [
+        "anchor-with-range"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "authority",
+        "commitment-consistency"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.8,
+      0.2,
+      -0.5,
+      -0.7
+    ],
+    "id" : "p012",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "reciprocity"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.3,
+      0.4,
+      0
+    ],
+    "id" : "p013",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.2,
+      -0.5
+    ],
+    "id" : "p014",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "authority",
+        "labeling"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -0.5,
+      0.3,
+      -1
+    ],
+    "id" : "p015",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "mutual-close-plan",
+        "alternative-choice"
+      ],
+      [
+        "summary-close",
+        "mutual-close-plan"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.8,
+      0.1,
+      -0.4,
+      -0.9
+    ],
+    "id" : "p016",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "anchor-with-range"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2200,
+    "evals" : [
+      0.7,
+      -0.3,
+      0.4,
+      -0.5
+    ],
+    "id" : "p017",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "accusation-audit"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "fitd"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1300,
+    "evals" : [
+      0.7,
+      -0.6,
+      0.1,
+      -0.4
+    ],
+    "id" : "p018",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "social-proof",
+        "concrete-construal"
+      ],
+      [
+        "social-proof",
+        "authority"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "liking"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.3,
+      0
+    ],
+    "id" : "p019",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "trial-close"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.8,
+      0.4,
+      -0.4
+    ],
+    "id" : "p020",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "scarcity",
+        "sharp-angle"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "extreme-anchor",
+        "contrast"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.8,
+      -0.4
+    ],
+    "id" : "p021",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.8,
+      0.4,
+      -0.4,
+      0.1
+    ],
+    "id" : "p022",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "alternative-choice"
+      ],
+      [
+        "mutual-close-plan",
+        "reciprocity"
+      ],
+      [
+        "puppy-dog"
+      ],
+      [
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.7,
+      -0.5
+    ],
+    "id" : "p023",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question"
+      ],
+      [
+        "bracketing"
+      ],
+      [
+        "contrast"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1300,
+    "evals" : [
+      0.7,
+      -0.7,
+      -0.3,
+      -1.2
+    ],
+    "id" : "p024",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "precise-anchor",
+        "contrast"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "social-proof",
+        "loss-framing"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.7,
+      0.4,
+      0.2,
+      -0.7
+    ],
+    "id" : "p025",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "contrast",
+        "concrete-construal"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "contrast"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      0,
+      -0.3,
+      -1.1
+    ],
+    "id" : "p026",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "reciprocity"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "multi-threading"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.6,
+      -0.3
+    ],
+    "id" : "p027",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "trial-close"
+      ],
+      [
+        "multi-threading"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.8,
+      0.3,
+      -0.4,
+      -0.3
+    ],
+    "id" : "p028",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "commitment-consistency"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "tna"
+      ],
+      [
+        "ditf"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.8,
+      -0.5,
+      -0.3,
+      0.2
+    ],
+    "id" : "p029",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.5,
+      -1
+    ],
+    "id" : "p030",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "social-proof",
+        "concrete-construal",
+        "reciprocity"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.8,
+      -0.2,
+      -0.5,
+      0.1
+    ],
+    "id" : "p031",
+    "theme" : "budget"
+  },
+  {
+    "atlasTags" : [
+      [
+        "mutual-close-plan",
+        "commitment-consistency"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "reciprocity",
+        "sharp-angle"
+      ],
+      [
+        "commitment-consistency"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      0.1,
+      -0.4,
+      -0.2
+    ],
+    "id" : "p032",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.7,
+      -0.6,
+      0.2,
+      -0.4
+    ],
+    "id" : "p033",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "concrete-construal"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "authority",
+        "social-proof"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.8,
+      -0.5,
+      -0.2,
+      -1
+    ],
+    "id" : "p034",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "mutual-close-plan"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -1,
+      -0.4,
+      -0.2
+    ],
+    "id" : "p035",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "takeaway"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "reciprocity",
+        "sharp-angle"
+      ],
+      [
+        "mutual-close-plan"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.3,
+      -0.6,
+      -0.2
+    ],
+    "id" : "p036",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.3,
+      -1
+    ],
+    "id" : "p037",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "loss-framing",
+        "contrast"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2100,
+    "evals" : [
+      0.9,
+      -0.6,
+      -0.4,
+      -1.1
+    ],
+    "id" : "p038",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "social-proof"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.6,
+      0.1,
+      -0.6,
+      -0.4
+    ],
+    "id" : "p039",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "alternative-choice"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "takeaway"
+      ],
+      [
+        "extreme-anchor"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.9,
+      -0.6,
+      -0.3,
+      -0.4
+    ],
+    "id" : "p040",
+    "theme" : "procurement"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "takeaway"
+      ],
+      [
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.6,
+      -0.2
+    ],
+    "id" : "p041",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "accusation-audit"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "contrast"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.8,
+      -0.4,
+      -0.5
+    ],
+    "id" : "p042",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.3,
+      -0.4,
+      -0.5
+    ],
+    "id" : "p043",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "multi-threading"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "authority",
+        "multi-threading"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.7,
+      0.1,
+      -0.5
+    ],
+    "id" : "p044",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1300,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.5,
+      -0.2
+    ],
+    "id" : "p045",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "takeaway"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "social-proof",
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.6,
+      -0.5,
+      -0.4,
+      -0.6
+    ],
+    "id" : "p046",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "reciprocity"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "contrast"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.4,
+      -0.2
+    ],
+    "id" : "p047",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "contrast",
+        "reciprocity"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "commitment-consistency"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.7,
+      -0.5
+    ],
+    "id" : "p048",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "reciprocity"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.2,
+      -0.3,
+      -0.6
+    ],
+    "id" : "p049",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "reciprocity",
+        "concrete-construal",
+        "social-proof"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "puppy-dog",
+        "fitd"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.6,
+      0.1
+    ],
+    "id" : "p050",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "multi-threading"
+      ],
+      [
+        "reciprocity",
+        "puppy-dog"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "alternative-choice"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      0.1,
+      -0.6,
+      -0.4
+    ],
+    "id" : "p051",
+    "theme" : "stall"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.8,
+      -0.6,
+      -0.5,
+      -0.4
+    ],
+    "id" : "p052",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "anchor-with-range",
+        "concrete-construal"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "commitment-consistency",
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.8,
+      -0.5,
+      -1,
+      0.2
+    ],
+    "id" : "p053",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "loss-framing",
+        "concrete-construal"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "bracketing"
+      ],
+      [
+        "multi-threading",
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.8,
+      -0.6,
+      -0.4,
+      -0.3
+    ],
+    "id" : "p054",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "commitment-consistency"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "precise-anchor"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.4,
+      0,
+      -0.5
+    ],
+    "id" : "p055",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.7,
+      0.2,
+      -0.6,
+      -0.5
+    ],
+    "id" : "p056",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "concrete-construal",
+        "reciprocity"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "labeling",
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.6,
+      0.2
+    ],
+    "id" : "p057",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "contrast"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "sharp-angle",
+        "commitment-consistency"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.8,
+      -0.7,
+      -0.4,
+      0
+    ],
+    "id" : "p058",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "extreme-anchor"
+      ],
+      [
+        "commitment-consistency"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1300,
+    "evals" : [
+      0.7,
+      -0.3,
+      0,
+      -0.4
+    ],
+    "id" : "p059",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "multi-threading"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "mutual-close-plan"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -0.7,
+      -0.3,
+      -0.5
+    ],
+    "id" : "p060",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "commitment-consistency"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "extreme-anchor",
+        "authority"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.2,
+      -0.5,
+      -0.6
+    ],
+    "id" : "p061",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "social-proof",
+        "multi-threading"
+      ],
+      [
+        "reciprocity",
+        "liking"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.6,
+      -0.4
+    ],
+    "id" : "p062",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.2,
+      -0.3,
+      -0.6
+    ],
+    "id" : "p063",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "contrast"
+      ],
+      [
+        "contrast",
+        "social-proof"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "contrast"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.9,
+      -0.5,
+      -0.7,
+      -0.6
+    ],
+    "id" : "p064",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.2,
+      -0.6
+    ],
+    "id" : "p065",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal",
+        "multi-threading"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.7,
+      -0.3,
+      -0.2
+    ],
+    "id" : "p066",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "multi-threading"
+      ],
+      [
+        "reciprocity",
+        "authority"
+      ],
+      [
+        "alternative-choice"
+      ],
+      [
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.8,
+      -0.5,
+      0.2,
+      -1
+    ],
+    "id" : "p067",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "multi-threading",
+        "reciprocity"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.5,
+      -0.2
+    ],
+    "id" : "p068",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "alternative-choice"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.9,
+      -0.7,
+      -0.5,
+      -0.4
+    ],
+    "id" : "p069",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "alternative-choice"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.3,
+      -0.5
+    ],
+    "id" : "p070",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "social-proof",
+        "concrete-construal"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      0.4,
+      -0.5,
+      -0.4
+    ],
+    "id" : "p071",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "contrast",
+        "concrete-construal"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.7,
+      0.1,
+      -0.6
+    ],
+    "id" : "p072",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "loss-framing",
+        "social-proof",
+        "concrete-construal"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.6,
+      -0.5
+    ],
+    "id" : "p073",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "reciprocity",
+        "concrete-construal"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.8,
+      0,
+      -0.4,
+      -0.3
+    ],
+    "id" : "p074",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "mutual-close-plan",
+        "commitment-consistency"
+      ],
+      [
+        "assumptive",
+        "summary-close"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.4,
+      -0.5
+    ],
+    "id" : "p075",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "authority",
+        "social-proof"
+      ],
+      [
+        "isolate-and-conquer"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.8,
+      -0.3,
+      -0.4
+    ],
+    "id" : "p076",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "anchor-with-range"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "takeaway"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.6,
+      -0.2
+    ],
+    "id" : "p077",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "commitment-consistency"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.4,
+      -0.5
+    ],
+    "id" : "p078",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "concrete-construal"
+      ],
+      [
+        "sharp-angle"
+      ],
+      [
+        "takeaway"
+      ],
+      [
+        "isolate-and-conquer",
+        "mutual-close-plan"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -1.2,
+      -0.5,
+      -0.4
+    ],
+    "id" : "p079",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "reciprocity",
+        "concrete-construal"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.5,
+      -0.5
+    ],
+    "id" : "p080",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "reciprocity"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "silence",
+        "mutual-close-plan"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.3,
+      -0.7
+    ],
+    "id" : "p081",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "accusation-audit",
+        "takeaway"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "authority",
+        "commitment-consistency"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2100,
+    "evals" : [
+      0.8,
+      -0.5,
+      -0.4,
+      -0.8
+    ],
+    "id" : "p082",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "anchor-with-range",
+        "concrete-construal"
+      ],
+      [
+        "reciprocity"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.3,
+      0.3
+    ],
+    "id" : "p083",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "scarcity"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ],
+      [
+        "takeaway"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.8,
+      -0.4,
+      -0.6,
+      -0.7
+    ],
+    "id" : "p084",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "reciprocity",
+        "social-proof",
+        "concrete-construal"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.8,
+      0.4,
+      -0.2,
+      -0.5
+    ],
+    "id" : "p085",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "reciprocity",
+        "liking"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.3,
+      -0.6
+    ],
+    "id" : "p086",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "reciprocity",
+        "social-proof"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "silence"
+      ],
+      [
+        "sharp-angle"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -0.8,
+      -0.5,
+      -0.6
+    ],
+    "id" : "p087",
+    "theme" : "endgame"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "alternative-choice"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "trial-close"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1300,
+    "evals" : [
+      0.7,
+      -0.4,
+      0,
+      -0.7
+    ],
+    "id" : "p088",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "contrast"
+      ],
+      [
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.2,
+      -0.3,
+      0.1
+    ],
+    "id" : "p089",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "contrast"
+      ],
+      [
+        "contrast"
+      ],
+      [
+        "puppy-dog",
+        "contrast"
+      ],
+      [
+        "contrast"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.3,
+      -1
+    ],
+    "id" : "p090",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "social-proof"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "fitd"
+      ],
+      [
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.8,
+      -0.6,
+      -0.3,
+      -0.4
+    ],
+    "id" : "p091",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "alternative-choice",
+        "liking"
+      ],
+      [
+        "scarcity"
+      ],
+      [
+        "assumptive"
+      ],
+      [
+        "liking"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.7,
+      -0.5,
+      -1.1
+    ],
+    "id" : "p092",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "social-proof"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "concrete-construal"
+      ],
+      [
+        "trial-close"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.6,
+      -0.2,
+      -0.3
+    ],
+    "id" : "p093",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "reciprocity",
+        "social-proof"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "assumptive"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.6,
+      0.3,
+      -0.3,
+      -0.5
+    ],
+    "id" : "p094",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "social-proof",
+        "concrete-construal"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "reciprocity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.7,
+      -1,
+      -0.3,
+      -0.4
+    ],
+    "id" : "p095",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "liking"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.6,
+      -0.7,
+      0,
+      -0.4
+    ],
+    "id" : "p096",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "takeaway"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "mutual-close-plan"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.3,
+      0.2
+    ],
+    "id" : "p097",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "concrete-construal"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.3,
+      -0.4
+    ],
+    "id" : "p098",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "social-proof",
+        "alternative-choice"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "fitd"
+      ],
+      [
+        "liking"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.7,
+      0.1,
+      -0.3
+    ],
+    "id" : "p099",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "concrete-construal"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.8,
+      -1,
+      -0.5,
+      -0.4
+    ],
+    "id" : "p100",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "upfront-contract",
+        "mutual-close-plan",
+        "calibrated-question"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "gain-framing",
+        "social-proof"
+      ],
+      [
+        "liking"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.3,
+      -0.5,
+      -0.8
+    ],
+    "id" : "p101",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "upfront-contract",
+        "calibrated-question",
+        "mutual-close-plan"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "puppy-dog"
+      ],
+      [
+        "calibrated-question"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.5,
+      -0.3,
+      0.2
+    ],
+    "id" : "p102",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "upfront-contract",
+        "mutual-close-plan",
+        "calibrated-question"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "social-proof"
+      ],
+      [
+        "gain-framing",
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.6,
+      0.4,
+      -0.3,
+      -0.6
+    ],
+    "id" : "p103",
+    "theme" : "cold-open"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "gain-framing"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "extreme-anchor",
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.4,
+      0.3,
+      -0.7
+    ],
+    "id" : "p104",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "calibrated-question"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "sharp-angle",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.8,
+      0.2,
+      -0.6,
+      -0.9
+    ],
+    "id" : "p105",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "mutual-close-plan"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "authority",
+        "loss-framing"
+      ],
+      [
+        "calibrated-question"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.7,
+      -0.5,
+      -1,
+      0.3
+    ],
+    "id" : "p107",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "reciprocity",
+        "gain-framing"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "assumptive",
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.2,
+      -0.8
+    ],
+    "id" : "p108",
+    "theme" : "renewal"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "gain-framing"
+      ],
+      [
+        "calibrated-question",
+        "liking"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "takeaway"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      -0.6,
+      -0.3,
+      0.1
+    ],
+    "id" : "p109",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "mutual-close-plan",
+        "calibrated-question"
+      ],
+      [
+        "liking",
+        "puppy-dog"
+      ],
+      [
+        "scarcity",
+        "sharp-angle"
+      ],
+      [
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.7,
+      -0.4,
+      -0.7,
+      0.2
+    ],
+    "id" : "p110",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "mutual-close-plan"
+      ],
+      [
+        "gain-framing",
+        "concrete-construal"
+      ],
+      [
+        "authority",
+        "assumptive"
+      ],
+      [
+        "social-proof",
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.8,
+      0.3,
+      -0.8,
+      -0.5
+    ],
+    "id" : "p111",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "labeling"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "concrete-construal",
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.7,
+      -0.6,
+      -0.2,
+      0.3
+    ],
+    "id" : "p112",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "accusation-audit",
+        "labeling"
+      ],
+      [
+        "liking",
+        "calibrated-question"
+      ],
+      [
+        "assumptive",
+        "gain-framing"
+      ],
+      [
+        "liking"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.6,
+      -0.5,
+      -0.9,
+      0.2
+    ],
+    "id" : "p113",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "commitment-consistency",
+        "concrete-construal"
+      ],
+      [
+        "multi-threading",
+        "liking"
+      ],
+      [
+        "gain-framing",
+        "liking"
+      ],
+      [
+        "authority",
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1900,
+    "evals" : [
+      0.8,
+      0.1,
+      -0.7,
+      -0.4
+    ],
+    "id" : "p114",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "spin-implication",
+        "takeaway"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "loss-framing",
+        "authority"
+      ],
+      [
+        "calibrated-question"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.6,
+      -0.5,
+      -0.8,
+      -0.2
+    ],
+    "id" : "p115",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "calibrated-question"
+      ],
+      [
+        "assumptive",
+        "extreme-anchor"
+      ],
+      [
+        "multi-threading",
+        "social-proof"
+      ],
+      [
+        "liking",
+        "silence"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.7,
+      -0.3,
+      -0.9,
+      0.4
+    ],
+    "id" : "p116",
+    "theme" : "sales-assist"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "concrete-construal"
+      ],
+      [
+        "authority",
+        "commitment-consistency"
+      ],
+      [
+        "social-proof",
+        "liking"
+      ],
+      [
+        "scarcity",
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1450,
+    "evals" : [
+      0.7,
+      0.3,
+      -0.4,
+      -0.9
+    ],
+    "id" : "p117",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "calibrated-question"
+      ],
+      [
+        "gain-framing",
+        "commitment-consistency"
+      ],
+      [
+        "scarcity",
+        "sharp-angle"
+      ],
+      [
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.65,
+      0.4,
+      -0.6,
+      -1
+    ],
+    "id" : "p118",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "takeaway",
+        "labeling"
+      ],
+      [
+        "gain-framing"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "social-proof",
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1500,
+    "evals" : [
+      0.7,
+      0.2,
+      -0.5,
+      -0.8
+    ],
+    "id" : "p119",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "multi-threading"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "multi-threading",
+        "authority"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1850,
+    "evals" : [
+      0.75,
+      0.3,
+      -0.6,
+      -0.3
+    ],
+    "id" : "p120",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "concrete-construal"
+      ],
+      [
+        "authority",
+        "social-proof"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "liking",
+        "social-proof"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1400,
+    "evals" : [
+      0.6,
+      0.4,
+      -0.3,
+      -0.7
+    ],
+    "id" : "p121",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "mutual-close-plan"
+      ],
+      [
+        "scarcity",
+        "sharp-angle"
+      ],
+      [
+        "authority"
+      ],
+      [
+        "commitment-consistency"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1950,
+    "evals" : [
+      0.7,
+      -0.7,
+      0.1,
+      -0.5
+    ],
+    "id" : "p122",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "concrete-construal"
+      ],
+      [
+        "concrete-construal"
+      ],
+      [
+        "commitment-consistency"
+      ],
+      [
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1550,
+    "evals" : [
+      0.7,
+      -0.3,
+      0.4,
+      -0.6
+    ],
+    "id" : "p123",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "mutual-close-plan",
+        "concrete-construal"
+      ],
+      [
+        "labeling"
+      ],
+      [
+        "loss-framing"
+      ],
+      [
+        "gain-framing",
+        "assumptive"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.75,
+      0.3,
+      -0.2,
+      -0.8
+    ],
+    "id" : "p124",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "commitment-consistency"
+      ],
+      [
+        "multi-threading"
+      ],
+      [
+        "concrete-construal"
+      ],
+      [
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2000,
+    "evals" : [
+      0.7,
+      0.4,
+      0.1,
+      -0.7
+    ],
+    "id" : "p125",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "concrete-construal",
+        "precise-anchor"
+      ],
+      [
+        "liking"
+      ],
+      [
+        "authority",
+        "gain-framing"
+      ],
+      [
+        "loss-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1650,
+    "evals" : [
+      0.65,
+      0.3,
+      -0.9,
+      -0.3
+    ],
+    "id" : "p126",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "calibrated-question",
+        "concrete-construal"
+      ],
+      [
+        "social-proof",
+        "gain-framing"
+      ],
+      [
+        "loss-framing"
+      ],
+      [
+        "authority",
+        "liking"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1800,
+    "evals" : [
+      0.75,
+      -0.6,
+      0.3,
+      -0.4
+    ],
+    "id" : "p127",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "multi-threading",
+        "labeling"
+      ],
+      [
+        "loss-framing"
+      ],
+      [
+        "concrete-construal"
+      ],
+      [
+        "gain-framing"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 2100,
+    "evals" : [
+      0.7,
+      0.4,
+      -0.3,
+      -0.9
+    ],
+    "id" : "p128",
+    "theme" : "forecast-call"
+  },
+  {
+    "atlasTags" : [
+      [
+        "labeling",
+        "multi-threading"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+
+      ],
+      [
+        "trial-close"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1700,
+    "evals" : [
+      0.9,
+      -0.6,
+      -0.2,
+      -0.35
+    ],
+    "id" : "read-001",
+    "theme" : "multistakeholder"
+  },
+  {
+    "atlasTags" : [
+      [
+        "assumptive",
+        "puppy-dog"
+      ],
+      [
+        "concrete-construal"
+      ],
+      [
+        "calibrated-question"
+      ],
+      [
+        "scarcity"
+      ]
+    ],
+    "bestIndex" : 0,
+    "candidateCount" : 4,
+    "difficulty" : 1600,
+    "evals" : [
+      0.9,
+      -0.55,
+      0.1,
+      -0.7
+    ],
+    "id" : "read-002",
+    "theme" : "stall"
+  }
+]
