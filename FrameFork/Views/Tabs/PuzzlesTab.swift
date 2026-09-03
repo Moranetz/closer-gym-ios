@@ -37,6 +37,7 @@ struct PuzzlesTab: View {
 struct PuzzleIndexView: View {
     @EnvironmentObject private var storage: Store
     @Environment(\.sizeCategory) private var sizeCategory
+    private var W: World { World.current }
     @Binding var showMisses: Bool
     @State private var expanded: Set<PuzzleTheme> = [.budget]
 
@@ -54,6 +55,10 @@ struct PuzzleIndexView: View {
         ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                if W.isWorld {
+                    Text("Puzzles").scaledFont(size: 34, weight: .heavy, design: .rounded).foregroundStyle(W.ink)
+                        .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 4)
+                }
                 statsHeader
 
                 dailyHero
@@ -69,17 +74,19 @@ struct PuzzleIndexView: View {
 
                 Text("\(Puzzles.all.count) hand-authored positions built straight from the Atlas plays. Solving is fully offline, no API key required.")
                     .scaledFont(size: 11)
-                    .foregroundStyle(Color.textFaint)
+                    .foregroundStyle(W.inkFaint)
                     .lineSpacing(2)
                     .padding(.horizontal, 16)
                     .padding(.top, 8)
                     .padding(.bottom, 32)
             }
         }
-        .background(Color.bgPage)
+        .background(WorldGround().ignoresSafeArea())
         .navigationTitle("Puzzles")
         .navigationBarTitleDisplayMode(.large)
         .toolbarBackground(Color.bgPage, for: .navigationBar)
+        // A world draws its own heading in its own ink; the system title is white on dark.
+        .toolbar(W.isWorld ? .hidden : .visible, for: .navigationBar)
         }
     }
 
@@ -103,7 +110,7 @@ struct PuzzleIndexView: View {
             } label: {
                 HStack(spacing: 10) {
                     ZStack(alignment: .leading) {
-                        Capsule().fill(Color.bgRail)
+                        Capsule().fill(W.rail)
                         Capsule().fill(Color.warning)
                             .frame(width: 34 * max(0.08, weak.rate))
                     }
@@ -112,22 +119,23 @@ struct PuzzleIndexView: View {
                     // terse so nothing truncates at two lines.
                     (Text("\(weak.theme.label) is your weakest theme")
                         .scaledFont(size: 13, weight: .bold, sizeCategory: sizeCategory)
-                        .foregroundStyle(Color.textPrimary)
+                        .foregroundStyle(W.ink)
                      + Text(" — \(Int((weak.rate * 100).rounded()))% · \(weak.attempts) tries")
                         .scaledFont(size: 12, sizeCategory: sizeCategory)
-                        .foregroundStyle(Color.textSecondary))
+                        .foregroundStyle(W.inkSecondary))
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                     Spacer(minLength: 8)
                     Text("Drill →")
                         .scaledFont(size: 12, weight: .heavy, design: .rounded)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(W.accent)
                 }
                 .padding(.horizontal, 13)
                 .padding(.vertical, 11)
-                .background(Color.bgPanel)
+                .background(W.panel)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(W.border, lineWidth: 1))
+        .worldCard()
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -195,12 +203,12 @@ struct PuzzleIndexView: View {
                 Spacer(minLength: 8)
                 Text("Review →")
                     .scaledFont(size: 12, weight: .semibold)
-                    .foregroundStyle(Color.textFaint)
+                    .foregroundStyle(W.inkFaint)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 10)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.bgPanel)
+            .background(W.panel)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.warning.opacity(0.45), lineWidth: 1))
             .contentShape(Rectangle())
@@ -214,22 +222,23 @@ struct PuzzleIndexView: View {
         let s = storage.puzzleState
         let current = storage.effectiveCurrentStreak
         return VStack(alignment: .leading, spacing: 4) {
-            Text("Streak").microLabel()
+            Text("Streak").microLabel(W.inkMuted)
             HStack(spacing: 4) {
                 Text("\(current)d")
                     .scaledFont(size: 14, weight: .bold, design: .rounded).monospacedDigit()
-                    .foregroundStyle(current > 0 ? Color.brandGreen : .textPrimary)
+                    .foregroundStyle(current > 0 ? W.accent : W.ink)
                 Text("· best \(s.longestStreak)d")
                     .scaledFont(size: 11, weight: .semibold)
-                    .foregroundStyle(Color.textFaint)
+                    .foregroundStyle(W.inkFaint)
                     .lineLimit(1)
             }
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 10)
-        .background(Color.bgPanel)
+        .background(W.panel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(W.border, lineWidth: 1))
+        .worldCard()
     }
 
     /// Day-one replacement for the streak pair: a streak that never started reads
@@ -239,31 +248,32 @@ struct PuzzleIndexView: View {
         let drillsToday = storage.puzzleState.solves.filter { Calendar.current.isDateInToday($0.solvedAt) }.count
         let line = firstRunDrillLine(drillsToday: drillsToday)
         return VStack(alignment: .leading, spacing: 4) {
-            Text("Today").microLabel()
+            Text("Today").microLabel(W.inkMuted)
             Text(line)
                 .scaledFont(size: drillsToday > 0 ? 16 : 12, weight: drillsToday > 0 ? .bold : .semibold, design: .rounded)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(W.ink)
                 .lineLimit(3)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(W.panel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(W.border, lineWidth: 1))
+        .worldCard()
     }
 
     /// `compact` shrinks the value font and horizontal padding a step — used once
     /// the row holds three cards instead of two, so all three fit the width.
     private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil, compact: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(label).microLabel()
+            Text(label).microLabel(W.inkMuted)
             // Number and badge side by side while they fit; at large type the
             // badge drops beneath the number instead of breaking mid-word.
             let number = Text(value)
                 .scaledFont(size: compact ? 14 : 16, weight: .bold, design: .rounded).monospacedDigit()
-                .foregroundStyle(accent ?? .textPrimary)
+                .foregroundStyle(accent ?? W.ink)
             ViewThatFits(in: .horizontal) {
                 HStack(spacing: 6) {
                     number
@@ -278,9 +288,10 @@ struct PuzzleIndexView: View {
         .padding(.horizontal, compact ? 12 : 14)
         .padding(.vertical, 10)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(W.panel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(W.border, lineWidth: 1))
+        .worldCard()
     }
 
     // MARK: - Daily hero
@@ -301,25 +312,25 @@ struct PuzzleIndexView: View {
     private func dailyHeroCard(done: Bool) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
-                Text("Daily Drill").microLabel(Color.brandGreen)
+                Text("Daily Drill").microLabel(W.accent)
                 // The card printed the storage key ("2026-09-02") to the reader
                 // (fleet round 50). The key stays a key; the reader gets a date.
                 Text(Date().formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day()))
                     .scaledFont(size: 11, weight: .semibold)
-                    .foregroundStyle(Color.textMuted)
+                    .foregroundStyle(W.inkMuted)
                     .monospacedDigit()
             }
             Text(dailyPuzzle.theme.label)
                 .scaledFont(size: 22, weight: .heavy, design: .rounded)
-                .foregroundStyle(Color.textPrimary)
+                .foregroundStyle(W.ink)
                 .lineLimit(2)
             Text("\(dailyPuzzle.buyerRole) · ELO \(dailyPuzzle.difficulty)")
                 .scaledFont(size: 13)
-                .foregroundStyle(Color.textSecondary)
+                .foregroundStyle(W.inkSecondary)
             Text("“\(dailyPuzzle.buyerLine)”")
                 .scaledFont(size: 13)
                 .italic()
-                .foregroundStyle(Color.textMuted)
+                .foregroundStyle(W.inkMuted)
                 .lineLimit(2)
             if done {
                 HStack(spacing: 6) {
@@ -327,21 +338,21 @@ struct PuzzleIndexView: View {
                     Text("Done today · back tomorrow")
                         .scaledFont(size: 14, weight: .heavy, design: .rounded)
                 }
-                .foregroundStyle(Color.textMuted)
+                .foregroundStyle(W.inkMuted)
                 .padding(.horizontal, 14).padding(.vertical, 10)
-                .background(Capsule().fill(Color.bgRail))
+                .background(Capsule().fill(W.rail))
             } else {
                 Text("Solve today's drill")
                     .scaledFont(size: 14, weight: .heavy, design: .rounded)
-                    .foregroundStyle(.bgPage)
+                    .foregroundStyle(W.keyInk)
                     .padding(.horizontal, 14).padding(.vertical, 10)
-                    .background(Capsule().fill(Color.brandGreen))
+                    .background(Capsule().fill(W.accent))
             }
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            LinearGradient(colors: [.bgPanel, .bgRail], startPoint: .topLeading, endPoint: .bottomTrailing)
+            Rectangle().fill(W.heroFill)
         )
         .overlay(alignment: .trailing) {
             Rectangle()
@@ -349,8 +360,10 @@ struct PuzzleIndexView: View {
                 .frame(width: 6)
         }
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(W.border, lineWidth: 1))
+        .worldCard()
         .opacity(done ? 0.85 : 1.0)
+        .worldHero()
     }
 
     // MARK: - Theme section
@@ -379,17 +392,17 @@ struct PuzzleIndexView: View {
                 .padding(.top, 4)
             } label: {
                 HStack(spacing: 8) {
-                    Text(theme.label).microLabel(theme.tint)
+                    Text(theme.label).microLabel(W.isWorld ? W.ink : theme.tint)
                     Spacer()
                     if solved > 0 {
                         Text("\(solved)/\(inTheme.count)")
                             .scaledFont(size: 11, weight: .heavy, design: .rounded)
-                            .foregroundStyle(.brandGreen)
+                            .foregroundStyle(W.accent)
                             .monospacedDigit()
                     } else {
                         Text("\(inTheme.count) position\(inTheme.count == 1 ? "" : "s")")
                             .scaledFont(size: 11, weight: .semibold)
-                            .foregroundStyle(Color.textMuted)
+                            .foregroundStyle(W.inkMuted)
                             .monospacedDigit()
                     }
                 }
@@ -410,33 +423,34 @@ struct PuzzleIndexView: View {
                 HStack(spacing: 6) {
                     Text("ELO \(p.difficulty)")
                         .scaledFont(size: 10, weight: .semibold)
-                        .foregroundStyle(Color.textMuted)
+                        .foregroundStyle(W.inkMuted)
                         .monospacedDigit()
                     Text(difficultyTier(p.difficulty).rawValue)
                         .scaledFont(size: 10, weight: .semibold)
-                        .foregroundStyle(Color.textMuted)
+                        .foregroundStyle(W.inkMuted)
                         .textCase(.uppercase)
                         .kerning(0.4)
                     if storage.isSolved(p.id) {
-                        Image(systemName: "checkmark.circle.fill").scaledFont(size: 11).foregroundStyle(.brandGreen)
+                        Image(systemName: "checkmark.circle.fill").scaledFont(size: 11).foregroundStyle(W.accent)
                     }
                 }
                 Text(p.buyerRole)
                     .scaledFont(size: 14, weight: .semibold)
-                    .foregroundStyle(Color.textPrimary)
+                    .foregroundStyle(W.ink)
                     .lineLimit(1)
                 Text("“\(p.buyerLine)”")
                     .scaledFont(size: 12)
-                    .foregroundStyle(Color.textMuted)
+                    .foregroundStyle(W.inkMuted)
                     .italic()
                     .lineLimit(2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            Image(systemName: "chevron.right").scaledFont(size: 12, weight: .bold).foregroundStyle(Color.textFaint)
+            Image(systemName: "chevron.right").scaledFont(size: 12, weight: .bold).foregroundStyle(W.inkFaint)
         }
         .padding(14)
-        .background(Color.bgPanel)
+        .background(W.panel)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(W.border, lineWidth: 1))
+        .worldCard()
     }
 }

@@ -49,6 +49,7 @@
 		9C483BE875FCA51612891A14 /* MasterGameViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220775A0781B7279EF710491 /* MasterGameViewer.swift */; };
 		9C4AF7D84ED34D5A2AE560FD /* puzzle-bank-invariants.json in Resources */ = {isa = PBXBuildFile; fileRef = DC969AAA3FE0B0B16EC6200B /* puzzle-bank-invariants.json */; };
 		9E1E3A125CDEA12DCBDC4173 /* PuzzlesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4373BAEFA031FE46236CA5 /* PuzzlesTab.swift */; };
+		9E71F7B34F312D53C8E015E5 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF2BAEC4166E075A279091D1 /* World.swift */; };
 		A657D1DC383F16B7F83E2E0B /* SimpleReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA4CE19DE6F32BA93926153 /* SimpleReviewView.swift */; };
 		A8E8E9888DE72EAFE2802D4A /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014D2147E4D1E14969CC440 /* ShareCard.swift */; };
 		ABD7C7EC4D4854E8A91EC4EF /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E8CA62FC1180E65C20551D /* Notifications.swift */; };
@@ -161,6 +162,7 @@
 		D851339D08442110151A39DD /* Techniques.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Techniques.swift; sourceTree = "<group>"; };
 		D8DE88FD4FECF4DAE17CA497 /* AIConsent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIConsent.swift; sourceTree = "<group>"; };
 		DC969AAA3FE0B0B16EC6200B /* puzzle-bank-invariants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "puzzle-bank-invariants.json"; sourceTree = "<group>"; };
+		DF2BAEC4166E075A279091D1 /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		E5A4531C78DA44C8B069C986 /* EvalCurveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalCurveView.swift; sourceTree = "<group>"; };
 		E6192F27BB239B044C4F3796 /* SafetySpineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetySpineTests.swift; sourceTree = "<group>"; };
 		EFC59B171E990662163049DA /* PreGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreGameView.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				CE1730A32AB636F304269C91 /* BrandColors.swift */,
 				2899BCECCBB676637F6C7A57 /* Haptics.swift */,
 				3CF51837D9938CB27DBCA06A /* Typography.swift */,
+				DF2BAEC4166E075A279091D1 /* World.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				5AD61BDAC548DB5D5C6BA531 /* Typography.swift in Sources */,
 				6504A13D05F4CBEEE5465D06 /* Verdict.swift in Sources */,
 				8E73E47A51A6098270FF0AC7 /* WatchTab.swift in Sources */,
+				9E71F7B34F312D53C8E015E5 /* World.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -677,7 +681,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -853,7 +857,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20;
+				CURRENT_PROJECT_VERSION = 21;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_NS_ASSERTIONS = NO;
