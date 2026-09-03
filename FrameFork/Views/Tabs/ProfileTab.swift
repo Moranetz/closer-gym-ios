@@ -198,7 +198,7 @@ struct ProfileTab: View {
             Text("Frame & Fork · v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")")
                 .scaledFont(size: 14, weight: .semibold)
                 .foregroundStyle(Color.textSecondary)
-            Text("There's no cheat code for a live buyer. We built the gym.")
+            Text("Practice here before the live call.")
                 .italic()
                 .scaledFont(size: 13)
                 .foregroundStyle(Color.textMuted)
