@@ -3,6 +3,14 @@ import SwiftUI
 struct ProfileTab: View {
     @EnvironmentObject private var storage: Store
 
+    #if DEBUG
+    // Debug/screenshot hook (same pattern as FF_OPEN_PUZZLE): FF_OPEN_SETTINGS=1
+    // pushes Settings on launch so it can be captured without tapping the gear
+    // icon (the sim has no accessibility labels to drive by name). No effect in
+    // Release — never reachable outside DEBUG.
+    @State private var debugOpenSettings = ProcessInfo.processInfo.environment["FF_OPEN_SETTINGS"] == "1"
+    #endif
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -35,6 +43,9 @@ struct ProfileTab: View {
                     }
                 }
             }
+            #if DEBUG
+            .navigationDestination(isPresented: $debugOpenSettings) { SettingsView() }
+            #endif
         }
     }
 

@@ -14,6 +14,15 @@ struct MasterGameViewer: View {
     @State private var attempted: Int = 0
     @State private var finished: Bool = false
 
+    #if DEBUG
+    // Debug/screenshot hook (same pattern as FF_OPEN_PUZZLE): FF_AUTO_REVEAL=1
+    // answers the first guess correctly right after landing on the guess point,
+    // so the "move revealed" state can be captured without a real tap (sim taps
+    // are TCC-walled / no accessibility labels to drive by name). No effect in
+    // Release — never reachable outside DEBUG.
+    private let debugAutoReveal = ProcessInfo.processInfo.environment["FF_AUTO_REVEAL"] == "1"
+    #endif
+
     init(game: MasterGame) { _game = State(initialValue: game) }
 
     private var guessTotal: Int { game.moves.filter { $0.isGuessPoint }.count }
@@ -55,7 +64,20 @@ struct MasterGameViewer: View {
                     Text(game.speaker).scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary).lineLimit(1)
                 }
             }
-            .onAppear { if revealedCount == 0 && activeGuess == nil && !finished { advance() } }
+            .onAppear {
+                if revealedCount == 0 && activeGuess == nil && !finished {
+                    advance()
+                    #if DEBUG
+                    if debugAutoReveal {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                            guard let g = activeGuess else { return }
+                            let opts = options(for: g)
+                            pick(optionIndex: opts.realIndex, realIndex: opts.realIndex, moveIndex: g)
+                        }
+                    }
+                    #endif
+                }
+            }
         }
     }
 
@@ -162,7 +184,7 @@ struct MasterGameViewer: View {
         let opts = options(for: moveIndex)
         let speakerShort = game.speaker.split(separator: " ").first.map(String.init) ?? "the master"
         VStack(alignment: .leading, spacing: 10) {
-            Text("YOU'RE \(speakerShort.uppercased()) · WHAT'S YOUR MOVE?").microLabel(Color.brandGreen)
+            Text("YOUR MOVE, \(speakerShort.uppercased())").microLabel(Color.brandGreen)
             ForEach(Array(opts.items.enumerated()), id: \.offset) { i, text in
                 Button {
                     pick(optionIndex: i, realIndex: opts.realIndex, moveIndex: moveIndex)

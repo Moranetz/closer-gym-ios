@@ -313,15 +313,26 @@ struct SettingsView: View {
     }
 
     private var dataCard: some View {
-        VStack(spacing: 0) {
+        let solved = storage.solvedUniqueCount
+        let streak = storage.effectiveCurrentStreak
+        let longest = storage.puzzleState.longestStreak
+        return VStack(spacing: 0) {
             HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Solved: \(storage.solvedUniqueCount) puzzles")
+                // Fresh install reads a sentence, not two zeros — same first-run
+                // helper as the Profile identity card (EloBand.swift).
+                if let firstRun = firstRunSummary(solved: solved, streak: streak, longest: longest) {
+                    Text(firstRun)
                         .scaledFont(size: 13, weight: .semibold)
                         .foregroundStyle(Color.textPrimary)
-                    Text("Current streak: \(storage.effectiveCurrentStreak)d · Longest: \(storage.puzzleState.longestStreak)d")
-                        .scaledFont(size: 11)
-                        .foregroundStyle(Color.textMuted)
+                } else {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Solved: \(solved) puzzles")
+                            .scaledFont(size: 13, weight: .semibold)
+                            .foregroundStyle(Color.textPrimary)
+                        Text("Current streak: \(streak)d · Longest: \(longest)d")
+                            .scaledFont(size: 11)
+                            .foregroundStyle(Color.textMuted)
+                    }
                 }
                 Spacer()
             }

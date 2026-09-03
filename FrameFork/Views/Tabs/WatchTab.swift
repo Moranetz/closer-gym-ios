@@ -1,9 +1,26 @@
 import SwiftUI
 
 struct WatchTab: View {
+    #if DEBUG
+    // Debug/screenshot hook (same pattern as FF_OPEN_PUZZLE): FF_OPEN_GAME=<id> opens
+    // that master game's viewer on launch so it can be captured without tapping
+    // through the index (the sim has no accessibility labels to drive by name).
+    // No effect in Release — never reachable outside DEBUG, and a bad/missing id
+    // is just a no-op.
+    @State private var debugOpenGame: MasterGame? = {
+        guard let id = ProcessInfo.processInfo.environment["FF_OPEN_GAME"] else { return nil }
+        return MasterGames.get(id)
+    }()
+    #endif
+
     var body: some View {
         NavigationStack {
             MasterGameIndexView()
+                #if DEBUG
+                .navigationDestination(item: $debugOpenGame) { g in
+                    MasterGameViewer(game: g)
+                }
+                #endif
         }
     }
 }
