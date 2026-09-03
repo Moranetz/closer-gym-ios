@@ -257,7 +257,9 @@ struct PuzzleIndexView: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 8) {
                 Text("Daily Drill").microLabel(Color.brandGreen)
-                Text(Store.todayKey())
+                // The card printed the storage key ("2026-09-02") to the reader
+                // (fleet round 50). The key stays a key; the reader gets a date.
+                Text(Date().formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day()))
                     .scaledFont(size: 11, weight: .semibold)
                     .foregroundStyle(Color.textMuted)
                     .monospacedDigit()
