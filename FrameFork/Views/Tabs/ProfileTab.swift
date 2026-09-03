@@ -98,6 +98,8 @@ struct ProfileTab: View {
 
     // MARK: - Cards
 
+    @ScaledMetric(relativeTo: .largeTitle) private var avatarSize: CGFloat = 80
+
     private var identityCard: some View {
         let rating = storage.puzzleState.rating.rating
         let title = titleForRating(rating)
@@ -107,10 +109,13 @@ struct ProfileTab: View {
         let longest = storage.puzzleState.longestStreak
 
         return VStack(spacing: 12) {
+            // Fleet round 96 (2026-09-03): the icon scaled with Dynamic Type and the circle did
+            // not, so at accessibility sizes the glyph's own dark disc swallowed the green one.
+            // Both read one scaled metric now, so the avatar keeps its proportion at every size.
             Circle()
                 .fill(Color.brandGreen)
-                .frame(width: 80, height: 80)
-                .overlay(Image(systemName: "person.crop.circle.fill").scaledFont(size: 48).foregroundStyle(Color.bgPage))
+                .frame(width: avatarSize, height: avatarSize)
+                .overlay(Image(systemName: "person.crop.circle.fill").font(.system(size: avatarSize * 0.6)).foregroundStyle(Color.bgPage))
 
             Text("You").scaledFont(size: 20, weight: .bold, design: .rounded).foregroundStyle(Color.textPrimary)
 
