@@ -259,11 +259,20 @@ struct PuzzleIndexView: View {
     private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil, compact: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label).microLabel()
-            HStack(spacing: 6) {
-                Text(value)
-                    .scaledFont(size: compact ? 14 : 16, weight: .bold, design: .rounded).monospacedDigit()
-                    .foregroundStyle(accent ?? .textPrimary)
-                if let badge { badge }
+            // Number and badge side by side while they fit; at large type the
+            // badge drops beneath the number instead of breaking mid-word.
+            let number = Text(value)
+                .scaledFont(size: compact ? 14 : 16, weight: .bold, design: .rounded).monospacedDigit()
+                .foregroundStyle(accent ?? .textPrimary)
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 6) {
+                    number
+                    if let badge { badge }
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    number
+                    if let badge { badge }
+                }
             }
         }
         .padding(.horizontal, compact ? 12 : 14)

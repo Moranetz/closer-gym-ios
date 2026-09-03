@@ -114,12 +114,15 @@ struct ProfileTab: View {
 
             Text("You").scaledFont(size: 20, weight: .bold, design: .rounded).foregroundStyle(Color.textPrimary)
 
-            HStack(spacing: 8) {
-                Text("\(Int(rating))").scaledFont(size: 28, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
-                // A new user hasn't earned a class letter off one cold-start placement —
-                // the chip says so instead of handing out "Class D" on day one.
-                TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
-                               tier: isProvisional ? .low : title.tier)
+            // A new user hasn't earned a class letter off one cold-start placement;
+            // the chip says so instead of handing out "Class D" on day one. At
+            // large type the chip sits under the number rather than breaking.
+            let number = Text("\(Int(rating))").scaledFont(size: 28, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
+            let badge = TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
+                                       tier: isProvisional ? .low : title.tier)
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 8) { number; badge }
+                VStack(spacing: 6) { number; badge }
             }
 
             Text(firstRunSummary(solved: solveCount, streak: streak, longest: longest)

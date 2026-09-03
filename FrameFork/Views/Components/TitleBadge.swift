@@ -12,6 +12,11 @@ struct TitleBadgeView: View {
             .scaledFont(size: 10, weight: .heavy, design: .rounded)
             .kerning(0.6)
             .textCase(.uppercase)
+            // One word, one line. At large Dynamic Type the chip used to break
+            // "PROVISIONAL" in half; it shrinks a little first and its callers
+            // drop it under the number when the row cannot hold both.
+            .lineLimit(1)
+            .minimumScaleFactor(0.8)
             .foregroundStyle(tier.textColor)
             .padding(.horizontal, 6)
             .padding(.vertical, 3)
