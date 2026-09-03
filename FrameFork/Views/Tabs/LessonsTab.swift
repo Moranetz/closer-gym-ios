@@ -73,6 +73,7 @@ struct LessonIndexView: View {
             t.name.lowercased().contains(q) ||
             t.id.lowercased().contains(q) ||
             t.mechanism.lowercased().contains(q) ||
+            t.plain.lowercased().contains(q) ||
             t.cluster.label.lowercased().contains(q)
         }
     }
@@ -194,7 +195,7 @@ struct LessonIndexView: View {
                 }
                 Spacer()
             }
-            Text(t.mechanism.split(separator: ";").first.map(String.init) ?? t.mechanism)
+            Text(t.plain)
                 .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .lineSpacing(2)

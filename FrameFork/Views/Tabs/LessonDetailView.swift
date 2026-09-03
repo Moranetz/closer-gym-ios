@@ -97,11 +97,19 @@ struct LessonDetailView: View {
             Text(technique.name)
                 .scaledFont(size: 22, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textPrimary)
-            Text(technique.mechanism)
-                .scaledFont(size: 14)
-                .foregroundStyle(Color.textSecondary)
+            Text(technique.plain)
+                .scaledFont(size: 15, weight: .semibold)
+                .foregroundStyle(Color.textPrimary)
                 .lineSpacing(4)
                 .padding(.top, 4)
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Mechanism").microLabel()
+                Text(technique.mechanism)
+                    .scaledFont(size: 13)
+                    .foregroundStyle(Color.textSecondary)
+                    .lineSpacing(4)
+            }
+            .padding(.top, 8)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)

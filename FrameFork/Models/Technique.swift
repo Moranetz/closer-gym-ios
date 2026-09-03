@@ -7,6 +7,10 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
     public let name: String
     public let cluster: AtlasCluster
     public let mechanism: String
+    /// One plain-English sentence for a founder or rep on their phone — no jargon,
+    /// no lab-notes register. `mechanism` stays verbatim (Atlas evidence record,
+    /// shown in the detail view); `plain` is what the Lessons card shows.
+    public let plain: String
     public let atlasVerdict: AtlasVerdict
     public let folkloreRisk: FolkloreRisk
     public let canonicalSource: String
@@ -21,7 +25,7 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
     public let evidenceBand: EvidenceBand
     public let evidenceSource: String
 
-    public init(id: String, name: String, cluster: AtlasCluster, mechanism: String,
+    public init(id: String, name: String, cluster: AtlasCluster, mechanism: String, plain: String,
                 atlasVerdict: AtlasVerdict, folkloreRisk: FolkloreRisk,
                 canonicalSource: String = "", primaryFailureMode: String = "",
                 contraindication: String = "",
@@ -31,6 +35,7 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
         self.name = name
         self.cluster = cluster
         self.mechanism = mechanism
+        self.plain = plain
         self.atlasVerdict = atlasVerdict
         self.folkloreRisk = folkloreRisk
         self.canonicalSource = canonicalSource
@@ -83,17 +88,17 @@ public extension AtlasCluster {
         case .cialdini:
             return "Six classical influence principles cataloged by Robert Cialdini."
         case .framing:
-            return "Cognitive framing moves that exploit asymmetric weighting of gains, losses, and reference points."
+            return "How a price or fact is worded changes how big it feels."
         case .compliance:
-            return "Sequential request structures that exploit consistency norms and reciprocity."
+            return "Small steps get said yes to first, and the big ask gets easier."
         case .negotiationAnchor:
-            return "First-move number tactics that bias the counterparty's adjustment."
+            return "The first number said in a negotiation pulls every later number toward it."
         case .structuralClose:
-            return "Bookend moves that compress decision space and force commitment."
+            return "Moves that narrow the choice down to a plain yes or no."
         case .postObjection:
             return "Response patterns once the buyer has stated a concern."
         case .closingEnvironment:
-            return "Procedural commitments and multi-stakeholder structures that reduce drift."
+            return "Steps that keep a slow multi-person deal from stalling out."
         }
     }
 }
