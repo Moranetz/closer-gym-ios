@@ -70,44 +70,6 @@ struct PreGameView: View {
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
-    private func contraindicatedCard(persona: Persona) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Contraindicated · do not deploy").microLabel(Color.danger)
-            HStack {
-                FlowLayout(spacing: 6, lineSpacing: 6) {
-                    ForEach(persona.contraindicatedTechniques, id: \.self) { tid in
-                        chip(text: AtlasTechniques.name(for: tid), color: Color.danger)
-                    }
-                }
-                Spacer(minLength: 0)
-            }
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.danger.opacity(0.25), lineWidth: 1))
-    }
-
-    private func responsiveCard(persona: Persona) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Responsive · likely to land").microLabel(Color.brandGreen)
-            HStack {
-                FlowLayout(spacing: 6, lineSpacing: 6) {
-                    ForEach(persona.likelyResponsiveTechniques, id: \.self) { tid in
-                        chip(text: AtlasTechniques.name(for: tid), color: Color.brandGreen)
-                    }
-                }
-                Spacer(minLength: 0)
-            }
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.brandGreen.opacity(0.25), lineWidth: 1))
-    }
-
     private var intentSelector: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -195,15 +157,6 @@ struct PreGameView: View {
         BotLadder.all
             .filter { Arcs.get(personaId: $0.personaId) != nil }
             .min { abs($0.rating - bot.rating) < abs($1.rating - bot.rating) }
-    }
-
-    private func chip(text: String, color: Color) -> some View {
-        Text(text)
-            .scaledFont(size: 11, weight: .semibold)
-            .foregroundStyle(color)
-            .padding(.horizontal, 8).padding(.vertical, 3)
-            .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(color.opacity(0.12)))
-            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(color.opacity(0.3), lineWidth: 1))
     }
 
     private func stat(label: String, value: String) -> some View {
