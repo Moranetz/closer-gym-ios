@@ -61,12 +61,12 @@ struct BotLadderView: View {
     @Binding var path: [PlayRoute]
     @EnvironmentObject private var storage: Store
 
-    private let tiers: [(name: String, min: Int, max: Int)] = [
-        ("Beginner",     1200, 1499),
-        ("Intermediate", 1500, 1799),
-        ("Advanced",     1800, 2099),
-        ("Expert",       2100, 2299),
-        ("Grandmaster",  2300, 9999),
+    private let tiers: [(name: String, min: Int, max: Int, rule: Color)] = [
+        ("Beginner",     1200, 1499, .badgeLow),
+        ("Intermediate", 1500, 1799, .badgeExp),
+        ("Advanced",     1800, 2099, .badgeM),
+        ("Expert",       2100, 2299, .badgeIM),
+        ("Grandmaster",  2300, 9999, .badgeGM),
     ]
 
     private var playerRating: Int {
@@ -77,10 +77,6 @@ struct BotLadderView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                if !hasKey {
-                    proLockedBanner
-                }
-
                 Text("Pick an opponent from \(BotLadder.all.count) buyers, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
@@ -110,7 +106,7 @@ struct BotLadderView: View {
                                     let unlocked = BotLadder.isUnlocked(bot, playerRating: playerRating)
                                         && (hasKey || Arcs.get(personaId: bot.personaId) != nil)
                                     NavigationLink(value: PlayRoute.preGame(bot)) {
-                                        botRow(bot: bot, unlocked: unlocked)
+                                        botRow(bot: bot, unlocked: unlocked, ruleColor: tier.rule)
                                     }
                                     .buttonStyle(.plain)
                                     .disabled(!unlocked)
@@ -122,6 +118,12 @@ struct BotLadderView: View {
                     }
                 }
 
+                if !hasKey {
+                    proLockedFooter
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
+                }
+
                 Spacer(minLength: 32)
             }
         }
@@ -131,49 +133,38 @@ struct BotLadderView: View {
         .toolbarBackground(Color.bgPage, for: .navigationBar)
     }
 
-    private var proLockedBanner: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 10) {
-                Image(systemName: "lock.shield.fill")
-                    .scaledFont(size: 18)
-                    .foregroundStyle(Color.warning)
-                Text("Bring your own key").scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
-                Spacer()
-            }
+    private var proLockedFooter: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Bring your own key").scaledFont(size: 13, weight: .bold).foregroundStyle(Color.textSecondary)
             Text("Sparring against these buyers works offline, no key or account needed. To chat freely with all \(BotLadder.all.count) buyers, add your own Anthropic key in Settings. Anthropic bills you directly for that usage.")
-                .scaledFont(size: 13)
-                .foregroundStyle(Color.textSecondary)
+                .scaledFont(size: 12)
+                .foregroundStyle(Color.textMuted)
                 .lineSpacing(3)
             NavigationLink(destination: SettingsView()) {
                 HStack(spacing: 6) {
-                    Image(systemName: "gearshape.fill").scaledFont(size: 12)
-                    Text("Open Settings").scaledFont(size: 13, weight: .bold)
+                    Image(systemName: "gearshape.fill").scaledFont(size: 11)
+                    Text("Open Settings").scaledFont(size: 12, weight: .semibold)
                 }
-                .foregroundStyle(Color.bgPage)
-                .padding(.horizontal, 12).padding(.vertical, 8)
-                .background(Color.warning)
+                .foregroundStyle(Color.textSecondary)
+                .padding(.horizontal, 12).padding(.vertical, 7)
+                .background(Color.bgPanel)
+                .overlay(Capsule().strokeBorder(Color.border, lineWidth: 1))
                 .clipShape(Capsule())
             }
         }
-        .padding(16)
+        .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
-        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.warning.opacity(0.4), lineWidth: 1))
+        .background(Color.bgPanel.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-        .padding(.horizontal, 16)
     }
 
-    private func botRow(bot: BotMeta, unlocked: Bool) -> some View {
+    private func botRow(bot: BotMeta, unlocked: Bool, ruleColor: Color) -> some View {
         let persona = Personas.get(bot.personaId)
-        let initials = persona.map { $0.role.split(separator: " ").prefix(2).map { String($0.first ?? Character("?")) }.joined().uppercased() } ?? "??"
         return HStack(spacing: 12) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 6, style: .continuous).fill(Color.bgPanel)
-                Text(initials)
-                    .scaledFont(size: 14, weight: .heavy, design: .rounded)
-                    .foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
-            }
-            .frame(width: 40, height: 40)
+            RoundedRectangle(cornerRadius: 2, style: .continuous)
+                .fill(unlocked ? ruleColor : Color.textFaint)
+                .frame(width: 4)
+                .frame(maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
                     Text("\(bot.rating)").scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
