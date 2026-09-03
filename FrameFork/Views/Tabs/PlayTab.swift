@@ -81,7 +81,7 @@ struct BotLadderView: View {
                     proLockedBanner
                 }
 
-                Text("Pick an opponent from \(BotLadder.all.count) adversarial buyer personas, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
+                Text("Pick an opponent from \(BotLadder.all.count) buyers, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
@@ -140,7 +140,7 @@ struct BotLadderView: View {
                 Text("Bring your own key").scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
                 Spacer()
             }
-            Text("Sparring vs authored buyers works offline — no key, no account. For free-text play against all \(BotLadder.all.count) personas, connect your own Anthropic key in Settings; Anthropic bills that usage directly.")
+            Text("Sparring against these buyers works offline, no key or account needed. To chat freely with all \(BotLadder.all.count) buyers, add your own Anthropic key in Settings. Anthropic bills you directly for that usage.")
                 .scaledFont(size: 13)
                 .foregroundStyle(Color.textSecondary)
                 .lineSpacing(3)

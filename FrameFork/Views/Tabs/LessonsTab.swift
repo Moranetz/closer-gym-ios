@@ -80,7 +80,7 @@ struct LessonIndexView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Browse the Atlas taxonomy. Each entry shows mechanism, evidence verdict, folklore risk, and every puzzle, transcript, and master move that demonstrates it.")
+                Text("Each lesson breaks down one move: how well it's studied, and where it shows up in the puzzles.")
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
@@ -168,7 +168,7 @@ struct LessonIndexView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
 
-                Text("Verdict: well-studied means multiple replications across contexts; partial means lab evidence with weak field replication; untested means folklore-only; replication-failed means published failures of the canonical study.")
+                Text("Well-studied means many studies back it up. Partial means it works in the lab but isn't proven on real calls yet. Untested means it's folklore, not science. Replication-failed means later studies couldn't repeat the result.")
                     .scaledFont(size: 11)
                     .foregroundStyle(Color.textFaint)
                     .lineSpacing(3)

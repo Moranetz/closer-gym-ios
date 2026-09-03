@@ -180,9 +180,9 @@ struct ProfileTab: View {
     private var freeProCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Free vs Pro").microLabel(Color.brandGreen)
-            Text("Free: Sparring, Puzzles, Lessons, Master Games. No key, no account — fully offline.")
+            Text("Free: Sparring, Puzzles, Lessons, Master Games. No key, no account, fully offline.")
                 .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
-            Text("Pro: Free-text play against all \(BotLadder.all.count) personas. Requires your own Anthropic key in Settings.")
+            Text("Pro: Free-text play against all \(BotLadder.all.count) buyers. Requires your own Anthropic key in Settings.")
                 .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
         }
         .padding(16)

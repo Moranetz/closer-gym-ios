@@ -18,7 +18,7 @@ struct MasterGameIndexView: View {
                     .padding(.horizontal, 16)
                     .padding(.top, 4)
 
-                Text("Hand-authored deal studies in the style of Voss, Keenan (Gap Selling), Dixon (Challenger), Klaff and Burg — plus cautionary breakdowns of Belfort and Cardone. Step through a real deal, predict each pivotal move, then see what happened and why.")
+                Text("These deals are hand-authored in the style of real negotiators: Voss, Keenan's Gap Selling, Dixon's Challenger, Klaff, and Burg. A few are cautionary tales, done in the style of Belfort and Cardone. Step through a real deal, predict the next move, then see what happened and why.")
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
                     .lineSpacing(3)
@@ -51,10 +51,6 @@ struct MasterGameIndexView: View {
 
         return VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text(game.id.uppercased())
-                    .scaledFont(size: 10, weight: .heavy, design: .rounded)
-                    .kerning(0.5)
-                    .foregroundStyle(Color.textFaint)
                 Spacer()
                 Text("GUESS THE MOVES")
                     .scaledFont(size: 9, weight: .heavy, design: .rounded).kerning(0.5)
@@ -73,8 +69,6 @@ struct MasterGameIndexView: View {
                 .lineSpacing(2)
             HStack(spacing: 6) {
                 Text("\(operatorMoves) moves").scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
-                Text("·").foregroundStyle(Color.textFaint)
-                Text(game.openingECO).scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textFaint).textCase(.uppercase).kerning(0.4)
                 Spacer()
                 Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
             }
