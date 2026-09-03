@@ -140,13 +140,25 @@ struct PuzzleIndexView: View {
     private var statsHeader: some View {
         let s = storage.puzzleState
         let title = titleForRating(s.rating.rating)
+        let isProvisional = s.rating.isProvisional
+        let solvedCount = storage.solvedUniqueCount
         return ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                statCard(label: "Puzzle rating", value: "\(Int(s.rating.rating))", badge: TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier))
+                statCard(label: "Puzzle rating", value: "\(Int(s.rating.rating))",
+                         // Not yet a class letter until the RD has come down — see
+                         // isProvisional (same gate as Profile).
+                         badge: TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
+                                                tier: isProvisional ? .low : title.tier))
                 missesCard
-                statCard(label: "Current streak", value: "\(storage.effectiveCurrentStreak)d", accent: storage.effectiveCurrentStreak > 0 ? .brandGreen : nil)
-                statCard(label: "Longest streak", value: "\(s.longestStreak)d")
-                statCard(label: "Solved", value: "\(storage.solvedUniqueCount)")
+                if solvedCount == 0 {
+                    // Day one: a streak that never started isn't a stat, it's two
+                    // zeros. Show what's actually true — today's drill count — instead.
+                    todayCard
+                } else {
+                    statCard(label: "Current streak", value: "\(storage.effectiveCurrentStreak)d", accent: storage.effectiveCurrentStreak > 0 ? .brandGreen : nil)
+                    statCard(label: "Longest streak", value: "\(s.longestStreak)d")
+                }
+                statCard(label: "Solved", value: "\(solvedCount)")
             }
             .padding(.horizontal, 16)
         }
@@ -184,6 +196,28 @@ struct PuzzleIndexView: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    /// Day-one replacement for the streak pair: a streak that never started reads
+    /// as two zeros, not a stat. Shows today's drill count once there is one, else a
+    /// plain line saying what starts the rating moving.
+    private var todayCard: some View {
+        let drillsToday = storage.puzzleState.solves.filter { Calendar.current.isDateInToday($0.solvedAt) }.count
+        let line = firstRunDrillLine(drillsToday: drillsToday)
+        return VStack(alignment: .leading, spacing: 4) {
+            Text("Today").microLabel()
+            Text(line)
+                .scaledFont(size: drillsToday > 0 ? 16 : 12, weight: drillsToday > 0 ? .bold : .semibold, design: .rounded)
+                .foregroundStyle(Color.textPrimary)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 10)
+        .frame(width: 190, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil) -> some View {

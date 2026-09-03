@@ -58,3 +58,32 @@ public func titleForRating(_ rating: Double) -> EloBand {
 public let initialRating: Double = 1200
 public let initialRD: Double = 350
 public let initialVolatility: Double = 0.06
+
+/// RD at/above this is still a cold-start guess, not an earned tier — below it the
+/// player has enough rated puzzles behind the number to trust a class label. Chosen
+/// roughly midway between the 350 cold start and Glicko's own well-calibrated floor,
+/// which this app's puzzle opponent RD (140, see `initialRD * 0.4` in Storage.swift)
+/// reaches after a handful of rated solves.
+public let provisionalRD: Double = 200
+
+/// First-run summary line for the Profile identity card. Fresh install reads a
+/// sentence, not three zeros; a solved puzzle with no streak yet still doesn't fake
+/// a "0-day streak" as if a streak were ever attempted. Once there's a real streak,
+/// this returns nil and the caller falls back to its normal three-stat line.
+public func firstRunSummary(solved: Int, streak: Int, longest: Int) -> String? {
+    if solved == 0 {
+        return "Solve one puzzle and this line starts counting."
+    }
+    if streak == 0 {
+        return "\(solved) puzzles solved. One today starts a streak."
+    }
+    return nil
+}
+
+/// First-run line for the Puzzles tab's stat row, replacing the streak pair while
+/// there's no solve history yet to make a streak meaningful.
+public func firstRunDrillLine(drillsToday: Int) -> String {
+    drillsToday > 0
+        ? "\(drillsToday) drill\(drillsToday == 1 ? "" : "s") today"
+        : "Your rating starts moving with today's drill."
+}

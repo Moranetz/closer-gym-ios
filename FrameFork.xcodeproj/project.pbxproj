@@ -73,6 +73,7 @@
 		F6BAE122405C8E23B764EF97 /* PuzzleCandidateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633CCA23E9DC053870DEC6AF /* PuzzleCandidateButton.swift */; };
 		F7194E77697CA6ABCDC02942 /* MasterGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506BA14443F5E9E595F47DE2 /* MasterGame.swift */; };
 		F7952E9A522985453C8664F2 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 15A75CFC6D5F149F806A7464 /* PrivacyInfo.xcprivacy */; };
+		FB5DE6AAEBF524CCA581A450 /* FirstRunStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C744D4A73626E638B471BB26 /* FirstRunStringsTests.swift */; };
 		FF9F10DE789EC37C5D07F9BD /* RootTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6D7872A5C5758286A9B927A /* RootTabView.swift */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +152,7 @@
 		C0BD00C65FA0BD0FFB5DF2FC /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		C4678D356645808D5302B54D /* FrameFork.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FrameFork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50A208D0C7DFFA5EBF51ED8 /* RolePlayJudgment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlayJudgment.swift; sourceTree = "<group>"; };
+		C744D4A73626E638B471BB26 /* FirstRunStringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunStringsTests.swift; sourceTree = "<group>"; };
 		C993EB8D0414A4BD6195466D /* PuzzleSolveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleSolveView.swift; sourceTree = "<group>"; };
 		CA0BD62F36AAD834CB5601B1 /* WatchTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTab.swift; sourceTree = "<group>"; };
 		CE1730A32AB636F304269C91 /* BrandColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandColors.swift; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				B5214607DD4548970765E8BD /* AIConsentTests.swift */,
+				C744D4A73626E638B471BB26 /* FirstRunStringsTests.swift */,
 				8CF2E39162C00DE2FB49B090 /* PuzzleBankInvariantTests.swift */,
 				A7C6A4267B8E6873EB275D31 /* RegressionTests.swift */,
 				E6192F27BB239B044C4F3796 /* SafetySpineTests.swift */,
@@ -523,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE434DDF6AFD68872B669A7C /* AIConsentTests.swift in Sources */,
+				FB5DE6AAEBF524CCA581A450 /* FirstRunStringsTests.swift in Sources */,
 				87B69F60BDFC20BA4E28EE6F /* PuzzleBankInvariantTests.swift in Sources */,
 				C4E77E7F159B48D8C8875A75 /* RegressionTests.swift in Sources */,
 				533BF6367627B96149F0C752 /* SafetySpineTests.swift in Sources */,

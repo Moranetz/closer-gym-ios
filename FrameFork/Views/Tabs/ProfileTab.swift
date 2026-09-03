@@ -45,7 +45,9 @@ struct ProfileTab: View {
         let longest = storage.puzzleState.longestStreak
         let solved = storage.solvedUniqueCount
 
-        if let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
+        // Same rule as "Add to LinkedIn": a card of zeros is nothing to flex,
+        // whichever affordance renders it.
+        if solved > 0, let url = ShareCardRenderer.render(rating: rating, streak: streak, longestStreak: longest, solveCount: solved) {
             ShareLink(item: url, preview: SharePreview("My Frame & Fork rating: \(Int(rating))")) {
                 Image(systemName: "square.and.arrow.up").foregroundStyle(Color.textSecondary)
                     .accessibilityLabel("Share rating card")
@@ -89,6 +91,9 @@ struct ProfileTab: View {
         let rating = storage.puzzleState.rating.rating
         let title = titleForRating(rating)
         let solveCount = storage.solvedUniqueCount
+        let isProvisional = storage.puzzleState.rating.isProvisional
+        let streak = storage.effectiveCurrentStreak
+        let longest = storage.puzzleState.longestStreak
 
         return VStack(spacing: 12) {
             Circle()
@@ -100,15 +105,19 @@ struct ProfileTab: View {
 
             HStack(spacing: 8) {
                 Text("\(Int(rating))").scaledFont(size: 28, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(Color.textPrimary)
-                TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier)
+                // A new user hasn't earned a class letter off one cold-start placement —
+                // the chip says so instead of handing out "Class D" on day one.
+                TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
+                               tier: isProvisional ? .low : title.tier)
             }
 
-            Text("\(solveCount) puzzles solved · \(storage.effectiveCurrentStreak)-day streak · longest \(storage.puzzleState.longestStreak)")
+            Text(firstRunSummary(solved: solveCount, streak: streak, longest: longest)
+                 ?? "\(solveCount) puzzles solved · \(streak)-day streak · longest \(longest)")
                 .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()
 
-            addToLinkedInLink
+            if solveCount > 0 { addToLinkedInLink }
         }
         .padding(.vertical, 20)
         .frame(maxWidth: .infinity)
@@ -120,12 +129,16 @@ struct ProfileTab: View {
     private var ratingsCard: some View {
         let puzzle = storage.puzzleState.rating.rating
         let games = storage.gameState.games
+        let puzzleSolves = storage.puzzleState.solves.count
+        let puzzleNote = storage.puzzleState.rating.isProvisional
+            ? "Provisional"
+            : "\(puzzleSolves) solve\(puzzleSolves == 1 ? "" : "s") logged"
         return VStack(alignment: .leading, spacing: 12) {
             Text("Ratings").microLabel()
             ratingRow("Game", value: games.isEmpty ? "—" : "\(Int(storage.gameState.rating.rating))",
                       note: games.isEmpty ? "Play a role-play to start" : "\(games.count) game\(games.count == 1 ? "" : "s") vs personas")
             Divider().background(Color.border)
-            ratingRow("Puzzle", value: "\(Int(puzzle))", note: "Provisional")
+            ratingRow("Puzzle", value: "\(Int(puzzle))", note: puzzleNote)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)

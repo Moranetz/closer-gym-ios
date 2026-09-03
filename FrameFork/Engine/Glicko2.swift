@@ -14,6 +14,10 @@ public struct GlickoState: Codable, Hashable, Sendable {
         self.rd = rd
         self.volatility = volatility
     }
+
+    /// True while RD hasn't come down from the cold start — the rating is still a
+    /// guess, not an earned class. See `provisionalRD` (EloBand.swift).
+    public var isProvisional: Bool { rd > provisionalRD }
 }
 
 public struct MatchResult {

@@ -326,7 +326,10 @@ struct PuzzleSolveView: View {
                                 .foregroundStyle(Color.textMuted)
                         }
                         Text("· \(Int(change.newRating))").scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit().foregroundStyle(Color.textMuted)
-                        TitleBadgeView(label: title.label.replacingOccurrences(of: " Closer", with: ""), tier: title.tier)
+                        // Same provisional gate as Profile/Puzzles — a first solve
+                        // must not be handed a class letter the RD hasn't earned yet.
+                        TitleBadgeView(label: storage.puzzleState.rating.isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
+                                       tier: storage.puzzleState.rating.isProvisional ? .low : title.tier)
                     }
                 }
                 Spacer()
