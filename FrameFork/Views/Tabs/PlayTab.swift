@@ -61,6 +61,15 @@ struct BotLadderView: View {
     @Binding var path: [PlayRoute]
     @EnvironmentObject private var storage: Store
 
+    #if DEBUG
+    // Debug/screenshot hook (same pattern as FF_AUTO_REVEAL): FF_SCROLL_BOTTOM=1
+    // scrolls the ladder to the "Bring your own key" footer right after landing,
+    // so the footer can be captured without a real drag (sim taps are TCC-walled /
+    // no accessibility labels to drive by name). No effect in Release — never
+    // reachable outside DEBUG.
+    private let debugScrollBottom = ProcessInfo.processInfo.environment["FF_SCROLL_BOTTOM"] == "1"
+    #endif
+
     private let tiers: [(name: String, min: Int, max: Int, rule: Color)] = [
         ("Beginner",     1200, 1499, .badgeLow),
         ("Intermediate", 1500, 1799, .badgeExp),
@@ -75,6 +84,7 @@ struct BotLadderView: View {
     }
 
     var body: some View {
+        ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Pick an opponent from \(BotLadder.all.count) buyers, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
@@ -122,8 +132,10 @@ struct BotLadderView: View {
                     proLockedFooter
                         .padding(.horizontal, 16)
                         .padding(.top, 8)
+                        .id("play-footer")
                 }
 
+                Color.clear.frame(height: 8).id("play-bottom")
                 Spacer(minLength: 32)
             }
         }
@@ -131,6 +143,16 @@ struct BotLadderView: View {
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.large)
         .toolbarBackground(Color.bgPage, for: .navigationBar)
+        #if DEBUG
+        .onAppear {
+            if debugScrollBottom {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    proxy.scrollTo("play-bottom", anchor: .bottom)
+                }
+            }
+        }
+        #endif
+        }
     }
 
     private var proLockedFooter: some View {

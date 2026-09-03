@@ -137,65 +137,99 @@ struct PuzzleIndexView: View {
 
     // MARK: - Stats header
 
+    // The row never scrolls and no card is ever cut by the screen edge: day one
+    // shows exactly two cards split evenly; once streaks exist it shows three,
+    // sized down to fit; misses (rare on day one — a first drill can be missed
+    // before anything is solved) get their own full-width row underneath so they
+    // never compete for width with the primary stats.
     private var statsHeader: some View {
         let s = storage.puzzleState
         let title = titleForRating(s.rating.rating)
         let isProvisional = s.rating.isProvisional
         let solvedCount = storage.solvedUniqueCount
-        return ScrollView(.horizontal, showsIndicators: false) {
+        let missCount = storage.missedPuzzleIds.count
+        let ratingCard = statCard(label: "Puzzle rating", value: "\(Int(s.rating.rating))",
+                 // Not yet a class letter until the RD has come down — see
+                 // isProvisional (same gate as Profile).
+                 badge: TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
+                                        tier: isProvisional ? .low : title.tier),
+                 compact: solvedCount > 0)
+        return VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
-                statCard(label: "Puzzle rating", value: "\(Int(s.rating.rating))",
-                         // Not yet a class letter until the RD has come down — see
-                         // isProvisional (same gate as Profile).
-                         badge: TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
-                                                tier: isProvisional ? .low : title.tier))
-                missesCard
                 if solvedCount == 0 {
                     // Day one: a streak that never started isn't a stat, it's two
-                    // zeros. Show what's actually true — today's drill count — instead.
-                    todayCard
+                    // zeros. Show what's actually true — today's drill count —
+                    // instead, and split the row evenly between the two cards.
+                    ratingCard.frame(maxWidth: .infinity, alignment: .leading)
+                    todayCard.frame(maxWidth: .infinity, alignment: .leading)
                 } else {
-                    statCard(label: "Current streak", value: "\(storage.effectiveCurrentStreak)d", accent: storage.effectiveCurrentStreak > 0 ? .brandGreen : nil)
-                    statCard(label: "Longest streak", value: "\(s.longestStreak)d")
+                    // Once streaks exist: three compact cards, each an equal
+                    // third of the row, so nothing peeks past the edge.
+                    ratingCard.frame(maxWidth: .infinity, alignment: .leading)
+                    streakCard.frame(maxWidth: .infinity, alignment: .leading)
+                    statCard(label: "Solved", value: "\(solvedCount)", compact: true)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                statCard(label: "Solved", value: "\(solvedCount)")
             }
-            .padding(.horizontal, 16)
+            if missCount > 0 {
+                missesBanner(missCount: missCount)
+            }
         }
+        .padding(.horizontal, 16)
     }
 
-    /// Live miss-queue stat — appears only while misses are waiting. The queue
-    /// (`missedPuzzleIds`) is oldest-first and a miss re-solves for full rating,
-    /// so this is the one header stat that's also a call to action.
-    @ViewBuilder
-    private var missesCard: some View {
-        let missCount = storage.missedPuzzleIds.count
-        if missCount > 0 {
-            Button {
-                Haptics.shared.selection()
-                showMisses = true
-            } label: {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Misses").microLabel(Color.warning)
-                    HStack(spacing: 6) {
-                        Text("\(missCount)")
-                            .scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit()
-                            .foregroundStyle(Color.warning)
-                        Text("review →")
-                            .scaledFont(size: 11, weight: .semibold)
-                            .foregroundStyle(Color.textFaint)
-                    }
-                }
-                .padding(.horizontal, 14)
-                .padding(.vertical, 10)
-                .frame(minWidth: 130, alignment: .leading)
-                .background(Color.bgPanel)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.warning.opacity(0.45), lineWidth: 1))
-                .contentShape(Rectangle())
+    /// Live miss-queue stat — appears only while misses are waiting, as a
+    /// full-width row below the primary stats so it never has to share a
+    /// column with them. The queue (`missedPuzzleIds`) is oldest-first and a
+    /// miss re-solves for full rating, so this is a call to action, not just a stat.
+    private func missesBanner(missCount: Int) -> some View {
+        Button {
+            Haptics.shared.selection()
+            showMisses = true
+        } label: {
+            HStack(spacing: 8) {
+                Text("Misses").microLabel(Color.warning)
+                Text("\(missCount)")
+                    .scaledFont(size: 15, weight: .bold, design: .rounded).monospacedDigit()
+                    .foregroundStyle(Color.warning)
+                Spacer(minLength: 8)
+                Text("Review →")
+                    .scaledFont(size: 12, weight: .semibold)
+                    .foregroundStyle(Color.textFaint)
             }
-            .buttonStyle(.plain)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.bgPanel)
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.warning.opacity(0.45), lineWidth: 1))
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
+    }
+
+    /// Current + longest streak collapsed into one compact card (used once
+    /// streaks exist) so the row stays at three cards instead of four.
+    private var streakCard: some View {
+        let s = storage.puzzleState
+        let current = storage.effectiveCurrentStreak
+        return VStack(alignment: .leading, spacing: 4) {
+            Text("Streak").microLabel()
+            HStack(spacing: 4) {
+                Text("\(current)d")
+                    .scaledFont(size: 14, weight: .bold, design: .rounded).monospacedDigit()
+                    .foregroundStyle(current > 0 ? Color.brandGreen : .textPrimary)
+                Text("· best \(s.longestStreak)d")
+                    .scaledFont(size: 11, weight: .semibold)
+                    .foregroundStyle(Color.textFaint)
+                    .lineLimit(1)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     /// Day-one replacement for the streak pair: a streak that never started reads
@@ -214,25 +248,27 @@ struct PuzzleIndexView: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 10)
-        .frame(width: 190, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
-    private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil) -> some View {
+    /// `compact` shrinks the value font and horizontal padding a step — used once
+    /// the row holds three cards instead of two, so all three fit the width.
+    private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil, compact: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label).microLabel()
             HStack(spacing: 6) {
                 Text(value)
-                    .scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit()
+                    .scaledFont(size: compact ? 14 : 16, weight: .bold, design: .rounded).monospacedDigit()
                     .foregroundStyle(accent ?? .textPrimary)
                 if let badge { badge }
             }
         }
-        .padding(.horizontal, 14)
+        .padding(.horizontal, compact ? 12 : 14)
         .padding(.vertical, 10)
-        .frame(minWidth: 130, alignment: .leading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.bgPanel)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
