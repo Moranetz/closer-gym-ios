@@ -55,7 +55,7 @@ struct LessonDetailView: View {
                     }
                     .buttonStyle(.plain)
                 }
-                if !technique.canonicalSource.isEmpty || !technique.primaryFailureMode.isEmpty {
+                if !technique.canonicalSource.isEmpty || !technique.plainFailure.isEmpty {
                     referenceFields
                 }
                 if !relatedPuzzles.isEmpty { puzzlesSection }
@@ -199,13 +199,35 @@ struct LessonDetailView: View {
 
     private var referenceFields: some View {
         VStack(spacing: 8) {
-            if !technique.primaryFailureMode.isEmpty {
-                fieldCard(label: "Primary failure mode", body: technique.primaryFailureMode)
+            if !technique.plainFailure.isEmpty {
+                failureModeCard
             }
             if !technique.canonicalSource.isEmpty {
                 fieldCard(label: "Canonical source", body: technique.canonicalSource)
             }
         }
+    }
+
+    private var failureModeCard: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Primary failure mode").microLabel()
+            Text(technique.plainFailure)
+                .scaledFont(size: 13, weight: .semibold)
+                .foregroundStyle(Color.textPrimary)
+                .lineSpacing(3)
+            if !technique.primaryFailureMode.isEmpty {
+                Text(technique.primaryFailureMode)
+                    .scaledFont(size: 11.5)
+                    .foregroundStyle(Color.textSecondary)
+                    .lineSpacing(3)
+                    .padding(.top, 2)
+            }
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.bgPanel)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     private func fieldCard(label: String, body: String) -> some View {

@@ -14,6 +14,10 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
     public let atlasVerdict: AtlasVerdict
     public let folkloreRisk: FolkloreRisk
     public let canonicalSource: String
+    /// One plain-English sentence for the failure mode a founder or rep can actually
+    /// picture (≤16 words, no lab-notes register). `primaryFailureMode` stays verbatim
+    /// (Atlas evidence record, shown beneath it in smaller ink in the detail view).
+    public let plainFailure: String
     public let primaryFailureMode: String
     public let contraindication: String
     // Evidence grading (2026-07 empirical re-anchor). `evidenceTier` = strength of the
@@ -26,7 +30,7 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
     public let evidenceSource: String
 
     public init(id: String, name: String, cluster: AtlasCluster, mechanism: String, plain: String,
-                atlasVerdict: AtlasVerdict, folkloreRisk: FolkloreRisk,
+                plainFailure: String, atlasVerdict: AtlasVerdict, folkloreRisk: FolkloreRisk,
                 canonicalSource: String = "", primaryFailureMode: String = "",
                 contraindication: String = "",
                 evidenceTier: EvidenceTier? = nil, evidenceBand: EvidenceBand = .supporting,
@@ -36,6 +40,7 @@ public struct Technique: Identifiable, Hashable, Codable, Sendable {
         self.cluster = cluster
         self.mechanism = mechanism
         self.plain = plain
+        self.plainFailure = plainFailure
         self.atlasVerdict = atlasVerdict
         self.folkloreRisk = folkloreRisk
         self.canonicalSource = canonicalSource
