@@ -4,6 +4,10 @@ struct PuzzleSolveView: View {
     // Mutable so "Next Puzzle" can swap the position in-place rather than
     // pushing an ever-deeper navigation stack. Only the first puzzle in a
     // session can be the Daily Drill.
+    #if DEBUG
+    @State private var debugDidPick = false
+    #endif
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var puzzle: Puzzle
     @State private var isDaily: Bool
 
@@ -100,7 +104,7 @@ struct PuzzleSolveView: View {
                 }
 
                 if revealed, let change = ratingChange, let v = verdict {
-                    revealPanel(change: change, v: v)
+                    revealPanel(change: change, v: v).id("reveal")
                 }
 
                 Spacer(minLength: 24)
@@ -114,6 +118,49 @@ struct PuzzleSolveView: View {
                 proxy.scrollTo("top", anchor: .top)
             }
         }
+        // Fleet round 105 (2026-09-05): the first capture ever taken of this screen showed
+        // the payoff off screen. Making the move computes the verdict, the rating delta, the
+        // streak and any promotion, and then left the viewport wherever it was, so the answer
+        // to "what did that cost me" sat below the fold. It comes to the reader now. The delay
+        // lets the panel exist before it is scrolled to; the animation is skipped under
+        // Reduce Motion, where a jump is the honest behaviour.
+        .onChange(of: revealed) { _, isRevealed in
+            guard isRevealed else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                if reduceMotion {
+                    proxy.scrollTo("reveal", anchor: .top)
+                } else {
+                    withAnimation(.easeOut(duration: 0.35)) {
+                        proxy.scrollTo("reveal", anchor: .top)
+                    }
+                }
+            }
+        }
+        #if DEBUG
+        // Debug/screenshot hook (same pattern as FF_OPEN_PUZZLE): FF_SOLVE_PICK=best|wrong
+        // drives a real solve so the reveal panel can be photographed. The app's emotional
+        // payoff, the screen a daily user hits every day, had never been captured once,
+        // because there was no way to reach it without tapping. It calls handlePick, so the
+        // rating, verdict, streak and promotion are all computed the way a player's tap
+        // computes them. No effect in Release.
+        .task {
+            // Fires once per view, never per appearance: a second run would replay the same
+            // puzzle, and a replay is unrated, so the panel would read "Unrated practice"
+            // beside a rating that had visibly moved. An instrument that stages a defect is
+            // worse than no instrument.
+            guard !debugDidPick,
+                  let want = ProcessInfo.processInfo.environment["FF_SOLVE_PICK"],
+                  let best = bestDisplayIdx else { return }
+            debugDidPick = true
+            try? await Task.sleep(for: .milliseconds(700))
+            readCommitted = true
+            confidence = 1
+            let idx = want == "wrong"
+                ? (displayOrder.indices.first { $0 != best } ?? best)
+                : best
+            handlePick(displayIdx: idx)
+        }
+        #endif
         .onDisappear { cancelFeedback() }
         .background(Color.bgPage.ignoresSafeArea())
         .navigationBarTitleDisplayMode(.inline)
