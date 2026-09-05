@@ -168,8 +168,17 @@ struct PuzzleIndexView: View {
                     // Day one: a streak that never started isn't a stat, it's two
                     // zeros. Show what's actually true — today's drill count —
                     // instead, and split the row evenly between the two cards.
-                    ratingCard.frame(maxWidth: .infinity, alignment: .leading)
-                    todayCard.frame(maxWidth: .infinity, alignment: .leading)
+                    // Fleet round 100 (2026-09-03): at accessibility sizes half a row
+                    // cut the Today line to "with today's…", so the two cards stack.
+                    if sizeCategory.isAccessibilityCategory {
+                        VStack(spacing: 10) {
+                            ratingCard.frame(maxWidth: .infinity, alignment: .leading)
+                            todayCard.frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    } else {
+                        ratingCard.frame(maxWidth: .infinity, alignment: .leading)
+                        todayCard.frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 } else {
                     // Once streaks exist: three compact cards, each an equal
                     // third of the row, so nothing peeks past the edge.
@@ -252,7 +261,6 @@ struct PuzzleIndexView: View {
             Text(line)
                 .scaledFont(size: drillsToday > 0 ? 16 : 12, weight: drillsToday > 0 ? .bold : .semibold, design: .rounded)
                 .foregroundStyle(W.ink)
-                .lineLimit(3)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.horizontal, 14)
