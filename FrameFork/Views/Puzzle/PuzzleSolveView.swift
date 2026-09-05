@@ -107,7 +107,12 @@ struct PuzzleSolveView: View {
                     revealPanel(change: change, v: v).id("reveal")
                 }
 
-                Spacer(minLength: 24)
+                // Fleet round 115 (2026-09-05): the tab bar floats over this scroll and the
+                // trailing clearance was 24pt against a bar about 90 tall, so at the end of
+                // every solve the last stretch of the reveal sat under it. At accessibility
+                // sizes that stretch held the theme line and both keys. The clearance now
+                // exceeds the bar.
+                Spacer(minLength: 120)
             }
             .padding(.horizontal, 16)
             .padding(.top, 8)
@@ -126,12 +131,20 @@ struct PuzzleSolveView: View {
         // Reduce Motion, where a jump is the honest behaviour.
         .onChange(of: revealed) { _, isRevealed in
             guard isRevealed else { return }
+            // FF_REVEAL_ANCHOR=bottom lands the capture on the panel's end instead of its
+            // start, which is the only way to photograph the keys when the panel is taller
+            // than the viewport. Capture only; a player always gets the panel's top.
+            #if DEBUG
+            let anchor: UnitPoint = ProcessInfo.processInfo.environment["FF_REVEAL_ANCHOR"] == "bottom" ? .bottom : .top
+            #else
+            let anchor: UnitPoint = .top
+            #endif
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                 if reduceMotion {
-                    proxy.scrollTo("reveal", anchor: .top)
+                    proxy.scrollTo("reveal", anchor: anchor)
                 } else {
                     withAnimation(.easeOut(duration: 0.35)) {
-                        proxy.scrollTo("reveal", anchor: .top)
+                        proxy.scrollTo("reveal", anchor: anchor)
                     }
                 }
             }
