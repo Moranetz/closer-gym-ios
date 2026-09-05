@@ -33,6 +33,13 @@ struct PlayTab: View {
            let bot = BotLadder.get(pid) {
             return [.preGame(bot)]
         }
+        // Fleet round 109 (2026-09-05): the live game itself had no hook, so the one screen a
+        // Pro subscriber actually plays on had never been captured, and neither had any of the
+        // five things it says when the API refuses. FF_PUSH_LIVE=<personaId>.
+        if let pid = ProcessInfo.processInfo.environment["FF_PUSH_LIVE"],
+           let bot = BotLadder.get(pid) {
+            return [.live(bot, [])]
+        }
         return []
     }()
 

@@ -19,17 +19,22 @@ public enum AnthropicClient {
         public var errorDescription: String? {
             switch self {
             case .missingKey: return "No Anthropic API key. Add one in Settings → Pro Tier."
-            case .networkError(let msg): return "Network problem — check your connection and retry. (\(msg))"
-            case .httpError(let code, let body):
+            // Round 109 (2026-09-05): this printed the system's own sentence in brackets after
+            // the app's, so a player read the same fact twice, once in each voice, joined by an
+            // em-dash. The detail stays on the error for logs and leaves the banner.
+            case .networkError: return "Network problem. Check your connection and try again."
+            case .httpError(let code, _):
                 // Map common Anthropic statuses to actionable copy instead of raw JSON.
                 switch code {
                 case 401: return "Your API key was rejected. Re-enter it in Settings → Pro Tier."
                 case 403: return "This API key isn't permitted to use this model."
                 case 429: return "Rate limited by Anthropic. Wait a moment and try again."
                 case 529, 500...599: return "Anthropic is busy right now. Try again in a few seconds."
-                default: return body.isEmpty ? "Request failed (HTTP \(code))." : "Request failed (HTTP \(code)): \(body)"
+                // The raw response body is a JSON blob in Anthropic's voice, not a sentence
+                // anyone can act on, so the banner names the code and stops.
+                default: return "The request failed. Anthropic returned HTTP \(code)."
                 }
-            case .decodingError(let msg): return "Couldn't read the buyer's reply. (\(msg))"
+            case .decodingError: return "The buyer's reply could not be read. Try that turn again."
             case .refused: return "The buyer model declined to answer that turn. Try rephrasing your approach."
             }
         }

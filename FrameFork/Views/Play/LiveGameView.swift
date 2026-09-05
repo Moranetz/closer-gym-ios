@@ -31,7 +31,29 @@ struct LiveGameView: View {
     @State private var firedTechniques: Set<String> = []
     @State private var operatorTurnCount: Int = 0
     @State private var isAwaiting: Bool = false
-    @State private var errorMsg: String? = nil
+    /// Debug/screenshot hook (same pattern as FF_PUSH_LIVE, which opens this screen):
+    /// FF_LIVE_ERROR=missingkey|401|403|network|ratelimit|busy|decoding|refused prints the
+    /// banner a real failure would print. The text comes from `ClientError` itself rather than
+    /// a copy of it, so a capture cannot drift from what a player is shown. Set once, in the
+    /// state's own initialiser. No effect in Release.
+    @State private var errorMsg: String? = {
+        #if DEBUG
+        typealias E = AnthropicClient.ClientError
+        switch ProcessInfo.processInfo.environment["FF_LIVE_ERROR"] {
+        case "missingkey": return E.missingKey.errorDescription
+        case "401":        return E.httpError(401, "").errorDescription
+        case "403":        return E.httpError(403, "").errorDescription
+        case "network":    return E.networkError("The Internet connection appears to be offline.").errorDescription
+        case "ratelimit":  return E.httpError(429, "").errorDescription
+        case "busy":       return E.httpError(529, "").errorDescription
+        case "decoding":   return E.decodingError("unexpected end of JSON near line 1").errorDescription
+        case "refused":    return E.refused.errorDescription
+        default:           return nil
+        }
+        #else
+        return nil
+        #endif
+    }()
     @State private var finishedScore: Double? = nil
     @State private var startedAt: Date = .init()
     @State private var sendTask: Task<Void, Never>? = nil
