@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct RootTabView: View {
-    // The `FF_INITIAL_TAB` env var lets `scripts/upload_ipad_screenshots.py`
-    // launch into a specific tab when generating store-listing screenshots.
-    // No effect on shipping behavior; the launcher only sets it from sim builds.
+    // `FF_INITIAL_TAB` lets `scripts/upload_ipad_screenshots.py` launch into a specific tab
+    // when generating store-listing screenshots. Read through CaptureHooks, so a Release build
+    // returns nil no matter what it was launched with.
     @State private var selected: Tab = {
-        if let raw = ProcessInfo.processInfo.environment["FF_INITIAL_TAB"],
+        if let raw = CaptureHooks.value("FF_INITIAL_TAB"),
            let tab = Tab(rawValue: raw) {
             return tab
         }

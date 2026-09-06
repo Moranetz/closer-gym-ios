@@ -4,7 +4,7 @@ struct LessonsTab: View {
     // Debug/screenshot hook (same pattern as FF_PUSH_MISSES): sim taps are TCC-walled,
     // so automation can deep-link a technique's detail via env var.
     @State private var pushTech: Technique? = AtlasTechniques.get(
-        ProcessInfo.processInfo.environment["FF_PUSH_LESSON"] ?? "")
+        CaptureHooks.value("FF_PUSH_LESSON") ?? "")
 
     var body: some View {
         NavigationStack {

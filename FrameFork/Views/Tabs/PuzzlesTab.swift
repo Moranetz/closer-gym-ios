@@ -4,7 +4,7 @@ struct PuzzlesTab: View {
     @EnvironmentObject private var storage: Store
     // Debug/screenshot hook (same pattern as FF_INITIAL_TAB): sim taps are often
     // TCC-walled, so automation pushes the miss queue via env var instead.
-    @State private var showMisses = ProcessInfo.processInfo.environment["FF_PUSH_MISSES"] == "1"
+    @State private var showMisses = CaptureHooks.isOn("FF_PUSH_MISSES")
 
     #if DEBUG
     // Debug/screenshot hook: FF_OPEN_PUZZLE=<id> opens that puzzle's PuzzleSolveView on
