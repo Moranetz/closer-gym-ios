@@ -68,7 +68,7 @@ struct MissReviewView: View {
                     .lineLimit(1)
                 Text("“\(p.buyerLine)”")
                     .scaledFont(size: 12)
-                    .foregroundStyle(Color.textMuted)
+                    .foregroundStyle(Color.textSecondary)
                     .italic()
                     .lineLimit(2)
             }

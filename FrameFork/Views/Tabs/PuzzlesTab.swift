@@ -338,7 +338,10 @@ struct PuzzleIndexView: View {
             Text("“\(dailyPuzzle.buyerLine)”")
                 .scaledFont(size: 13)
                 .italic()
-                .foregroundStyle(W.inkMuted)
+                // Round 127: the buyer's line is the puzzle's own content and it read Lc 43.6,
+                // 26 under the role and rating describing it. Content reads at least as easily
+                // as its own metadata; the italics and the quotation marks keep it distinct.
+                .foregroundStyle(W.inkSecondary)
                 .lineLimit(2)
             if done {
                 HStack(spacing: 6) {
@@ -448,7 +451,7 @@ struct PuzzleIndexView: View {
                     .lineLimit(1)
                 Text("“\(p.buyerLine)”")
                     .scaledFont(size: 12)
-                    .foregroundStyle(W.inkMuted)
+                    .foregroundStyle(W.inkSecondary)
                     .italic()
                     .lineLimit(2)
             }
