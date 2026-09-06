@@ -58,6 +58,10 @@ enum World: String {
     var ink: Color { self == .shipped ? .textPrimary : (self == .sheet ? hex(0x241D12) : hex(0x1F1A12)) }
     var inkSecondary: Color { self == .shipped ? .textSecondary : hex(0x3F3424) }
     var inkMuted: Color { self == .shipped ? .textMuted : hex(0x6A5B3F) }
+    /// The ink for a small-caps section label. Fleet round 119: on the shipped page these read
+    /// Lc 44.0 against body text at 70.5, and changing `microLabel`'s default did not reach them,
+    /// because every label here passes its colour explicitly since the world work of round 92.
+    var inkLabel: Color { self == .shipped ? .textLabel : hex(0x6A5B3F) }
     var inkFaint: Color { self == .shipped ? .textFaint : hex(0x8E7F62) }
     /// Green as ink on paper has to be deep to read; as a fill it stays the brand green on the dark
     /// shipped page and goes deep on paper so cream key text reads on it.

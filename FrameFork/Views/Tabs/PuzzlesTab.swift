@@ -231,7 +231,7 @@ struct PuzzleIndexView: View {
         let s = storage.puzzleState
         let current = storage.effectiveCurrentStreak
         return VStack(alignment: .leading, spacing: 4) {
-            Text("Streak").microLabel(W.inkMuted)
+            Text("Streak").microLabel(W.inkLabel)
             HStack(spacing: 4) {
                 Text("\(current)d")
                     .scaledFont(size: 14, weight: .bold, design: .rounded).monospacedDigit()
@@ -257,7 +257,7 @@ struct PuzzleIndexView: View {
         let drillsToday = storage.puzzleState.solves.filter { Calendar.current.isDateInToday($0.solvedAt) }.count
         let line = firstRunDrillLine(drillsToday: drillsToday)
         return VStack(alignment: .leading, spacing: 4) {
-            Text("Today").microLabel(W.inkMuted)
+            Text("Today").microLabel(W.inkLabel)
             Text(line)
                 .scaledFont(size: drillsToday > 0 ? 16 : 12, weight: drillsToday > 0 ? .bold : .semibold, design: .rounded)
                 .foregroundStyle(W.ink)
@@ -276,7 +276,7 @@ struct PuzzleIndexView: View {
     /// the row holds three cards instead of two, so all three fit the width.
     private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil, compact: Bool = false) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(label).microLabel(W.inkMuted)
+            Text(label).microLabel(W.inkLabel)
             // Number and badge side by side while they fit; at large type the
             // badge drops beneath the number instead of breaking mid-word.
             let number = Text(value)

@@ -20,6 +20,13 @@ extension Color {
     static let textSecondary = Color(red: 0.788, green: 0.784, blue: 0.773)     // #C9C8C5
     static let textMuted     = Color(red: 0.608, green: 0.596, blue: 0.576)     // #9B9893
     static let textFaint     = Color(red: 0.435, green: 0.427, blue: 0.416)     // #6F6D6A
+    /// The ink for small-caps section labels, which is what `microLabel` sets by default.
+    /// Fleet round 119 (2026-09-05): those labels used `textMuted` and measured APCA Lc 44.0 on
+    /// the panel against body text at 70.5 — a 26-point gap, the widest in the fleet, on the type
+    /// that names every card in the app. Glass House passes the same sweep with its labels 7
+    /// points under its body, so this is set to the same relationship: Lc 63.7. Hierarchy is
+    /// kept, and the hue is the same warm neutral as the tier it replaces.
+    static let textLabel     = Color(red: 0.749, green: 0.737, blue: 0.718)     // #BFBCB7
 
     // Semantic
     static let danger    = Color(red: 0.643, green: 0.149, blue: 0.173)         // #A4262C

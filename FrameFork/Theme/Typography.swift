@@ -28,7 +28,7 @@ enum AppFont {
 
 extension View {
     /// Section label: 12pt uppercase semibold, .textMuted, letter-spaced.
-    func microLabel(_ color: Color = .textMuted) -> some View {
+    func microLabel(_ color: Color = .textLabel) -> some View {
         // Scaled like every other converted font — a fixed 12pt section label under
         // ~19pt scaled captions inverted the hierarchy for large-text users.
         self.scaledFont(size: 12, weight: .semibold)
