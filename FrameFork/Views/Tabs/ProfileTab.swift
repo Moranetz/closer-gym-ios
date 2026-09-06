@@ -131,7 +131,7 @@ struct ProfileTab: View {
             }
 
             Text(firstRunSummary(solved: solveCount, streak: streak, longest: longest)
-                 ?? "\(solveCount) puzzles solved · \(streak)-day streak · longest \(longest)")
+                 ?? "\(countNoun(solveCount, "puzzle")) solved · \(streak)-day streak · longest \(longest)")
                 .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()

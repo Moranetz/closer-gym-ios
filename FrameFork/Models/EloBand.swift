@@ -66,6 +66,16 @@ public let initialVolatility: Double = 0.06
 /// reaches after a handful of rated solves.
 public let provisionalRD: Double = 200
 
+/// A count and its noun, agreeing.
+///
+/// Fleet round 143: `firstRunDrillLine` right below this pluralizes and is tested at 0, 1 and 3.
+/// `firstRunSummary` did not, and its test went 0 to 3 to 5 — stepping over the only value that
+/// breaks it. A player who has solved exactly one puzzle read "1 puzzles solved", on the first
+/// screen the app shows after their first solve.
+public func countNoun(_ n: Int, _ singular: String, plural: String? = nil) -> String {
+    "\(n) \(n == 1 ? singular : (plural ?? singular + "s"))"
+}
+
 /// First-run summary line for the Profile identity card. Fresh install reads a
 /// sentence, not three zeros; a solved puzzle with no streak yet still doesn't fake
 /// a "0-day streak" as if a streak were ever attempted. Once there's a real streak,
@@ -75,7 +85,7 @@ public func firstRunSummary(solved: Int, streak: Int, longest: Int) -> String? {
         return "Solve one puzzle and this line starts counting."
     }
     if streak == 0 {
-        return "\(solved) puzzles solved. One today starts a streak."
+        return "\(countNoun(solved, "puzzle")) solved. One today starts a streak."
     }
     return nil
 }

@@ -47,4 +47,26 @@ final class FirstRunStringsTests: XCTestCase {
         let calibrated = GlickoState(rating: 1450, rd: 120, volatility: initialVolatility)
         XCTAssertFalse(calibrated.isProvisional)
     }
+
+    // Fleet round 143. The suite tested this function at 0, 3 and 5 solves and stepped over 1,
+    // which is the only value that breaks it and the first one a real player reaches.
+    func testExactlyOneSolveReadsAsOnePuzzle() {
+        XCTAssertEqual(firstRunSummary(solved: 1, streak: 0, longest: 0),
+                       "1 puzzle solved. One today starts a streak.")
+    }
+
+    func testCountNounAgreesAtOneAndAtMany() {
+        XCTAssertEqual(countNoun(1, "puzzle"), "1 puzzle")
+        XCTAssertEqual(countNoun(2, "puzzle"), "2 puzzles")
+        XCTAssertEqual(countNoun(0, "puzzle"), "0 puzzles")
+    }
+
+    func testCountNounTakesAnIrregularPlural() {
+        XCTAssertEqual(countNoun(1, "try", plural: "tries"), "1 try")
+        XCTAssertEqual(countNoun(4, "try", plural: "tries"), "4 tries")
+    }
+
+    func testANegativeCountStillReadsAsAPlural() {
+        XCTAssertEqual(countNoun(-1, "solve"), "-1 solves")
+    }
 }

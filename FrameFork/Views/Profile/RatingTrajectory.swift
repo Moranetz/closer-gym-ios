@@ -26,7 +26,7 @@ struct ProgressHeroCard: View {
             HStack(alignment: .firstTextBaseline) {
                 Text("Puzzle rating").microLabel(Color.brandGreen)
                 Spacer()
-                Text("last \(history.count) solves")
+                Text("last \(countNoun(history.count, "solve"))")
                     .scaledFont(size: 11).foregroundStyle(Color.textMuted).monospacedDigit()
             }
 

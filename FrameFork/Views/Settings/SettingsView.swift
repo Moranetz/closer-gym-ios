@@ -326,7 +326,7 @@ struct SettingsView: View {
                         .foregroundStyle(Color.textPrimary)
                 } else {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Solved: \(solved) puzzles")
+                        Text("Solved: \(countNoun(solved, "puzzle"))")
                             .scaledFont(size: 13, weight: .semibold)
                             .foregroundStyle(Color.textPrimary)
                         Text("Current streak: \(streak)d · Longest: \(longest)d")

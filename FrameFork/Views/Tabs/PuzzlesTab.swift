@@ -120,7 +120,7 @@ struct PuzzleIndexView: View {
                     (Text("\(weak.theme.label) is your weakest theme")
                         .scaledFont(size: 13, weight: .bold, sizeCategory: sizeCategory)
                         .foregroundStyle(W.ink)
-                     + Text(" — \(Int((weak.rate * 100).rounded()))% · \(weak.attempts) tries")
+                     + Text(" — \(Int((weak.rate * 100).rounded()))% · \(countNoun(weak.attempts, "try", plural: "tries"))")
                         .scaledFont(size: 12, sizeCategory: sizeCategory)
                         .foregroundStyle(W.inkSecondary))
                         .lineLimit(2)
