@@ -27,12 +27,17 @@ public enum AnthropicClient {
                 // Map common Anthropic statuses to actionable copy instead of raw JSON.
                 switch code {
                 case 401: return "Your API key was rejected. Re-enter it in Settings → Pro Tier."
-                case 403: return "This API key isn't permitted to use this model."
+                // Fleet round 147 read all eight branches side by side. Seven ended with what
+                // the player can do; this one stopped at the diagnosis, under a comment two
+                // lines up promising actionable copy. A 403 IS actionable — the key exists and
+                // works, it just has no access to this model.
+                case 403: return "This API key isn't permitted to use this model. Check the key's model access in your Anthropic console."
                 case 429: return "Rate limited by Anthropic. Wait a moment and try again."
                 case 529, 500...599: return "Anthropic is busy right now. Try again in a few seconds."
                 // The raw response body is a JSON blob in Anthropic's voice, not a sentence
-                // anyone can act on, so the banner names the code and stops.
-                default: return "The request failed. Anthropic returned HTTP \(code)."
+                // anyone can act on, so the banner names the code rather than quoting it. That
+                // argument is about the JSON and was being used to skip the next step too.
+                default: return "The request failed. Anthropic returned HTTP \(code). Try that turn again, and re-check your key in Settings if it keeps happening."
                 }
             case .decodingError: return "The buyer's reply could not be read. Try that turn again."
             case .refused: return "The buyer model declined to answer that turn. Try rephrasing your approach."
