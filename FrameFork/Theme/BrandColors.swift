@@ -19,7 +19,15 @@ extension Color {
     static let textPrimary   = Color.white
     static let textSecondary = Color(red: 0.788, green: 0.784, blue: 0.773)     // #C9C8C5
     static let textMuted     = Color(red: 0.608, green: 0.596, blue: 0.576)     // #9B9893
-    static let textFaint     = Color(red: 0.435, green: 0.427, blue: 0.416)     // #6F6D6A
+    /// Fleet round 123 (2026-09-05): this measured APCA Lc 23.4 on the panel, an outright fail,
+    /// and it is a text colour and only a text colour — 40 call sites, 0 fills. What it carries
+    /// is real: the eval chart's axis labels (BUYER, You +3, Even 0), the move count, and the
+    /// disclaimer naming the master-game transcripts as constructions in a speaker's voice.
+    /// Raised to Lc 53.6. The ladder on this panel now reads body 70.5, label 63.7, this 53.6,
+    /// muted 44.0. Despite the name it sits ABOVE muted, which is what its use already assumed:
+    /// this tier carries small structural labels, where muted carries secondary content like an
+    /// opponent's rating or a buyer's line. Those 73 muted sites are the next measured item.
+    static let textFaint     = Color(red: 0.678, green: 0.667, blue: 0.647)     // #ADAAA5
     /// The ink for small-caps section labels, which is what `microLabel` sets by default.
     /// Fleet round 119 (2026-09-05): those labels used `textMuted` and measured APCA Lc 44.0 on
     /// the panel against body text at 70.5 — a 26-point gap, the widest in the fleet, on the type
