@@ -69,4 +69,59 @@ final class FirstRunStringsTests: XCTestCase {
     func testANegativeCountStillReadsAsAPlural() {
         XCTAssertEqual(countNoun(-1, "solve"), "-1 solves")
     }
+
+    // MARK: the status a real response carries, mapped to the banner it shows (round 151)
+
+    /// Round 147 photographed all eight refusal banners, but through FF_LIVE_ERROR, which sets
+    /// the message directly. The step that turns an actual 429 into "Rate limited by Anthropic"
+    /// had never run — it lived inline in the URLSession retry loop with nowhere to call it from.
+
+    private func banner(_ status: Int, _ json: String = "") -> String {
+        AnthropicClient.error(forStatus: status, body: Data(json.utf8)).errorDescription ?? ""
+    }
+
+    func test_401_readsAsARejectedKey() {
+        XCTAssertTrue(banner(401).contains("rejected"), banner(401))
+    }
+
+    func test_403_namesTheModelAccessAndSaysWhatToDo() {
+        let s = banner(403)
+        XCTAssertTrue(s.contains("isn't permitted"), s)
+        XCTAssertTrue(s.contains("console"), "403 must still say what to do: \(s)")
+    }
+
+    func test_429_readsAsRateLimited() {
+        XCTAssertTrue(banner(429).contains("Rate limited"), banner(429))
+    }
+
+    func test_500_and_529_bothReadAsBusy() {
+        XCTAssertTrue(banner(500).contains("busy"), banner(500))
+        XCTAssertTrue(banner(529).contains("busy"), banner(529))
+    }
+
+    func test_anUnmappedCodeFallsToTheDefaultAndCarriesItsNumber() {
+        let s = banner(404)
+        XCTAssertTrue(s.contains("404"), "the default branch must name the code: \(s)")
+        XCTAssertTrue(s.contains("Try that turn again"), "and still say what to do: \(s)")
+    }
+
+    func test_aMalformedBodyDoesNotThrowAndYieldsTheMappedBanner() {
+        XCTAssertTrue(banner(429, "not json at all{{").contains("Rate limited"))
+        XCTAssertTrue(banner(429, "").contains("Rate limited"))
+    }
+
+    func test_anthropicsOwnMessageIsCarriedOnTheErrorWithoutReachingTheBanner() {
+        let e = AnthropicClient.error(forStatus: 400,
+                                      body: Data(#"{"error":{"type":"invalid_request_error","message":"max_tokens too large"}}"#.utf8))
+        guard case .httpError(let code, let detail) = e else { return XCTFail("expected httpError") }
+        XCTAssertEqual(code, 400)
+        XCTAssertEqual(detail, "max_tokens too large")
+        XCTAssertFalse(e.errorDescription?.contains("max_tokens") ?? true,
+                       "the raw detail is for logs, not the banner")
+    }
+
+    func test_onlyRateLimitsAndServerErrorsAreRetried() {
+        for s in [429, 500, 503, 529, 599] { XCTAssertTrue(AnthropicClient.isRetryable(status: s), "\(s)") }
+        for s in [400, 401, 403, 404, 418, 499] { XCTAssertFalse(AnthropicClient.isRetryable(status: s), "\(s)") }
+    }
 }

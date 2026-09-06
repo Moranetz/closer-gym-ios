@@ -99,9 +99,29 @@ public enum AnthropicClient {
         let stop_reason: String?
     }
 
-    private struct ErrorBody: Decodable {
+    struct ErrorBody: Decodable {
         struct Inner: Decodable { let type: String?; let message: String? }
         let error: Inner?
+    }
+
+    /// Status code plus response body to the error the banner will read.
+    ///
+    /// Extracted in fleet round 151. Round 147 photographed all eight refusal banners, but it
+    /// drove them through FF_LIVE_ERROR, which sets the message directly — so the step that turns
+    /// a real 429 into "Rate limited by Anthropic" had never run in a test or a capture. It lived
+    /// inline in the URLSession retry loop, which is why: there was nowhere to call it from.
+    ///
+    /// Anthropic's own message is used when it parses and is never echoed raw; a body that is not
+    /// the shape we expect yields an empty detail rather than throwing, because a failed request
+    /// must not fail twice.
+    static func error(forStatus status: Int, body: Data) -> ClientError {
+        let parsed = (try? JSONDecoder().decode(ErrorBody.self, from: body))?.error?.message
+        return .httpError(status, parsed ?? "")
+    }
+
+    /// Which statuses earn another attempt: rate limiting and anything the server owns.
+    static func isRetryable(status: Int) -> Bool {
+        status == 429 || (500...599).contains(status)
     }
 
     /// Send a persona-turn request. Returns the assistant text reply.
@@ -218,9 +238,8 @@ public enum AnthropicClient {
                 }
                 if http.statusCode != 200 {
                     // Use only Anthropic's clean error message; never echo the raw response body.
-                    let parsed = (try? JSONDecoder().decode(ErrorBody.self, from: data))?.error?.message
-                    let err = ClientError.httpError(http.statusCode, parsed ?? "")
-                    let retryable = http.statusCode == 429 || (500...599).contains(http.statusCode)
+                    let err = Self.error(forStatus: http.statusCode, body: data)
+                    let retryable = Self.isRetryable(status: http.statusCode)
                     if retryable && attempt < maxAttempts {
                         lastError = err
                         try? await Task.sleep(nanoseconds: UInt64(attempt) * 800_000_000)
