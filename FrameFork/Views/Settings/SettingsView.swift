@@ -346,7 +346,10 @@ struct SettingsView: View {
                     Text("Clear all data").scaledFont(size: 14, weight: .semibold)
                     Spacer()
                 }
-                .foregroundStyle(Color.danger)
+                // `danger` is the FILL colour, and its own definition says so. As type it
+                // measured Lc 13.3 here — the most destructive control in the app was the
+                // least legible thing on its screen. `dangerText` reads 62.4 on this ground.
+                .foregroundStyle(Color.dangerText)
                 .padding(14)
                 .contentShape(Rectangle())
             }

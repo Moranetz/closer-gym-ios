@@ -35,7 +35,9 @@ struct PaywallView: View {
                     Text(status).scaledFont(size: 12).foregroundStyle(Color.textMuted)
                 }
                 if let err = subscriptions.lastError {
-                    Text(err).scaledFont(size: 12).foregroundStyle(Color.danger)
+                    // The fill colour as type reads Lc 13.3 on this ground; this is a purchase
+                    // failure, which is the last place to be quiet about it.
+                    Text(err).scaledFont(size: 12).foregroundStyle(Color.dangerText)
                 }
                 legal
                 Spacer(minLength: 24)

@@ -38,9 +38,20 @@ extension Color {
 
     // Semantic
     static let danger    = Color(red: 0.643, green: 0.149, blue: 0.173)         // #A4262C
-    // Text-weight danger: #A4262C measures ~2.1:1 on bgPage (WCAG AA needs 4.5:1) —
-    // error copy set in it was near-illegible. Use `danger` for fills/borders only.
-    static let dangerText = Color(red: 0.898, green: 0.282, blue: 0.302)        // #E5484D
+    // Text-weight danger. Use `danger` for fills and borders only: #A4262C measures ~2.1:1 on
+    // bgPage and error copy set in it was near-illegible.
+    //
+    // That earlier pass fixed the ratio and stopped short of the reading. #E5484D measured APCA
+    // Lc 33.0 on the live game's error banner — below the app's metadata tier of 42.1 and a third
+    // of the 90.0 of the card sitting under it, so the line telling a player why the app just
+    // refused to do anything was the faintest thing on the screen. Fleet round 139.
+    //
+    // #F2A6A8 holds the hue at 358 and the saturation at 75% and moves lightness only, landing at
+    // Lc 62.0 on the banner, 60.4 on bgPanel and 62.4 on bgPage. Changing the token rather than
+    // one call site is safe here BECAUSE those three grounds are within two points of each other,
+    // which was measured rather than assumed — the same token in Squatch read 72.6 on cream and
+    // 28.5 on green, and a blanket swap there would have broken a working screen.
+    static let dangerText = Color(red: 0.949, green: 0.651, blue: 0.659)        // #F2A6A8
     static let warning   = Color(red: 0.898, green: 0.647, blue: 0.039)         // #E5A50A
     static let info      = Color(red: 0.212, green: 0.573, blue: 0.906)         // #3692E7
     static let brilliant = Color(red: 0.106, green: 0.667, blue: 0.651)         // #1BAAA6
