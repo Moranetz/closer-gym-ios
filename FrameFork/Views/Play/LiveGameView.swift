@@ -207,8 +207,16 @@ struct LiveGameView: View {
             let ratio = Eval.evalToFillRatio(eval)
             let operatorH = h * ratio
             ZStack(alignment: .top) {
-                Rectangle().fill(Color(red: 0.15, green: 0.15, blue: 0.14))  // buyer side (dark)
-                Rectangle().fill(Color(red: 0.93, green: 0.92, blue: 0.89))  // operator side (light)
+                // The two sides of a chess eval bar. They were a near-black and a near-white
+                // chosen for the dark page; on the board that put a black slab down the left
+                // edge of the wood, which read as a rendering fault rather than a position.
+                // In a world they are the world's own dark and light: walnut against ivory.
+                Rectangle().fill(World.current.isWorld
+                                 ? World.current.evalDark
+                                 : Color(red: 0.15, green: 0.15, blue: 0.14))   // buyer side
+                Rectangle().fill(World.current.isWorld
+                                 ? World.current.evalLight
+                                 : Color(red: 0.93, green: 0.92, blue: 0.89))   // operator side
                     .frame(height: operatorH)
                     .frame(maxWidth: .infinity, alignment: .top)
                 Rectangle().fill(Color.accentInk.opacity(0.7))

@@ -7,7 +7,12 @@ import SwiftUI
 ///   chart — a tournament hall's wall: index cards pinned to cork under a skylight.
 /// `FF_WORLD=board|sheet|chart|shipped` (DEBUG only) still renders any of them for comparison.
 ///
-/// Fleet round 154 (2026-09-06) ships `.board`. Measured on the Puzzles tab the same hour:
+/// Fleet round 158 (2026-09-07) SHIPS `.board` as the default: Release renders the board.
+/// Round 154 picked it; 155 carried the world into every ink tier and ground; 157 brought
+/// onboarding in; 158 swept the screens behind the tabs and found the last thing the world
+/// could not reach — the eval bar's two literal colours.
+///
+/// Fleet round 154 (2026-09-06) picked `.board`. Measured on the Puzzles tab the same hour:
 /// board 75.9 L / 44.8 S, 4/4 · sheet 63.0 / 43.3, 4/4 · chart 74.6 / 54.1, 3/4 (61 percent of
 /// its pixels near-neutral) · the shipped dark page 20.0 / 7.4, 0/4 at 97 percent neutral.
 /// Board and sheet both clear the bar, so the number did not decide it. Two things did. Her
@@ -22,7 +27,7 @@ enum World: String {
         #if DEBUG
         if let raw = ProcessInfo.processInfo.environment["FF_WORLD"], let w = World(rawValue: raw) { return w }
         #endif
-        return .shipped
+        return .board
     }()
 
     var isWorld: Bool { self != .shipped }
@@ -71,6 +76,25 @@ enum World: String {
         case .board: return AnyShapeStyle(hex(0xFBF6E8))
         case .sheet: return AnyShapeStyle(hex(0xFBF4E2))
         case .chart: return AnyShapeStyle(hex(0xFFFDF7))
+        }
+    }
+
+    /// The two sides of the eval bar. A chess eval bar is the app's one borrowed chess
+    /// instrument and it has to be the world's own dark and light, not a black slab on wood.
+    var evalDark: Color {
+        switch self {
+        case .shipped: return Color(red: 0.15, green: 0.15, blue: 0.14)
+        case .board:   return hex(0x8A6242)
+        case .sheet:   return hex(0x1E3D28)
+        case .chart:   return hex(0x7A6A52)
+        }
+    }
+    var evalLight: Color {
+        switch self {
+        case .shipped: return Color(red: 0.93, green: 0.92, blue: 0.89)
+        case .board:   return hex(0xF6EBD6)
+        case .sheet:   return hex(0xF2E8CF)
+        case .chart:   return hex(0xFBF7EE)
         }
     }
 
