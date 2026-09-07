@@ -5,12 +5,48 @@ import SwiftUI
 /// never reappears unless data is cleared.
 struct OnboardingView: View {
     @Binding var isPresented: Bool
-    @State private var page = 0
+    @State private var page: Int = {
+        #if DEBUG
+        // The card is sized by what it holds, so pages two and three must be photographed too.
+        if let raw = ProcessInfo.processInfo.environment["FF_ONB_PAGE"], let n = Int(raw) { return n }
+        #endif
+        return 0
+    }()
+
+    /// Round 157: three grounds for the first screen a stranger sees, so the choice is made on
+    /// the real screen rather than in the head. 0 flat page colour (what it was), 1 the drawn
+    /// board every other page stands on, 2 one lit square of it, enlarged. DEBUG only.
+    private var groundStyle: Int {
+        #if DEBUG
+        if let raw = ProcessInfo.processInfo.environment["FF_ONB_GROUND"], let n = Int(raw) { return n }
+        #endif
+        return 1
+    }
+
+    private var ground: AnyView {
+        switch groundStyle {
+        case 0:
+            return AnyView(Color.pageGround.ignoresSafeArea())
+        case 2:
+            return AnyView(ZStack {
+                Color.pageGround.ignoresSafeArea()
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(World.current.isWorld ? World.current.panel : Color.panelGround)
+                    .frame(width: 320, height: 320)
+                    .rotationEffect(.degrees(-6))
+                    .shadow(color: .black.opacity(0.25), radius: 18, x: 6, y: 10)
+                    .offset(y: -120)
+            })
+        default:
+            return AnyView(WorldGround().ignoresSafeArea())
+        }
+    }
+
     @EnvironmentObject private var storage: Store
 
     var body: some View {
         ZStack {
-            Color.pageGround.ignoresSafeArea()
+            ground
 
             VStack(spacing: 0) {
                 TabView(selection: $page) {
@@ -29,7 +65,9 @@ struct OnboardingView: View {
                     .padding(.bottom, 32)
             }
         }
-        .preferredColorScheme(.dark)
+        // A fullScreenCover does not inherit the root's scheme, so on the board the status bar
+        // stayed light-content and the clock sat white on light wood.
+        .preferredColorScheme(World.current.isWorld ? .light : .dark)
     }
 
     // MARK: - Pages
@@ -38,11 +76,11 @@ struct OnboardingView: View {
         OnboardingPage(
             symbol: "♞",
             symbolSize: 96,
-            tag: "The gym for closers",
+            tag: "Rated positions for the sales call",
             title: "A sparring app for sales.",
             bodyLines: [
                 "A buyer says \u{201C}send me something in writing.\u{201D} Fourteen personas will test you like that, live. Every move earns an ELO that only climbs when you're right.",
-                "There's no cheat code for a live buyer. We built the gym.",
+                "There's no cheat code for a live buyer. You get the position and whatever you say next.",
             ]
         )
     }
@@ -104,13 +142,27 @@ struct OnboardingView: View {
                     Haptics.shared.selection()
                 }
                 .scaledFont(size: 13, weight: .semibold)
-                .foregroundStyle(Color.textMuted)
+                .foregroundStyle(World.current.isWorld ? World.current.inkMuted : Color.textMuted)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
+                .background(
+                    Capsule().fill(World.current.isWorld ? World.current.rail : Color.clear)
+                )
             } else {
                 Button("Skip") {
                     completeOnboarding()
                 }
                 .scaledFont(size: 13, weight: .semibold)
-                .foregroundStyle(Color.textFaint)
+                // On the board this sat on bare wood at the faintest tier in the app, and a
+                // chequer has two grounds: the same ink measured Lc 62.1 on a maple square and
+                // 22.1 on a walnut one, so where it could be read depended on where it landed.
+                // It carries its own square now, and stays quiet by being small.
+                .foregroundStyle(World.current.isWorld ? World.current.inkMuted : Color.textFaint)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
+                .background(
+                    Capsule().fill(World.current.isWorld ? World.current.rail : Color.clear)
+                )
             }
         }
     }
@@ -130,10 +182,14 @@ private struct OnboardingPage: View {
     let tag: String
     let title: String
     let bodyLines: [String]
+    /// Round 157: on the drawn board, body text ran across light and dark squares and the dark
+    /// ones ate it. The page's words sit on a card of the world's own material now — the same
+    /// card every other screen in this app uses — sized by what it holds.
+    var onCard: Bool = true
 
     var body: some View {
         VStack(spacing: 0) {
-            Spacer()
+            if !onCard || !World.current.isWorld { Spacer() }
             Text(symbol)
                 .scaledFont(size: symbolSize, weight: .heavy)
                 .foregroundStyle(Color.accentInk)
@@ -163,8 +219,31 @@ private struct OnboardingPage: View {
                 }
             }
 
-            Spacer()
-            Spacer()
+            if !onCard || !World.current.isWorld {
+                Spacer()
+                Spacer()
+            }
+        }
+        .modifier(OnboardingCard(active: onCard && World.current.isWorld))
+        .frame(maxHeight: .infinity)
+    }
+}
+
+/// The card the onboarding words stand on when the app is in a world.
+private struct OnboardingCard: ViewModifier {
+    let active: Bool
+    func body(content: Content) -> some View {
+        if active {
+            content
+                .padding(.vertical, 28)
+                .background(
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .fill(World.current.panel)
+                        .shadow(color: .black.opacity(0.22), radius: 12, x: 4, y: 8)
+                )
+                .padding(.horizontal, 18)
+        } else {
+            content
         }
     }
 }
