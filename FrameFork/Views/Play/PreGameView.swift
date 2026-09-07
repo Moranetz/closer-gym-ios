@@ -27,9 +27,9 @@ struct PreGameView: View {
             .padding(.horizontal, 16)
             .padding(.top, 12)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("\(botMeta.rating) · \(persona?.track.label ?? "")")
@@ -65,7 +65,7 @@ struct PreGameView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -76,7 +76,7 @@ struct PreGameView: View {
                 Text("PRE-REGISTER YOUR INTENT")
                     .scaledFont(size: 11, weight: .heavy, design: .rounded)
                     .kerning(0.6)
-                    .foregroundStyle(Color.brandGreen)
+                    .foregroundStyle(Color.accentInk)
                 Spacer()
                 Text("\(selectedTechniques.count) selected")
                     .scaledFont(size: 11)
@@ -99,10 +99,10 @@ struct PreGameView: View {
                         let isOn = selectedTechniques.contains(t.id)
                         Text(t.name)
                             .scaledFont(size: 11, weight: .semibold)
-                            .foregroundStyle(isOn ? Color.brandGreen : Color.textSecondary)
+                            .foregroundStyle(isOn ? Color.accentInk : Color.textSecondary)
                             .padding(.horizontal, 8).padding(.vertical, 4)
-                            .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(isOn ? Color.brandGreen.opacity(0.14) : Color.bgRail))
-                            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(isOn ? Color.brandGreen : Color.border, lineWidth: 1))
+                            .background(RoundedRectangle(cornerRadius: 4, style: .continuous).fill(isOn ? Color.accentInk.opacity(0.14) : Color.railGround))
+                            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(isOn ? Color.accentInk : Color.border, lineWidth: 1))
                     }
                     .buttonStyle(.plain)
                 }
@@ -110,7 +110,7 @@ struct PreGameView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }

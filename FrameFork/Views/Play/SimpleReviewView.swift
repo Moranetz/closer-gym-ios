@@ -59,10 +59,10 @@ struct SimpleReviewView: View {
             .padding(.horizontal, 16)
             .padding(.top, 12)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Game review")
@@ -164,7 +164,7 @@ struct SimpleReviewView: View {
         VStack(alignment: .leading, spacing: 12) {
             if grading {
                 HStack(spacing: 10) {
-                    ProgressView().tint(Color.brandGreen)
+                    ProgressView().tint(Color.accentInk)
                     Text("Coach is grading your craft…")
                         .scaledFont(size: 13, weight: .semibold)
                         .foregroundStyle(Color.textSecondary)
@@ -208,7 +208,7 @@ struct SimpleReviewView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -250,7 +250,7 @@ struct SimpleReviewView: View {
     }
 
     private func gradeColor(_ s: Double) -> Color {
-        if s >= 0.7 { return .brandGreen }
+        if s >= 0.7 { return .accentInk }
         if s >= 0.45 { return .warning }
         return .danger
     }
@@ -276,7 +276,7 @@ struct SimpleReviewView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -286,7 +286,7 @@ struct SimpleReviewView: View {
         let isOp = item.turn.role == "operator"
         let isBest = item.oNum != nil && item.oNum == judgment?.bestTurn
         let isWeak = item.oNum != nil && item.oNum == judgment?.weakestTurn
-        let mark: (String, Color)? = isBest ? ("STRONGEST", .brandGreen) : (isWeak ? ("WEAKEST", .warning) : nil)
+        let mark: (String, Color)? = isBest ? ("STRONGEST", .accentInk) : (isWeak ? ("WEAKEST", .warning) : nil)
         HStack(alignment: .top) {
             if isOp { Spacer(minLength: 28) }
             VStack(alignment: isOp ? .trailing : .leading, spacing: 4) {
@@ -299,15 +299,15 @@ struct SimpleReviewView: View {
                     .scaledFont(size: 12.5)
                     .foregroundStyle(Color.textPrimary)
                     .padding(.horizontal, 10).padding(.vertical, 7)
-                    .background(isOp ? Color.brandGreen.opacity(0.12) : Color.bgRail)
+                    .background(isOp ? Color.accentInk.opacity(0.12) : Color.railGround)
                     .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
                     .overlay(
                         RoundedRectangle(cornerRadius: 9, style: .continuous)
-                            .strokeBorder(mark?.1 ?? (isOp ? Color.brandGreen.opacity(0.25) : Color.border),
+                            .strokeBorder(mark?.1 ?? (isOp ? Color.accentInk.opacity(0.25) : Color.border),
                                           lineWidth: mark == nil ? 1 : 1.5)
                     )
                 if isBest, let note = judgment?.bestTurnNote {
-                    noteLabel(note, .brandGreen, trailing: isOp)
+                    noteLabel(note, .accentInk, trailing: isOp)
                 } else if isWeak, let note = judgment?.weakestTurnNote {
                     noteLabel(note, .warning, trailing: isOp)
                 }
@@ -340,7 +340,7 @@ struct SimpleReviewView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -358,13 +358,13 @@ struct SimpleReviewView: View {
                 .scaledFont(size: 12)
                 .foregroundStyle(Color.textMuted)
                 .monospacedDigit()
-            techniqueRow(title: "Landed as planned", ids: Array(matched), color: Color.brandGreen)
+            techniqueRow(title: "Landed as planned", ids: Array(matched), color: Color.accentInk)
             techniqueRow(title: "Intended, did not fire", ids: Array(intendedMissed), color: Color.warning)
             techniqueRow(title: "Fired without intent", ids: Array(unintendedFired), color: Color.info)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -377,12 +377,12 @@ struct SimpleReviewView: View {
         return AnyView(
             VStack(alignment: .leading, spacing: 10) {
                 Text("Persona response").microLabel(Color.textSecondary)
-                techniqueRow(title: "Likely landed", ids: Array(landed), color: Color.brandGreen)
+                techniqueRow(title: "Likely landed", ids: Array(landed), color: Color.accentInk)
                 techniqueRow(title: "Likely backfired", ids: Array(backfired), color: Color.danger)
             }
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         )
@@ -451,7 +451,7 @@ struct SimpleReviewView: View {
     }
 
     private var outcomeColor: Color {
-        if score >= 1.0 { return Color.brandGreen }
+        if score >= 1.0 { return Color.accentInk }
         if score <= 0.0 { return Color.danger }
         return Color.warning
     }
@@ -464,7 +464,7 @@ private struct GradeBar: View {
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .leading) {
-                Capsule().fill(Color.bgRail)
+                Capsule().fill(Color.railGround)
                 Capsule().fill(color.opacity(0.9))
                     .frame(width: max(3, geo.size.width * CGFloat(max(0, min(1, fill)))))
             }
@@ -505,14 +505,14 @@ struct EvalSparkline: View {
                         else { p.addLine(to: CGPoint(x: x, y: y)) }
                     }
                 }
-                .stroke(Color.brandGreen, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                .stroke(Color.accentInk, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
 
                 // Dot at the end
                 if let last = values.last, values.count > 0 {
                     let x = w
                     let y = h / 2 - CGFloat(last) / 3.0 * (h / 2)
                     Circle()
-                        .fill(Color.brandGreen)
+                        .fill(Color.accentInk)
                         .frame(width: 5, height: 5)
                         .position(x: x - 2.5, y: y)
                 }

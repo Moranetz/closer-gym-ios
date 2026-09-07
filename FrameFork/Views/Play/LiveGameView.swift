@@ -82,9 +82,9 @@ struct LiveGameView: View {
             }
             composer
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         // A live game is the user's turns AND their API spend — the system back
         // chevron/swipe must not silently evaporate it. Only guard MID-GAME: with an
         // empty transcript or a finished game the system back (and edge swipe) stays.
@@ -157,7 +157,7 @@ struct LiveGameView: View {
         HStack(spacing: 10) {
             let initials = (persona?.role.split(separator: " ").prefix(2).map { String($0.first ?? Character("?")) }.joined() ?? "??").uppercased()
             ZStack {
-                RoundedRectangle(cornerRadius: 6, style: .continuous).fill(Color.bgPanel)
+                RoundedRectangle(cornerRadius: 6, style: .continuous).fill(Color.panelGround)
                 Text(initials)
                     .scaledFont(size: 13, weight: .heavy, design: .rounded)
                     .foregroundStyle(Color.textPrimary)
@@ -196,7 +196,7 @@ struct LiveGameView: View {
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
         .frame(maxWidth: .infinity)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
     }
 
     // MARK: - Eval bar (vertical, chess.com style)
@@ -211,7 +211,7 @@ struct LiveGameView: View {
                 Rectangle().fill(Color(red: 0.93, green: 0.92, blue: 0.89))  // operator side (light)
                     .frame(height: operatorH)
                     .frame(maxWidth: .infinity, alignment: .top)
-                Rectangle().fill(Color.brandGreen.opacity(0.7))
+                Rectangle().fill(Color.accentInk.opacity(0.7))
                     .frame(height: 1)
                     .offset(y: operatorH - 0.5)
             }
@@ -275,11 +275,11 @@ struct LiveGameView: View {
                     .foregroundStyle(Color.textPrimary)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 9)
-                    .background(isOperator ? Color.brandGreen.opacity(0.16) : Color.bgPanel)
+                    .background(isOperator ? Color.accentInk.opacity(0.16) : Color.panelGround)
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .overlay(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .strokeBorder(isOperator ? Color.brandGreen.opacity(0.35) : Color.border, lineWidth: 1)
+                            .strokeBorder(isOperator ? Color.accentInk.opacity(0.35) : Color.border, lineWidth: 1)
                     )
                 if isOperator, !turn.firedHere.isEmpty {
                     HStack(spacing: 4) {
@@ -287,9 +287,9 @@ struct LiveGameView: View {
                             Text(AtlasTechniques.name(for: tid))
                                 .scaledFont(size: 9, weight: .heavy, design: .rounded)
                                 .kerning(0.3)
-                                .foregroundStyle(Color.brandGreen)
+                                .foregroundStyle(Color.accentInk)
                                 .padding(.horizontal, 5).padding(.vertical, 1)
-                                .background(Color.brandGreen.opacity(0.12))
+                                .background(Color.accentInk.opacity(0.12))
                                 .clipShape(Capsule())
                         }
                     }
@@ -329,7 +329,7 @@ struct LiveGameView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -343,11 +343,11 @@ struct LiveGameView: View {
                 TextField("Your turn…", text: $draft, axis: .vertical)
                     .scaledFont(size: 14)
                     .foregroundStyle(Color.textPrimary)
-                    .tint(Color.brandGreen)
+                    .tint(Color.accentInk)
                     .lineLimit(1...5)
                     .focused($inputFocused)
                     .padding(.horizontal, 10).padding(.vertical, 8)
-                    .background(Color.bgPanel)
+                    .background(Color.panelGround)
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
                     .disabled(isAwaiting || finishedScore != nil)
@@ -356,9 +356,9 @@ struct LiveGameView: View {
                 } label: {
                     Image(systemName: "arrow.up")
                         .scaledFont(size: 14, weight: .heavy)
-                        .foregroundStyle(canSend ? Color.bgPage : Color.textFaint)
+                        .foregroundStyle(canSend ? Color.pageGround : Color.textFaint)
                         .frame(width: 36, height: 36)
-                        .background(canSend ? Color.brandGreen : Color.bgPanel)
+                        .background(canSend ? Color.accentInk : Color.panelGround)
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
                 .disabled(!canSend)
@@ -366,7 +366,7 @@ struct LiveGameView: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(Color.bgPage)
+            .worldPage()
         }
     }
 

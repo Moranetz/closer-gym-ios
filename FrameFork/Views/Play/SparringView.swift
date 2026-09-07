@@ -63,12 +63,12 @@ struct SparringView: View {
                 Spacer(minLength: 28)
             }
         }
-        .background(Color.bgPage)
+        .worldPage()
         .sheet(item: $openLesson) { t in
             NavigationStack { LessonDetailView(technique: t) }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar { ToolbarItem(placement: .principal) { opponentTitle } }
         .onAppear {
             if nodeId.isEmpty, let arc {
@@ -104,7 +104,7 @@ struct SparringView: View {
         HStack(spacing: 4) {
             ForEach(0..<totalTurns, id: \.self) { i in
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(i < history.count ? Color.brandGreen : Color.bgRail)
+                    .fill(i < history.count ? Color.accentInk : Color.railGround)
                     .frame(height: 4)
             }
         }
@@ -121,8 +121,8 @@ struct SparringView: View {
         return VStack(spacing: 3) {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.bgRail)
-                    Capsule().fill(LinearGradient(colors: [.brandGreenDeep, .brandGreen],
+                    Capsule().fill(Color.railGround)
+                    Capsule().fill(LinearGradient(colors: [.brandGreenDeep, .accentInk],
                                                   startPoint: .leading, endPoint: .trailing))
                         .frame(width: geo.size.width * fill)
                         .animation(.spring(response: 0.7, dampingFraction: 0.85), value: fill)
@@ -191,9 +191,9 @@ struct SparringView: View {
                 ForEach(ex.tags, id: \.self) { tid in
                     Text(AtlasTechniques.name(for: tid))
                         .scaledFont(size: 8, weight: .heavy, design: .rounded)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
                         .padding(.horizontal, 5).padding(.vertical, 1)
-                        .background(Color.brandGreen.opacity(0.12))
+                        .background(Color.accentInk.opacity(0.12))
                         .clipShape(Capsule())
                         .onTapGesture {
                             if let t = AtlasTechniques.get(tid) {
@@ -218,10 +218,10 @@ struct SparringView: View {
             .lineLimit(compact ? 2 : nil)
             .foregroundStyle(isOp ? Color.textPrimary : Color.textSecondary)
             .padding(.horizontal, 11).padding(.vertical, 8)
-            .background(isOp ? Color.brandGreen.opacity(0.16) : Color.bgPanel)
+            .background(isOp ? Color.accentInk.opacity(0.16) : Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .strokeBorder(isOp ? Color.brandGreen.opacity(0.35) : Color.border, lineWidth: 1))
+                .strokeBorder(isOp ? Color.accentInk.opacity(0.35) : Color.border, lineWidth: 1))
             .frame(maxWidth: .infinity, alignment: isOp ? .trailing : .leading)
     }
 
@@ -254,7 +254,7 @@ struct SparringView: View {
     private func heroCard(_ node: SparringNode) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(node.isSpike ? "She drops it" : "She says")
-                .microLabel(node.isSpike ? Color.warning : Color.brandGreen)
+                .microLabel(node.isSpike ? Color.warning : Color.accentInk)
             Text("“\(node.buyerLine)”")
                 .scaledFont(size: 16, weight: .bold, design: .rounded)
                 .italic()
@@ -263,7 +263,7 @@ struct SparringView: View {
         }
         .padding(15)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(LinearGradient(colors: [.bgPanel, .bgRail], startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(LinearGradient(colors: [.panelGround, .railGround], startPoint: .topLeading, endPoint: .bottomTrailing))
         .overlay(alignment: .leading) {
             if node.isSpike { Rectangle().fill(Color.warning).frame(width: 4) }
         }
@@ -282,10 +282,10 @@ struct SparringView: View {
                 .foregroundStyle(Color.textPrimary)
                 .lineSpacing(2)
                 .padding(.horizontal, 13).padding(.vertical, 10)
-                .background(Color.brandGreen.opacity(0.16))
+                .background(Color.accentInk.opacity(0.16))
                 .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous)
-                    .strokeBorder(Color.brandGreen.opacity(0.35), lineWidth: 1))
+                    .strokeBorder(Color.accentInk.opacity(0.35), lineWidth: 1))
                 .matchedGeometryEffect(id: text, in: pickNS)
             if let v = sentVerdict {
                 HStack(spacing: 5) {
@@ -343,7 +343,7 @@ struct SparringView: View {
                         .scaledFont(size: 10, weight: .heavy, design: .rounded)
                         .foregroundStyle(Color.textMuted)
                         .frame(width: 18, height: 18)
-                        .background(Color.bgRail)
+                        .background(Color.railGround)
                         .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                         .overlay(RoundedRectangle(cornerRadius: 5, style: .continuous).strokeBorder(Color.borderStrong, lineWidth: 1))
                     Text("You say").microLabel()
@@ -356,7 +356,7 @@ struct SparringView: View {
             }
             .padding(.horizontal, 13).padding(.vertical, 10)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
             .matchedGeometryEffect(id: cand.text, in: pickNS)
@@ -487,7 +487,7 @@ struct SparringView: View {
 
     private var outcomeStamp: (label: String, color: Color, glyph: String) {
         switch ending?.1 ?? 0.5 {
-        case 1.0:  return ("CLOSED", .brandGreen, "‼")
+        case 1.0:  return ("CLOSED", .accentInk, "‼")
         case 0.0:  return ("SHE WALKED", .textMuted, "·")
         default:   return ("STALLED", .warning, "!?")
         }
@@ -538,7 +538,7 @@ struct SparringView: View {
 
     private func ratingCard(_ end: SparringEnding) -> some View {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Debrief").microLabel(Color.brandGreen)
+                Text("Debrief").microLabel(Color.accentInk)
                 Text(end.debrief)
                     .scaledFont(size: 13)
                     .foregroundStyle(Color.textSecondary)
@@ -567,7 +567,7 @@ struct SparringView: View {
             }
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -596,7 +596,7 @@ struct SparringView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 11, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }

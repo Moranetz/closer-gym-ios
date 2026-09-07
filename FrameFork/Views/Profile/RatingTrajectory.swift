@@ -24,7 +24,7 @@ struct ProgressHeroCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Puzzle rating").microLabel(Color.brandGreen)
+                Text("Puzzle rating").microLabel(Color.accentInk)
                 Spacer()
                 Text("last \(countNoun(history.count, "solve"))")
                     .scaledFont(size: 11).foregroundStyle(Color.textMuted).monospacedDigit()
@@ -45,7 +45,7 @@ struct ProgressHeroCard: View {
                 let up = window.delta >= 0
                 Text("\(up ? "▲" : "▼") \(up ? "+" : "")\(Int(window.delta.rounded()))")
                     .scaledFont(size: 13, weight: .heavy, design: .rounded)
-                    .foregroundStyle(up ? Color.brandGreen : Color.dangerText)
+                    .foregroundStyle(up ? Color.accentInk : Color.dangerText)
                 Text("\(window.label) · you earn a rating, you don't fake it")
                     .scaledFont(size: 12).foregroundStyle(Color.textMuted)
             }
@@ -61,17 +61,17 @@ struct ProgressHeroCard: View {
                 Spacer()
                 if let next = nextBand {
                     Text("\(next.label.replacingOccurrences(of: " Closer", with: "")) at \(next.min) — \(next.min - Int(currentRating.rounded())) to go")
-                        .scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.brandGreen).monospacedDigit()
+                        .scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.accentInk).monospacedDigit()
                 } else {
                     Text("top of the ladder")
-                        .scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.brandGreen)
+                        .scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.accentInk)
                 }
             }
             .padding(.top, 3)
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         .accessibilityElement(children: .combine)
@@ -95,17 +95,17 @@ struct MonotoneSparkline: View {
                     let curve = monotonePath(pts)
                     // gradient area under the curve
                     curve.areaPath(bottom: h - pad)
-                        .fill(LinearGradient(colors: [Color.brandGreen.opacity(0.22), Color.brandGreen.opacity(0)],
+                        .fill(LinearGradient(colors: [Color.accentInk.opacity(0.22), Color.accentInk.opacity(0)],
                                              startPoint: .top, endPoint: .bottom))
                     curve.linePath
-                        .stroke(Color.brandGreen, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                        .stroke(Color.accentInk, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                     // sparse markers (every ~4th point) — honest positions
                     ForEach(Array(stride(from: 0, to: pts.count - 1, by: max(1, pts.count / 4))), id: \.self) { i in
                         Circle().fill(Color.textMuted).frame(width: 4.5, height: 4.5)
                             .position(pts[i])
                     }
                     // end dot — where you are now
-                    Circle().fill(Color.brandGreen).frame(width: 8, height: 8).position(pts[pts.count - 1])
+                    Circle().fill(Color.accentInk).frame(width: 8, height: 8).position(pts[pts.count - 1])
                 }
             }
         }

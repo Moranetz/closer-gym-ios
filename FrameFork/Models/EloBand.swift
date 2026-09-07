@@ -26,7 +26,7 @@ public enum BadgeTier: String, Sendable {
     public var textColor: Color {
         switch self {
         case .low, .gm:        return .white
-        case .exp, .m, .im:    return .bgPage
+        case .exp, .m, .im:    return .pageGround
         }
     }
 }

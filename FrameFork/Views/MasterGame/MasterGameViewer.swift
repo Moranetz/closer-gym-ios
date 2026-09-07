@@ -56,9 +56,9 @@ struct MasterGameViewer: View {
                 }
                 .onChange(of: game.id) { _, _ in proxy.scrollTo("mg-top", anchor: .top) }
             }
-            .background(Color.bgPage)
+            .worldPage()
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.bgPage, for: .navigationBar)
+            .toolbarBackground(Color.pageGround, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(game.speaker).scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary).lineLimit(1)
@@ -85,14 +85,14 @@ struct MasterGameViewer: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("MASTER STUDY · GUESS THE MOVE").microLabel(Color.brandGreen)
+            Text("MASTER STUDY · GUESS THE MOVE").microLabel(Color.accentInk)
             Text("vs \(game.opponentRole)").scaledFont(size: 14, weight: .semibold).foregroundStyle(Color.textPrimary)
             Text(game.scenario).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
             Text("Style: \(game.speakerStyle)").scaledFont(size: 12).italic().foregroundStyle(Color.textMuted)
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -101,8 +101,8 @@ struct MasterGameViewer: View {
         VStack(alignment: .leading, spacing: 4) {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.bgRail)
-                    Capsule().fill(LinearGradient(colors: [.brandGreenDeep, .brandGreen], startPoint: .leading, endPoint: .trailing))
+                    Capsule().fill(Color.railGround)
+                    Capsule().fill(LinearGradient(colors: [.brandGreenDeep, .accentInk], startPoint: .leading, endPoint: .trailing))
                         .frame(width: geo.size.width * momentum)
                         .animation(.spring(response: 0.7, dampingFraction: 0.85), value: momentum)
                 }
@@ -142,16 +142,16 @@ struct MasterGameViewer: View {
                 }
                 .padding(11)
                 .frame(maxWidth: 300, alignment: .leading)
-                .background(isOperator ? Color.brandGreen.opacity(0.13) : Color.bgPanel)
+                .background(isOperator ? Color.accentInk.opacity(0.13) : Color.panelGround)
                 .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(isOperator ? Color.brandGreen.opacity(0.3) : Color.borderStrong, lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(isOperator ? Color.accentInk.opacity(0.3) : Color.borderStrong, lineWidth: 1))
                 if !isOperator { Spacer(minLength: 28) }
             }
             if isOperator, let annotation = move.annotation, let delta = move.delta {
                 if let matchedHere = results[turnIndex] {
                     Text(matchedHere ? "✓ You played it like \(speakerShort)" : "You went another way — \(speakerShort) played the above")
                         .scaledFont(size: 10, weight: .heavy, design: .rounded)
-                        .foregroundStyle(matchedHere ? Color.brandGreen : Color.warning)
+                        .foregroundStyle(matchedHere ? Color.accentInk : Color.warning)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 annotationCard(annotation: annotation, delta: delta)
@@ -173,7 +173,7 @@ struct MasterGameViewer: View {
         }
         .padding(10)
         .frame(maxWidth: 300, alignment: .leading)
-        .background(Color.bgRail.overlay(Rectangle().fill(q.color.opacity(0.8)).frame(width: 3), alignment: .leading))
+        .background(Color.railGround.overlay(Rectangle().fill(q.color.opacity(0.8)).frame(width: 3), alignment: .leading))
         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 
@@ -184,7 +184,7 @@ struct MasterGameViewer: View {
         let opts = options(for: moveIndex)
         let speakerShort = game.speaker.split(separator: " ").first.map(String.init) ?? "the master"
         VStack(alignment: .leading, spacing: 10) {
-            Text("YOUR MOVE, \(speakerShort.uppercased())").microLabel(Color.brandGreen)
+            Text("YOUR MOVE, \(speakerShort.uppercased())").microLabel(Color.accentInk)
             ForEach(Array(opts.items.enumerated()), id: \.offset) { i, text in
                 Button {
                     pick(optionIndex: i, realIndex: opts.realIndex, moveIndex: moveIndex)
@@ -193,13 +193,13 @@ struct MasterGameViewer: View {
                         Text(String(UnicodeScalar(65 + i)!))
                             .scaledFont(size: 11, weight: .heavy, design: .rounded).foregroundStyle(Color.textMuted)
                             .frame(width: 20, height: 20)
-                            .background(RoundedRectangle(cornerRadius: 5, style: .continuous).fill(Color.bgRail))
+                            .background(RoundedRectangle(cornerRadius: 5, style: .continuous).fill(Color.railGround))
                         Text(text).scaledFont(size: 13).foregroundStyle(Color.textPrimary).multilineTextAlignment(.leading).lineSpacing(2)
                         Spacer(minLength: 0)
                     }
                     .padding(11)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.bgPanel)
+                    .background(Color.panelGround)
                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
                 }
@@ -208,9 +208,9 @@ struct MasterGameViewer: View {
         }
         .padding(13)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel.opacity(0.5))
+        .background(Color.panelGround.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.brandGreen.opacity(0.35), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.accentInk.opacity(0.35), lineWidth: 1))
     }
 
     private var continueButton: some View {
@@ -219,8 +219,8 @@ struct MasterGameViewer: View {
             advance()
         } label: {
             Text("Continue →").scaledFont(size: 14, weight: .heavy, design: .rounded)
-                .foregroundStyle(Color.bgPage).frame(maxWidth: .infinity).frame(height: 46)
-                .background(Color.brandGreen).clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .foregroundStyle(Color.pageGround).frame(maxWidth: .infinity).frame(height: 46)
+                .background(Color.accentInk).clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
         .buttonStyle(.plain)
     }
@@ -239,20 +239,20 @@ struct MasterGameViewer: View {
                 .scaledFont(size: 17, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary).lineSpacing(2)
             Text(game.outcomeNote).scaledFont(size: 12.5).foregroundStyle(Color.textSecondary).lineSpacing(2)
             Divider().background(Color.border)
-            Text("Study takeaway").microLabel(Color.brandGreen)
+            Text("Study takeaway").microLabel(Color.accentInk)
             Text(game.studyHint).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(3)
             Button {
                 loadNext()
             } label: {
                 Text("Next master game →").scaledFont(size: 14, weight: .heavy, design: .rounded)
-                    .foregroundStyle(Color.bgPage).frame(maxWidth: .infinity).frame(height: 48)
-                    .background(Color.brandGreen).clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .foregroundStyle(Color.pageGround).frame(maxWidth: .infinity).frame(height: 48)
+                    .background(Color.accentInk).clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
             .buttonStyle(.plain).padding(.top, 4)
         }
         .padding(15)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(game.outcome.color.opacity(0.4), lineWidth: 1.5))
     }

@@ -27,6 +27,17 @@ enum World: String {
 
     var isWorld: Bool { self != .shipped }
 
+    /// The flat ground colour, for the few places that need a colour rather than WorldGround's
+    /// drawing: a toolbar behind a scroll, a sheet's backdrop.
+    var page: Color {
+        switch self {
+        case .shipped: return .bgPage
+        case .board: return hex(0xC9A87C)
+        case .sheet: return hex(0x2F5B3A)
+        case .chart: return hex(0xC9B79A)
+        }
+    }
+
     // Card material
     var panel: Color {
         switch self {
@@ -218,6 +229,14 @@ extension World {
 }
 
 extension View {
+    /// The page a screen stands on: the world's own drawing when a world is on, and the app's
+    /// flat page colour otherwise. Round 155 — Lessons, Watch and Profile were painted the
+    /// world's ground COLOUR while Play and Puzzles drew its board, so half the app stood on a
+    /// flat tan and the other half on maple and walnut.
+    @ViewBuilder func worldPage() -> some View {
+        self.background(WorldGround().ignoresSafeArea())
+    }
+
     /// Every card on a world sits on it: a shadow on the table, a pin on the wall. The shipped
     /// page is untouched.
     @ViewBuilder func worldCard() -> some View {

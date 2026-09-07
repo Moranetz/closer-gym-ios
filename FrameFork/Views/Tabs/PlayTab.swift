@@ -164,7 +164,7 @@ struct BotLadderView: View {
         .background(WorldGround().ignoresSafeArea())
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.large)
-        .toolbarBackground(W.isWorld ? W.rail : Color.bgPage, for: .navigationBar)
+        .toolbarBackground(W.isWorld ? W.rail : Color.pageGround, for: .navigationBar)
         #if DEBUG
         .onAppear {
             if debugScrollBottom {

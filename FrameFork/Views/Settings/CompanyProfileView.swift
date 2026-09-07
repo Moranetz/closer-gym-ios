@@ -32,10 +32,10 @@ struct CompanyProfileView: View {
             }
             .padding(16)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationTitle("Train on your deals")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .onAppear(perform: load)
     }
 
@@ -53,10 +53,10 @@ struct CompanyProfileView: View {
             TextField(placeholder, text: text, axis: .vertical)
                 .scaledFont(size: 14)
                 .foregroundStyle(Color.textPrimary)
-                .tint(Color.brandGreen)
+                .tint(Color.accentInk)
                 .lineLimit(lines)
                 .padding(.horizontal, 11).padding(.vertical, 9)
-                .background(Color.bgPanel)
+                .background(Color.panelGround)
                 .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         }

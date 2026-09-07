@@ -175,9 +175,9 @@ struct PuzzleSolveView: View {
         }
         #endif
         .onDisappear { cancelFeedback() }
-        .background(Color.bgPage.ignoresSafeArea())
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 HStack(spacing: 8) {
@@ -201,7 +201,7 @@ struct PuzzleSolveView: View {
     private var header: some View {
         if isDaily {
             HStack(spacing: 8) {
-                Text("Daily Drill").microLabel(Color.brandGreen)
+                Text("Daily Drill").microLabel(Color.accentInk)
                 Text(Store.todayKey())
                     .scaledFont(size: 11, weight: .semibold)
                     .foregroundStyle(Color.textMuted)
@@ -240,7 +240,7 @@ struct PuzzleSolveView: View {
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(LinearGradient(colors: [.bgPanel, .bgRail], startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(LinearGradient(colors: [.panelGround, .railGround], startPoint: .topLeading, endPoint: .bottomTrailing))
         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -339,14 +339,14 @@ struct PuzzleSolveView: View {
         } label: {
             VStack(spacing: 2) {
                 Text(title).scaledFont(size: 12, weight: .bold, design: .rounded)
-                Text(sub).scaledFont(size: 10).foregroundStyle(isSel ? Color.brandGreen.opacity(0.8) : Color.textFaint)
+                Text(sub).scaledFont(size: 10).foregroundStyle(isSel ? Color.accentInk.opacity(0.8) : Color.textFaint)
             }
-            .foregroundStyle(isSel ? Color.brandGreen : Color.textSecondary)
+            .foregroundStyle(isSel ? Color.accentInk : Color.textSecondary)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 10)
-            .background(isSel ? Color.brandGreen.opacity(0.16) : Color.bgPanel)
+            .background(isSel ? Color.accentInk.opacity(0.16) : Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(isSel ? Color.brandGreen : Color.border, lineWidth: 1.5))
+            .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(isSel ? Color.accentInk : Color.border, lineWidth: 1.5))
         }
         .buttonStyle(.plain)
     }
@@ -374,7 +374,7 @@ struct PuzzleSolveView: View {
                         if change.rated {
                             Text("\(change.delta >= 0 ? "+" : "")\(Int(change.delta.rounded())) ELO")
                                 .scaledFont(size: 16, weight: .bold, design: .rounded).monospacedDigit()
-                                .foregroundStyle(change.delta >= 0 ? .brandGreen : .dangerText)
+                                .foregroundStyle(change.delta >= 0 ? Color.accentInk : Color.dangerText)
                         } else {
                             // Honest state for a re-solve: the answer was already
                             // revealed once, so no rating moves — never a green "+0".
@@ -409,27 +409,27 @@ struct PuzzleSolveView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "chevron.up.circle.fill")
                         .scaledFont(size: 16, weight: .bold)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
                     Text("PROMOTED")
                         .scaledFont(size: 10, weight: .heavy, design: .rounded)
                         .kerning(0.8)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
                     Text("→ \(promotedTo)")
                         .scaledFont(size: 13, weight: .bold)
                         .foregroundStyle(Color.textPrimary)
                     Spacer()
                 }
                 .padding(.horizontal, 12).padding(.vertical, 9)
-                .background(Color.brandGreen.opacity(0.14))
+                .background(Color.accentInk.opacity(0.14))
                 .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(Color.brandGreen.opacity(0.4), lineWidth: 1))
+                .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous).strokeBorder(Color.accentInk.opacity(0.4), lineWidth: 1))
                 .transition(.scale(scale: 0.9).combined(with: .opacity))
             }
 
             if let hint = puzzle.themeHint {
                 Divider().background(Color.border)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Theme").microLabel(Color.brandGreen)
+                    Text("Theme").microLabel(Color.accentInk)
                     Text(hint).scaledFont(size: 13).foregroundStyle(Color.textSecondary).italic().lineSpacing(2)
                 }
             }
@@ -455,9 +455,9 @@ struct PuzzleSolveView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "text.bubble.fill")
                             .scaledFont(size: 13)
-                            .foregroundStyle(Color.brandGreen)
+                            .foregroundStyle(Color.accentInk)
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Read full transcript").microLabel(Color.brandGreen)
+                            Text("Read full transcript").microLabel(Color.accentInk)
                             Text("\(t.speaker): \(t.title)")
                                 .scaledFont(size: 13, weight: .semibold)
                                 .foregroundStyle(Color.textSecondary)
@@ -475,7 +475,7 @@ struct PuzzleSolveView: View {
             }
         }
         .padding(16)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(outcomeColor.opacity(0.4), lineWidth: 1.5))
         .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -496,7 +496,7 @@ struct PuzzleSolveView: View {
     private func readVerdictCopy() -> (text: String, color: Color)? {
         guard let held = readHeld else { return nil }
         if held {
-            return ("Read held — you saw it before you played it.", .brandGreen)
+            return ("Read held — you saw it before you played it.", .accentInk)
         }
         if verdict?.isWin ?? false {
             return ("Lucky — right line, wrong read.", .warning)
@@ -521,7 +521,7 @@ struct PuzzleSolveView: View {
         if let read = puzzle.read {
             Divider().background(Color.border)
             VStack(alignment: .leading, spacing: 8) {
-                Text("Your read").microLabel(Color.brandGreen)
+                Text("Your read").microLabel(Color.accentInk)
                 if let cue = read.cue {
                     Text(cue).scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
                 }
@@ -532,7 +532,7 @@ struct PuzzleSolveView: View {
                         HStack(alignment: .top, spacing: 8) {
                             Image(systemName: opt.isKey ? "checkmark.circle.fill" : (picked ? "xmark.circle.fill" : "circle"))
                                 .scaledFont(size: 12)
-                                .foregroundStyle(opt.isKey ? Color.brandGreen : (picked ? Color.danger : Color.textFaint))
+                                .foregroundStyle(opt.isKey ? Color.accentInk : (picked ? Color.danger : Color.textFaint))
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(opt.text)
                                     .scaledFont(size: 12, weight: (picked || opt.isKey) ? .bold : .regular)
@@ -702,9 +702,9 @@ private struct ReadOptionButton: View {
             HStack(alignment: .top, spacing: 12) {
                 Text(letter)
                     .scaledFont(size: 12, weight: .heavy, design: .rounded)
-                    .foregroundStyle(isPicked ? Color.bgPage : Color.textMuted)
+                    .foregroundStyle(isPicked ? Color.pageGround : Color.textMuted)
                     .frame(width: 22, height: 22)
-                    .background(Circle().fill(isPicked ? Color.brandGreen : Color.bgRail))
+                    .background(Circle().fill(isPicked ? Color.accentInk : Color.railGround))
                 Text(option.text)
                     .scaledFont(size: 14)
                     .foregroundStyle(Color.textPrimary)
@@ -714,9 +714,9 @@ private struct ReadOptionButton: View {
             }
             .padding(14)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(isPicked ? Color.brandGreen : Color.border, lineWidth: isPicked ? 1.5 : 1))
+            .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(isPicked ? Color.accentInk : Color.border, lineWidth: isPicked ? 1.5 : 1))
         }
         .buttonStyle(.plain)
     }
@@ -733,9 +733,9 @@ private struct ConvictionBar: View {
         VStack(alignment: .leading, spacing: 4) {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule().fill(Color.bgRail)
+                    Capsule().fill(Color.railGround)
                     Capsule()
-                        .fill(LinearGradient(colors: [.brandGreenDeep, .brandGreen],
+                        .fill(LinearGradient(colors: [.brandGreenDeep, .accentInk],
                                              startPoint: .leading, endPoint: .trailing))
                         .frame(width: geo.size.width * (animated ? fill : 0.5))
                 }

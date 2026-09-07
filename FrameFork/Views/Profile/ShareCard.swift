@@ -19,7 +19,7 @@ struct ShareCard: View {
 
             // Soft brand-green radial glow upper-left
             RadialGradient(
-                colors: [Color.brandGreen.opacity(0.20), Color.clear],
+                colors: [Color.accentInk.opacity(0.20), Color.clear],
                 center: .topLeading,
                 startRadius: 0,
                 endRadius: 600
@@ -30,7 +30,7 @@ struct ShareCard: View {
                 HStack {
                     Text("♞")
                         .font(.system(size: 56, weight: .heavy))
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
                     Spacer()
                     Text("FRAME & FORK")
                         .font(.system(size: 22, weight: .heavy, design: .rounded))
@@ -47,7 +47,7 @@ struct ShareCard: View {
                     Text("PUZZLE RATING")
                         .font(.system(size: 22, weight: .heavy, design: .rounded))
                         .kerning(3)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
 
                     HStack(alignment: .firstTextBaseline, spacing: 24) {
                         Text("\(Int(rating))")
@@ -69,7 +69,7 @@ struct ShareCard: View {
 
                 // Stats row
                 HStack(spacing: 40) {
-                    statBlock(label: "STREAK", value: "\(streak)d", color: streak > 0 ? Color.brandGreen : Color.textMuted)
+                    statBlock(label: "STREAK", value: "\(streak)d", color: streak > 0 ? Color.accentInk : Color.textMuted)
                     Divider().frame(width: 1, height: 60).background(Color.borderStrong)
                     statBlock(label: "LONGEST", value: "\(longestStreak)d", color: Color.textSecondary)
                     Divider().frame(width: 1, height: 60).background(Color.borderStrong)
@@ -88,7 +88,7 @@ struct ShareCard: View {
                     Text("Frame & Fork")
                         .font(.system(size: 24, weight: .heavy, design: .rounded))
                         .kerning(2)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
                 }
                 .padding(.horizontal, 60)
                 .padding(.bottom, 56)

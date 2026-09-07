@@ -33,5 +33,5 @@ struct TitleBadgeView: View {
         TitleBadgeView(label: "Grandmaster", tier: .gm)
     }
     .padding()
-    .background(Color.bgPage)
+    .worldPage()
 }

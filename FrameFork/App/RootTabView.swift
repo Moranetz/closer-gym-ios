@@ -58,7 +58,7 @@ struct RootTabView: View {
         .onChange(of: selected) { _, _ in
             Haptics.shared.selection()
         }
-        .background(Color.bgPage.ignoresSafeArea())
+        .background(Color.pageGround.ignoresSafeArea())
         // Dynamic Type is on everywhere, but chess boards, tab bars, and
         // depth-plate buttons weren't laid out for the largest accessibility
         // sizes — cap growth at accessibility2 to keep layouts from breaking.

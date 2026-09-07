@@ -84,7 +84,7 @@ struct PuzzleIndexView: View {
         .background(WorldGround().ignoresSafeArea())
         .navigationTitle("Puzzles")
         .navigationBarTitleDisplayMode(.large)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         // A world draws its own heading in its own ink; the system title is white on dark.
         .toolbar(W.isWorld ? .hidden : .visible, for: .navigationBar)
         }

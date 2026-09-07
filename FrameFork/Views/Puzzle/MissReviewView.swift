@@ -43,10 +43,10 @@ struct MissReviewView: View {
             missed = storage.missedPuzzleIds.compactMap { Puzzles.get($0) }
             loaded = true
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationTitle("Review your misses")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
     }
 
     private func missRow(_ p: Puzzle) -> some View {
@@ -78,7 +78,7 @@ struct MissReviewView: View {
                 .foregroundStyle(Color.textFaint)
         }
         .padding(14)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -96,7 +96,7 @@ struct MissReviewView: View {
         VStack(spacing: 10) {
             Image(systemName: "checkmark.circle.fill")
                 .scaledFont(size: 34)
-                .foregroundStyle(Color.brandGreen)
+                .foregroundStyle(Color.accentInk)
             Text("Clean slate")
                 .scaledFont(size: 17, weight: .heavy, design: .rounded)
                 .foregroundStyle(Color.textPrimary)

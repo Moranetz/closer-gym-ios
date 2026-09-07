@@ -14,7 +14,7 @@ struct TranscriptSheet: View {
                 VStack(alignment: .leading, spacing: 16) {
                     // Header
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Read full transcript").microLabel(Color.brandGreen)
+                        Text("Read full transcript").microLabel(Color.accentInk)
                         Text("\(transcript.speaker): \(transcript.title)")
                             .scaledFont(size: 22, weight: .heavy, design: .rounded)
                             .foregroundStyle(Color.textPrimary)
@@ -44,7 +44,7 @@ struct TranscriptSheet: View {
 
                     // Technique note
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Move sequence").microLabel(Color.brandGreen)
+                        Text("Move sequence").microLabel(Color.accentInk)
                         Text(transcript.techniqueNote)
                             .scaledFont(size: 13)
                             .foregroundStyle(Color.textSecondary)
@@ -52,8 +52,8 @@ struct TranscriptSheet: View {
                     }
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.bgRail)
-                    .overlay(Rectangle().fill(Color.brandGreen).frame(width: 3), alignment: .leading)
+                    .background(Color.railGround)
+                    .overlay(Rectangle().fill(Color.accentInk).frame(width: 3), alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
 
                     // Paraphrased disclosure
@@ -74,7 +74,7 @@ struct TranscriptSheet: View {
                         Link(destination: sourceURL) {
                             Text("View source →")
                                 .scaledFont(size: 13, weight: .semibold)
-                                .foregroundStyle(Color.brandGreen)
+                                .foregroundStyle(Color.accentInk)
                         }
                         .padding(.top, 8)
                     }
@@ -85,7 +85,7 @@ struct TranscriptSheet: View {
                 .padding(.top, 12)
                 .padding(.bottom, 24)
             }
-            .background(Color.bgPage)
+            .worldPage()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -115,8 +115,8 @@ struct TranscriptSheet: View {
                     .scaledFont(size: 14)
                     .foregroundStyle(Color.textPrimary)
                     .padding(10)
-                    .background(Color.brandGreen.opacity(0.14))
-                    .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.brandGreen.opacity(0.32), lineWidth: 1))
+                    .background(Color.accentInk.opacity(0.14))
+                    .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.accentInk.opacity(0.32), lineWidth: 1))
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -127,7 +127,7 @@ struct TranscriptSheet: View {
                     .scaledFont(size: 14)
                     .foregroundStyle(Color.textSecondary)
                     .padding(10)
-                    .background(Color.bgRail)
+                    .background(Color.railGround)
                     .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.borderStrong, lineWidth: 1))
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
             }

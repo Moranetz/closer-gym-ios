@@ -68,10 +68,10 @@ struct PuzzleCandidateButton: View {
 
     private var letterBadge: some View {
         let badgeColor: Color = {
-            if revealed && isBest { return .brandGreen }
+            if revealed && isBest { return .accentInk }
             if revealed && isWrongPicked { return .danger }
             if isPicked { return .info }
-            return .bgRail
+            return .railGround
         }()
         let badgeText: Color = (revealed && isBest) || (revealed && isWrongPicked) || isPicked ? .white : .textMuted
         return Text(letter)
@@ -95,7 +95,7 @@ struct PuzzleCandidateButton: View {
             Text(isBest ? "BEST MOVE" : v.label.uppercased())
                 .scaledFont(size: 10.5, weight: isBest ? .heavy : .semibold, design: .rounded)
                 .kerning(isBest ? 0.6 : 0.3)
-                .foregroundStyle(isBest ? Color.brandGreen : Color.textMuted)
+                .foregroundStyle(isBest ? Color.accentInk : Color.textMuted)
         }
     }
 
@@ -107,7 +107,7 @@ struct PuzzleCandidateButton: View {
                 Text(AtlasTechniques.name(for: tag))
                     .scaledFont(size: 10, weight: .semibold)
                     .kerning(0.4)
-                    .foregroundStyle(AtlasTechniques.get(tag) != nil ? Color.brandGreen : Color.textMuted)
+                    .foregroundStyle(AtlasTechniques.get(tag) != nil ? Color.accentInk : Color.textMuted)
                     .padding(.horizontal, 6).padding(.vertical, 2)
                     .background(RoundedRectangle(cornerRadius: 2, style: .continuous).fill(Color.white.opacity(0.06)))
                     .onTapGesture {
@@ -123,13 +123,13 @@ struct PuzzleCandidateButton: View {
     }
 
     private var face: Color {
-        if revealed && isBest { return Color.brandGreen.opacity(0.10) }
+        if revealed && isBest { return Color.accentInk.opacity(0.10) }
         if revealed && isWrongPicked { return Color.danger.opacity(0.08) }
-        return Color.bgPanel
+        return Color.panelGround
     }
 
     private var border: Color {
-        if revealed && isBest { return .brandGreen }
+        if revealed && isBest { return .accentInk }
         if revealed && isWrongPicked { return .danger }
         if isPicked { return .info }
         return .borderStrong

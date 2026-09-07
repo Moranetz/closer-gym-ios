@@ -57,10 +57,10 @@ struct MasterGameIndexView: View {
                     .padding(.bottom, 24)
             }
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationTitle("Master Games")
         .navigationBarTitleDisplayMode(.large)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
     }
 
     private func masterGameRow(_ game: MasterGame) -> some View {
@@ -71,7 +71,7 @@ struct MasterGameIndexView: View {
                 Spacer()
                 Text("GUESS THE MOVES")
                     .scaledFont(size: 9, weight: .heavy, design: .rounded).kerning(0.5)
-                    .foregroundStyle(Color.brandGreen)
+                    .foregroundStyle(Color.accentInk)
             }
             Text(game.speaker)
                 .scaledFont(size: 20, weight: .bold, design: .rounded)
@@ -92,7 +92,7 @@ struct MasterGameIndexView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }

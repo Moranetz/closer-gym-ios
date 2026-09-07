@@ -31,7 +31,7 @@ struct EvalCurveView: View {
                 }
                 .fill(
                     LinearGradient(
-                        colors: [Color.brandGreen.opacity(0.35), Color.brandGreen.opacity(0.0)],
+                        colors: [Color.accentInk.opacity(0.35), Color.accentInk.opacity(0.0)],
                         startPoint: .top,
                         endPoint: .bottom
                     )
@@ -54,14 +54,14 @@ struct EvalCurveView: View {
                         else      { p.addLine(to: CGPoint(x: x, y: y)) }
                     }
                 }
-                .stroke(Color.brandGreen, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                .stroke(Color.accentInk, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
 
                 // Operator move dots
                 ForEach(Array(points.enumerated()), id: \.offset) { i, pt in
                     if pt.role == .op {
                         let x = CGFloat(i) / CGFloat(xMax) * w
                         let y = h - CGFloat((pt.value - yMin) / (yMax - yMin)) * h
-                        Circle().fill(Color.brandGreen).frame(width: 5, height: 5)
+                        Circle().fill(Color.accentInk).frame(width: 5, height: 5)
                             .position(x: x, y: y)
                     }
                 }

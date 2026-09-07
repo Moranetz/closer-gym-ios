@@ -39,18 +39,18 @@ struct LessonDetailView: View {
                         HStack(spacing: 10) {
                             Image(systemName: "play.fill")
                                 .scaledFont(size: 14, weight: .bold)
-                                .foregroundStyle(Color.bgPage)
+                                .foregroundStyle(Color.pageGround)
                             VStack(alignment: .leading, spacing: 1) {
-                                Text("Drill this technique now").scaledFont(size: 14, weight: .bold).foregroundStyle(Color.bgPage)
+                                Text("Drill this technique now").scaledFont(size: 14, weight: .bold).foregroundStyle(Color.pageGround)
                                 Text("ELO \(drillPuzzle.difficulty) · \(drillPuzzle.theme.label)")
                                     .scaledFont(size: 11, weight: .semibold)
-                                    .foregroundStyle(Color.bgPage.opacity(0.75))
+                                    .foregroundStyle(Color.pageGround.opacity(0.75))
                             }
                             Spacer()
                         }
                         .padding(.horizontal, 14).padding(.vertical, 12)
                         .frame(maxWidth: .infinity)
-                        .background(Color.brandGreen)
+                        .background(Color.accentInk)
                         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                     }
                     .buttonStyle(.plain)
@@ -68,7 +68,7 @@ struct LessonDetailView: View {
                         .foregroundStyle(Color.textMuted)
                         .padding(14)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.bgRail)
+                        .background(Color.railGround)
                         .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                 }
                 Spacer(minLength: 32)
@@ -76,9 +76,9 @@ struct LessonDetailView: View {
             .padding(.horizontal, 16)
             .padding(.top, 12)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(technique.name)
@@ -113,7 +113,7 @@ struct LessonDetailView: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -179,7 +179,7 @@ struct LessonDetailView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(bandColor.opacity(0.25), lineWidth: 1))
     }
@@ -192,7 +192,7 @@ struct LessonDetailView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 7).padding(.horizontal, 3)
-        .background(active ? c.opacity(0.10) : Color.bgRail)
+        .background(active ? c.opacity(0.10) : Color.railGround)
         .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous).strokeBorder(active ? c.opacity(0.4) : Color.border, lineWidth: 1))
     }
@@ -225,7 +225,7 @@ struct LessonDetailView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -237,14 +237,14 @@ struct LessonDetailView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     private var puzzlesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Drill in puzzles (\(relatedPuzzles.count))").microLabel(Color.brandGreen)
+            Text("Drill in puzzles (\(relatedPuzzles.count))").microLabel(Color.accentInk)
             VStack(spacing: 8) {
                 ForEach(relatedPuzzles) { p in
                     NavigationLink(destination: PuzzleSolveView(puzzle: p, isDaily: false)) {
@@ -269,14 +269,14 @@ struct LessonDetailView: View {
             Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
         }
         .padding(12)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     private var transcriptsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Demonstrated in transcripts (\(relatedTranscripts.count))").microLabel(Color.brandGreen)
+            Text("Demonstrated in transcripts (\(relatedTranscripts.count))").microLabel(Color.accentInk)
             VStack(spacing: 8) {
                 ForEach(relatedTranscripts) { t in
                     Button {
@@ -316,14 +316,14 @@ struct LessonDetailView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
 
     private var masterMovesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Master-game moves (\(relatedMasterMoves.count))").microLabel(Color.brandGreen)
+            Text("Master-game moves (\(relatedMasterMoves.count))").microLabel(Color.accentInk)
             VStack(spacing: 8) {
                 ForEach(Array(relatedMasterMoves.enumerated()), id: \.offset) { idx, item in
                     NavigationLink(destination: MasterGameViewer(game: item.game)) {
@@ -358,7 +358,7 @@ struct LessonDetailView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }

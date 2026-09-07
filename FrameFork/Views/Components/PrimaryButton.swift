@@ -17,7 +17,7 @@ struct PrimaryButton: View {
 
         var face: Color {
             switch self {
-            case .green:   return .brandGreen
+            case .green:   return .accentInk
             case .danger:  return .danger
             case .warning: return .warning
             }
@@ -96,7 +96,7 @@ struct SecondaryButton: View {
             .foregroundStyle(Color.textSecondary)
             .frame(maxWidth: .infinity)
             .frame(height: 48)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Color.borderStrong, lineWidth: 1.5))
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
         }

@@ -10,7 +10,7 @@ struct OnboardingView: View {
 
     var body: some View {
         ZStack {
-            Color.bgPage.ignoresSafeArea()
+            Color.pageGround.ignoresSafeArea()
 
             VStack(spacing: 0) {
                 TabView(selection: $page) {
@@ -77,7 +77,7 @@ struct OnboardingView: View {
         HStack(spacing: 8) {
             ForEach(0..<3, id: \.self) { i in
                 Capsule()
-                    .fill(i == page ? Color.brandGreen : Color.borderStrong)
+                    .fill(i == page ? Color.accentInk : Color.borderStrong)
                     .frame(width: i == page ? 24 : 8, height: 8)
                     .animation(.snappy, value: page)
             }
@@ -136,13 +136,13 @@ private struct OnboardingPage: View {
             Spacer()
             Text(symbol)
                 .scaledFont(size: symbolSize, weight: .heavy)
-                .foregroundStyle(Color.brandGreen)
+                .foregroundStyle(Color.accentInk)
                 .padding(.bottom, 36)
 
             Text(tag.uppercased())
                 .scaledFont(size: 11, weight: .heavy, design: .rounded)
                 .kerning(0.8)
-                .foregroundStyle(Color.brandGreen)
+                .foregroundStyle(Color.accentInk)
                 .padding(.bottom, 8)
 
             Text(title)

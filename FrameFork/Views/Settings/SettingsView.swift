@@ -69,10 +69,10 @@ struct SettingsView: View {
             .padding(.horizontal, 16)
             .padding(.top, 12)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationTitle("Settings")
         .navigationBarTitleDisplayMode(.large)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .task {
             hasKey = Keychain.hasAPIKey()
             // If the user revoked notification permission in iOS Settings, the
@@ -129,7 +129,7 @@ struct SettingsView: View {
             HStack {
                 Image(systemName: hasKey ? "lock.shield.fill" : "lock.shield")
                     .scaledFont(size: 18)
-                    .foregroundStyle(hasKey ? Color.brandGreen : Color.textMuted)
+                    .foregroundStyle(hasKey ? Color.accentInk : Color.textMuted)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(hasKey ? "Anthropic API key set" : "Set Anthropic API key")
                         .scaledFont(size: 14, weight: .semibold)
@@ -145,9 +145,9 @@ struct SettingsView: View {
             }
             .padding(14)
             .frame(maxWidth: .infinity)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(hasKey ? Color.brandGreen.opacity(0.4) : Color.border, lineWidth: 1))
+            .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(hasKey ? Color.accentInk.opacity(0.4) : Color.border, lineWidth: 1))
         }
         .buttonStyle(.plain)
     }
@@ -160,7 +160,7 @@ struct SettingsView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: subscriptions.isPro ? "checkmark.seal.fill" : "sparkles")
-                    .scaledFont(size: 18).foregroundStyle(Color.brandGreen).frame(width: 28)
+                    .scaledFont(size: 18).foregroundStyle(Color.accentInk).frame(width: 28)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(subscriptions.isPro ? "Frame & Fork Pro active" : "Get Frame & Fork Pro")
                         .scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
@@ -172,7 +172,7 @@ struct SettingsView: View {
             }
             .padding(14)
             .frame(maxWidth: .infinity)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         }
@@ -186,7 +186,7 @@ struct SettingsView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: storage.companyProfile.isConfigured ? "target" : "scope")
-                    .scaledFont(size: 18).foregroundStyle(Color.brandGreen).frame(width: 28)
+                    .scaledFont(size: 18).foregroundStyle(Color.accentInk).frame(width: 28)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(storage.companyProfile.isConfigured ? "Trained on your deals" : "Train on your deals")
                         .scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
@@ -200,7 +200,7 @@ struct SettingsView: View {
             }
             .padding(14)
             .frame(maxWidth: .infinity)
-            .background(Color.bgPanel)
+            .background(Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
         }
@@ -212,14 +212,14 @@ struct SettingsView: View {
             HStack {
                 Image(systemName: "bell.fill")
                     .scaledFont(size: 16)
-                    .foregroundStyle(notifEnabled ? Color.brandGreen : Color.textMuted)
+                    .foregroundStyle(notifEnabled ? Color.accentInk : Color.textMuted)
                 Text("Daily Drill reminder")
                     .scaledFont(size: 14, weight: .semibold)
                     .foregroundStyle(Color.textPrimary)
                 Spacer()
                 Toggle("Daily Drill reminder", isOn: $notifEnabled)
                     .labelsHidden()
-                    .tint(Color.brandGreen)
+                    .tint(Color.accentInk)
                     .onChange(of: notifEnabled) { _, on in
                         if on {
                             Task {
@@ -257,7 +257,7 @@ struct SettingsView: View {
                     if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
                         Link("Open Settings", destination: url)
                             .scaledFont(size: 12, weight: .semibold)
-                            .foregroundStyle(Color.brandGreen)
+                            .foregroundStyle(Color.accentInk)
                     }
                 }
                 .padding(14)
@@ -280,7 +280,7 @@ struct SettingsView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -293,7 +293,7 @@ struct SettingsView: View {
             Divider().background(Color.border)
             linkRow(label: "Source on GitHub", icon: "chevron.left.forwardslash.chevron.right", url: URL(string: "https://github.com/Moranetz/closer-gym-ios")!)
         }
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -355,7 +355,7 @@ struct SettingsView: View {
             }
             .buttonStyle(.plain)
         }
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -376,7 +376,7 @@ private struct APIKeySheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Your Anthropic API key").microLabel(Color.brandGreen)
+                    Text("Your Anthropic API key").microLabel(Color.accentInk)
                     Text("Your key is stored in the iOS Keychain on this device only. Frame & Fork does not receive, log, or store it.")
                         .scaledFont(size: 13)
                         .foregroundStyle(Color.textSecondary)
@@ -421,7 +421,7 @@ private struct APIKeySheet: View {
                         }
                     }
                     .padding(.horizontal, 12).padding(.vertical, 10)
-                    .background(Color.bgPanel)
+                    .background(Color.panelGround)
                     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
 
@@ -467,8 +467,8 @@ private struct APIKeySheet: View {
 
                     Link(destination: URL(string: "https://console.anthropic.com/settings/keys")!) {
                         HStack(spacing: 6) {
-                            Text("Open console.anthropic.com").scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.brandGreen)
-                            Image(systemName: "arrow.up.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.brandGreen)
+                            Text("Open console.anthropic.com").scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.accentInk)
+                            Image(systemName: "arrow.up.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.accentInk)
                         }
                     }
 
@@ -487,7 +487,7 @@ private struct APIKeySheet: View {
                             }
                             .foregroundStyle(Color.textSecondary)
                             .padding(.horizontal, 12).padding(.vertical, 10)
-                            .background(Color.bgPanel)
+                            .background(Color.panelGround)
                             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
                             .overlay(RoundedRectangle(cornerRadius: 6, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
                         }
@@ -500,9 +500,9 @@ private struct APIKeySheet: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
             }
-            .background(Color.bgPage)
+            .worldPage()
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.bgPage, for: .navigationBar)
+            .toolbarBackground(Color.pageGround, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Cancel") { dismiss() }.foregroundStyle(Color.textSecondary)

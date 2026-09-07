@@ -57,7 +57,7 @@ public enum GameOutcome: String, Codable, Sendable {
 
     public var color: Color {
         switch self {
-        case .win:  return .brandGreen
+        case .win:  return .accentInk
         case .draw: return .warning
         case .loss: return .danger
         }
@@ -93,7 +93,7 @@ public enum MoveQuality: Sendable {
     public var color: Color {
         switch self {
         case .brilliant:  return .brilliant
-        case .good:       return .brandGreen
+        case .good:       return .accentInk
         case .neutral:    return .textMuted
         case .inaccuracy: return .warning
         case .mistake:    return Color(red: 0.906, green: 0.518, blue: 0.137)

@@ -21,7 +21,7 @@ private let clusterOrder: [AtlasCluster] = [
 
 private func verdictColor(_ v: AtlasVerdict) -> Color {
     switch v {
-    case .wellStudied:        return .brandGreen
+    case .wellStudied:        return .accentInk
     case .partiallyStudied:   return .warning
     case .replicationFailed:  return .danger
     case .untested:           return .textMuted
@@ -109,7 +109,7 @@ struct LessonIndexView: View {
                     }
                 }
                 .padding(.horizontal, 12).padding(.vertical, 10)
-                .background(Color.bgPanel)
+                .background(Color.panelGround)
                 .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
                 .padding(.horizontal, 16)
@@ -118,7 +118,7 @@ struct LessonIndexView: View {
                     HStack(spacing: 8) {
                         Image(systemName: "checkmark.circle.fill")
                             .scaledFont(size: 13)
-                            .foregroundStyle(Color.brandGreen)
+                            .foregroundStyle(Color.accentInk)
                         Text("\(encounteredIds.count) of \(AtlasTechniques.all.count) techniques encountered via puzzle solves")
                             .scaledFont(size: 12)
                             .foregroundStyle(Color.textMuted)
@@ -178,10 +178,10 @@ struct LessonIndexView: View {
                     .padding(.bottom, 32)
             }
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationTitle("Lessons · Atlas")
         .navigationBarTitleDisplayMode(.large)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
     }
 
     private func techniqueRow(_ t: Technique, encountered: Bool) -> some View {
@@ -191,7 +191,7 @@ struct LessonIndexView: View {
                 if encountered {
                     Image(systemName: "checkmark.circle.fill")
                         .scaledFont(size: 12)
-                        .foregroundStyle(Color.brandGreen)
+                        .foregroundStyle(Color.accentInk)
                 }
                 Spacer()
             }
@@ -209,9 +209,9 @@ struct LessonIndexView: View {
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(encountered ? Color.brandGreen.opacity(0.35) : Color.border, lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(encountered ? Color.accentInk.opacity(0.35) : Color.border, lineWidth: 1))
     }
 
     private func pill(text: String, color: Color) -> some View {

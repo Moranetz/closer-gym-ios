@@ -29,10 +29,10 @@ struct ProfileTab: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
             }
-            .background(Color.bgPage)
+            .worldPage()
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(Color.bgPage, for: .navigationBar)
+            .toolbarBackground(Color.pageGround, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     shareCardButton
@@ -113,9 +113,9 @@ struct ProfileTab: View {
             // not, so at accessibility sizes the glyph's own dark disc swallowed the green one.
             // Both read one scaled metric now, so the avatar keeps its proportion at every size.
             Circle()
-                .fill(Color.brandGreen)
+                .fill(Color.accentInk)
                 .frame(width: avatarSize, height: avatarSize)
-                .overlay(Image(systemName: "person.crop.circle.fill").font(.system(size: avatarSize * 0.6)).foregroundStyle(Color.bgPage))
+                .overlay(Image(systemName: "person.crop.circle.fill").font(.system(size: avatarSize * 0.6)).foregroundStyle(Color.pageGround))
 
             Text("You").scaledFont(size: 20, weight: .bold, design: .rounded).foregroundStyle(Color.textPrimary)
 
@@ -140,7 +140,7 @@ struct ProfileTab: View {
         }
         .padding(.vertical, 20)
         .frame(maxWidth: .infinity)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -161,7 +161,7 @@ struct ProfileTab: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -169,7 +169,7 @@ struct ProfileTab: View {
     private var gameHistoryCard: some View {
         let games = Array(storage.gameState.games.suffix(12).reversed())
         return VStack(alignment: .leading, spacing: 10) {
-            Text("Game history").microLabel(Color.brandGreen)
+            Text("Game history").microLabel(Color.accentInk)
             ForEach(Array(games.enumerated()), id: \.offset) { _, g in
                 NavigationLink { GameHistoryDetailView(record: g) } label: { gameHistoryRow(g) }
                     .buttonStyle(.plain)
@@ -178,7 +178,7 @@ struct ProfileTab: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -204,14 +204,14 @@ struct ProfileTab: View {
     }
 
     private func gradeColor(_ s: Double) -> Color {
-        if s >= 0.7 { return .brandGreen }
+        if s >= 0.7 { return .accentInk }
         if s >= 0.45 { return .warning }
         return .danger
     }
 
     private var freeProCard: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Free vs Pro").microLabel(Color.brandGreen)
+            Text("Free vs Pro").microLabel(Color.accentInk)
             Text("Free: Sparring, Puzzles, Lessons, Master Games. No key, no account, fully offline.")
                 .scaledFont(size: 13).foregroundStyle(Color.textSecondary).lineSpacing(2)
             Text("Pro: Free-text play against all \(BotLadder.all.count) buyers. Requires your own Anthropic key in Settings.")
@@ -219,7 +219,7 @@ struct ProfileTab: View {
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }

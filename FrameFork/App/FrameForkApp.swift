@@ -14,8 +14,8 @@ struct FrameForkApp: App {
                 .environmentObject(storage)
                 .environmentObject(subscriptions)
                 .preferredColorScheme(World.current.isWorld ? .light : .dark)
-                .tint(World.current.isWorld ? World.current.accent : .brandGreen)
-                .background(Color.bgPage.ignoresSafeArea())
+                .tint(World.current.isWorld ? World.current.accent : .accentInk)
+                .background(Color.pageGround.ignoresSafeArea())
                 .fullScreenCover(isPresented: $showOnboarding) {
                     OnboardingView(isPresented: $showOnboarding)
                         .environmentObject(storage)

@@ -45,9 +45,9 @@ struct PaywallView: View {
             .padding(.horizontal, 18)
             .padding(.top, 14)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button { dismiss() } label: {
@@ -67,7 +67,7 @@ struct PaywallView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("FRAME & FORK").scaledFont(size: 11, weight: .heavy, design: .rounded).kerning(1).foregroundStyle(Color.brandGreen)
+            Text("FRAME & FORK").scaledFont(size: 11, weight: .heavy, design: .rounded).kerning(1).foregroundStyle(Color.accentInk)
             Text("Pro").scaledFont(size: 34, weight: .heavy, design: .rounded).foregroundStyle(Color.textPrimary)
             Text("Practice closing against AI buyers who fight back, and get graded on the craft — not whether they caved.")
                 .scaledFont(size: 14).foregroundStyle(Color.textSecondary).lineSpacing(3)
@@ -78,7 +78,7 @@ struct PaywallView: View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(features, id: \.self) { f in
                 HStack(alignment: .top, spacing: 10) {
-                    Image(systemName: "checkmark.circle.fill").scaledFont(size: 15).foregroundStyle(Color.brandGreen)
+                    Image(systemName: "checkmark.circle.fill").scaledFont(size: 15).foregroundStyle(Color.accentInk)
                     Text(f).scaledFont(size: 13.5).foregroundStyle(Color.textPrimary).lineSpacing(2)
                     Spacer(minLength: 0)
                 }
@@ -89,7 +89,7 @@ struct PaywallView: View {
     @ViewBuilder
     private var planCards: some View {
         if subscriptions.isLoadingProducts {
-            HStack { ProgressView().tint(Color.brandGreen); Text("Loading plans…").scaledFont(size: 13).foregroundStyle(Color.textMuted) }
+            HStack { ProgressView().tint(Color.accentInk); Text("Loading plans…").scaledFont(size: 13).foregroundStyle(Color.textMuted) }
                 .frame(maxWidth: .infinity, alignment: .center).padding(.vertical, 12)
         } else if subscriptions.products.isEmpty {
             Text("Plans aren't available right now. Please try again later.")
@@ -109,7 +109,7 @@ struct PaywallView: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: isSel ? "largecircle.fill.circle" : "circle")
-                    .scaledFont(size: 18).foregroundStyle(isSel ? Color.brandGreen : Color.textFaint)
+                    .scaledFont(size: 18).foregroundStyle(isSel ? Color.accentInk : Color.textFaint)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(product.displayName).scaledFont(size: 14, weight: .bold).foregroundStyle(Color.textPrimary)
                     Text(product.description).scaledFont(size: 11.5).foregroundStyle(Color.textMuted).lineLimit(2)
@@ -121,10 +121,10 @@ struct PaywallView: View {
                 }
             }
             .padding(13)
-            .background(isSel ? Color.brandGreen.opacity(0.10) : Color.bgPanel)
+            .background(isSel ? Color.accentInk.opacity(0.10) : Color.panelGround)
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .strokeBorder(isSel ? Color.brandGreen : Color.border, lineWidth: isSel ? 1.5 : 1))
+                .strokeBorder(isSel ? Color.accentInk : Color.border, lineWidth: isSel ? 1.5 : 1))
         }
         .buttonStyle(.plain)
     }
@@ -153,14 +153,14 @@ struct PaywallView: View {
 
     private var activeState: some View {
         HStack(spacing: 10) {
-            Image(systemName: "checkmark.seal.fill").scaledFont(size: 20).foregroundStyle(Color.brandGreen)
+            Image(systemName: "checkmark.seal.fill").scaledFont(size: 20).foregroundStyle(Color.accentInk)
             Text("You're Pro. Thank you.").scaledFont(size: 15, weight: .bold).foregroundStyle(Color.textPrimary)
             Spacer()
         }
         .padding(14)
-        .background(Color.brandGreen.opacity(0.10))
+        .background(Color.accentInk.opacity(0.10))
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.brandGreen.opacity(0.4), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.accentInk.opacity(0.4), lineWidth: 1))
     }
 
     private var legal: some View {

@@ -50,7 +50,7 @@ struct AIConsentSheet: View {
             }
             .padding(.horizontal, 20)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .presentationDetents([.medium, .large])
         .presentationDragIndicator(.visible)
     }
@@ -59,7 +59,7 @@ struct AIConsentSheet: View {
         HStack(alignment: .top, spacing: 8) {
             Text("•")
                 .scaledFont(size: 14, weight: .bold)
-                .foregroundStyle(Color.brandGreen)
+                .foregroundStyle(Color.accentInk)
             Text(text)
                 .scaledFont(size: 14)
                 .foregroundStyle(Color.textPrimary)

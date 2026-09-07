@@ -16,9 +16,9 @@ struct GameHistoryDetailView: View {
             }
             .padding(.horizontal, 16).padding(.top, 12)
         }
-        .background(Color.bgPage)
+        .worldPage()
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(Color.pageGround, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text("Past game").scaledFont(size: 13, weight: .semibold).foregroundStyle(Color.textSecondary)
@@ -58,7 +58,7 @@ struct GameHistoryDetailView: View {
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -73,17 +73,17 @@ struct GameHistoryDetailView: View {
                     Text(t.text)
                         .scaledFont(size: 12.5).foregroundStyle(Color.textPrimary)
                         .padding(.horizontal, 10).padding(.vertical, 7)
-                        .background(isOp ? Color.brandGreen.opacity(0.12) : Color.bgRail)
+                        .background(isOp ? Color.accentInk.opacity(0.12) : Color.railGround)
                         .clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
                         .overlay(RoundedRectangle(cornerRadius: 9, style: .continuous)
-                            .strokeBorder(isOp ? Color.brandGreen.opacity(0.25) : Color.border, lineWidth: 1))
+                            .strokeBorder(isOp ? Color.accentInk.opacity(0.25) : Color.border, lineWidth: 1))
                     if !isOp { Spacer(minLength: 28) }
                 }
             }
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        .background(Color.panelGround)
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
     }
@@ -96,7 +96,7 @@ struct GameHistoryDetailView: View {
     }
 
     private func gradeColor(_ s: Double) -> Color {
-        if s >= 0.7 { return .brandGreen }
+        if s >= 0.7 { return .accentInk }
         if s >= 0.45 { return .warning }
         return .danger
     }
