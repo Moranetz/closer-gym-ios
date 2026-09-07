@@ -43,6 +43,7 @@
 		8E73E47A51A6098270FF0AC7 /* WatchTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0BD62F36AAD834CB5601B1 /* WatchTab.swift */; };
 		90269AD7AFE1345B393978D7 /* EvalCurveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A4531C78DA44C8B069C986 /* EvalCurveView.swift */; };
 		91DA0CE81CCC56C2FA706920 /* SparringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD06A23DB9EF6F376F53E75 /* SparringView.swift */; };
+		FF167A1 /* DrillInvite.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF167B1 /* DrillInvite.swift */; };
 		96FFEF6085A182F3A99B4325 /* PuzzleSolveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C993EB8D0414A4BD6195466D /* PuzzleSolveView.swift */; };
 		987F19F01AD27DCAB9A89990 /* Puzzles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D647DDA23ED8176AE61BA42 /* Puzzles.swift */; };
 		9C34976FBC0BD1003D2D8548 /* LiveGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70ADEEFCC893844434E893CC /* LiveGameView.swift */; };
@@ -154,6 +155,7 @@
 		C4678D356645808D5302B54D /* FrameFork.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FrameFork.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50A208D0C7DFFA5EBF51ED8 /* RolePlayJudgment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlayJudgment.swift; sourceTree = "<group>"; };
 		C744D4A73626E638B471BB26 /* FirstRunStringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunStringsTests.swift; sourceTree = "<group>"; };
+		FF167B1 /* DrillInvite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrillInvite.swift; sourceTree = "<group>"; };
 		C993EB8D0414A4BD6195466D /* PuzzleSolveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleSolveView.swift; sourceTree = "<group>"; };
 		CA0BD62F36AAD834CB5601B1 /* WatchTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTab.swift; sourceTree = "<group>"; };
 		CE1730A32AB636F304269C91 /* BrandColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandColors.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				7D0F1E4B7C27B04ACBF57394 /* MissReviewView.swift */,
 				633CCA23E9DC053870DEC6AF /* PuzzleCandidateButton.swift */,
 				C993EB8D0414A4BD6195466D /* PuzzleSolveView.swift */,
+				FF167B1 /* DrillInvite.swift */,
 				4FF23B5CE32E6033AFBC52FF /* TranscriptSheet.swift */,
 			);
 			path = Puzzle;
@@ -577,6 +580,7 @@
 				80F534EA9C2ED3740D38E32A /* Puzzle.swift in Sources */,
 				F6BAE122405C8E23B764EF97 /* PuzzleCandidateButton.swift in Sources */,
 				96FFEF6085A182F3A99B4325 /* PuzzleSolveView.swift in Sources */,
+				FF167A1 /* DrillInvite.swift in Sources */,
 				987F19F01AD27DCAB9A89990 /* Puzzles.swift in Sources */,
 				9E1E3A125CDEA12DCBDC4173 /* PuzzlesTab.swift in Sources */,
 				10A818AFBA4B01BC3691C055 /* RatingTrajectory.swift in Sources */,
@@ -681,7 +685,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 37;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -857,7 +861,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 36;
+				CURRENT_PROJECT_VERSION = 37;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_NS_ASSERTIONS = NO;

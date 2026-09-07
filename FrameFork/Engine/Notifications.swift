@@ -7,6 +7,14 @@ import UserNotifications
 @MainActor
 public enum DailyNotifications {
     private static let enabledKey = "framefork:notif:dailyEnabled:v1"
+    private static let askedKey   = "framefork:notif:invited:v1"
+
+    /// The drill invitation is offered ONCE, after a solve has already paid the player, and
+    /// never again whatever the answer. An invitation that returns is a nag.
+    public static var hasBeenOffered: Bool {
+        get { UserDefaults.standard.bool(forKey: askedKey) }
+        set { UserDefaults.standard.set(newValue, forKey: askedKey) }
+    }
     private static let hourKey    = "framefork:notif:hour:v1"
     private static let minuteKey  = "framefork:notif:minute:v1"
     private static let identifier = "framefork.dailyDrill"
@@ -50,7 +58,10 @@ public enum DailyNotifications {
 
         let content = UNMutableNotificationContent()
         content.title = "Daily Drill"
-        content.body  = "Today's drill is ready. Keep your streak alive."
+        // Round 167. This read "Today's drill is ready. Keep your streak alive." A streak
+        // threat is loss framing, which buys compliance now and churn later, and it is on her
+        // never-list besides. The line states what is waiting and what it costs to take it.
+        content.body  = "One rated position, about two minutes."
         content.sound = .default
 
         var components = DateComponents()

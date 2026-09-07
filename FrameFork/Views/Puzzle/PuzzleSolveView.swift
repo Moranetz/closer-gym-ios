@@ -21,7 +21,11 @@ struct PuzzleSolveView: View {
 
     // Reveal flow state
     @State private var pickedDisplayIdx: Int? = nil
-    @State private var revealed = false
+    /// Round 167: the payoff moment — verdict, rating delta, and now the drill invitation — had
+    /// no route for the capture pass, because a puzzle opens unsolved and the simulator cannot
+    /// tap a candidate. `FF_PUSH_REVEAL=1` lands the screen in its revealed state with a
+    /// representative change so the moment can be photographed. DEBUG only.
+    @State private var revealed = CaptureHooks.isOn("FF_PUSH_REVEAL")
     // Read-step state (ported from framefork-game.html) — only touched when
     // puzzle.read != nil; every existing puzzle behaves exactly as before.
     @State private var readSelectedDisplayIdx: Int? = nil
@@ -29,13 +33,22 @@ struct PuzzleSolveView: View {
     @State private var confidence: Int? = nil   // 0 Hunch, 1 Fairly sure, 2 Certain
     // Element order matches Store.recordSolve's return so assignment doesn't implicitly reorder
     // (that reorder is a deprecation warning → future error). Access is by label, so callers are unaffected.
-    @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int, rated: Bool)? = nil
+    @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int, rated: Bool)? =
+        CaptureHooks.isOn("FF_PUSH_REVEAL") ? (newRating: 1318, delta: 18, newStreak: 1, rated: true) : nil
     @State private var shakeWrong = false
     // Round 161: FF_OPEN_TRANSCRIPT photographs the transcript sheet, which is two taps deep
     // and had never been seen in a world. Release always starts closed.
     @State private var transcriptOpen: Bool = CaptureHooks.isOn("FF_OPEN_TRANSCRIPT")
+
+    /// Shown once, after a solve, and only while the reminder is off and has never been offered.
+    /// `FF_SHOW_INVITE=1` forces it for the capture pass.
+    @State private var showDrillInvite: Bool = {
+        if CaptureHooks.isOn("FF_SHOW_INVITE") { return true }
+        return !DailyNotifications.isEnabled && !DailyNotifications.hasBeenOffered
+    }()
     @State private var promotedTo: String? = nil   // set when this solve crosses a title band
-    @State private var verdict: Verdict? = nil     // move-quality classification (JUICE-DOCTRINE)
+    @State private var verdict: Verdict? =
+        CaptureHooks.isOn("FF_PUSH_REVEAL") ? .best : nil   // move-quality classification (JUICE-DOCTRINE)
     @State private var feedbackWork: [DispatchWorkItem] = []   // cancellable deferred reveal cues
 
     private var transcript: Transcript? {
@@ -107,6 +120,18 @@ struct PuzzleSolveView: View {
 
                 if revealed, let change = ratingChange, let v = verdict {
                     revealPanel(change: change, v: v).id("reveal")
+
+                    // The return trigger, offered where the player has just been paid. Round 167:
+                    // the daily reminder shipped off by default with its only switch in Settings,
+                    // so the app's one reason to come back tomorrow never reached anybody.
+                    if showDrillInvite {
+                        DrillInvite(hour: DailyNotifications.hour,
+                                    minute: DailyNotifications.minute,
+                                    onResolved: { withAnimation { showDrillInvite = false } })
+                            .padding(.top, 10)
+                            .transition(.opacity)
+                            .id("invite")
+                    }
                 }
 
                 // Fleet round 115 (2026-09-05): the tab bar floats over this scroll and the
@@ -120,6 +145,17 @@ struct PuzzleSolveView: View {
             .padding(.top, 8)
             .padding(.bottom, 24)
         }
+        #if DEBUG
+        // The invitation sits after the whole reveal, which is where a reader ends up rather
+        // than where the scroll lands. FF_SCROLL_INVITE=1 anchors the capture on it.
+        .onAppear {
+            if CaptureHooks.isOn("FF_SCROLL_INVITE") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    withAnimation { proxy.scrollTo("invite", anchor: .center) }
+                }
+            }
+        }
+        #endif
         .onChange(of: puzzle.id) { _, _ in
             withAnimation(.easeOut(duration: 0.25)) {
                 proxy.scrollTo("top", anchor: .top)
