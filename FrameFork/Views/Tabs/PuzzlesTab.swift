@@ -182,7 +182,8 @@ struct PuzzleIndexView: View {
                  // isProvisional (same gate as Profile).
                  badge: TitleBadgeView(label: isProvisional ? "Provisional" : title.label.replacingOccurrences(of: " Closer", with: ""),
                                         tier: isProvisional ? .low : title.tier),
-                 compact: solvedCount > 0)
+                 compact: solvedCount > 0,
+                 footnote: isProvisional ? Self.endowLine : nil)
         return VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
                 if solvedCount == 0 {
@@ -295,7 +296,32 @@ struct PuzzleIndexView: View {
 
     /// `compact` shrinks the value font and horizontal padding a step — used once
     /// the row holds three cards instead of two, so all three fit the width.
-    private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil, compact: Bool = false) -> some View {
+    /// Round 170. The rating card handed out 1200 PROVISIONAL and never said what either word
+    /// meant. Endowed progress works when the endowment is explained and reads as invented when
+    /// it is not, so the card that grants the number now states where it came from. Three lines
+    /// were written and photographed; `FF_ENDOW_COPY` renders the other two in DEBUG.
+    ///
+    /// None of them names a solve count, because there is not one to name: provisional ends when
+    /// the rating deviation falls under 200, which depends on results rather than on a number of
+    /// puzzles. Inventing "six solves" would have been the easiest sentence and a false one.
+    ///
+    /// The shipped line is shorter than any of the three that were drafted. Read on the card, the
+    /// second sentence of the first draft — solving makes the number yours — said what the TODAY
+    /// card beside it already says, and the third draft was an X-not-Y antithesis, which her
+    /// voice rules refuse. What survived states the reason and stops.
+    static var endowLine: String {
+        #if DEBUG
+        switch CaptureHooks.value("FF_ENDOW_COPY").flatMap({ Int($0) }) ?? 0 {
+        case 1:  return "A starting guess until the app has seen you play."
+        case 2:  return "1200 is the start line, not a score."
+        default: return "Everyone starts at 1200."
+        }
+        #else
+        return "Everyone starts at 1200."
+        #endif
+    }
+
+    private func statCard(label: String, value: String, badge: TitleBadgeView? = nil, accent: Color? = nil, compact: Bool = false, footnote: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(label).microLabel(W.inkLabel)
             // Number and badge side by side while they fit; at large type the
@@ -312,6 +338,12 @@ struct PuzzleIndexView: View {
                     number
                     if let badge { badge }
                 }
+            }
+            if let footnote {
+                Text(footnote)
+                    .scaledFont(size: 10)
+                    .foregroundStyle(W.inkMuted)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
         .padding(.horizontal, compact ? 12 : 14)

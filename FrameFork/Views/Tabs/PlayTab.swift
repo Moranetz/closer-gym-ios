@@ -104,8 +104,15 @@ struct BotLadderView: View {
     ]
 
     private var playerRating: Int {
+        #if DEBUG
+        // Round 170: round 169 shipped a needs-your-key row it could not photograph, because
+        // that state wants a rating high enough to open an arc-less persona while the keychain
+        // is still empty, and a provisional 1200 opens none. FF_SEED_RATING=<elo> stands in for
+        // the climb. It reads the ladder only; nothing is written and no rating is earned.
+        if let seeded = CaptureHooks.value("FF_SEED_RATING").flatMap({ Int($0) }) { return seeded }
+        #endif
         // Game rating bucket. For v0 we use the puzzle rating as the placement.
-        Int(storage.puzzleState.rating.rating)
+        return Int(storage.puzzleState.rating.rating)
     }
 
     var body: some View {
@@ -246,19 +253,20 @@ struct BotLadderView: View {
                 }
                 Text(persona?.role ?? bot.personaId).scaledFont(size: 14, weight: .bold).foregroundStyle(unlocked ? W.ink : W.inkMuted).lineLimit(1)
                 Text(bot.oneLineTagline).scaledFont(size: 11).foregroundStyle(W.inkMuted).lineSpacing(2).lineLimit(2)
+                // Under the tagline rather than beside the title: round 170 put it on the
+                // trailing edge and watched it truncate two persona names, which is the same
+                // width theft round 169 had just removed for the rating label.
+                if !unlocked, closedReason == .needsKey {
+                    Text("Free-text games run on your own Anthropic key. Add one in Settings.")
+                        .scaledFont(size: 10, weight: .semibold)
+                        .foregroundStyle(W.inkMuted)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, 2)
+                }
             }
             Spacer()
             if unlocked {
                 Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(W.inkFaint)
-            } else if closedReason == .needsKey {
-                // Only this case needs words. A rating-locked row is already answered by the
-                // tier header above it, which states the band, and a second ELO on the row
-                // stole enough width to truncate the persona's own title.
-                Text("needs your key")
-                    .scaledFont(size: 10, weight: .semibold)
-                    .foregroundStyle(W.inkMuted)
-                    .multilineTextAlignment(.trailing)
-                    .fixedSize()
             }
         }
         .padding(12)
