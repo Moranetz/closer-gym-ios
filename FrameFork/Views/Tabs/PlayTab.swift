@@ -103,6 +103,17 @@ struct BotLadderView: View {
         ("Grandmaster",  2300, 9999, .badgeGM),
     ]
 
+    /// What the header can honestly promise, which depends on whether a key is in the keychain.
+    private var headerLine: String {
+        let lo = BotLadder.all.first?.rating ?? 1200
+        let hi = BotLadder.all.last?.rating ?? 2400
+        if hasKey {
+            return "Pick an opponent from \(BotLadder.all.count) buyers, ELO \(lo) to \(hi). Beat one and the next 200 ELO of the ladder opens up."
+        }
+        let free = BotLadder.all.filter { Arcs.get(personaId: $0.personaId) != nil }.count
+        return "\(countNoun(free, "buyer")) you can play right now, offline, with an authored conversation each. The other \(BotLadder.all.count - free) run free-text on your own Anthropic key."
+    }
+
     private var playerRating: Int {
         #if DEBUG
         // Round 170: round 169 shipped a needs-your-key row it could not photograph, because
@@ -119,7 +130,12 @@ struct BotLadderView: View {
         ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Pick an opponent from \(BotLadder.all.count) buyers, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
+                // Round 172. This said "pick an opponent from 14 buyers" to everybody, and for a
+                // player with no Anthropic key three of the fourteen are playable — the ones with
+                // an authored arc. Fourteen is true of the roster and false of their evening. The
+                // sentence states what is actually in front of the reader, and the ladder below
+                // still shows the whole roster with each row saying why it is shut.
+                Text(headerLine)
                     .scaledFont(size: 13)
                     .foregroundStyle(W.inkSecondary)
                     .lineSpacing(3)
