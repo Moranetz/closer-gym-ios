@@ -17,12 +17,33 @@ struct PuzzlesTab: View {
     }()
     #endif
 
+    /// Set by onboarding, consumed here once: the first thing a new player sees is the position,
+    /// not the list. Round 168.
+    @State private var firstRunDrill: Puzzle? = nil
+
     var body: some View {
         NavigationStack {
             // The destination is registered at STACK level and driven by state, so the
             // Misses card can appear/disappear freely without popping a presented queue.
             PuzzleIndexView(showMisses: $showMisses)
                 .navigationDestination(isPresented: $showMisses) { MissReviewView() }
+                .navigationDestination(item: $firstRunDrill) { p in
+                    // Not marked daily: this is the starter position, and the day's drill stays
+                    // unspent so the card and the notification still have something to offer.
+                    PuzzleSolveView(puzzle: p, isDaily: false)
+                }
+                // Assigned after a beat rather than in onAppear: a navigationDestination set
+                // while the stack is still mounting does not route, which cost this round one
+                // capture that showed the list and looked like the flag had not been written.
+                .task {
+                    // FF_FIRSTRUN_OPEN=1 forces this path for the capture pass: writing the
+                    // flag with `defaults write` races cfprefsd, which cost this round two
+                    // captures that showed the list and looked like a code fault.
+                    let forced = CaptureHooks.isOn("FF_FIRSTRUN_OPEN")
+                    guard firstRunDrill == nil, forced || FirstRun.consumeOpenDrill() else { return }
+                    try? await Task.sleep(nanoseconds: 350_000_000)
+                    firstRunDrill = FirstRun.starterPuzzle()
+                }
                 #if DEBUG
                 .navigationDestination(item: $debugOpenPuzzle) { p in
                     PuzzleSolveView(puzzle: p, isDaily: false)

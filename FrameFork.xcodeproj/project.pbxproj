@@ -30,6 +30,7 @@
 		6504A13D05F4CBEEE5465D06 /* Verdict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A591EE0BA7E2E2C42E4997D /* Verdict.swift */; };
 		6E8B7B1722158050C812D086 /* Glicko2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FA42E309B90572DCBEC6D1E /* Glicko2.swift */; };
 		780295C7C1076EDF1E7F789B /* MasterGames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F99EA89A6A442CAB4323825 /* MasterGames.swift */; };
+		FF168A1 /* FirstRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF168B1 /* FirstRun.swift */; };
 		7BB55540D0606FA7446CD1C0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D76D6BCD5101570A81000E /* OnboardingView.swift */; };
 		7BB7C66619F79EA2E6AA3CBC /* TranscriptSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF23B5CE32E6033AFBC52FF /* TranscriptSheet.swift */; };
 		7C3BF0350E2BB7369336C4B0 /* SparringArc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043F382DC53551837731FFD /* SparringArc.swift */; };
@@ -137,6 +138,7 @@
 		7D0F1E4B7C27B04ACBF57394 /* MissReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissReviewView.swift; sourceTree = "<group>"; };
 		8ACD9B47D470726B72FE7DEF /* Arcs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arcs.swift; sourceTree = "<group>"; };
 		8CF2E39162C00DE2FB49B090 /* PuzzleBankInvariantTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleBankInvariantTests.swift; sourceTree = "<group>"; };
+		FF168B1 /* FirstRun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRun.swift; sourceTree = "<group>"; };
 		90D76D6BCD5101570A81000E /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		9DB6020005DEEB7F046566F3 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		A2C0265462E2A8DACFAD7D45 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				90D76D6BCD5101570A81000E /* OnboardingView.swift */,
+				FF168B1 /* FirstRun.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				237BDEB9C33DC5D05600D8B5 /* MissReviewView.swift in Sources */,
 				ABD7C7EC4D4854E8A91EC4EF /* Notifications.swift in Sources */,
 				7BB55540D0606FA7446CD1C0 /* OnboardingView.swift in Sources */,
+				FF168A1 /* FirstRun.swift in Sources */,
 				4C869E8CD52388F47F10C0AA /* PaywallView.swift in Sources */,
 				286BA3068C922EC9976A180D /* Persona.swift in Sources */,
 				DABFBBF59F2C550AAC0C815D /* Personas.swift in Sources */,
@@ -685,7 +689,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 37;
+				CURRENT_PROJECT_VERSION = 38;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -861,7 +865,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 37;
+				CURRENT_PROJECT_VERSION = 38;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q242KWQD56;
 				ENABLE_NS_ASSERTIONS = NO;

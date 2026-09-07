@@ -44,6 +44,25 @@ struct OnboardingView: View {
 
     @EnvironmentObject private var storage: Store
 
+    /// Round 168. First run read three pages of prose — about 120 words — before a stranger
+    /// touched a position, then put them on a list of fourteen buyers with no idea which to
+    /// open. Value-first onboarding says let them have the thing before it is explained, and
+    /// this app's thing is a rated position that takes two minutes.
+    ///
+    /// `FF_FIRSTRUN` renders the three shapes that were compared:
+    ///   0  one page, then the drill opens itself     (ships)
+    ///   1  three pages, then the drill opens itself
+    ///   2  three pages, then the puzzle list          (what shipped before)
+    private var firstRunShape: Int {
+        #if DEBUG
+        return CaptureHooks.value("FF_FIRSTRUN").flatMap { Int($0) } ?? 0
+        #else
+        return 0
+        #endif
+    }
+    private var pageCount: Int { firstRunShape == 0 ? 1 : 3 }
+    private var opensDrill: Bool { firstRunShape != 2 }
+
     var body: some View {
         ZStack {
             ground
@@ -51,8 +70,10 @@ struct OnboardingView: View {
             VStack(spacing: 0) {
                 TabView(selection: $page) {
                     pageOne.tag(0)
-                    pageTwo.tag(1)
-                    pageThree.tag(2)
+                    if pageCount == 3 {
+                        pageTwo.tag(1)
+                        pageThree.tag(2)
+                    }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .animation(.snappy, value: page)
@@ -113,7 +134,7 @@ struct OnboardingView: View {
 
     private var pageIndicator: some View {
         HStack(spacing: 8) {
-            ForEach(0..<3, id: \.self) { i in
+            ForEach(0..<pageCount, id: \.self) { i in
                 Capsule()
                     .fill(i == page ? Color.accentInk : Color.borderStrong)
                     .frame(width: i == page ? 24 : 8, height: 8)
@@ -125,12 +146,12 @@ struct OnboardingView: View {
     private var buttons: some View {
         VStack(spacing: 10) {
             PrimaryButton(
-                title: page < 2 ? "Next" : "Start solving",
-                symbol: page < 2 ? "arrow.right" : "play.fill",
+                title: page < pageCount - 1 ? "Next" : "Solve a position",
+                symbol: page < pageCount - 1 ? "arrow.right" : "play.fill",
                 isEnabled: true,
                 style: .green
             ) {
-                if page < 2 {
+                if page < pageCount - 1 {
                     withAnimation(.snappy) { page += 1 }
                 } else {
                     completeOnboarding()
@@ -169,6 +190,9 @@ struct OnboardingView: View {
 
     private func completeOnboarding() {
         UserDefaults.standard.set(true, forKey: "framefork:hasSeenOnboarding:v1")
+        // The drill opens itself once, on the first launch after onboarding. A stranger's first
+        // act in this app is solving a position, not choosing one from fourteen.
+        if opensDrill { UserDefaults.standard.set(true, forKey: FirstRun.openDrillKey) }
         Haptics.shared.success()
         withAnimation(.snappy) {
             isPresented = false
