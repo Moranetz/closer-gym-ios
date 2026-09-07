@@ -261,6 +261,25 @@ extension View {
         self.background(WorldGround().ignoresSafeArea())
     }
 
+    /// Round 161: the paywall and the company profile put their prose straight onto the
+    /// chequer, and a chequer has two grounds, so their legal footers washed out on the light
+    /// squares and their labels fought the dark ones. Content that is a page of words rather
+    /// than a stack of cards gets one card of its own.
+    @ViewBuilder func worldSheet(_ padding: CGFloat = 16) -> some View {
+        if World.current.isWorld {
+            self
+                .padding(padding)
+                .background(
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(World.current.panel)
+                        .shadow(color: .black.opacity(0.20), radius: 10, x: 3, y: 6)
+                )
+                .padding(.horizontal, 14)
+        } else {
+            self
+        }
+    }
+
     /// Every card on a world sits on it: a shadow on the table, a pin on the wall. The shipped
     /// page is untouched.
     @ViewBuilder func worldCard() -> some View {

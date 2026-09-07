@@ -44,6 +44,7 @@ struct PaywallView: View {
             }
             .padding(.horizontal, 18)
             .padding(.top, 14)
+            .worldSheet()
         }
         .worldPage()
         .navigationBarTitleDisplayMode(.inline)

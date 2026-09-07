@@ -31,6 +31,7 @@ struct CompanyProfileView: View {
                 Spacer(minLength: 24)
             }
             .padding(16)
+            .worldSheet()
         }
         .worldPage()
         .navigationTitle("Train on your deals")

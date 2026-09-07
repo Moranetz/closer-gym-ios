@@ -10,6 +10,9 @@ struct SettingsView: View {
     @EnvironmentObject private var subscriptions: SubscriptionStore
     @State private var showAPIKeySheet = false
     @State private var showPaywall = false
+    #if DEBUG
+    @State private var showCompanyDebug = false
+    #endif
     @State private var confirmClearData = false
     @State private var hasKey = Keychain.hasAPIKey()
     @State private var notifEnabled: Bool = DailyNotifications.isEnabled
@@ -89,6 +92,15 @@ struct SettingsView: View {
         .sheet(isPresented: $showPaywall) {
             NavigationStack { PaywallView() }
         }
+        #if DEBUG
+        // Round 161: the paywall and the company profile had no route for the capture pass, so
+        // the world shipped over two screens nobody had opened. FF_OPEN_PAYWALL / FF_OPEN_COMPANY.
+        .onAppear {
+            if CaptureHooks.isOn("FF_OPEN_PAYWALL") { showPaywall = true }
+            if CaptureHooks.isOn("FF_OPEN_COMPANY") { showCompanyDebug = true }
+        }
+        .navigationDestination(isPresented: $showCompanyDebug) { CompanyProfileView() }
+        #endif
         .alert("Clear all data?", isPresented: $confirmClearData) {
             Button("Cancel", role: .cancel) {}
             Button("Clear", role: .destructive) {

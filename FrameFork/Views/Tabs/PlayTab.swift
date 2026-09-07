@@ -33,6 +33,19 @@ struct PlayTab: View {
            let bot = BotLadder.get(pid) {
             return [.preGame(bot)]
         }
+        // Round 161: the post-game review had no route either, so the screen a player lands on
+        // after every game had never been photographed. FF_PUSH_REVIEW=<personaId>.
+        if let pid = CaptureHooks.value("FF_PUSH_REVIEW"),
+           let bot = BotLadder.get(pid) {
+            return [.review(ReviewPayload(
+                botMeta: bot,
+                intentTechniques: ["Calibrated question", "Mirroring"],
+                firedTechniques: ["Calibrated question"],
+                evalCurve: [0, 0.4, 0.2, 0.9, 1.4, 1.1, 1.8],
+                score: 72,
+                durationSec: 480,
+                transcript: []))]
+        }
         // Fleet round 109 (2026-09-05): the live game itself had no hook, so the one screen a
         // Pro subscriber actually plays on had never been captured, and neither had any of the
         // five things it says when the API refuses. FF_PUSH_LIVE=<personaId>.

@@ -31,7 +31,9 @@ struct PuzzleSolveView: View {
     // (that reorder is a deprecation warning → future error). Access is by label, so callers are unaffected.
     @State private var ratingChange: (newRating: Double, delta: Double, newStreak: Int, rated: Bool)? = nil
     @State private var shakeWrong = false
-    @State private var transcriptOpen: Bool = false
+    // Round 161: FF_OPEN_TRANSCRIPT photographs the transcript sheet, which is two taps deep
+    // and had never been seen in a world. Release always starts closed.
+    @State private var transcriptOpen: Bool = CaptureHooks.isOn("FF_OPEN_TRANSCRIPT")
     @State private var promotedTo: String? = nil   // set when this solve crosses a title band
     @State private var verdict: Verdict? = nil     // move-quality classification (JUICE-DOCTRINE)
     @State private var feedbackWork: [DispatchWorkItem] = []   // cancellable deferred reveal cues
