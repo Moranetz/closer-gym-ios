@@ -5,7 +5,16 @@ import SwiftUI
 ///   board — maple and walnut squares seen from above, lit from a window top-left; cards are ivory.
 ///   sheet — a club table: green baize under a brass lamp top-right; cards are cream scoresheet paper.
 ///   chart — a tournament hall's wall: index cards pinned to cork under a skylight.
-/// `FF_WORLD=board|sheet|chart` (DEBUG only). Release renders `.shipped` until she picks.
+/// `FF_WORLD=board|sheet|chart|shipped` (DEBUG only) still renders any of them for comparison.
+///
+/// Fleet round 154 (2026-09-06) ships `.board`. Measured on the Puzzles tab the same hour:
+/// board 75.9 L / 44.8 S, 4/4 · sheet 63.0 / 43.3, 4/4 · chart 74.6 / 54.1, 3/4 (61 percent of
+/// its pixels near-neutral) · the shipped dark page 20.0 / 7.4, 0/4 at 97 percent neutral.
+/// Board and sheet both clear the bar, so the number did not decide it. Two things did. Her
+/// ruling was that this app is chess-adjacent, and the board is the chess. And the sheet's green
+/// baize under a brass lamp is the world Equity already wears — felt under a lamp — so shipping
+/// it here would make two of her apps look like each other, which is the failure she named when
+/// she said this one must not look like Ascent.
 enum World: String {
     case shipped, board, sheet, chart
 
@@ -175,6 +184,36 @@ struct WorldPin: View {
             Circle().fill(hex(0xC1440E)).frame(width: 14, height: 14)
             Circle().fill(.white.opacity(0.55)).frame(width: 5, height: 5).offset(x: -3, y: -3)
         }
+    }
+}
+
+extension World {
+    /// The bar the app stands on. Round 154: with the board shipped, the tab bar was still the
+    /// old dark chrome with a chartreuse tint, so five system icons in a colour the world does
+    /// not contain sat under a maple-and-walnut page. In a world it becomes the rail: the
+    /// world's own wood, ink for the tabs not chosen, and the deep green for the one that is.
+    func applyBarAppearance() {
+        guard isWorld else { return }
+        let bar = UITabBarAppearance()
+        bar.configureWithOpaqueBackground()
+        bar.backgroundColor = UIColor(rail)
+        bar.shadowColor = UIColor(border)
+        for item in [bar.stackedLayoutAppearance, bar.inlineLayoutAppearance, bar.compactInlineLayoutAppearance] {
+            item.normal.iconColor = UIColor(inkMuted)
+            item.normal.titleTextAttributes = [.foregroundColor: UIColor(inkMuted)]
+            item.selected.iconColor = UIColor(accent)
+            item.selected.titleTextAttributes = [.foregroundColor: UIColor(accent)]
+        }
+        UITabBar.appearance().standardAppearance = bar
+        UITabBar.appearance().scrollEdgeAppearance = bar
+
+        let nav = UINavigationBarAppearance()
+        nav.configureWithOpaqueBackground()
+        nav.backgroundColor = UIColor(rail)
+        nav.titleTextAttributes = [.foregroundColor: UIColor(ink)]
+        nav.largeTitleTextAttributes = [.foregroundColor: UIColor(ink)]
+        UINavigationBar.appearance().standardAppearance = nav
+        UINavigationBar.appearance().scrollEdgeAppearance = nav
     }
 }
 

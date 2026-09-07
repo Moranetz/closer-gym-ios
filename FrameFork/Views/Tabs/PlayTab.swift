@@ -64,6 +64,11 @@ struct PlayTab: View {
 }
 
 struct BotLadderView: View {
+    /// Round 154: the ladder joins the world the Puzzles tab already renders. Every colour below
+    /// goes through `W`, and `World.shipped` returns exactly what these call sites used before,
+    /// so with the world off this file draws the same pixels it drew yesterday.
+    private var W: World { World.current }
+
     @Binding var hasKey: Bool
     @Binding var path: [PlayRoute]
     @EnvironmentObject private var storage: Store
@@ -96,7 +101,7 @@ struct BotLadderView: View {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Pick an opponent from \(BotLadder.all.count) buyers, ELO \(BotLadder.all.first?.rating ?? 1200) to \(BotLadder.all.last?.rating ?? 2400). Beat one and the next 200 ELO of the ladder opens up.")
                     .scaledFont(size: 13)
-                    .foregroundStyle(Color.textSecondary)
+                    .foregroundStyle(W.inkSecondary)
                     .lineSpacing(3)
                     .padding(.horizontal, 16)
 
@@ -105,16 +110,16 @@ struct BotLadderView: View {
                     if !inTier.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text(tier.name).microLabel(Color.textSecondary)
+                                Text(tier.name).microLabel(W.inkSecondary)
                                 Spacer()
                                 Text("ELO \(tier.min)–\(min(tier.max, 2400))")
                                     .scaledFont(size: 11, weight: .semibold)
-                                    .foregroundStyle(Color.textMuted)
+                                    .foregroundStyle(W.inkMuted)
                                     .monospacedDigit()
                             }
                             .padding(.bottom, 4)
                             .overlay(alignment: .bottom) {
-                                Rectangle().fill(Color.border).frame(height: 1).offset(y: 4)
+                                Rectangle().fill(W.border).frame(height: 1).offset(y: 4)
                             }
 
                             VStack(spacing: 8) {
@@ -122,11 +127,21 @@ struct BotLadderView: View {
                                     // Arc personas are playable OFFLINE — no key needed.
                                     let unlocked = BotLadder.isUnlocked(bot, playerRating: playerRating)
                                         && (hasKey || Arcs.get(personaId: bot.personaId) != nil)
-                                    NavigationLink(value: PlayRoute.preGame(bot)) {
-                                        botRow(bot: bot, unlocked: unlocked, ruleColor: tier.rule)
+                                    // A locked opponent is not a link. It used to be one,
+                                    // disabled, and SwiftUI dims a disabled control for you —
+                                    // which on the dark page passed for a style and on the board
+                                    // let the wood come through the card. Locked rows are plain
+                                    // content now, and say so to VoiceOver.
+                                    if unlocked {
+                                        NavigationLink(value: PlayRoute.preGame(bot)) {
+                                            botRow(bot: bot, unlocked: true, ruleColor: tier.rule)
+                                        }
+                                        .buttonStyle(.plain)
+                                    } else {
+                                        botRow(bot: bot, unlocked: false, ruleColor: tier.rule)
+                                            .accessibilityElement(children: .combine)
+                                            .accessibilityLabel("\(Personas.get(bot.personaId)?.role ?? bot.personaId), locked. Reach ELO \(bot.rating) to open it.")
                                     }
-                                    .buttonStyle(.plain)
-                                    .disabled(!unlocked)
                                 }
                             }
                         }
@@ -146,10 +161,10 @@ struct BotLadderView: View {
                 Spacer(minLength: 32)
             }
         }
-        .background(Color.bgPage)
+        .background(WorldGround().ignoresSafeArea())
         .navigationTitle("Play")
         .navigationBarTitleDisplayMode(.large)
-        .toolbarBackground(Color.bgPage, for: .navigationBar)
+        .toolbarBackground(W.isWorld ? W.rail : Color.bgPage, for: .navigationBar)
         #if DEBUG
         .onAppear {
             if debugScrollBottom {
@@ -164,26 +179,26 @@ struct BotLadderView: View {
 
     private var proLockedFooter: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Bring your own key").scaledFont(size: 13, weight: .bold).foregroundStyle(Color.textSecondary)
+            Text("Bring your own key").scaledFont(size: 13, weight: .bold).foregroundStyle(W.inkSecondary)
             Text("Sparring against these buyers works offline, no key or account needed. To chat freely with all \(BotLadder.all.count) buyers, add your own Anthropic key in Settings. Anthropic bills you directly for that usage.")
                 .scaledFont(size: 12)
-                .foregroundStyle(Color.textMuted)
+                .foregroundStyle(W.inkMuted)
                 .lineSpacing(3)
             NavigationLink(destination: SettingsView()) {
                 HStack(spacing: 6) {
                     Image(systemName: "gearshape.fill").scaledFont(size: 11)
                     Text("Open Settings").scaledFont(size: 12, weight: .semibold)
                 }
-                .foregroundStyle(Color.textSecondary)
+                .foregroundStyle(W.inkSecondary)
                 .padding(.horizontal, 12).padding(.vertical, 7)
-                .background(Color.bgPanel)
-                .overlay(Capsule().strokeBorder(Color.border, lineWidth: 1))
+                .background(W.panel)
+                .overlay(Capsule().strokeBorder(W.border, lineWidth: 1))
                 .clipShape(Capsule())
             }
         }
         .padding(14)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel.opacity(0.5))
+        .background(W.panel.opacity(0.5))
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
 
@@ -191,30 +206,34 @@ struct BotLadderView: View {
         let persona = Personas.get(bot.personaId)
         return HStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 2, style: .continuous)
-                .fill(unlocked ? ruleColor : Color.textFaint)
+                .fill(unlocked ? ruleColor : W.inkFaint)
                 .frame(width: 4)
                 .frame(maxHeight: .infinity)
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 6) {
-                    Text("\(bot.rating)").scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(unlocked ? Color.textPrimary : Color.textFaint)
+                    Text("\(bot.rating)").scaledFont(size: 13, weight: .heavy, design: .rounded).monospacedDigit().foregroundStyle(unlocked ? W.ink : W.inkFaint)
                     if let p = persona {
-                        Text(p.track.label).scaledFont(size: 10, weight: .semibold).foregroundStyle(Color.textMuted).lineLimit(1).minimumScaleFactor(0.75)
+                        Text(p.track.label).scaledFont(size: 10, weight: .semibold).foregroundStyle(W.inkMuted).lineLimit(1).minimumScaleFactor(0.75)
                     }
-                    if !unlocked { Image(systemName: "lock.fill").scaledFont(size: 10).foregroundStyle(Color.textFaint) }
+                    if !unlocked { Image(systemName: "lock.fill").scaledFont(size: 10).foregroundStyle(W.inkFaint) }
                 }
-                Text(persona?.role ?? bot.personaId).scaledFont(size: 14, weight: .bold).foregroundStyle(unlocked ? Color.textPrimary : Color.textMuted).lineLimit(1)
-                Text(bot.oneLineTagline).scaledFont(size: 11).foregroundStyle(Color.textMuted).lineSpacing(2).lineLimit(2)
+                Text(persona?.role ?? bot.personaId).scaledFont(size: 14, weight: .bold).foregroundStyle(unlocked ? W.ink : W.inkMuted).lineLimit(1)
+                Text(bot.oneLineTagline).scaledFont(size: 11).foregroundStyle(W.inkMuted).lineSpacing(2).lineLimit(2)
             }
             Spacer()
             if unlocked {
-                Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(Color.textFaint)
+                Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(W.inkFaint)
             }
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.bgPanel)
+        // A locked row used to be the same card at 0.55 opacity. On the dark page that read as
+        // dimmed; on the board the wood came through the card and the type sat on a chequer,
+        // which reads as a rendering fault rather than a locked opponent. Locked is now said in
+        // ink and in the lock, on a card as solid as any other: the panel stays opaque and only
+        // its own material goes a step quieter.
+        .background(unlocked ? AnyShapeStyle(W.panel) : AnyShapeStyle(W.rail))
         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Color.border, lineWidth: 1))
-        .opacity(unlocked ? 1.0 : 0.55)
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(W.border, lineWidth: 1))
     }
 }

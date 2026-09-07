@@ -6,13 +6,15 @@ struct FrameForkApp: App {
     @StateObject private var subscriptions = SubscriptionStore()   // starts the StoreKit listener at launch
     @State private var showOnboarding = !UserDefaults.standard.bool(forKey: "framefork:hasSeenOnboarding:v1")
 
+    init() { World.current.applyBarAppearance() }
+
     var body: some Scene {
         WindowGroup {
             RootTabView()
                 .environmentObject(storage)
                 .environmentObject(subscriptions)
-                .preferredColorScheme(.dark)
-                .tint(.brandGreen)
+                .preferredColorScheme(World.current.isWorld ? .light : .dark)
+                .tint(World.current.isWorld ? World.current.accent : .brandGreen)
                 .background(Color.bgPage.ignoresSafeArea())
                 .fullScreenCover(isPresented: $showOnboarding) {
                     OnboardingView(isPresented: $showOnboarding)
