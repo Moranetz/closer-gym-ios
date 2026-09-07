@@ -60,7 +60,12 @@ struct PuzzleCandidateButton: View {
             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(border, lineWidth: 1.5))
         }
         .buttonStyle(.plain)
-        .disabled(revealed)
+        // Round 167: this was `.disabled(revealed)`, and SwiftUI dims a disabled control for
+        // you — so from the moment a player solved, every candidate row went faint, including
+        // the explanations that are the entire reason to solve. The app's teaching payload was
+        // the faintest text on its own payoff screen. Round 154 found the identical shape on the
+        // Play ladder: taps stop, the ink does not.
+        .allowsHitTesting(!revealed)
         .modifier(ShakeIfTrue(shake: shake))
         .animation(.snappy(duration: 0.20), value: revealed)
         .animation(.snappy(duration: 0.14), value: isPicked)
