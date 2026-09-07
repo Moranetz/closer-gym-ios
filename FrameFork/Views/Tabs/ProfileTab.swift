@@ -21,6 +21,7 @@ struct ProfileTab: View {
                                          currentRating: storage.puzzleState.rating.rating)
                     }
                     ratingsCard
+                    VerdictLadder(counts: storage.puzzleState.verdictCounts)
                     if !storage.gameState.games.isEmpty { gameHistoryCard }
                     freeProCard
                     foundationFooter

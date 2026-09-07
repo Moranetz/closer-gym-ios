@@ -4,7 +4,9 @@ import SwiftUI
 /// classification (see JUICE-DOCTRINE.md). The verdict, not a binary right/wrong, is the
 /// reward. Derived from "expected-points lost" = bestEval − pickedEval, plus optional
 /// per-candidate flags for the two scarce overrides.
-public enum Verdict: Sendable {
+public enum Verdict: String, CaseIterable, Sendable {
+    // Raw values are the storage key for the ladder record (round 171). They are written to
+    // disk, so they are frozen: rename a case and a player's history detaches from it.
     case fork      // ‼  the scarce "Brilliant": a sound concession that wins on two fronts
     case sharp     // !   the only line that held/swung the deal
     case best      // ◆  the model's #1 move
@@ -38,7 +40,9 @@ public enum Verdict: Sendable {
 
     public var glyph: String {
         switch self {
-        case .fork:   return "‼"
+        // U+FE0E forces text presentation: bare U+203C renders as a red emoji on iOS,
+        // which put the app's scarcest reward in the one register this app never uses.
+        case .fork:   return "\u{203C}\u{FE0E}"
         case .sharp:  return "!"
         case .best:   return "◆"
         case .solid:  return "✓"

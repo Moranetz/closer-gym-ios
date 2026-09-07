@@ -171,6 +171,16 @@ public final class Store: ObservableObject {
     /// rewarded like it was. Mirroring the prototype's `reveal()`: a best move off a
     /// wrong read is "Lucky" and is worth only HALF the delta a held read earns for
     /// the same move — the line landed, but not because you saw it coming.
+    /// Record a verdict the player earned, for the ladder in Profile. Round 171.
+    ///
+    /// Only rated solves count. Re-solving a puzzle whose answer is already known would
+    /// otherwise let a player farm the rarest glyph in the app by replaying the four positions
+    /// that carry it, which is the one way this record could lie.
+    public func recordVerdict(_ verdict: Verdict) {
+        puzzleState.verdictCounts[verdict.rawValue, default: 0] += 1
+        savePuzzleState()
+    }
+
     public func recordSolve(puzzleId: String,
                              pickedIndex: Int,
                              bestIndex: Int,
@@ -377,6 +387,14 @@ public struct PuzzleState: Codable, Sendable {
     public var longestStreak: Int = 0
     public var lastDailyDate: String? = nil
     public var ratingHistory: [RatingPoint] = []
+    /// How many times each verdict has been earned, keyed by Verdict's raw value.
+    ///
+    /// Round 171: the app's scarcest reward — the Fork, reachable on 4 of 129 positions — was
+    /// computed at solve time, shown once, and forgotten. A rare thing nobody can remember
+    /// earning is a rare thing nobody knows exists, which is why an engagement audit reads this
+    /// app's reward as fixed when it is a nine-tier ladder underneath. Defaulted so existing
+    /// saves decode.
+    public var verdictCounts: [String: Int] = [:]
 
     public init() {}
 

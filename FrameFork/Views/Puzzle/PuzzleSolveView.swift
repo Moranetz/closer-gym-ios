@@ -659,6 +659,8 @@ struct PuzzleSolveView: View {
             ratingChange = result
             verdict = v
         }
+        // The ladder record. Rated solves only — see Store.recordVerdict.
+        if result.rated { storage.recordVerdict(v) }
 
         // The rank-up / streak beats are the only extra celebration; the Fork already
         // celebrates via its own hero haptic, so don't stack a second cue on it.
