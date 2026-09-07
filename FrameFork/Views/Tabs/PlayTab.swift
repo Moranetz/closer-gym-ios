@@ -138,8 +138,13 @@ struct BotLadderView: View {
                             VStack(spacing: 8) {
                                 ForEach(inTier) { bot in
                                     // Arc personas are playable OFFLINE — no key needed.
-                                    let unlocked = BotLadder.isUnlocked(bot, playerRating: playerRating)
-                                        && (hasKey || Arcs.get(personaId: bot.personaId) != nil)
+                                    // Two different closures wearing one label. Round 169: a row
+                                    // shut because the player has no API key was telling them to
+                                    // reach an ELO, which no amount of rating will ever open. The
+                                    // reasons are separated now and each says its own truth.
+                                    let ratingOpen = BotLadder.isUnlocked(bot, playerRating: playerRating)
+                                    let playable = Arcs.get(personaId: bot.personaId) != nil || hasKey
+                                    let unlocked = ratingOpen && playable
                                     // A locked opponent is not a link. It used to be one,
                                     // disabled, and SwiftUI dims a disabled control for you —
                                     // which on the dark page passed for a style and on the board
@@ -151,9 +156,12 @@ struct BotLadderView: View {
                                         }
                                         .buttonStyle(.plain)
                                     } else {
-                                        botRow(bot: bot, unlocked: false, ruleColor: tier.rule)
+                                        botRow(bot: bot, unlocked: false, ruleColor: tier.rule,
+                                               closedReason: ratingOpen ? .needsKey : .needsRating)
                                             .accessibilityElement(children: .combine)
-                                            .accessibilityLabel("\(Personas.get(bot.personaId)?.role ?? bot.personaId), locked. Reach ELO \(bot.rating) to open it.")
+                                            .accessibilityLabel(ratingOpen
+                                                ? "\(Personas.get(bot.personaId)?.role ?? bot.personaId), closed. Free-text games need your own Anthropic key, added in Settings."
+                                                : "\(Personas.get(bot.personaId)?.role ?? bot.personaId), locked. Reach ELO \(bot.rating) to open it.")
                                     }
                                 }
                             }
@@ -215,7 +223,13 @@ struct BotLadderView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
 
-    private func botRow(bot: BotMeta, unlocked: Bool, ruleColor: Color) -> some View {
+    /// Why a row is shut, so the row can say the true one. Round 169: both used to show a
+    /// padlock and the rating tier above them, which told a player with no API key to climb to
+    /// an ELO that was already behind them.
+    enum ClosedReason { case needsRating, needsKey }
+
+    private func botRow(bot: BotMeta, unlocked: Bool, ruleColor: Color,
+                        closedReason: ClosedReason = .needsRating) -> some View {
         let persona = Personas.get(bot.personaId)
         return HStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 2, style: .continuous)
@@ -236,6 +250,15 @@ struct BotLadderView: View {
             Spacer()
             if unlocked {
                 Image(systemName: "chevron.right").scaledFont(size: 11, weight: .bold).foregroundStyle(W.inkFaint)
+            } else if closedReason == .needsKey {
+                // Only this case needs words. A rating-locked row is already answered by the
+                // tier header above it, which states the band, and a second ELO on the row
+                // stole enough width to truncate the persona's own title.
+                Text("needs your key")
+                    .scaledFont(size: 10, weight: .semibold)
+                    .foregroundStyle(W.inkMuted)
+                    .multilineTextAlignment(.trailing)
+                    .fixedSize()
             }
         }
         .padding(12)
