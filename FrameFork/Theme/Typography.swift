@@ -50,14 +50,24 @@ enum AppType {
         }
     }
 
+    /// Below this, a display face does not apply. Round 174 counted the display role's call
+    /// sites: 43 of 95 sit between 8 and 11pt, and every one of them is a tracked capital — ELO
+    /// 1,300 BEGINNER, MODE, DAILY DRILL. A display serif at 9pt in uppercase with kerning is
+    /// mush, and shipping one there is how a typeface change makes an app worse. Display faces
+    /// have optical size ranges; this is that range's floor.
+    static let displayFloor: CGFloat = 13
+
     /// The one place a font is built. Everything else in the app routes here.
-    static func font(role: Role, scaledSize: CGFloat, weight: Font.Weight) -> Font {
-        if let family = family(role) {
+    ///
+    /// `fallbackDesign` is the design the call site originally asked for, and it is used whenever
+    /// no custom family applies — so with no face set this function returns exactly what shipped,
+    /// which is what the pixel diff checks.
+    static func font(role: Role, scaledSize: CGFloat, weight: Font.Weight,
+                     fallbackDesign: Font.Design) -> Font {
+        if let family = family(role), role != .mono, scaledSize >= displayFloor {
             return .custom(family, size: scaledSize).weight(weight)
         }
-        // No custom family: render exactly what shipped, including the rounded display design.
-        let design: Font.Design = role == .display ? .rounded : (role == .mono ? .monospaced : .default)
-        return .system(size: scaledSize, weight: weight, design: design)
+        return .system(size: scaledSize, weight: weight, design: fallbackDesign)
     }
 
     /// Bridge for the call sites that still speak in `design:`. A design flag maps to the role it
@@ -73,24 +83,24 @@ enum AppType {
 
 enum AppFont {
     /// 36/heavy — hero numbers (rating, ELO)
-    static let display    = AppType.font(role: .display, scaledSize: 34, weight: .heavy)
+    static let display    = AppType.font(role: .display, scaledSize: 34, weight: .heavy, fallbackDesign: .rounded)
     /// 28/heavy — section heroes
-    static let titleXL    = AppType.font(role: .display, scaledSize: 28, weight: .heavy)
+    static let titleXL    = AppType.font(role: .display, scaledSize: 28, weight: .heavy, fallbackDesign: .rounded)
     /// 22/heavy — drill prompt
-    static let title      = AppType.font(role: .display, scaledSize: 22, weight: .heavy)
+    static let title      = AppType.font(role: .display, scaledSize: 22, weight: .heavy, fallbackDesign: .rounded)
     /// 20/bold — card titles
-    static let titleSmall = AppType.font(role: .display, scaledSize: 20, weight: .bold)
+    static let titleSmall = AppType.font(role: .display, scaledSize: 20, weight: .bold, fallbackDesign: .rounded)
     /// 17/semibold — list rows, candidate text
-    static let body       = AppType.font(role: .body, scaledSize: 17, weight: .semibold)
+    static let body       = AppType.font(role: .body, scaledSize: 17, weight: .semibold, fallbackDesign: .default)
     /// 15/regular — body paragraphs
-    static let bodySmall  = AppType.font(role: .body, scaledSize: 15, weight: .regular)
+    static let bodySmall  = AppType.font(role: .body, scaledSize: 15, weight: .regular, fallbackDesign: .default)
     /// 14/medium — metadata
-    static let caption    = AppType.font(role: .body, scaledSize: 14, weight: .medium)
+    static let caption    = AppType.font(role: .body, scaledSize: 14, weight: .medium, fallbackDesign: .default)
     /// 12/semibold uppercase — section labels
-    static let microLabel = AppType.font(role: .body, scaledSize: 12, weight: .semibold)
+    static let microLabel = AppType.font(role: .body, scaledSize: 12, weight: .semibold, fallbackDesign: .default)
     /// Tabular for ratings, deltas, timers — monospaced digits
-    static let tabular    = AppType.font(role: .display, scaledSize: 16, weight: .bold).monospacedDigit()
-    static let tabularLg  = AppType.font(role: .display, scaledSize: 28, weight: .heavy).monospacedDigit()
+    static let tabular    = AppType.font(role: .display, scaledSize: 16, weight: .bold, fallbackDesign: .rounded).monospacedDigit()
+    static let tabularLg  = AppType.font(role: .display, scaledSize: 28, weight: .heavy, fallbackDesign: .rounded).monospacedDigit()
 }
 
 extension View {
@@ -119,7 +129,7 @@ private struct ScaledFont: ViewModifier {
     func body(content: Content) -> some View {
         let traits = UITraitCollection(preferredContentSizeCategory: UIContentSizeCategory(sizeCategory))
         let scaledSize = UIFontMetrics(forTextStyle: .body).scaledValue(for: size, compatibleWith: traits)
-        content.font(AppType.font(role: AppType.role(for: design), scaledSize: scaledSize, weight: weight))
+        content.font(AppType.font(role: AppType.role(for: design), scaledSize: scaledSize, weight: weight, fallbackDesign: design))
     }
 }
 
@@ -141,6 +151,6 @@ extension Text {
     func scaledFont(size: CGFloat, weight: Font.Weight = .regular, design: Font.Design = .default, sizeCategory: ContentSizeCategory) -> Text {
         let traits = UITraitCollection(preferredContentSizeCategory: UIContentSizeCategory(sizeCategory))
         let scaledSize = UIFontMetrics(forTextStyle: .body).scaledValue(for: size, compatibleWith: traits)
-        return self.font(AppType.font(role: AppType.role(for: design), scaledSize: scaledSize, weight: weight))
+        return self.font(AppType.font(role: AppType.role(for: design), scaledSize: scaledSize, weight: weight, fallbackDesign: design))
     }
 }
